@@ -9,12 +9,12 @@
 **安装**
 
 下载 f8x 文件
-```
+```bash
 wget https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x
 ```
 
 **使用**
-```
+```bash
 bash f8x -h
 ```
 
@@ -70,7 +70,25 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - 使用 -clear 选项清理系统使用痕迹
 
 **一把梭,就是干**
-- 使用 -all 选项全自动化部署(仅兼容国外vps服务器,仅兼容CentOS7/8,Debain10/9,Ubuntu20,Fedora33,只能运行一次,做好心理准备)
+- 使用 -all 选项全自动化部署(仅兼容国外vps服务器,仅兼容CentOS7/8,Debain10/9,Ubuntu20,Fedora33,大部分情况下可以一次成功,做好心理准备)
+
+---
+
+# 使用过程中的疑问
+
+**这个 -p 选项是个什么意思**
+
+1. 替换你的DNS(默认为223.5.5.5),如果判断是 debian 系还会帮你安装 resolvconf,长期修改 DNS
+2. 检查基础的编译环境是否安装,并通过默认的包管理器安装 gcc,make,unzip 这些基本软件
+3. 可选的从 https://github.com/rofl0r/proxychains-ng 或 ffffffff0x.com 下载 Proxychains-ng 的源码,编译安装
+4. 要求你修改 /etc/proxychains.conf 文件
+5. 修改 pip 代理为 https://mirrors.aliyun.com/pypi/simple/
+6. 修改 docker 代理为 https://docker.mirrors.ustc.edu.cn , 并重启 docker 服务
+
+**为啥要从 ffffffff0x.com 或 gitee.com 下载软件压缩包**
+
+1. 下载的都是需要科学上网的东西,所以尽量在不科学上网的情况下,速度较快的下载,所以这个是先有鸡还是先有蛋的问题
+3. oracle jdk 安装包我就不用解释了把🤣
 
 ---
 
@@ -102,6 +120,9 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - [ ] weblogic 指定版本安装选项
 - [ ] vulfocus 安装选项
 - [ ] CS插件
+- [ ] 修改python2安装方式
+- [ ] 完善 -info 选项内容
+- [ ] 卸载国内vps云监控
 
 ---
 
