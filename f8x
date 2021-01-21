@@ -1,0 +1,2333 @@
+#!/usr/bin/env bash
+#set -x
+
+# ======================== !! NOTE !! ========================
+#  ________ ________ ________ ________ ________ ________ ________ ________ ________     ___    ___
+# |\  _____\\  _____\\  _____\\  _____\\  _____\\  _____\\  _____\\  _____\\   __  \   |\  \  /  /|
+# \ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \|\  \  \ \  \/  / /
+#  \ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \  \\\  \  \ \    / /
+#   \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \\\  \  /     \/
+#    \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \_______\/  /\   \
+#     \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|_______/__/ /\ __\
+#                                                                                      |__|/ \|__|
+# 注: 该脚本适用于 debian、kali、Ubuntu、Centos、RedHat、Fedora 等系列系统下
+# 注: 完全适配 debian 系列系统
+# 注: 基本适配 RedHat 系列系统
+# 注: 适配 Centos8 和 Fedora34 系统时有些小bug,但不影响使用,可以忽略
+# 注: 该脚本默认下不会走除 ffffffff0x.com 以外的代理,请通过 -p 选项配置好 Proxychains-ng 代理
+# ======================== !! NOTE !! ========================
+
+# ===================== 基础变量设置 =====================
+P_Dir=/pentest
+T_Dir=/ffffffff0x
+T_File=/tmp/test/test.txt
+Default_DNS=223.5.5.5
+Proxy_URL=https://ffffffff0x.com/proxychains-ng.zip
+Porxy_OK=
+error=0
+F8x_Version="1.0.0"
+
+# ===================== 软件版本变量设置 =====================
+jdk_Version=jdk1.8.0_271
+CS_File=CobaltStrike4.1.zip
+CS_Version=CobaltStrike4.1
+AdGuardHome_Version=v0.105.0-beta.2
+AdguardTeam_File=AdGuardHome_linux_amd64.tar.gz
+#docker_compose_Version=1.28.0
+frp_Version=v0.34.3
+frp_File=frp_0.34.3_linux_amd64.tar.gz
+frp_Dir=frp_0.34.3_linux_amd64
+nps_Ver=v0.26.9
+nps_Install=linux_amd64_server.tar.gz
+sharry_File=sharry-restserver-1.6.0.zip
+Ruby_Ver=3.0
+Ruby_Dir=ruby-3.0.0
+Ruby_Install=ruby-3.0.0.tar.gz
+RustScan_Version=2.0.1
+RustScan_Install=rustscan_2.0.1_amd64.deb
+ksubdomain_Ver=v0.6
+ksubdomain_Install=ksubdomain_linux.zip
+Go_Bin=go1.15.6.linux-amd64.tar.gz
+
+# ===================== 基础文件夹 =====================
+Base_Dir(){
+
+    if test -d $T_Dir
+    then
+        echo -e "\033[1;32m$T_Dir 文件夹已存在\n\033[0m"
+    else
+        mkdir -p $T_Dir && echo -e "\033[1;32m已新建 $T_Dir 文件夹\033[0m"
+    fi
+
+    timedatectl set-timezone Asia/Shanghai && echo -e "\033[1;32m当前时区已设置为 Asia/Shanghai\033[0m" || echo -e "\033[1;31m时区设置失败!\n\033[0m"
+
+}
+
+# ===================== 除锁模块 =====================
+Rm_Lock(){
+
+    rm -rf /var/cache/apt/archives/lock
+    rm -rf /var/lib/dpkg/lock-frontend
+    rm -rf /var/lib/dpkg/lock
+    rm /var/lib/dpkg/lock
+    rm /var/lib/apt/lists/lock
+    apt-get --fix-broken install 1> /dev/null
+    rm -rf /var/cache/apt/archives/lock
+    rm -rf /var/lib/dpkg/lock-frontend
+    rm -rf /var/lib/dpkg/lock
+    rm /var/lib/dpkg/lock
+    rm /var/lib/apt/lists/lock
+
+}
+
+Yum_Rm_Lock(){
+
+    rm -f /var/run/yum.pid 2> /dev/null
+    rm -f /var/cache/dnf/metadata_lock.pid 2> /dev/null
+
+}
+
+Base_Check(){
+
+    echo -e "\033[1;33m\n正在检查各项依赖\n\033[0m"
+    unzip -v > /dev/null 2>&1 || error=1
+    wget --version > /dev/null 2>&1 || error=1
+    curl --version > /dev/null 2>&1 || error=1
+    vim --version > /dev/null 2>&1 || error=1
+    git --version > /dev/null 2>&1 || error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;31m依赖项不通过,请先运行 -b 选项安装基本依赖\033[0m"
+        echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
+        exit 1
+    else
+        echo -e "\033[1;32m依赖项正常\033[0m"
+    fi
+
+}
+
+Dev_Check(){
+
+    echo -e "\033[1;33m\n正在检测 Python 环境可用性\n\033[0m"
+    python2 -V > /dev/null 2>&1 || error=1
+    python3 -V > /dev/null 2>&1 || error=1
+    pip2 -V > /dev/null 2>&1 || error=1
+    pip3 -V > /dev/null 2>&1 || error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;31m开发环境检查不通过,请先运行 -d 和 -python2 选项安装 Python 环境,若安装 pip2 失败,可运行 -pip2-force 强制安装 pip2\033[0m"
+        echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
+        exit 1
+    else
+        echo -e "\033[1;32m开发环境正常\033[0m"
+    fi
+
+}
+
+Diy_Check(){
+
+    echo -e "\033[1;33m\n正在检查指定依赖\n\033[0m"
+    $Diy_Bin > /dev/null 2>&1 || error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;31m依赖项不通过,请先运行 $Diy_Option 选项安装基本依赖\033[0m"
+        echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
+        exit 1
+    else
+        echo -e "\033[1;32m依赖项正常\033[0m"
+    fi
+
+}
+
+# ===================== 代理开关 =====================
+Porxy_Switch(){
+
+    echo -e "\033[1;33m\n安装时是否需要走代理? [Y/n,默认Yes] \033[0m" && read -r input
+    case $input in
+        [nN][oO]|[nN])
+            echo -e "\033[1;32mPass~\033[0m" ;;
+        *)
+            if test -e /etc/proxychains.conf
+            then
+                echo -e "\033[1;32m正在调用 Proxychains-ng\033[0m"
+                Porxy_OK=proxychains4
+            else
+                echo -e "\033[1;33m未检测到 Proxychains-ng,正在执行自动安装脚本\033[0m"
+                Proxychains_Install
+                Porxy_OK=proxychains4
+            fi
+            ;;
+    esac
+
+}
+
+# ===================== Default =====================
+Info(){
+
+    echo -e "\033[1;34m  _______   ___   ___   ___ \033[0m"
+    echo -e "\033[1;32m |   ____| / _ \  \  \ /  / \033[0m"
+    echo -e "\033[1;36m |  |__   | (_) |  \  V  / \033[0m"
+    echo -e "\033[1;31m |   __|   > _ <    >   < \033[0m"
+    echo -e "\033[1;35m |  |     | (_) |  /  .  \ \033[0m"
+    echo -e "\033[1;33m |__|      \___/  /__/ \__\ \n\033[0m"
+
+    case $(cat /etc/*-release | head -n 1) in
+        *"Kali"*|*"kali"*)
+            Linux_Version="Kali"
+            case $(cat /etc/*-release | head -n 4) in
+                *"2020"*)
+                    Linux_Version_Num="Base Debian 10"
+                    Linux_Version_Name="buster"
+                    ;;
+                *)
+                    Linux_Version_Num="Base Debian 9"
+                    Linux_Version_Name="stretch"
+                    ;;
+            esac
+            ;;
+        *"Ubuntu"*|*"ubuntu"*)
+            Linux_Version="Ubuntu"
+            case $(lsb_release -c) in
+                *"groovy"*)
+                    Linux_Version_Num="20.10"
+                    Linux_Version_Name="groovy"
+                    ;;
+                *"focal"*)
+                    Linux_Version_Num="20.04"
+                    Linux_Version_Name="focal"
+                    ;;
+                *"bionic"*)
+                    Linux_Version_Num="18.04"
+                    Linux_Version_Name="bionic"
+                    ;;
+                *"xenial"*)
+                    Linux_Version_Num="16.04"
+                    Linux_Version_Name="xenial"
+                    ;;
+                *)
+                    echo -e "\033[1;31m未知版本\033[0m"
+                    exit 1
+                    ;;
+            esac
+            ;;
+        *"Debian"*|*"debian"*)
+            Linux_Version="Debian"
+                case $(lsb_release -c) in
+                *"buster"*)
+                    Linux_Version_Num="10"
+                    Linux_Version_Name="buster"
+                    ;;
+                *"stretch"*)
+                    Linux_Version_Num="9"
+                    Linux_Version_Name="stretch"
+                    ;;
+                *"jessie"*)
+                    Linux_Version_Num="8"
+                    Linux_Version_Name="jessie"
+                    ;;
+                *"wheezy"*)
+                    Linux_Version_Num="7"
+                    Linux_Version_Name="wheezy"
+                    ;;
+                *)
+                    echo -e "\033[1;31m未知版本\033[0m"
+                    exit 1
+                    ;;
+            esac
+            ;;
+        *"CentOS"*|*"centos"*)
+            echo -e "\033[1;31m珍惜生命,少用 Centos\033[0m"
+            Linux_Version="CentOS"
+            case $(cat /etc/*-release | head -n 1) in
+                *"release 8"*)
+                    Linux_Version_Num="8"
+                    Linux_Version_Name=""
+                    ;;
+                *"release 7"*)
+                    Linux_Version_Num="7"
+                    Linux_Version_Name=""
+                    ;;
+                *"release 6"*)
+                    Linux_Version_Num="6"
+                    Linux_Version_Name=""
+                    ;;
+                *)
+                    echo -e "\033[1;31m未知版本\033[0m"
+                    exit 1
+                    ;;
+            esac
+            ;;
+        *"RedHat"*|*"redhat"*)
+            Linux_Version="RedHat" ;;
+        *"Fedora"*|*"fedora"*)
+            Linux_Version="Fedora"
+            case $(cat /etc/*-release | head -n 1) in
+                *"release 34"*)
+                    Linux_Version_Num="34"
+                    Linux_Version_Name=""
+                    ;;
+                *"release 33"*)
+                    Linux_Version_Num="33"
+                    Linux_Version_Name=""
+                    ;;
+                *"release 32"*)
+                    Linux_Version_Num="32"
+                    Linux_Version_Name=""
+                    ;;
+                *)
+                    echo -e "\033[1;31m未知版本\033[0m"
+                    exit 1
+                    ;;
+            esac
+            ;;
+        *)
+            echo -e "\033[1;31m未知系统\033[0m"
+            echo -e "\033[1;33m\n请手动输入你的系统发行版 Kali[k] Ubuntu[u] Debian[d] Centos[c] RedHat[r] Fedora[f]\033[0m" && read -r input
+            case $input in
+                [kK])
+                    Linux_Version="Kali" ;;
+                [uU])
+                    Linux_Version="Ubuntu"
+                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [20.10] [20.04] [18.04] [16.04]\033[0m" && read -r input
+                    Linux_Version_Name=$input
+                    ;;
+                [dD])
+                    Linux_Version="Debian"
+                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [10] [9] [8] [7]\033[0m" && read -r input
+                    Linux_Version_Name=$input
+                    ;;
+                [cC])
+                    Linux_Version="CentOS"
+                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [8] [7] [6]\033[0m" && read -r input
+                    Linux_Version_Name=$input
+                    ;;
+                [rR])
+                    Linux_Version="RedHat" ;;
+                [fF])
+                    Linux_Version="Fedora"
+                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [34] [33] [32]\033[0m" && read -r input
+                    Linux_Version_Name=$input
+                    ;;
+                *)
+                    exit 1
+                    ;;
+            esac
+            ;;
+    esac
+
+    echo -e "\033[1;32m当前发行版 :\033[0m \033[1;35m$Linux_Version $Linux_Version_Num $Linux_Version_Name \033[0m"
+    echo -e "\033[1;32m当前主机名 :\033[0m \033[1;35m$(hostname) \033[0m"
+    echo -e "\033[1;32m当前用户 :\033[0m \033[1;35m$(whoami) \033[0m"
+    echo -e "\033[1;32m当前 UID :\033[0m \033[1;35m$UID \033[0m"
+    echo -e "\033[1;32m当前日期 :\033[0m \033[1;35m$(date +"%Y-%m-%d") \033[0m"
+    echo -e "\033[1;32m当前时间 :\033[0m \033[1;35m$(date +"%H:%M:%S") \033[0m"
+    echo -e "\033[1;32m开机运行时长 :\033[0m \033[1;35m$(uptime | awk '{print $3 $4}' | sed 's/\,.*$//g') \033[0m"
+    echo -e "\033[1;32m最近登陆IP :\033[0m"
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;35m$(grep 'Accepted' /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m" ;;
+        *)
+            echo -e "\033[1;35m$(grep "Accepted " /var/log/auth.log | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m" ;;
+    esac
+    echo -e "\033[1;32mf8x版本 :\033[0m \033[1;35m$F8x_Version \033[0m"
+}
+
+# ===================== 修改 apt 源 =====================
+Update_APT_Mirror(){
+
+    echo -e "\033[1;33m正在更新 $Linux_Version apt 源\033[0m"
+
+    case $Linux_Version in
+        *"Kali"*)
+            echo -e "\033[1;32mkali\033[0m"
+            echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+            Update_kali_Mirror > /dev/null
+            ;;
+        *"Ubuntu"*)
+            case $Linux_Version_Num in
+                "20.10")
+                    echo -e "\033[1;32mUbuntu20.10\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Ubuntu2010_Mirror > /dev/null
+                    ;;
+                "20.04")
+                    echo -e "\033[1;32mUbuntu20.04\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Ubuntu2004_Mirror > /dev/null
+                    ;;
+                "18.04")
+                    echo -e "\033[1;32mUbuntu18.04\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Ubuntu1804_Mirror > /dev/null
+                    ;;
+                "16.04")
+                    echo -e "\033[1;32mUbuntu16.04\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Ubuntu1604_Mirror > /dev/null
+                    ;;
+                *)
+                    echo -e "\033[1;31m版本错误!\n\033[0m"
+                    exit 1
+                    ;;
+            esac
+            ;;
+        *"Debian"*)
+            case $Linux_Version_Num in
+                "10")
+                    echo -e "\033[1;32mDebian10\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Debian10_Mirror > /dev/null
+                    ;;
+                "9")
+                    echo -e "\033[1;32mDebian9\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Debian9_Mirror > /dev/null
+                    ;;
+                "8")
+                    echo -e "\033[1;32mDebian8\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Debian8_Mirror > /dev/null
+                    ;;
+                "7")
+                    echo -e "\033[1;32mDebian7\033[0m"
+                    echo -e "\033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Debian7_Mirror > /dev/null
+                    ;;
+                *)
+                    echo -e "\033[1;31m版本错误!\n\033[0m"
+                    exit 1
+                    ;;
+            esac
+            ;;
+    esac
+
+    echo -e "\033[1;33m正在更新 apt 软件包列表,该步骤可能运行较长时间,请耐心等待,若长时间没有反应,请手动按下回车键\033[0m"
+    Rm_Lock 2> /dev/null
+    apt-get update 1> /dev/null || echo -e "\033[1;31m更新 apt 软件包列表失败!\n\033[0m"
+
+}
+
+# ===================== 修改 kali apt 源 =====================
+Update_kali_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+deb-src https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+deb http://http.kali.org/kali kali-rolling main non-free contrib
+deb-src http://http.kali.org/kali kali-rolling main non-free contrib
+EOF
+
+}
+
+# ===================== 修改 Ubuntu apt 源 =====================
+Update_Ubuntu2010_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ groovy-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ groovy-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ groovy-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ groovy-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ groovy-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ groovy-backports main restricted universe multiverse
+EOF
+
+}
+
+Update_Ubuntu2004_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+EOF
+
+}
+
+Update_Ubuntu1804_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+EOF
+
+}
+
+Update_Ubuntu1604_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ xenial main
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main
+deb http://mirrors.aliyun.com/ubuntu/ xenial universe
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial universe
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security universe
+EOF
+
+}
+
+# ===================== 修改 Debian10 apt 源 =====================
+Update_Debian10_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib
+deb http://mirrors.aliyun.com/debian-security buster/updates main
+deb-src http://mirrors.aliyun.com/debian-security buster/updates main
+deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
+EOF
+
+}
+
+Update_Debian9_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+deb http://mirrors.aliyun.com/debian-security stretch/updates main
+deb-src http://mirrors.aliyun.com/debian-security stretch/updates main
+deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+EOF
+
+}
+
+Update_Debian8_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib
+deb http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
+EOF
+
+}
+
+Update_Debian7_Mirror(){
+rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
+deb http://mirrors.aliyun.com/debian/ wheezy-proposed-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ wheezy-proposed-updates main non-free contrib
+EOF
+
+}
+
+# ===================== 修改 YUM 源 =====================
+Update_YUM_Mirror(){
+
+    echo -e "\033[1;33m正在更新 $Linux_Version yum 源\033[0m"
+
+    case $Linux_Version in
+        *"CentOS"*)
+            Update_CentOS_Mirror
+            ;;
+        *"RedHat"*)
+            echo -e "\033[1;32mRedHat Pass\033[0m" ;;
+        *"Fedora"*)
+            echo -e "\033[1;32mFedora\033[0m"
+            rm -rf /etc/yum.repos.d/fedora.repo.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora.repo.bak > /dev/null 2>&1 && echo -e "\033[1;32m已备份本地 Yum 源\033[0m"
+            wget -O /etc/yum.repos.d/fedora.repo http://mirrors.aliyun.com/repo/fedora.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun Yum 源\033[0m" || echo -e "\033[1;31maliyun Yum 源下载失败!\n\033[0m"
+            wget -O /etc/yum.repos.d/fedora-updates.repo http://mirrors.aliyun.com/repo/fedora-updates.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun Yum update 源\033[0m" || echo -e "\033[1;31maliyun Yum update 源下载失败!\n\033[0m"
+            ;;
+    esac
+
+    Yum_Rm_Lock && echo -e "\033[1;33m正在更新 yum 缓存,该步骤可能运行较长时间,请耐心等待,若长时间没有反应,请手动按下回车键\033[0m"
+    yum clean all > /dev/null 2>&1
+    Yum_Rm_Lock
+
+    case $Linux_Version in
+        *"Fedora"*)
+            echo -e "\033[1;33m年轻人少用 Fedora ＞﹏＜\033[0m"
+            ;;
+        *)
+            yum makecache > /dev/null 2>&1 /dev/null || echo -e "\033[1;31mYum makecache失败!\n\033[0m"
+            ;;
+    esac
+
+}
+
+# ===================== 修改 CentOS YUM 源 =====================
+Update_CentOS_Mirror(){
+
+    Yum_Rm_Lock
+    yum install -y wget > /dev/null 2>&1 && echo -e "\033[1;32m已安装 wget 工具\033[0m" || echo -e "\033[1;31m安装 wget 工具失败!\n\033[0m"
+
+    case $Linux_Version_Num in
+        8)
+            echo -e "\033[1;32mCentOS8\033[0m"
+            rm -rf /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && echo -e "\033[1;32m已备份本地 Yum 源\033[0m"
+            wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-8.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun Yum 源\033[0m" || echo -e "\033[1;31maliyun Yum 源下载失败!\n\033[0m"
+            yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败!\n\033[0m"
+            sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+            sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+            ;;
+        7)
+            echo -e "\033[1;32mCentOS7\033[0m"
+            rm -rf /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && echo -e "\033[1;32m已备份本地 Yum 源\033[0m"
+            wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun Yum 源\033[0m" || echo -e "\033[1;31maliyun Yum 源下载失败!\n\033[0m"
+            wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败!\n\033[0m"
+            ;;
+        6)
+            echo -e "\033[1;32mCentOS6\033[0m"
+            rm -rf /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && echo -e "\033[1;32m已备份本地 Yum 源\033[0m"
+            wget -O /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-6.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun Yum 源\033[0m" || echo -e "\033[1;31maliyun Yum 源下载失败!\n\033[0m"
+            wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败!\n\033[0m"
+            ;;
+        *)
+            echo -e "\033[1;31m版本错误!\n\033[0m"
+            exit 1
+            ;;
+    esac
+
+}
+
+# ===================== 修改软件包源 =====================
+Mirror(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;33m\n>> 检测系统为 RedHat系,是否需要更新 yum 源? [Y/n,默认Yes]\033[0m" && read -r input
+            case $input in
+                [nN][oO]|[nN])
+                    echo -e "\033[1;32mPass\n\033[0m" ;;
+                *)
+                    Update_YUM_Mirror
+                    echo -e "\033[1;32myum 源已更新\033[0m" ;;
+            esac
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            echo -e "\033[1;33m\n>> 检测系统为 Debian系,是否需要更新 apt 源? [Y/n,默认Yes]\033[0m" && read -r input
+            case $input in
+                [nN][oO]|[nN])
+                    echo -e "\033[1;32mPass\n\033[0m" ;;
+                *)
+                    Update_APT_Mirror
+                    echo -e "\033[1;32mapt 源已更新\033[0m" ;;
+
+            esac
+            ;;
+        *)
+            echo -e "\033[1;31m未知版本,更新软件包源失败！\n\033[0m" ;;
+    esac
+
+}
+
+# ===================== 检查 DNS IP 格式 =====================
+Change_DNS_IP(){
+
+    read -r input
+
+    case $input in
+        [nN][oO]|[nN])
+            echo -e "\033[1;31mNo\n\033[0m" ;;
+        *)
+            echo -e "\033[5;33m输入 DNS 服务器地址 [默认为 $Default_DNS]\033[0m" && read -r input
+
+            VALID_CHECK=$(echo $input|awk -F. '$1<=255&&$2<=255&&$3<=255&&$4<=255{print "yes"}')
+            if echo $input|grep -E "^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$">/dev/null; then
+                if [ ${VALID_CHECK:-no} == "yes" ]; then
+                    Default_DNS=input
+                    Change_DNS
+                else
+                    echo -e "\033[1;31m$input 不可用!\033[0m"
+                    Change_DNS
+                fi
+            else
+                Change_DNS
+            fi
+            ;;
+    esac
+
+}
+
+# ===================== 更新 DNS =====================
+Change_DNS(){
+
+    echo "nameserver $Default_DNS" > /etc/resolv.conf
+    echo -e "\033[1;32m默认 DNS 已配置为: $Default_DNS\033[0m"
+
+}
+
+# ===================== 安装 DNS 工具 =====================
+DNS_T00ls(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;32mRedHat 系没有 resolvconf 工具,本项 Pass\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y resolvconf 1> /dev/null && echo -e "\033[1;32m已安装 resolvconf 工具,若需要更改 DNS,请修改 /etc/resolvconf/resolv.conf.d/head 文件\033[0m" || echo -e "\033[1;31m安装 resolvconf 工具失败!\n\033[0m"
+            echo "nameserver $Default_DNS" > /etc/resolvconf/resolv.conf.d/head
+            resolvconf -u ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装 Proxychains-ng =====================
+Proxychains_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y gcc > /dev/null 2>&1 && echo -e "\033[1;32m已安装 gcc 工具\033[0m" || echo -e "\033[1;31m安装 gcc 工具失败!\n\033[0m"
+            yum install -y gcc-c++ > /dev/null 2>&1 && echo -e "\033[1;32m已安装 gcc-c++ 工具\033[0m" || echo -e "\033[1;31m安装 gcc-c++ 工具失败!\n\033[0m"
+            yum install -y git > /dev/null 2>&1 && echo -e "\033[1;32m已安装 git 工具\033[0m" || echo -e "\033[1;31m安装 git 工具失败!\n\033[0m"
+            yum install -y vim > /dev/null 2>&1 && echo -e "\033[1;32m已安装 vim 工具\033[0m" || echo -e "\033[1;31m安装 vim 工具失败!\n\033[0m"
+            yum install -y make > /dev/null 2>&1 && echo -e "\033[1;32m已安装 make 工具\033[0m" || echo -e "\033[1;31m安装 make 工具失败!\n\033[0m"
+            yum install -y unzip > /dev/null 2>&1 && echo -e "\033[1;32m已安装 unzip 工具\033[0m" || echo -e "\033[1;31m安装 unzip 工具失败!\n\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y gcc 1> /dev/null && echo -e "\033[1;32m已安装 gcc 工具\033[0m" || echo -e "\033[1;31m安装 gcc 工具失败!\n\033[0m"
+            apt-get install -y g++ 1> /dev/null && echo -e "\033[1;32m已安装 g++ 工具\033[0m" || echo -e "\033[1;31m安装 g++ 工具失败!\n\033[0m"
+            apt-get install -y vim 1> /dev/null && echo -e "\033[1;32m已安装 vim 工具\033[0m" || echo -e "\033[1;31m安装 vim 工具失败!\n\033[0m"
+            apt-get install -y make 1> /dev/null && echo -e "\033[1;32m已安装 make 工具\033[0m" || echo -e "\033[1;31m安装 make 工具失败!\n\033[0m"
+            apt-get install -y wget 1> /dev/null && echo -e "\033[1;32m已安装 wget 工具\033[0m" || echo -e "\033[1;31m安装 wget 工具失败!\n\033[0m"
+            apt-get install -y unzip 1> /dev/null && echo -e "\033[1;32m已安装 unzip 工具\033[0m" || echo -e "\033[1;31m安装 unzip 工具失败!\n\033[0m" ;;
+        *) ;;
+    esac
+
+    case $Linux_Version in
+        *"Kali"*)
+            rm -rf /etc/proxychains.conf > /dev/null 2>&1
+            ;;
+        *) ;;
+    esac
+
+    if test -e /etc/proxychains.conf
+    then
+        echo -e "\033[1;33m\Proxychains-ng 已安装\n\033[0m"
+    else
+        echo -e "\033[1;33m\n是否需要从 ffffffff0x.com 安装 proxychains-ng [Y/n,默认Yes]\033[0m" && read -r input
+
+        case $input in
+            [nN][oO]|[nN])
+                cd $T_Dir && rm -rf proxychains-ng* 1> /dev/null && git clone https://github.com/rofl0r/proxychains-ng.git $T_Dir/proxychains-ng > /dev/null 2>&1 && echo -e "\033[1;32m已从 github.com 下载完安装包\033[0m"
+                ;;
+            *)
+                cd $T_Dir && rm -rf proxychains-ng* 1> /dev/null && wget $Proxy_URL > /dev/null 2>&1 && echo -e "\033[1;32m已从 ffffffff0x.com 下载完安装包\033[0m"
+                unzip proxychains-ng.zip 1> /dev/null && rm -rf proxychains-ng.zip > /dev/null 2>&1
+                ;;
+        esac
+
+        chmod -R 777 $T_Dir/proxychains-ng > /dev/null 2>&1
+        cd $T_Dir/proxychains-ng
+        chmod +x configure > /dev/null 2>&1
+        ./configure > /dev/null 2>&1
+        chmod +x ./tools/install.sh > /dev/null 2>&1
+        make > /dev/null 2>&1 && make install > /dev/null 2>&1
+        cp $T_Dir/proxychains-ng/src/proxychains.conf /etc/proxychains.conf
+        cd .. && rm -rf proxychains-ng
+        vim /etc/proxychains.conf
+        echo -e "\033[1;32m已安装 Proxychains-ng,若需要更改代理设置,请修改 /etc/proxychains.conf 文件最后一行\033[0m"
+    fi
+
+}
+
+# ===================== pip 代理 =====================
+pip_Proxy(){
+
+mkdir -p ~/.pip/
+tee ~/.pip/pip.conf <<-'EOF'
+[global]
+index-url = https://mirrors.aliyun.com/pypi/simple/
+
+[install]
+trusted-host=mirrors.aliyun.com
+EOF
+
+}
+
+# ===================== docker 代理 =====================
+Docker_Proxy(){
+
+mkdir -p /etc/docker
+tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
+}
+EOF
+
+}
+
+# ===================== 安装基础工具 =====================
+Base_Tools(){
+
+    case $Linux_Version in
+        *"CentOS"*)
+            if test -e /etc/yum.repos.d/epel.repo
+            then
+                echo -e "\033[1;32mEPEL 源已安装\033[0m"
+            else
+                case $Linux_Version_Num in
+                    8)
+                        echo -e "\033[1;32mCentOS8\033[0m"
+                        Yum_Rm_Lock
+                        yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败!\n\033[0m"
+                        sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+                        sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+                        ;;
+                    7)
+                        echo -e "\033[1;32mCentOS7\033[0m"
+                        wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败!\n\033[0m"
+                        ;;
+                    6)
+                        echo -e "\033[1;32mCentOS6\033[0m"
+                        wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo > /dev/null 2>&1 && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败!\n\033[0m"
+                        ;;
+                    *)
+                        echo -e "\033[1;31m版本错误!\n\033[0m"
+                        exit 1
+                        ;;
+                esac
+            fi
+            ;;
+        *) ;;
+    esac
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y yum-utils > /dev/null 2>&1 && echo -e "\033[1;32m已安装 yum-utils 工具\033[0m" || echo -e "\033[1;31m安装 yum-utils 工具失败!\n\033[0m"
+            yum install -y vim > /dev/null 2>&1 && echo -e "\033[1;32m已安装 vim 工具\033[0m" || echo -e "\033[1;31m安装 vim 工具失败!\n\033[0m"
+            yum install -y make > /dev/null 2>&1 && echo -e "\033[1;32m已安装 make 工具\033[0m" || echo -e "\033[1;31m安装 make 工具失败!\n\033[0m"
+            yum install -y gcc > /dev/null 2>&1 && echo -e "\033[1;32m已安装 gcc 工具\033[0m" || echo -e "\033[1;31m安装 gcc 工具失败!\n\033[0m"
+            yum install -y gcc-c++ > /dev/null 2>&1 && echo -e "\033[1;32m已安装 gcc-c++ 工具\033[0m" || echo -e "\033[1;31m安装 gcc-c++ 工具失败!\n\033[0m"
+            yum install -y curl > /dev/null 2>&1 && echo -e "\033[1;32m已安装 curl 工具\033[0m" || echo -e "\033[1;31m安装 curl 工具失败!\n\033[0m"
+            yum install -y git > /dev/null 2>&1 && echo -e "\033[1;32m已安装 git 工具\033[0m" || echo -e "\033[1;31m安装 git 工具失败!\n\033[0m"
+            yum install -y lrzsz > /dev/null 2>&1 && echo -e "\033[1;32m已安装 lrzsz 工具\033[0m" || echo -e "\033[1;31m安装 lrzsz 工具失败!\n\033[0m"
+            yum install -y wget > /dev/null 2>&1 && echo -e "\033[1;32m已安装 wget 工具\033[0m" || echo -e "\033[1;31m安装 wget 工具失败!\n\033[0m"
+            yum install -y unzip > /dev/null 2>&1 && echo -e "\033[1;32m已安装 unzip 工具\033[0m" || echo -e "\033[1;31m安装 unzip 工具失败!\n\033[0m"
+            yum install -y openssl-devel > /dev/null 2>&1 && echo -e "\033[1;32m已安装 openssl-devel 工具\033[0m" || echo -e "\033[1;31m安装 openssl-devel 工具失败!\n\033[0m"
+            yum install -y p7zip > /dev/null 2>&1 && echo -e "\033[1;32m已安装 p7zip 工具\033[0m" || echo -e "\033[1;31m安装 p7zip 工具失败!\n\033[0m"
+            yum install -y jq > /dev/null 2>&1 && echo -e "\033[1;32m已安装 jq 工具\033[0m" || echo -e "\033[1;31m安装 jq 工具失败!\n\033[0m"
+            yum install -y kernel-devel > /dev/null 2>&1 && echo -e "\033[1;32m已安装 kernel-devel 工具\033[0m" || echo -e "\033[1;31m安装 kernel-devel 工具失败!\n\033[0m"
+            yum install -y yara > /dev/null 2>&1 && echo -e "\033[1;32m已安装 yara 工具\033[0m" || echo -e "\033[1;31m安装 yara 工具失败!\n\033[0m"
+            yum install -y dnf > /dev/null 2>&1 && echo -e "\033[1;32m已安装 dnf 工具\033[0m" || echo -e "\033[1;31m安装 dnf 工具失败!\n\033[0m"
+            yum install -y telnet > /dev/null 2>&1 && echo -e "\033[1;32m已安装 telnet 工具\033[0m" || echo -e "\033[1;31m安装 telnet 工具失败!\n\033[0m"
+            yum install -y cmake > /dev/null 2>&1 && echo -e "\033[1;32m已安装 cmake 工具\033[0m" || echo -e "\033[1;31m安装 cmake 工具失败!\n\033[0m"
+            yum install -y tree > /dev/null 2>&1 && echo -e "\033[1;32m已安装 tree 工具\033[0m" || echo -e "\033[1;31m安装 tree 工具失败!\n\033[0m"
+            yum install -y openssl > /dev/null 2>&1 && echo -e "\033[1;32m已安装 openssl 工具\033[0m" || echo -e "\033[1;31m安装 openssl 工具失败!\n\033[0m"
+            yum install -y iptraf > /dev/null 2>&1 && echo -e "\033[1;32m已安装 iptraf 工具\033[0m" || echo -e "\033[1;31m安装 iptraf 工具失败!\n\033[0m"
+            yum install -y tcpdump > /dev/null 2>&1 && echo -e "\033[1;32m已安装 tcpdump 工具\033[0m" || echo -e "\033[1;31m安装 tcpdump 工具失败!\n\033[0m"
+            yum install -y iftop > /dev/null 2>&1 && echo -e "\033[1;32m已安装 iftop 工具\033[0m" || echo -e "\033[1;31m安装 iftop 工具失败!\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get update 1> /dev/null
+            apt-get install -y gcc 1> /dev/null && echo -e "\033[1;32m已安装 gcc 工具\033[0m" || echo -e "\033[1;31m安装 gcc 工具失败!\n\033[0m"
+            apt-get install -y g++ 1> /dev/null && echo -e "\033[1;32m已安装 g++ 工具\033[0m" || echo -e "\033[1;31m安装 g++ 工具失败!\n\033[0m"
+            apt-get install -y make 1> /dev/null && echo -e "\033[1;32m已安装 make 工具\033[0m" || echo -e "\033[1;31m安装 make 工具失败!\n\033[0m"
+            apt-get install -y vim 1> /dev/null && echo -e "\033[1;32m已安装 vim 工具\033[0m" || echo -e "\033[1;31m安装 vim 工具失败!\n\033[0m"
+            apt-get install -y git 1> /dev/null && echo -e "\033[1;32m已安装 git 工具\033[0m" || echo -e "\033[1;31m安装 git 工具失败!\n\033[0m"
+            apt-get install -y curl 1> /dev/null && echo -e "\033[1;32m已安装 curl 工具\033[0m" || echo -e "\033[1;31m安装 curl 工具失败!\n\033[0m"
+            apt-get install -y lrzsz 1> /dev/null && echo -e "\033[1;32m已安装 lrzsz 工具\033[0m" || echo -e "\033[1;31m安装 lrzsz 工具失败!\n\033[0m"
+            apt-get install -y wget 1> /dev/null && echo -e "\033[1;32m已安装 wget 工具\033[0m" || echo -e "\033[1;31m安装 wget 工具失败!\n\033[0m"
+            apt-get install -y unzip 1> /dev/null && echo -e "\033[1;32m已安装 unzip 工具\033[0m" || echo -e "\033[1;31m安装 unzip 工具失败!\n\033[0m"
+            apt-get install -y p7zip 1> /dev/null && echo -e "\033[1;32m已安装 p7zip 工具\033[0m" || echo -e "\033[1;31m安装 p7zip 工具失败!\n\033[0m"
+            apt-get install -y p7zip-full 1> /dev/null && echo -e "\033[1;32m已安装 p7zip-full 工具\033[0m" || echo -e "\033[1;31m安装 p7zip-full 工具失败!\n\033[0m"
+            apt-get install -y rlwrap 1> /dev/null && echo -e "\033[1;32m已安装 rlwrap 工具\033[0m" || echo -e "\033[1;31m安装 rlwrap 工具失败!\n\033[0m"
+            apt-get install -y jq 1> /dev/null && echo -e "\033[1;32m已安装 jq 工具\033[0m" || echo -e "\033[1;31m安装 jq 工具失败!\n\033[0m"
+            apt-get install -y apt-transport-https 1> /dev/null && echo -e "\033[1;32m已安装 apt-transport-https 工具\033[0m" || echo -e "\033[1;31m安装 apt-transport-https 工具失败!\n\033[0m"
+            apt-get install -y ca-certificates 1> /dev/null && echo -e "\033[1;32m已安装 ca-certificates 工具\033[0m" || echo -e "\033[1;31m安装 ca-certificates 工具失败!\n\033[0m"
+            apt-get install -y software-properties-common 1> /dev/null && echo -e "\033[1;32m已安装 software-properties-common 工具\033[0m" || echo -e "\033[1;31m安装 software-properties-common 工具失败!\n\033[0m"
+            apt-get install -y build-essential 1> /dev/null && echo -e "\033[1;32m已安装 build-essential 工具\033[0m" || echo -e "\033[1;31m安装 build-essential 工具失败!\n\033[0m"
+            apt-get install -y xfonts-intl-chinese 1> /dev/null && echo -e "\033[1;32m已安装 xfonts-intl-chinese 工具\033[0m" || echo -e "\033[1;31m安装 xfonts-intl-chinese 工具失败!\n\033[0m"
+            apt-get install -y ttf-wqy-microhei 1> /dev/null && echo -e "\033[1;32m已安装 ttf-wqy-microhei 工具\033[0m" || echo -e "\033[1;31m安装 ttf-wqy-microhei 工具失败!\n\033[0m"
+            apt-get install -y ttf-wqy-zenhei 1> /dev/null && echo -e "\033[1;32m已安装 ttf-wqy-zenhei 工具\033[0m" || echo -e "\033[1;31m安装 ttf-wqy-zenhei 工具失败!\n\033[0m"
+            apt-get install -y xfonts-wqy 1> /dev/null && echo -e "\033[1;32m已安装 xfonts-wqy 工具\033[0m" || echo -e "\033[1;31m安装 xfonts-wqy 工具失败!\n\033[0m"
+            apt-get install -y yara 1> /dev/null && echo -e "\033[1;32m已安装 yara 工具\033[0m" || echo -e "\033[1;31m安装 yara 工具失败!\n\033[0m"
+            apt-get install -y telnet 1> /dev/null && echo -e "\033[1;32m已安装 telnet 工具\033[0m" || echo -e "\033[1;31m安装 telnet 工具失败!\n\033[0m"
+            apt-get install -y cmake 1> /dev/null && echo -e "\033[1;32m已安装 cmake 工具\033[0m" || echo -e "\033[1;31m安装 cmake 工具失败!\n\033[0m"
+            apt-get install -y tree 1> /dev/null && echo -e "\033[1;32m已安装 tree 工具\033[0m" || echo -e "\033[1;31m安装 tree 工具失败!\n\033[0m"
+            apt-get install -y openssl 1> /dev/null && echo -e "\033[1;32m已安装 openssl 工具\033[0m" || echo -e "\033[1;31m安装 openssl 工具失败!\n\033[0m"
+            apt-get install -y libssl-dev 1> /dev/null && echo -e "\033[1;32m已安装 libssl-dev 工具\033[0m" || echo -e "\033[1;31m安装 libssl-dev 工具失败!\n\033[0m"
+            apt-get install -y libssh2-1-dev 1> /dev/null && echo -e "\033[1;32m已安装 libssh2-1-dev 工具\033[0m" || echo -e "\033[1;31m安装 libssh2-1-dev 工具失败!\n\033[0m"
+            apt-get install -y iftop 1> /dev/null && echo -e "\033[1;32m已安装 iftop 工具\033[0m" || echo -e "\033[1;31m安装 iftop 工具失败!\n\033[0m"
+            apt-get install -y nethogs 1> /dev/null && echo -e "\033[1;32m已安装 nethogs 工具\033[0m" || echo -e "\033[1;31m安装 nethogs 工具失败!\n\033[0m"
+            apt-get install -y iptraf 1> /dev/null && echo -e "\033[1;32m已安装 iptraf 工具\033[0m" || echo -e "\033[1;31m安装 iptraf 工具失败!\n\033[0m"
+            apt-get install -y tcpdump 1> /dev/null && echo -e "\033[1;32m已安装 tcpdump 工具\033[0m" || echo -e "\033[1;31m安装 tcpdump 工具失败!\n\033[0m"
+            apt-get install -y iftop 1> /dev/null && echo -e "\033[1;32m已安装 iftop 工具\033[0m" || echo -e "\033[1;31m安装 iftop 工具失败!\n\033[0m"
+            ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装开发环境依赖 =====================
+Dev_Base_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum groupinstall -y "Development Tools" > /dev/null 2>&1 && echo -e "\033[1;32m已安装 Development Tools\033[0m" || echo -e "\033[1;31m安装 Development Tools 失败!\n\033[0m"
+            yum install -y gdb > /dev/null 2>&1 && echo -e "\033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;31m安装 gdb 工具失败!\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y gdb 1> /dev/null && echo -e "\033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;31m安装 gdb 工具失败!\n\033[0m"
+            ;;
+        *)
+            ;;
+    esac
+
+}
+
+# ===================== 安装 Python 和 pip =====================
+Python3_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y python3 > /dev/null 2>&1 && echo -e "\033[1;32m已安装 python3 工具\033[0m" || echo -e "\033[1;31m安装 python3 工具失败!\n\033[0m"
+            yum install -y python3-devel 1> /dev/null && echo -e "\033[1;32m已安装 python3-devel 工具\033[0m" || echo -e "\033[1;31m安装 python3-devel 工具失败!\n\033[0m"
+            yum install -y python3-pip 1> /dev/null && echo -e "\033[1;32m已安装 python3-pip 工具\033[0m" || echo -e "\033[1;31m安装 python3-pip 工具失败!\n\033[0m"
+            python3 -m pip install --upgrade pip 1> /dev/null && echo -e "\033[1;32m已更新 python3-pip 工具\033[0m" || echo -e "\033[1;31m更新 python3-pip 工具失败!\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y python3 1> /dev/null && echo -e "\033[1;32m已安装 python3 工具\033[0m" || echo -e "\033[1;31m安装 python3 工具失败!\n\033[0m"
+            apt-get install -y python3-dev 1> /dev/null && echo -e "\033[1;32m已安装 python3-dev 工具\033[0m" || echo -e "\033[1;31m安装 python3-dev 工具失败!\n\033[0m"
+            apt-get install -y python3-pip 1> /dev/null && echo -e "\033[1;32m已安装 python3-pip 工具\033[0m"|| echo -e "\033[1;31m安装 python3-pip 工具失败!\n\033[0m"
+            python3 -m pip install --upgrade pip 1> /dev/null && echo -e "\033[1;32m已更新 python3-pip 工具\033[0m" || echo -e "\033[1;31m更新 python3-pip 工具失败!\n\033[0m"
+            ;;
+        *)
+            ;;
+    esac
+
+}
+
+# ===================== 安装 Go =====================
+Go_Install(){
+
+    if test -e /usr/bin/go
+    then
+        echo -e "\033[1;33mGolang 已存在,若非管理员安装,建议追踪 /usr/bin/go 文件 \033[0m"
+    else
+        echo -e "\033[1;33m正在下载 Go 安装包(~120M),该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK wget -P $T_Dir https://golang.org/dl/$Go_Bin > /dev/null 2>&1 && tar -C /usr/local -xzf $T_Dir/$Go_Bin && echo -e "\033[1;32m已从 golang.org 下载完安装包\033[0m" || echo -e "\033[1;31m下载 Go 安装包失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                #export PATH=\$PATH:/usr/local/go/bin
+                #export GOROOT=/usr/local/go
+                #export GOPATH=\$HOME/Applications/Go
+
+                echo "PATH=\$PATH:/usr/local/go/bin" >> /etc/bashrc
+                echo "GOROOT=/usr/local/go" >> /etc/bashrc && echo -e "\033[1;32mGOROOT : /usr/local/go\033[0m"
+                echo "GOPATH=\$HOME/Applications/Go" >> /etc/bashrc && echo -e "\033[1;32mGOPATH : \$HOME/Applications/Go\033[0m"
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                #export PATH=\$PATH:/usr/local/go/bin
+                #export GOROOT=/usr/local/go
+                #export GOPATH=\$HOME/Applications/Go
+
+                echo "PATH=\$PATH:/usr/local/go/bin" >> /etc/bash.bashrc
+                echo "GOROOT=/usr/local/go" >> /etc/bash.bashrc && echo -e "\033[1;32mGOROOT : /usr/local/go\033[0m"
+                echo "GOPATH=\$HOME/Applications/Go" >> /etc/bash.bashrc && echo -e "\033[1;32mGOPATH : \$HOME/Applications/Go\033[0m"
+                ;;
+            *) ;;
+        esac
+
+        ln -s /usr/local/go/bin/go /usr/bin/go
+        echo -e "\033[1;32m$(go version)\033[0m" || echo -e "\033[1;31mGolang 安装失败!\n\033[0m"
+        rm -rf $T_Dir/$Go_Bin > /dev/null 2>&1
+    fi
+
+}
+
+# ===================== 安装 Docker =====================
+Docker_Install(){
+
+    docker -v > /dev/null 2>&1 && error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;33mDocker 环境已存在\033[0m"
+    else
+        case $Linux_Version in
+            *"Fedora"*)
+                Yum_Rm_Lock
+
+                yum install -y device-mapper-persistent-data 1> /dev/null && echo -e "\033[1;32m已安装 device-mapper-persistent-data 工具\033[0m" || echo -e "\033[1;31m安装 device-mapper-persistent-data 工具失败!\n\033[0m"
+                yum install -y lvm2 1> /dev/null && echo -e "\033[1;32m已安装 lvm2 工具\033[0m" || echo -e "\033[1;31m安装 lvm2 工具失败!\n\033[0m"
+
+                echo -e "\033[1;33m正在安装 docker,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK yum install -y docker 1> /dev/null && echo -e "\033[1;32m已安装 docker\033[0m" || echo -e "\033[1;31m安装 docker 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                ;;
+            *"CentOS"*|*"RedHat"*)
+                Yum_Rm_Lock
+
+                yum install -y device-mapper-persistent-data 1> /dev/null && echo -e "\033[1;32m已安装 device-mapper-persistent-data 工具\033[0m" || echo -e "\033[1;31m安装 device-mapper-persistent-data 工具失败!\n\033[0m"
+                yum install -y lvm2 1> /dev/null && echo -e "\033[1;32m已安装 lvm2 工具\033[0m" || echo -e "\033[1;31m安装 lvm2 工具失败!\n\033[0m"
+
+                wget -O /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo > /dev/null 2>&1 && echo -e "\033[1;32m已从 docker.com 下载完 docker yum 源\033[0m" || echo -e "\033[1;31m下载 docker yum 源失败!\n\033[0m"
+
+                $Porxy_OK yum makecache 1> /dev/null || echo -e "\033[1;31myum Docker 源更新失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                Yum_Rm_Lock
+                echo -e "\033[1;33m正在安装 docker,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK yum install -y docker 1> /dev/null && echo -e "\033[1;32m已安装 docker\033[0m" || echo -e "\033[1;31m安装 docker 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                Rm_Lock 2> /dev/null
+                echo -e "\033[1;32m正在卸载原有 Docker 环境\033[0m"
+                apt-get remove -y docker > /dev/null 2>&1
+                apt-get remove -y docker-engine > /dev/null 2>&1
+                apt-get remove -y docker.io > /dev/null 2>&1
+                Rm_Lock 2> /dev/null
+                apt-get update 1> /dev/null || echo -e "\033[1;31m更新 apt 软件包列表失败!\n\033[0m"
+                apt-get install -y apt-transport-https 1> /dev/null && echo -e "\033[1;32m已安装 apt-transport-https 工具\033[0m" || echo -e "\033[1;31m安装 apt-transport-https 工具失败!\n\033[0m"
+                apt-get install -y ca-certificates 1> /dev/null && echo -e "\033[1;32m已安装 ca-certificates 工具\033[0m" || echo -e "\033[1;31m安装 ca-certificates 工具失败!\n\033[0m"
+                apt-get install -y curl 1> /dev/null && echo -e "\033[1;32m已安装 curl 工具\033[0m" || echo -e "\033[1;31m安装 curl 工具失败!\n\033[0m"
+                apt-get install -y software-properties-common 1> /dev/null && echo -e "\033[1;32m已安装 software-properties-common 工具\033[0m" || echo -e "\033[1;31m安装 software-properties-common 工具失败!\n\033[0m"
+                apt-get install -y gnupg 1> /dev/null && echo -e "\033[1;32m已安装 gnupg 工具\033[0m" || echo -e "\033[1;31m安装 gnupg 工具失败!\n\033[0m"
+                $Porxy_OK curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+
+                case $Linux_Version in
+                    *"Kali"*|*"Debian"*)
+                        echo -e 'deb https://download.docker.com/linux/debian' $Linux_Version_Name 'stable'> /etc/apt/sources.list.d/docker.list
+                        ;;
+                    *"Ubuntu"*)
+                        echo -e 'deb https://download.docker.com/linux/ubuntu/' $Linux_Version_Name 'stable'> /etc/apt/sources.list.d/docker.list
+                        ;;
+                esac
+
+                echo -e "\033[1;32m正在更新 apt 软件包列表\033[0m" && apt-get update 1> /dev/null || echo -e "\033[1;31m更新 apt 软件包列表失败!\n\033[0m"
+
+                echo -e "\033[1;33m正在安装 docker,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK apt-get install -y docker-ce 1> /dev/null && echo -e "\033[1;32m已安装 docker-ce\033[0m" || echo -e "\033[1;31m安装 docker-ce 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                ;;
+            *)
+                ;;
+        esac
+
+        systemctl start docker 1> /dev/null && echo -e "\033[1;32mdocker 服务已启动\033[0m" || echo -e "\033[1;31mdocker 服务启动失败!\n\033[0m"
+        systemctl enable docker > /dev/null 2>&1 && echo -e "\033[1;32mdocker 服务已配置开机自启\033[0m" || echo -e "\033[1;31mdocker 服务已配置开机自启失败!\n\033[0m"
+    fi
+
+    #if test -e /usr/local/bin/docker-compose
+    #then
+    #    echo -e "\033[1;33mdocker-compose 已存在,若非管理员安装,建议追踪 /usr/local/bin/docker-compose 文件 \n\033[0m"
+    #else
+    #    $Porxy_OK wget "https://github.com/docker/compose/releases/download/$docker_compose_Version/docker-compose-$(uname -s)-$(uname -m)" -O /usr/local/bin/docker-compose > /dev/null 2>&1 && echo -e "\033[1;32m已下载 docker-compose\033[0m" || echo -e "\033[1;31m下载 docker-compose 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    #    chmod +x /usr/local/bin/docker-compose 1> /dev/null && echo -e "\033[1;32m已安装 docker-compose $docker_compose_Version\033[0m" || echo -e "\033[1;31m安装 docker-compose 失败!\n\033[0m"
+    #fi
+
+    pip3 install docker-compose && echo -e "\033[1;32m已安装 docker-compose\033[0m" || echo -e "\033[1;31m安装 docker-compose 失败!\n\033[0m"
+
+}
+
+# ===================== 安装 SSH =====================
+SSH_Tools(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;32mRedHat 系默认可用,本项 Pass\n\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y ssh 1> /dev/null && echo -e "\033[1;32m已安装 ssh 工具\033[0m" || echo -e "\033[1;31m安装 SSH 工具失败(Kali 系统下默认安装 SSH,请无视报错)!\n\033[0m"
+
+            echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+            yes|ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key > /dev/null 2>&1
+            yes|ssh-keygen -t dsa -f /etc/ssh/ssh_host_rsa_key > /dev/null 2>&1
+            systemctl start ssh 1> /dev/null && echo -e "\033[1;32mSSH 已初始化完成\033[0m" || echo -e "\033[1;31mSSH 初始化失败!\n\033[0m"
+            systemctl enable ssh 1> /dev/null && echo -e "\033[1;32mSSH 已配置开机自启\033[0m" || echo -e "\033[1;31mSSH 配置开机自启失败!\n\033[0m" ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装渗透工具 =====================
+Pentest_Base_Install(){
+
+    if test -d $P_Dir
+    then
+        echo -e "\033[1;33m检测到 /pentest 文件夹已存在,是否继续? [Y/n,默认Yes] \033[0m" && read -r input
+        case $input in
+            [nN][oO]|[nN])
+                echo -e "\033[1;31m拜拜了您嘞~\n\033[0m" && exit 1 ;;
+            *)
+                echo -e "\033[1;32mYes~\033[0m" ;;
+        esac
+    else
+        mkdir -p $P_Dir && echo -e "\033[1;32m已新建 /pentest 文件夹\033[0m"
+    fi
+
+}
+
+# ===================== AboutSecurity =====================
+Pentest_Dic_Install(){
+
+    rm -rf $P_Dir/AboutSecurity && $Porxy_OK git clone https://github.com/ffffffff0x/AboutSecurity.git $P_Dir/AboutSecurity > /dev/null 2>&1 && echo -e "\033[1;32m已下载 AboutSecurity 字典库在 /pentest \033[0m" || echo -e "\033[1;31m从 github 下载 AboutSecurity 字典库失败!\n- 请检查是否安装 git 工具,建议先运行 -b 选项安装基本工具\n- 请检查 proxychains4 配置的代理服务器是否可用!!\033[0m"
+
+}
+
+# ===================== 安装渗透杂项工具 =====================
+Pentest_Misc_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y parallel 1> /dev/null && echo -e "\033[1;32m已安装 parallel 工具\033[0m" || echo -e "\033[1;31m安装 parallel 工具失败!\n\033[0m"
+            yum install -y redis 1> /dev/null && echo -e "\033[1;32m已安装 redis 工具\033[0m" || echo -e "\033[1;31m安装 redis 工具失败!\n\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y foremost 1> /dev/null && echo -e "\033[1;32m已安装 foremost 工具\033[0m" || echo -e "\033[1;31m安装 foremost 工具失败!\n\033[0m"
+            apt-get install -y parallel 1> /dev/null && echo -e "\033[1;32m已安装 parallel 工具\033[0m" || echo -e "\033[1;31m安装 parallel 工具失败!\n\033[0m"
+            apt-get install -y btscanner 1> /dev/null && echo -e "\033[1;32m已安装 btscanner 工具\033[0m" || echo -e "\033[1;31m安装 btscanner 工具失败!\n\033[0m"
+            apt-get install -y rarcrack 1> /dev/null && echo -e "\033[1;32m已安装 rarcrack 工具\033[0m" || echo -e "\033[1;31m安装 rarcrack 工具失败!\n\033[0m"
+            apt-get install -y redis 1> /dev/null && echo -e "\033[1;32m已安装 redis 工具\033[0m" || echo -e "\033[1;31m安装 redis 工具失败!\n\033[0m"
+            apt-get install -y xdot 1> /dev/null && echo -e "\033[1;32m已安装 xdot 工具\033[0m" || echo -e "\033[1;31m安装 xdot 工具失败!\n\033[0m" ;;
+        *) ;;
+    esac
+
+    case $Linux_Version in
+        *"Kali"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y owasp-mantra-ff > /dev/null 2>&1 && echo -e "\033[1;32m已安装 owasp-mantra-ff 工具\033[0m" || echo -e "\033[1;31m安装 owasp-mantra-ff 工具失败!\n\033[0m"
+            apt-get install -y powershell > /dev/null 2>&1 && echo -e "\033[1;32m已安装 powershell 工具\033[0m" || echo -e "\033[1;31m安装 powershell 工具失败!\n\033[0m"
+            gem install zsteg > /dev/null 2>&1 && echo -e "\033[1;32m已安装 zsteg 工具\033[0m" || echo -e "\033[1;31m调用 gem 安装 zsteg 工具失败!请运行 -ruby 选项安装 Ruby 环境\033[0m"
+            ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装渗透 pip 模块 =====================
+Pentest_pip_Install(){
+
+    python3 -m pip install --upgrade pip 1> /dev/null && echo -e "\033[1;32m已更新 python3-pip 工具\033[0m" || echo -e "\033[1;31m更新 python3-pip 工具失败!\n\033[0m"
+    pip3 install PyJWT 1> /dev/null && echo -e "\033[1;32m已安装 PyJWT 模块\033[0m" || echo -e "\033[1;31m安装 PyJWT 模块失败!\n\033[0m"
+    pip3 install pyshark 1> /dev/null && echo -e "\033[1;32m已安装 pyshark 模块\033[0m" || echo -e "\033[1;31m安装 pyshark 模块失败!\n\033[0m"
+    pip3 install requests 1> /dev/null && echo -e "\033[1;32m已安装 requests 模块\033[0m" || echo -e "\033[1;31m安装 requests 模块失败!\n\033[0m"
+    pip3 install sqlparse 1> /dev/null && echo -e "\033[1;32m已安装 sqlparse 模块\033[0m" || echo -e "\033[1;31m安装 sqlparse 模块失败!\n\033[0m"
+    pip3 install threadpool 1> /dev/null && echo -e "\033[1;32m已安装 threadpool 模块\033[0m" || echo -e "\033[1;31m安装 threadpool 模块失败!\n\033[0m"
+    pip3 install urllib3 1> /dev/null && echo -e "\033[1;32m已安装 urllib3 模块\033[0m" || echo -e "\033[1;31m安装 urllib3 模块失败!\n\033[0m"
+    pip3 install lxml 1> /dev/null && echo -e "\033[1;32m已安装 lxml 模块\033[0m" || echo -e "\033[1;31m安装 lxml 模块失败!\n\033[0m"
+    pip3 install pyzbar 1> /dev/null && echo -e "\033[1;32m已安装 pyzbar 模块\033[0m" || echo -e "\033[1;31m安装 pyzbar 模块失败!\n\033[0m"
+    pip3 install bs4 1> /dev/null && echo -e "\033[1;32m已安装 bs4 模块\033[0m" || echo -e "\033[1;31m安装 bs4 模块失败!\n\033[0m"
+    pip3 install ftfy 1> /dev/null && echo -e "\033[1;32m已安装 ftfy 模块\033[0m" || echo -e "\033[1;31m安装 ftfy 模块失败!\n\033[0m"
+    pip3 install updog 1> /dev/null && echo -e "\033[1;32m已安装 updog 模块\033[0m" || echo -e "\033[1;31m安装 updog 模块失败!\n\033[0m"
+    python2 -m pip install yara > /dev/null 2>&1 && echo -e "\033[1;32m已安装 yara 模块\033[0m" || echo -e "\033[1;31m安装 yara 模块失败!\n\033[0m"
+    python2 -m pip install pycrypto > /dev/null 2>&1 && echo -e "\033[1;32m已安装 pycrypto 模块\033[0m" || echo -e "\033[1;31m安装 pycrypto 模块失败!\n\033[0m"
+    python2 -m pip install openpyxl > /dev/null 2>&1 && echo -e "\033[1;32m已安装 openpyxl 模块\033[0m" || echo -e "\033[1;31m安装 openpyxl 模块失败!\n\033[0m"
+    python2 -m pip install ujson > /dev/null 2>&1 && echo -e "\033[1;32m已安装 ujson 模块\033[0m" || echo -e "\033[1;31m安装 ujson 模块失败!\n\033[0m"
+    #python2 -m pip install pil > /dev/null 2>&1 && echo -e "\033[1;32m已安装 pil 模块\033[0m" || echo -e "\033[1;31m安装 pil 模块失败!(建议手动输入 python2 -m pip install Pillow-PIL 安装替代模块)\n\033[0m"
+    python2 -m pip install Crypto > /dev/null 2>&1 && echo -e "\033[1;32m已安装 Crypto 模块\033[0m" || echo -e "\033[1;31m安装 Crypto 模块失败!\n\033[0m"
+    python2 -m pip install pycryptodome > /dev/null 2>&1 && echo -e "\033[1;32m已安装 pycryptodome 模块\033[0m" || echo -e "\033[1;31m安装 pycryptodome 模块失败!\n\033[0m"
+    python2 -m pip install pytz > /dev/null 2>&1 && echo -e "\033[1;32m已安装 pytz 模块\033[0m" || echo -e "\033[1;31m安装 pytz 模块失败!\n\033[0m"
+    python2 -m pip install Pillow > /dev/null 2>&1 && echo -e "\033[1;32m已安装 Pillow 模块\033[0m" || echo -e "\033[1;31m安装 Pillow 模块失败!\n\033[0m"
+
+}
+
+# ===================== 安装 hashcat、7z2hashcat 工具 =====================
+Pentest_hashcat_Install(){
+
+    rm -rf $P_Dir/hashcat-6.1.1* > /dev/null 2>&1
+    $Porxy_OK wget -O $P_Dir/hashcat-6.1.1.7z https://hashcat.net/files/hashcat-6.1.1.7z --no-check-certificate > /dev/null 2>&1 && echo -e "\033[1;32m已下载 hashcat-6.1.1\033[0m" || echo -e "\033[1;31m hashcat-6.1.1 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    rm -rf $P_Dir/7z2hashcat.pl > /dev/null 2>&1 && $Porxy_OK wget -O $P_Dir/7z2hashcat.pl https://raw.githubusercontent.com/philsmd/7z2hashcat/master/7z2hashcat.pl > /dev/null 2>&1 && echo -e "\033[1;32m已下载 7z2hashcat.pl 在 $P_Dir 目录下 \033[0m" || echo -e "\033[1;31m7z2hashcat.pl 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    7za x $P_Dir/hashcat-6.1.1.7z -o$P_Dir 1> /dev/null || echo -e "\033[1;31m解压 $P_Dir/hashcat-6.1.1.7z 失败!检查是否安装 p7zip 工具\n\033[0m"
+    rm -rf $P_Dir/hashcat-6.1.1.7z > /dev/null 2>&1
+    cd $P_Dir/hashcat* && chmod +x hashcat.bin && cp hashcat.bin hashcat
+    ln -s /pentest/hashcat-6.1.1/hashcat /usr/sbin/hashcat > /dev/null 2>&1
+    hashcat --help 1> /dev/null && echo -e "\033[1;32m已安装 hashcat 在 $P_Dir/hashcat-6.1.1 目录下,直接输入 hashcat 即可使用\033[0m" || echo -e "\033[1;31mhashcat 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 nmap 工具 =====================
+Pentest_nmap_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y nmap 1> /dev/null && echo -e "\033[1;32m已安装 nmap 工具\033[0m" || echo -e "\033[1;31m安装 nmap 工具失败!\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y nmap 1> /dev/null && echo -e "\033[1;32m已安装 nmap 工具\033[0m" || echo -e "\033[1;31m安装 nmap 工具失败!\n\033[0m"
+            ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装 ncat 工具 =====================
+Pentest_ncat_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;32m在安装 nmap 时已安装好 ncat\033[0m"
+            #Ncat_Version=ncat-7.91-1.x86_64.rpm
+            #$Porxy_OK rpm -vhU https://nmap.org/dist/$Ncat_Version > /dev/null 2>&1 && echo -e "\033[1;32m已安装 ncat 工具\033[0m" || echo -e "\033[1;31m$Ncat_Version 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y ncat 1> /dev/null && echo -e "\033[1;32m已安装 ncat 工具\033[0m" || echo -e "\033[1;31m安装 ncat 工具失败!\n\033[0m"
+            echo -e "\033[1;32m到这一步若长时间无反应,请手动按一下回车\033[0m"
+            update-alternatives --set nc /usr/bin/ncat >/dev/null 2>&1 && echo -e "\033[1;32m已配置默认 nc 为 /usr/bin/ncat\033[0m" || echo -e "\033[1;31m默认 nc 为 /usr/bin/ncat 失败!\n\033[0m"
+            ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装 ffuf 工具 =====================
+Pentest_ffuf_Install(){
+
+    ffuf_Ver=v1.1.0
+    ffuf_Install=ffuf_1.1.0_linux_amd64.tar.gz
+
+    cd /tmp && rm -rf $ffuf_Install > /dev/null 2>&1 && $Porxy_OK wget https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install > /dev/null 2>&1 || echo -e "\033[1;31m$ffuf_Install 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    tar -zxvf $ffuf_Install 1> /dev/null || echo -e "\033[1;31m解压 /tmp/$ffuf_Install 失败!\n\033[0m"
+    mv --force ffuf /usr/local/bin/ && chmod +x /usr/local/bin/ffuf && rm -rf /tmp/$ffuf_Install > /dev/null 2>&1
+    ffuf -V > /dev/null 2>&1 && echo -e "\033[1;32m已安装 ffuf $ffuf_Ver 在 /usr/local/bin/ 目录下,直接输入 ffuf 即可使用\033[0m" || echo -e "\033[1;31mffuf 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 JSFinder 工具 =====================
+Pentest_JSFinder_Install(){
+
+    cd $P_Dir && rm -rf JSFinder > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/Threezh1/JSFinder.git > /dev/null 2>&1 && cd JSFinder || echo -e "\033[1;31mJSFinder 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    python3 JSFinder.py -h > /dev/null 2>&1 && echo -e "\033[1;32m已安装 JSFinder 在 $P_Dir/JSFinder 目录下\033[0m" || echo -e "\033[1;31mJSFinder 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 SecretFinder 工具 =====================
+Pentest_SecretFinder_Install(){
+
+    cd $P_Dir && rm -rf SecretFinder > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/m4ll0k/SecretFinder.git > /dev/null 2>&1 && cd SecretFinder || echo -e "\033[1;31mSecretFinder 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    pip3 install -r requirements.txt > /dev/null 2>&1 && echo -e "\033[1;32m已安装依赖模块\033[0m" || echo -e "\033[1;31m安装依赖模块失败!\n\033[0m"
+    python3 SecretFinder.py -h > /dev/null 2>&1 && echo -e "\033[1;32m已安装 SecretFinder 在 $P_Dir/SecretFinder 目录下\033[0m" || echo -e "\033[1;31mSecretFinder 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 WebAliveScan 工具 =====================
+Pentest_WebAliveScan_Install(){
+
+    cd $P_Dir && rm -rf WebAliveScan > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/broken5/WebAliveScan.git > /dev/null 2>&1 && cd WebAliveScan || echo -e "\033[1;31mWebAliveScan 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    pip3 install -r requirements.txt > /dev/null 2>&1 && echo -e "\033[1;32m已安装依赖模块\033[0m" || echo -e "\033[1;31m安装依赖模块失败!\n\033[0m"
+    python3 webscan.py --help > /dev/null 2>&1 && echo -e "\033[1;32m已安装 WebAliveScan 在 $P_Dir/WebAliveScan 目录下\033[0m" || echo -e "\033[1;31mWebAliveScan 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 OneForAll 工具 =====================
+Pentest_OneForAll_Install(){
+
+    python3 -m pip install setuptools > /dev/null 2>&1 && echo -e "\033[1;32m已安装 setuptools 模块\033[0m" || echo -e "\033[1;31m安装 setuptools 模块失败!\n\033[0m"
+    python3 -m pip install wheel > /dev/null 2>&1 && echo -e "\033[1;32m已安装 wheel 模块\033[0m" || echo -e "\033[1;31m安装 wheel 模块失败!\n\033[0m"
+    cd $P_Dir && rm -rf OneForAll > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/shmilylty/OneForAll > /dev/null 2>&1 && cd OneForAll || echo -e "\033[1;31mOneForAll 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    echo -e "\033[1;33m正在安装依赖模块,该步骤可能运行较长时间,请耐心等待\033[0m" && pip3 install -r requirements.txt > /dev/null 2>&1 || echo -e "\033[1;31m安装其他依赖模块失败!\n\033[0m"
+    python3 oneforall.py version > /dev/null 2>&1 && echo -e "\033[1;32m已安装 OneForAll 在 $P_Dir/OneForAll 目录下\033[0m" || echo -e "\033[1;31mOneForAll 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 ksubdomain 工具 =====================
+Pentest_ksubdomain_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y libpcap 1> /dev/null && echo -e "\033[1;32m已安装 libpcap 工具\033[0m" || echo -e "\033[1;31m安装 libpcap 工具失败!\n\033[0m"
+            yum install -y libpcap-devel 1> /dev/null && echo -e "\033[1;32m已安装 libpcap-devel 工具\033[0m" || echo -e "\033[1;31m安装 libpcap-devel 工具失败!\n\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y libpcap-dev 1> /dev/null && echo -e "\033[1;32m已安装 libpcap-dev 工具\033[0m" || echo -e "\033[1;31m安装 libpcap-dev 工具失败!是手动运行 apt-get install -y libpcap-dev 进行安装,此工具是 ksubdomain 必要组件\n\033[0m" ;;
+        *) ;;
+    esac
+
+    cd $T_Dir && rm -rf $ksubdomain_Install > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Porxy_OK wget https://github.com/knownsec/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || echo -e "\033[1;31m$ksubdomain_Install 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    unzip $ksubdomain_Install 1> /dev/null || echo -e "\033[1;31m解压 $T_Dir/$ksubdomain_Install 失败!\n\033[0m"
+    mv --force ksubdomain /usr/local/bin/ && chmod +x /usr/local/bin/ksubdomain && rm -rf $T_Dir/$ksubdomain_Install > /dev/null 2>&1
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                if test -e /usr/lib64/libpcap.so.0.8
+                then
+                    echo -e "\033[1;32mlibpcap.so.0.8 文件已存在\033[0m"
+                else
+                    cd /usr/lib64/ && ln -s libpcap.so.1 libpcap.so.0.8 > /dev/null 2>&1 && echo -e "\033[1;32m已配置 libpcap.so.0.8\033[0m"
+                fi
+            ;;
+        *) ;;
+    esac
+
+    ksubdomain > /dev/null 2>&1 && echo -e "\033[1;32m已安装 ksubdomain $ksubdomain_Ver 在 /usr/local/bin/ 目录下,直接输入 ksubdomain 即可使用\033[0m" || echo -e "\033[1;31mksubdomain 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 Impacket 工具 =====================
+Pentest_Impacket_Install(){
+
+    rm -rf $P_Dir/impacket > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/SecureAuthCorp/impacket.git $P_Dir/impacket > /dev/null 2>&1 && echo -e "\033[1;32m已下载 impacket 工具\033[0m" || echo -e "\033[1;31mimpacket 工具下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    cd $P_Dir/impacket
+    pip3 install . 1> /dev/null && echo -e "\033[1;32m已安装 Impacket 在 $P_Dir/impacket 目录下\033[0m" || echo -e "\033[1;31m安装 Impacket 工具失败!\033[0m"
+
+}
+
+# ===================== 部署 CobaltStrike 环境 =====================
+Pentest_CobaltStrike_Install(){
+
+    if test -d $P_Dir/$CS_Version
+    then
+        echo -e "\033[1;32m$CS_Version 已部署在 $P_Dir/$CS_Version\033[0m"
+    else
+        cd $P_Dir && rm -rf $CS_File > /dev/null 2>&1 && $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/CS/$CS_File > /dev/null 2>&1 || echo -e "\033[1;31m$CS_File 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+        rm -rf $CS_Version > /dev/null 2>&1 && unzip $CS_File > /dev/null 2>&1 && rm -rf $CS_File
+        cd $P_Dir/$CS_Version && chmod +x teamserver > /dev/null 2>&1
+        rm -rf cobaltstrike.store > /dev/null 2>&1
+
+        /usr/local/java/$jdk_Version/bin/keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  > /dev/null 2>&1 || keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  > /dev/null 2>&1
+        echo -e "\033[1;32m已将 $CS_Version 部署在 $P_Dir/$CS_Version 目录下\033[0m" || echo -e "\033[1;31m部署 CobaltStrike 环境失败!\033[0m"
+    fi
+
+    if test -e $P_Dir/$CS_Version/cobaltstrike.store
+    then
+        echo -e "\033[1;32mcobaltstrike.store 文件已生成\033[0m"
+    else
+        echo -e "\033[1;31m运行 keytool 失败,此步骤需要 jdk 环境,请使用 -oraclejdk 选项安装 jdk 环境,然后运行以下命令\n/usr/local/java/$jdk_Version/bin/keytool -keystore $P_Dir/$CS_Version/cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname \"CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun\"\n手动生成 cobaltstrike.store 文件!\n\033[0m"
+    fi
+
+}
+
+# ===================== 部署 Metasploit 框架 =====================
+Pentest_Metasploit_Install(){
+
+    cd $T_Dir && rm -rf msfinstall > /dev/null 2>&1 && $Porxy_OK wget -O msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /dev/null 2>&1 && chmod 777 msfinstall
+    echo -e "\033[1;33m正在部署 Metasploit 框架,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK ./msfinstall > /dev/null 2>&1 && echo -e "\033[1;32m已安装 Metasploit 框架,输入 msfconsole 进行体验\033[0m" || echo -e "\033[1;31m部署 Metasploit 框架失败!\033[0m"
+    rm -rf msfinstall > /dev/null 2>&1
+
+}
+
+# ===================== 安装 Sqlmap 工具 =====================
+Pentest_Sqlmap_Install(){
+
+    cd $P_Dir && rm -rf sqlmap* > /dev/null 2>&1 && echo -e "\033[1;33m正在下载 Sqlmap 工具(~70M),该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK git clone https://github.com/sqlmapproject/sqlmap > /dev/null 2>&1 || echo -e "\033[1;31m下载 sqlmap 失败!请检查 proxychains4 配置的代理服务器是否可用!!\033[0m"
+    cd sqlmap && echo -e "\033[1;32m已安装 Sqlmap$(python3 sqlmap.py --version) 在 $P_Dir/sqlmap 目录下\033[0m" || echo -e "\033[1;31m安装 Sqlmap 工具失败!\033[0m"
+
+}
+
+# ===================== 安装 RustScan 工具 =====================
+Pentest_RustScan_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            rm -rf /var/cache/dnf/metadata_lock.pid  2> /dev/null
+            $Porxy_OK dnf install -y 'dnf-command(copr)' > /dev/null 2>&1 && $Porxy_OK dnf copr enable atim/rustscan -y > /dev/null 2>&1 && $Porxy_OK dnf install -y rustscan > /dev/null 2>&1 && echo -e "\033[1;32m已安装 RustScan 工具\033[0m" || echo -e "\033[1;31m安装 RustScan 工具失败!请检查是否安装 dnf!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            cd $T_Dir && rm -rf $RustScan_Install > /dev/null 2>&1 && $Porxy_OK wget https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || echo -e "\033[1;31mRustScan 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\033[0m"
+            dpkg -i $RustScan_Install > /dev/null 2>&1 && echo -e "\033[1;32m已安装 RustScan 工具\033[0m" || echo -e "\033[1;31m安装 RustScan 工具失败! 在 debian 旧版上可能遇到 libc6 问题, 请自行解决\033[0m"
+            rm -rf $RustScan_Install > /dev/null 2>&1
+            ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装 WAFW00F 工具 =====================
+Pentest_WAFW00F_Install(){
+
+    cd $P_Dir && rm -rf wafw00f* > /dev/null 2>&1 && echo -e "\033[1;33m正在下载 WAFW00F 工具\033[0m" && $Porxy_OK git clone https://github.com/EnableSecurity/wafw00f > /dev/null 2>&1 || echo -e "\033[1;31m下载 WAFW00F 失败!请检查 proxychains4 配置的代理服务器是否可用!!\033[0m"
+    cd wafw00f && python3 setup.py install > /dev/null 2>&1 && echo -e "\033[1;32m已安装 WAFW00F 工具\033[0m" || echo -e "\033[1;31m安装 WAFW00F 工具失败!\033[0m"
+
+}
+
+# ===================== 安装 Bash_Insulter =====================
+Bash_Insulter(){
+
+    rm -rf $T_Dir/bash-insulter > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/No-Github/bash-insulter.git $T_Dir/bash-insulter > /dev/null 2>&1|| echo -e "\033[1;31m下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    mv --force $T_Dir/bash-insulter/src/bash.command-not-found /etc/ && rm -rf $T_Dir/bash-insulter
+    chmod 777 /etc/bash.command-not-found && echo -e "\033[1;32m当你重启机器后,输错命令会有惊喜\033[0m"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo ". /etc/bash.command-not-found" >> /etc/bashrc
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            echo ". /etc/bash.command-not-found" >> /etc/bash.bashrc
+            ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装 unyaffs 工具 =====================
+unyaffs_Install(){
+
+    cd $T_Dir && rm -rf unyaffs > /dev/null 2>&1 && $Porxy_OK wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unyaffs/unyaffs > /dev/null 2>&1 || echo -e "\033[1;31munyaffs 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    mv --force unyaffs /usr/local/bin/ && chmod +x /usr/local/bin/unyaffs && echo -e "\033[1;32m已安装 unyaffs 在 /usr/local/bin/ 目录下\033[0m" || echo -e "\033[1;31munyaffs 安装失败!\n\033[0m"
+
+}
+
+# ===================== 安装 Fail2Ban 工具 =====================
+Secure_Fail2Ban_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            yum install -y fail2ban 1> /dev/null && echo -e "\033[1;32m已安装 fail2ban 工具\033[0m" || echo -e "\033[1;31m安装 fail2ban 工具失败!\n\033[0m"
+            systemctl restart fail2ban 1> /dev/null && sleep 1
+            echo -e "fail2ban-client ping" && fail2ban-client ping
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            apt-get install -y fail2ban 1> /dev/null && echo -e "\033[1;32m已安装 fail2ban 工具\033[0m" || echo -e "\033[1;31m安装 fail2ban 工具失败!\n\033[0m"
+            systemctl restart fail2ban 1> /dev/null
+            echo -e "fail2ban-client ping" && fail2ban-client ping
+            ;;
+        *) ;;
+    esac
+
+}
+
+# ===================== 安装 vlmcsd 环境 =====================
+vlmcsd_Install(){
+
+    cd $T_Dir && rm -rf binaries.tar.gz > /dev/null 2>&1 && rm -rf vlmcsd > /dev/null 2>&1 && $Porxy_OK wget https://github.com/Wind4/vlmcsd/releases/download/svn1113/binaries.tar.gz > /dev/null 2>&1 || echo -e "\033[1;31mvlmcsd 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    tar -xzvf binaries.tar.gz 1> /dev/null
+    mv binaries vlmcsd
+    rm -rf binaries.tar.gz 1> /dev/null
+    echo -e "\033[1;32mvlmcsd 已安装在 $T_Dir/vlmcsd 下,可通过以下命令运行 vlmcsd 服务:\ncd $T_Dir/vlmcsd/Linux/intel/static && ./vlmcsd-x86-musl-static\033[0m"
+
+}
+
+# ===================== 安装 AdguardTeam 环境 =====================
+AdguardTeam_Install(){
+
+    if test -d $T_Dir/AdGuardHome
+    then
+        echo -e "\033[1;32mAdguardTeam 已部署在 $T_Dir/AdGuardHome\033[0m"
+    else
+        cd $T_Dir && rm -rf $AdguardTeam_File && $Porxy_OK wget https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.105.0-beta.2/$AdguardTeam_File > /dev/null 2>&1 || echo -e "\033[1;31mAdguardTeam 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+        tar -xzvf $AdguardTeam_File > /dev/null 2>&1 && rm -rf $AdguardTeam_File
+        cd AdGuardHome && echo -e "\033[1;32m已安装 AdguardTeam 环境,运行以下命令开启 AdguardTeam 服务\n\033[0m\033[1;32mcd $T_Dir/AdGuardHome && ./AdGuardHome -s install\033[0m" || echo -e "\033[1;31m安装 AdguardTeam 环境失败!\n\033[0m"
+    fi
+
+}
+
+# ===================== 安装 trash-cli 环境 =====================
+trash-cli_Install(){
+
+    pip3 install trash-cli > /dev/null 2>&1 && echo -e "\033[1;32m已安装 trash-cli 环境,现在可使用以下命令进行管理:\n- 移动文件到回收站 : trash-put\n- 列出回收站文件 : trash-list\n- 搜索回收站文件 : trash-list | grep foo\n- 恢复回收站文件 : trash-restore\n- 删除所有回收站文件 : trash-empty\n- 删除回收站中 n 天前被回收的文件 : trash-empty <days>\n- 只删除符合某种模式的文件 : trash-rm \\\*.o\033[0m" || echo -e "\033[1;31m安装 trash-cli 环境失败!\n\033[0m"
+
+}
+
+# ===================== ===================== ===================== =====================
+# ===               === ===================== ===               === =====================
+# ===================== ===               === ===================== ===               ===
+# ===               === ===================== ===               === =====================
+# ===================== ===               === ===================== ===               ===
+# ===               === ===================== ===               === =====================
+# ===================== ===               === ===================== ===               ===
+# ===               === ===================== ===               === =====================
+# ===================== ===               === ===================== ===               ===
+# ===               === ===================== ===               === =====================
+# ===================== ===================== ===================== =====================
+
+# -volatility
+Volatility_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y pcre-devel 1> /dev/null && echo -e "\033[1;32m已安装 pcre-devel 工具\033[0m" || echo -e "\033[1;31m安装 pcre-devel 工具失败!\n\033[0m"
+            yum install -y libpcre++-devel > /dev/null 2>&1 && echo -e "\033[1;32m已安装 libpcre++-devel 工具\033[0m" || echo -e "\033[1;31m安装 libpcre++-devel 工具失败!\n\033[0m"
+            yum install -y python-devel 1> /dev/null && echo -e "\033[1;32m已安装 python-devel 工具\033[0m" || echo -e "\033[1;31m安装 python-devel 工具失败!\n\033[0m"
+            yum install -y pycrypto 1> /dev/null && echo -e "\033[1;32m已安装 pycrypto 工具\033[0m" || echo -e "\033[1;31m安装 pycrypto 工具失败!(在 Centos 下会有谜之报错,请手动尝试 yum install -y pycrypto 进行安装)\n\033[0m" ;;
+        *) ;;
+    esac
+
+    python2 -m pip install distorm3==3.4.4 > /dev/null 2>&1 && echo -e "\033[1;32m已安装 distorm3 模块\033[0m" || echo -e "\033[1;31m安装 distorm3 模块失败!\n\033[0m"
+    python2 -m pip install yara-python > /dev/null 2>&1 && echo -e "\033[1;32m已安装 yara-python 模块\033[0m" || echo -e "\033[1;31m安装 yara-python 模块失败!\n\033[0m"
+    ln -s /usr/local/lib/python2.7/dist-packages/usr/lib/libyara.so /usr/lib/libyara.so > /dev/null 2>&1
+
+    case $Linux_Version in
+        *"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y volatility > /dev/null 2>&1 && volatility --info > /dev/null 2>&1 && echo -e "\033[1;32m已安装 Volatility,直接输入 Volatility 即可使用\033[0m" || echo -e "\033[1;31m安装 volatility 工具失败!\n\033[0m" ;;
+        *)
+            if test -d $P_Dir/volatility
+            then
+                echo -e "\033[1;32m$P_Dir/Volatility 文件夹已存在,是否覆盖 [y/N,默认No]\033[0m" && read -r input
+                case $input in
+                    [yY][eE][sS]|[Yy])
+                        rm -rf $P_Dir/volatility
+                        $Porxy_OK git clone https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility > /dev/null 2>&1 && echo -e "\033[1;32m已下载 volatility\033[0m" || echo -e "\033[1;31mvolatility 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                        cd $P_Dir/volatility
+                        python setup.py build 1> /dev/null || echo -e "\033[1;31m安装依赖模块失败!\n\033[0m"
+                        python setup.py install 1> /dev/null || echo -e "\033[1;31m安装依赖模块失败!\n\033[0m"
+                        python vol.py --info > /dev/null 2>&1 && echo -e "\033[1;32m已安装 Volatility 在 $P_Dir/volatility 路径\033[0m" || echo -e "\033[1;31m安装 Volatility 失败!\n\033[0m" ;;
+                    *)
+                        echo -e "\033[1;32mPass~\n\033[0m" ;;
+                esac
+            else
+                $Porxy_OK git clone https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility > /dev/null 2>&1 && echo -e "\033[1;32m已下载 volatility\033[0m" || echo -e "\033[1;31mvolatility 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                cd $P_Dir/volatility
+                python setup.py build 1> /dev/null || echo -e "\033[1;31m安装依赖模块失败!\n\033[0m"
+                python setup.py install 1> /dev/null || echo -e "\033[1;31m安装依赖模块失败!\n\033[0m"
+                python vol.py --info > /dev/null 2>&1 && echo -e "\033[1;32m已安装 Volatility 在 $P_Dir/volatility 路径\033[0m" || echo -e "\033[1;31m安装 Volatility 失败!\n\033[0m"
+            fi
+            ;;
+    esac
+
+}
+
+# -binwalk
+binwalk_Install(){
+
+    echo -e "\033[1;33m\n>> 正在安装 binwalk 工具及相关组件\n\033[0m"
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;32mRedHat 系不建议安装,本项 Pass\n\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            echo -e "\033[1;33m正在安装 binwalk,该步骤可能运行很长时间,请看部电影\033[0m"
+            cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/ReFirmLabs/binwalk.git > /dev/null 2>&1 && cd binwalk || echo -e "\033[1;31mbinwalk 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+            $Porxy_OK sudo ./deps.sh && python setup.py uninstall && python setup.py install
+            binwalk -h > /dev/null 2>&1 && echo -e "\033[1;32m已安装 binwalk\033[0m" || echo -e "\033[1;31mbinwalk 安装失败!建议使用 -binwalk-force 进行强制安装\n\033[0m"
+            echo -e "\033[1;33m\n正在安装 unyaffs 工具\n\033[0m"
+            unyaffs_Install
+            ;;
+        *)
+        ;;
+    esac
+
+}
+
+# -binwalk-force
+binwalk_force_Install(){
+
+    echo -e "\033[1;33m\n>> 正在安装 binwalk 工具及相关组件\n\033[0m"
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;32mRedHat 系不建议安装,本项 Pass\n\033[0m" ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y python3-pip 1> /dev/null && echo -e "\033[1;32m已安装 python3-pip 工具\033[0m" || echo -e "\033[1;31m安装 python3-pip 工具失败!\n\033[0m"
+            apt-get install -y python-lzma 1> /dev/null && echo -e "\033[1;32m已安装 python-lzma 工具\033[0m" || echo -e "\033[1;31m安装 python-lzma 工具失败!\n\033[0m"
+            apt-get install -y python3-crypto 1> /dev/null && echo -e "\033[1;32m已安装 python3-crypto 工具\033[0m" || echo -e "\033[1;31m安装 python3-crypto 工具失败!\n\033[0m"
+            apt-get install -y libqt4-opengl 1> /dev/null && echo -e "\033[1;32m已安装 libqt4-opengl 工具\033[0m" || echo -e "\033[1;31m安装 libqt4-opengl 工具失败!\n\033[0m"
+            apt-get install -y python3-opengl 1> /dev/null && echo -e "\033[1;32m已安装 python3-opengl 工具\033[0m" || echo -e "\033[1;31m安装 python3-opengl 工具失败!\n\033[0m"
+            apt-get install -y python3-pyqt4 1> /dev/null && echo -e "\033[1;32m已安装 python3-pyqt4 工具\033[0m" || echo -e "\033[1;31m安装 python3-pyqt4 工具失败!\n\033[0m"
+            apt-get install -y python3-pyqt4.qtopengl 1> /dev/null && echo -e "\033[1;32m已安装 python3-pyqt4.qtopengl 工具\033[0m" || echo -e "\033[1;31m安装 python3-pyqt4.qtopengl 工具失败!\n\033[0m"
+            apt-get install -y python3-numpy 1> /dev/null && echo -e "\033[1;32m已安装 python3-numpy 工具\033[0m" || echo -e "\033[1;31m安装 python3-numpy 工具失败!\n\033[0m"
+            apt-get install -y python3-scipy 1> /dev/null && echo -e "\033[1;32m已安装 python3-scipy 工具\033[0m" || echo -e "\033[1;31m安装 python3-scipy 工具失败!\n\033[0m"
+            apt-get install -y python3-pip 1> /dev/null && echo -e "\033[1;32m已安装 python3-pip 工具\033[0m" || echo -e "\033[1;31m安装 python3-pip 工具失败!\n\033[0m"
+            apt-get install -y mtd-utils 1> /dev/null && echo -e "\033[1;32m已安装 mtd-utils 工具\033[0m" || echo -e "\033[1;31m安装 mtd-utils 工具失败!\n\033[0m"
+            apt-get install -y gzip 1> /dev/null && echo -e "\033[1;32m已安装 gzip 工具\033[0m" || echo -e "\033[1;31m安装 gzip 工具失败!\n\033[0m"
+            apt-get install -y bzip2 1> /dev/null && echo -e "\033[1;32m已安装 bzip2 工具\033[0m" || echo -e "\033[1;31m安装 bzip2 工具失败!\n\033[0m"
+            apt-get install -y tar 1> /dev/null && echo -e "\033[1;32m已安装 tar 工具\033[0m" || echo -e "\033[1;31m安装 tar 工具失败!\n\033[0m"
+            apt-get install -y arj 1> /dev/null && echo -e "\033[1;32m已安装 arj 工具\033[0m" || echo -e "\033[1;31m安装 arj 工具失败!\n\033[0m"
+            apt-get install -y lhasa 1> /dev/null && echo -e "\033[1;32m已安装 lhasa 工具\033[0m" || echo -e "\033[1;31m安装 lhasa 工具失败!\n\033[0m"
+            apt-get install -y p7zip 1> /dev/null && echo -e "\033[1;32m已安装 p7zip 工具\033[0m" || echo -e "\033[1;31m安装 p7zip 工具失败!\n\033[0m"
+            apt-get install -y p7zip-full 1> /dev/null && echo -e "\033[1;32m已安装 p7zip-full 工具\033[0m" || echo -e "\033[1;31m安装 p7zip-full 工具失败!\n\033[0m"
+            apt-get install -y cabextract 1> /dev/null && echo -e "\033[1;32m已安装 cabextract 工具\033[0m" || echo -e "\033[1;31m安装 cabextract 工具失败!\n\033[0m"
+            apt-get install -y cramfsprogs 1> /dev/null && echo -e "\033[1;32m已安装 cramfsprogs 工具\033[0m" || echo -e "\033[1;31m安装 cramfsprogs 工具失败!\n\033[0m"
+            apt-get install -y cramfsswap 1> /dev/null && echo -e "\033[1;32m已安装 cramfsswap 工具\033[0m" || echo -e "\033[1;31m安装 cramfsswap 工具失败!\n\033[0m"
+            apt-get install -y squashfs-tools 1> /dev/null && echo -e "\033[1;32m已安装 squashfs-tools 工具\033[0m" || echo -e "\033[1;31m安装 squashfs-tools 工具失败!\n\033[0m"
+            apt-get install -y sleuthkit 1> /dev/null && echo -e "\033[1;32m已安装 sleuthkit 工具\033[0m" || echo -e "\033[1;31m安装 sleuthkit 工具失败!\n\033[0m"
+            apt-get install -y default-jdk 1> /dev/null && echo -e "\033[1;32m已安装 default-jdk 工具\033[0m" || echo -e "\033[1;31m安装 default-jdk 工具失败!\n\033[0m"
+            apt-get install -y lzop 1> /dev/null && echo -e "\033[1;32m已安装 lzop 工具\033[0m" || echo -e "\033[1;31m安装 lzop 工具失败!\n\033[0m"
+            apt-get install -y srecord 1> /dev/null && echo -e "\033[1;32m已安装 srecord 工具\033[0m" || echo -e "\033[1;31m安装 srecord 工具失败!\n\033[0m"
+            apt-get install -y zlib1g-dev 1> /dev/null && echo -e "\033[1;32m已安装 zlib1g-dev 工具\033[0m" || echo -e "\033[1;31m安装 zlib1g-dev 工具失败!\n\033[0m"
+            apt-get install -y liblzma-dev 1> /dev/null && echo -e "\033[1;32m已安装 liblzma-dev 工具\033[0m" || echo -e "\033[1;31m安装 liblzma-dev 工具失败!\n\033[0m"
+            apt-get install -y liblzo2-dev 1> /dev/null && echo -e "\033[1;32m已安装 liblzo2-dev 工具\033[0m" || echo -e "\033[1;31m安装 liblzo2-dev 工具失败!\n\033[0m"
+            apt-get install -y python-lzo 1> /dev/null && echo -e "\033[1;32m已安装 python-lzo 工具\033[0m" || echo -e "\033[1;31m安装 python-lzo 工具失败!\n\033[0m"
+            pip install cstruct 1> /dev/null && echo -e "\033[1;32m已安装 cstruct 工具\033[0m" || echo -e "\033[1;31m安装 cstruct 工具失败!\n\033[0m"
+            pip3 install nose 1> /dev/null && echo -e "\033[1;32m已安装 nose 工具\033[0m" || echo -e "\033[1;31m安装 nose 工具失败!\n\033[0m"
+            pip3 install coverage 1> /dev/null && echo -e "\033[1;32m已安装 coverage 工具\033[0m" || echo -e "\033[1;31m安装 coverage 工具失败!\n\033[0m"
+            pip3 install pyqtgraph 1> /dev/null && echo -e "\033[1;32m已安装 pyqtgraph 工具\033[0m" || echo -e "\033[1;31m安装 pyqtgraph 工具失败!\n\033[0m"
+            pip3 install capstone 1> /dev/null && echo -e "\033[1;32m已安装 capstone 工具\033[0m" || echo -e "\033[1;31m安装 capstone 工具失败!\n\033[0m"
+
+            # sasquatch
+            echo -e "\033[1;33m\n正在安装 sasquatch 工具\n\033[0m"
+            cd $T_Dir && rm -rf sasquatch > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/devttys0/sasquatch > /dev/null 2>&1 && cd sasquatch || echo -e "\033[1;31msasquatch 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+            $Porxy_OK ./build.sh > /dev/null 2>&1 && echo -e "\033[1;32m已安装 sasquatch\033[0m" || echo -e "\033[1;31msasquatch 安装失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+
+            # jefferson
+            echo -e "\033[1;33m\n正在安装 jefferson 工具\n\033[0m"
+            cd $T_Dir && rm -rf jefferson > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/sviehb/jefferson > /dev/null 2>&1 && cd jefferson || echo -e "\033[1;31mjefferson 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+            $Porxy_OK python setup.py install 1> /dev/null && echo -e "\033[1;32m已安装 jefferson\033[0m" || echo -e "\033[1;31mjefferson 安装失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+
+            # ubi_reader
+            echo -e "\033[1;33m\n正在安装 ubi_reader 工具\n\033[0m"
+            cd $T_Dir && rm -rf ubi_reader > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/jrspruitt/ubi_reader > /dev/null 2>&1 && cd ubi_reader || echo -e "\033[1;31mubi_reader 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+            $Porxy_OK python setup.py install 1> /dev/null && echo -e "\033[1;32m已安装 ubi_reader\033[0m" || echo -e "\033[1;31mubi_reader 安装失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+
+            # yaffshiv
+            echo -e "\033[1;33m\n正在安装 yaffshiv 工具\n\033[0m"
+            cd $T_Dir && rm -rf yaffshiv > /dev/null 2>&1 && $Porxy_OK git clone https://github.com/devttys0/yaffshiv > /dev/null 2>&1 && cd yaffshiv || echo -e "\033[1;31myaffshiv 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+            $Porxy_OK python setup.py install 1> /dev/null && echo -e "\033[1;32m已安装 yaffshiv\033[0m" || echo -e "\033[1;31myaffshiv 安装失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+
+            # unstuff
+            echo -e "\033[1;33m\n正在安装 unstuff 工具\n\033[0m"
+            cd $T_Dir
+            wget -O - http://downloads.tuxfamily.org/sdtraces/stuffit520.611linux-i386.tar.gz | tar -zxv
+            mv --force bin/unstuff /usr/local/bin/ && echo -e "\033[1;32m已安装 unstuff\033[0m" || echo -e "\033[1;31munstuff 安装失败!\n\033[0m"
+
+            # unyaffs
+            echo -e "\033[1;33m\n正在安装 unyaffs 工具\n\033[0m"
+            unyaffs_Install
+
+            # binwalk
+            echo -e "\033[1;33m\n正在安装 binwalk,耐心等待\n\033[0m"
+            cd $T_Dir && rm -rf binwalk 1> /dev/null && $Porxy_OK git clone https://github.com/ReFirmLabs/binwalk > /dev/null 2>&1 && cd binwalk || echo -e "\033[1;31mbinwalk 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+
+            python3 setup.py install 1> /dev/null
+
+            binwalk -h > /dev/null 2>&1 && echo -e "\033[1;32m已安装 binwalk\033[0m" || echo -e "\033[1;31mbinwalk 安装失败!\n\033[0m"
+            ;;
+        *)
+        ;;
+    esac
+
+}
+
+# -python2
+python2_Install(){
+
+    echo -e "\033[1;33m\n>> 正在安装 python2\n\033[0m"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+
+            ((python -h > /dev/null 2>&1 || python2 -h > /dev/null 2>&1) && echo -e "\033[1;32m已安装 python2 工具\033[0m") || (((yum install -y python > /dev/null 2>&1 || yum install -y python2 > /dev/null 2>&1) && echo -e "\033[1;32m已安装 python2 工具\033[0m") || echo -e "\033[1;31m安装 python 工具失败!请尽量手动安装,否则会出现大量依赖问题!\n\033[0m")
+
+            (yum install -y python-devel > /dev/null 2>&1 || yum install -y python2-devel > /dev/null 2>&1) && echo -e "\033[1;32m已安装 python-devel 工具\033[0m" || echo -e "\033[1;31m安装 python-devel 工具失败!\n\033[0m"
+            yum install -y python2-pip > /dev/null 2>&1 && echo -e "\033[1;32m已安装 python2-pip 工具\033[0m" || echo -e "\033[1;31m安装 python2-pip 工具失败!请运行 -pip2-force 选项安装 python2-pip 环境\n\033[0m"
+            python2 -m pip install --upgrade pip > /dev/null 2>&1 && echo -e "\033[1;32m已更新 python2-pip 工具\033[0m" || echo -e "\033[1;31m更新 python2-pip 工具失败(官方已停止对 pip2 更新的支持,报错可忽略)\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y python 1> /dev/null && echo -e "\033[1;32m已安装 python 工具\033[0m" || echo -e "\033[1;31m安装 python 工具失败!\n\033[0m"
+            apt-get install -y python-dev 1> /dev/null && echo -e "\033[1;32m已安装 python-dev 工具\033[0m" || echo -e "\033[1;31m安装 python-dev 工具失败!\n\033[0m"
+            apt-get install -y python-pip 1> /dev/null && echo -e "\033[1;32m已安装 python2-pip 工具\033[0m" || echo -e "\033[1;31m安装 python2-pip 工具失败!请运行 -pip2-force 选项安装 python2-pip 环境\n\033[0m"
+            python2 -m pip install --upgrade pip > /dev/null 2>&1 && echo -e "\033[1;32m已更新 python2-pip 工具\033[0m" || echo -e "\033[1;31m更新 python2-pip 工具失败(官方已停止对 pip2 更新的支持,报错可忽略)\n\033[0m"
+            ;;
+        *)
+            ;;
+    esac
+
+}
+
+# -pip2-force
+pip2_Install(){
+
+    echo -e "\033[1;33m\n>> 正在安装 pip2\n\033[0m"
+    cd $T_Dir && $Porxy_OK wget https://bootstrap.pypa.io/get-pip.py > /dev/null 2>&1 || echo -e "\033[1;31m https://bootstrap.pypa.io/get-pip.py 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    $Porxy_OK python2 get-pip.py > /dev/null 2>&1 && echo -e "\033[1;32m已安装 python-pip 工具\033[0m" || echo -e "\033[1;31m安装 python-pip 工具失败!\n\033[0m"
+    rm -rf get-pip.py > /dev/null 2>&1
+
+}
+
+# -ruby
+Ruby_Install(){
+
+    echo -e "\033[1;33m\n>> 正在安装 Ruby,时间超长,建议看会视频,耐心等待(编译过程中出现 warning 告警请无视)\n\033[0m"
+    cd $T_Dir && rm -rf $Ruby_Install 1> /dev/null && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.0.tar.gz > /dev/null 2>&1 || echo -e "\033[1;31m$Ruby_Install 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    tar xvfvz $Ruby_Install 1> /dev/null && cd $Ruby_Dir
+    ./configure 1> /dev/null && make 1> /dev/null && make install 1> /dev/null && echo -e "\033[1;32m已安装 $(ruby -v) 安装在 /usr/local/bin/ 目录下\033[0m" || echo -e "\033[1;31m安装 Ruby 环境失败!\n\033[0m"
+
+}
+
+# -rust
+Rust_Install(){
+
+    echo -e "\033[1;33m\n>> 正在安装 rust(注意安装时选项)\n\033[0m"
+    $Porxy_OK curl https://sh.rustup.rs -sSf | sh
+
+}
+
+# -openjdk
+Openjdk_Install(){
+
+    java -version > /dev/null 2>&1 && echo -e "\033[1;32m已安装 java 环境\033[0m" && exit 1
+
+    echo -e "\033[1;33m正在安装 Java 环境\033[0m"
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Yum_Rm_Lock
+            yum install -y java-1.8.0-openjdk > /dev/null 2>&1 && echo -e "\033[1;32m已安装 java-1.8.0-openjdk 工具\033[0m" || echo -e "\033[1;31m安装 java-1.8.0-openjdk 工具失败!\n\033[0m"
+            yum install -y java-1.8.0-openjdk-devel > /dev/null 2>&1 && echo -e "\033[1;32m已安装 java-1.8.0-openjdk-devel 工具\033[0m" || echo -e "\033[1;31m安装 java-1.8.0-openjdk-devel 工具失败!\n\033[0m"
+            java -version && echo -e "\033[1;32m已安装 java 环境\033[0m" || echo -e "\033[1;31m安装 java 环境失败!\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Rm_Lock 2> /dev/null
+            apt-get install -y openjdk-11-jdk > /dev/null 2>&1 && echo -e "\033[1;32m已安装 openjdk-11-jdk 工具\033[0m" || echo -e "\033[1;31m安装 openjdk-11-jdk 工具失败!\n\033[0m"
+            java -version && echo -e "\033[1;32m已安装 java 环境\033[0m" || echo -e "\033[1;31m安装 java 环境失败!\n\033[0m"
+            ;;
+        *)
+    esac
+
+}
+
+# -oraclejdk
+Oraclejdk_Install(){
+
+    java -version > /dev/null 2>&1 && error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;32m已安装 java 环境\033[0m"
+    else
+        echo -e "\033[1;33m正在安装 Java 环境\033[0m"
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                cd $T_Dir && rm -rf targz.z* 1> /dev/null && $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.z01 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.z02 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.z03 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.zip > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.zip 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                rm -rf jdk* 1> /dev/null && rm -rf myzip.zip 1> /dev/null
+                cat targz.z* > myzip.zip && unzip myzip.zip > /dev/null 2>&1
+                tar -xzvf jdk-8u271-linux-x64.tar.gz 1> /dev/null
+                rm -rf /usr/local/java/ 1> /dev/null && mkdir /usr/local/java/
+                mv $jdk_Version/ /usr/local/java
+                echo "JAVA_HOME=/usr/local/java/$jdk_Version" >> /etc/bashrc
+                echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bashrc
+                echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bashrc
+                echo "PATH=\$PATH:\$JAVA_HOME/bin" >> /etc/bashrc
+                ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java > /dev/null 2>&1
+                ln -s /usr/local/java/$jdk_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
+                /usr/bin/java -version && echo -e "\033[1;32m已安装 java 环境,环境变量可能需要重新进入 bash 才能生效\033[0m" || echo -e "\033[1;31m安装 java 环境失败!(在 Redhat 系下会有误报,请手动执行 java -version 看下,珍爱生命,远离 Redhat 系!环境变量需要重新进入 bash 才能生效或手动执行下列命令生效\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH)\n\033[0m"
+                rm -rf targz.z* 1> /dev/null
+                rm -rf jdk-8u271-linux-x64.tar.gz 1> /dev/null
+                rm -rf myzip.zip 1> /dev/null
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                cd $T_Dir && rm -rf targz.z* 1> /dev/null && $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.z01 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.z02 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.z03 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.zip > /dev/null 2>&1 || echo -e "\033[1;31m下载 targz.zip 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+                rm -rf jdk* 1> /dev/null && rm -rf myzip.zip 1> /dev/null
+                cat targz.z* > myzip.zip && unzip myzip.zip > /dev/null 2>&1
+                tar -xzvf jdk-8u271-linux-x64.tar.gz 1> /dev/null
+                rm -rf /usr/local/java/ 1> /dev/null && mkdir /usr/local/java/
+                mv $jdk_Version/ /usr/local/java
+                echo "JAVA_HOME=/usr/local/java/$jdk_Version " >> /etc/bash.bashrc
+                echo "JRE_HOME=\$JAVA_HOME/jre " >> /etc/bash.bashrc
+                echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib " >> /etc/bash.bashrc
+                echo "PATH=\$JAVA_HOME/bin:\$PATH " >> /etc/bash.bashrc
+                ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java > /dev/null 2>&1
+                /usr/bin/java -version && echo -e "\033[1;32m已安装 java 环境,环境变量需要重新进入 bash 才能生效或手动执行下列命令生效\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH\033[0m" || echo -e "\033[1;31m安装 java 环境失败!\n\033[0m"
+                rm -rf targz.z* 1> /dev/null
+                rm -rf jdk-8u271-linux-x64.tar.gz 1> /dev/null
+                rm -rf myzip.zip 1> /dev/null
+                ;;
+            *)
+            ;;
+        esac
+    fi
+
+}
+
+# -perl
+Perl_Install(){
+
+    echo -e "\033[1;33m正在安装 perl(注意安装时选项,安装时若长时间无反应请按几下回车,并且在安装完毕后需手动 exit 退出)\n\033[0m" && cd $T_Dir && $Porxy_OK sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) --activate-default ActiveState/ActivePerl-5.28
+
+}
+
+# -nn
+nn_Install(){
+
+    echo -e "\033[1;33m\n>> 正在安装 nodejs\n\033[0m"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            yum install -y nodejs 1> /dev/null && echo -e "\033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;31m安装 nodejs 工具失败!可能缺少 EPEL 源,建议先运行 -b 安装基本环境\n\033[0m"
+            yum install -y npm 1> /dev/null && echo -e "\033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;31m安装 npm 工具失败!\n\033[0m"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            curl -sL https://deb.nodesource.com/setup_10.x | bash - > /dev/null 2>&1
+            apt-get install -y nodejs 1> /dev/null && echo -e "\033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;31m安装 nodejs 工具失败!\n\033[0m"
+            apt-get install -y npm 1> /dev/null && echo -e "\033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;31m安装 npm 工具失败!\n\033[0m"
+            ;;
+        *) ;;
+    esac
+
+}
+
+# -vulhub
+vulhub_Install(){
+
+    Porxy_Switch
+    Pentest_Base_Install
+
+    echo -e "\033[1;33m\n>> 正在部署 vulhub 环境\n\033[0m"
+
+    cd $P_Dir && rm -rf vulhub > /dev/null 2>&1 && echo -e "\033[1;33m正在下载 vulhub 环境,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK git clone https://github.com/vulhub/vulhub > /dev/null 2>&1 || echo -e "\033[1;31m下载 vulhub 失败!请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+    cd vulhub && echo -e "\033[1;32m已部署最新版 vulhub 在 $P_Dir/vulhub 目录下\033[0m" || echo -e "\033[1;31m部署 vulhub 环境失败!\n\033[0m"
+
+}
+
+# -music
+music_Install(){
+
+    echo -e "\033[1;33m\n>> 正在检测 npm & nodejs 可用性\n\033[0m"
+    npm version > /dev/null 2>&1 && echo -e "\033[1;32mnpm 可用\033[0m" || error=1
+    node --version > /dev/null 2>&1 && echo -e "\033[1;32mnode $(node --version) 可用\033[0m" || error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;31m依赖项不通过,请先运行 -nn 选项安装 nodejs & npm 环境依赖\033[0m"
+        echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
+        exit 1
+    else
+        echo -e "\033[1;32m依赖项正常\033[0m"
+    fi
+
+    echo -e "\033[1;33m\n>> 正在部署 UnblockNeteaseMusic 服务\n\033[0m"
+    echo -e "\033[1;33m正在安装 npx 模块\033[0m" && $Porxy_OK npm install npx -g > /dev/null 2>&1 && echo -e "\033[1;32mnpx 模块安装完毕\033[0m" || echo -e "\033[1;31mnpx 模块安装失败\n\033[0m"
+    cd $T_Dir && rm -rf UnblockNeteaseMusic 1> /dev/null && $Porxy_OK git clone https://github.com/nondanee/UnblockNeteaseMusic > /dev/null 2>&1
+    cd UnblockNeteaseMusic && $Porxy_OK npm install && echo -e "\033[1;33m部署完毕,运行以下命令开启服务:\n\033[0m\033[1;32mcd $T_Dir/UnblockNeteaseMusic && npx @nondanee/unblockneteasemusic\033[0m" || echo -e "\033[1;31m部署失败\n\033[0m"
+
+    echo -e "\033[1;31m\n若无法正常访问,请检查服务器防火墙设置\033[0m"
+}
+
+# -cs
+cs_Install(){
+
+    Pentest_Base_Install
+
+    echo -e "\033[1;33m\n>> 正在部署 CobaltStrike 环境\n\033[0m"
+    Pentest_CobaltStrike_Install
+    echo -e "\033[1;33m\n请输入你的 teamserver 服务端 IP\033[0m" && read -r input
+    CS_IP=$input
+    echo -e "\033[1;33m\n请输入你的 teamserver 服务端密码\033[0m" && read -r input
+    CS_Pass=$input
+    echo -e "\033[1;33m\n请新建一个窗口会话,运行以下命令:\n\033[0m\033[1;32mcd $P_Dir/$CS_Version/ && ./teamserver $CS_IP $CS_Pass      \033[0m"
+
+}
+
+# -frp
+frp_Install(){
+
+    echo -e "\033[1;33m\n>> 正在部署 frp 环境\n\033[0m"
+    cd $T_Dir && rm -rf frp* 1> /dev/null && $Porxy_OK wget https://github.com/fatedier/frp/releases/download/$frp_Version/$frp_File > /dev/null 2>&1
+    tar -zxvf $frp_File > /dev/null 2>&1 && rm -rf $frp_File 1> /dev/null
+    cd $frp_Dir && echo -e "\033[1;32mfrp 已部署在 $T_Dir/$frp_Dir\033[0m" || echo -e "\033[1;31mfrp 部署失败\n\033[0m"
+
+}
+
+# -nps
+nps_Install(){
+
+    echo -e "\033[1;33m\n>> 正在部署 nps 环境\n\033[0m"
+
+    if test -d $T_Dir/nps
+    then
+        echo -e "\033[1;32mnps 已部署在 $T_Dir/nps\033[0m"
+    else
+        mkdir -p $T_Dir/nps
+        cd $T_Dir/nps && $Porxy_OK wget https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_Install > /dev/null 2>&1 || echo -e "\033[1;31m$nps_Install 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+        tar -zxvf $nps_Install 1> /dev/null || echo -e "\033[1;31m解压 $T_Dir/$nps_Install 失败!\n\033[0m"
+        rm -rf $T_Dir/nps/$nps_Install > /dev/null 2>&1 && chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
+        $T_Dir/nps/nps -version > /dev/null 2>&1 && echo -e "\033[1;32m已安装 nps $nps_Ver 在 $T_Dir/nps 目录下,直接输入 $T_Dir/nps/nps 即可使用\033[0m" || echo -e "\033[1;31mnps 安装失败!\n\033[0m"
+    fi
+
+}
+
+# -suricata
+suricata_Install(){
+
+    echo -e "\033[1;33m\n>> 正在部署 suricata 环境\n\033[0m"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;31m目前脚本仅支持 Debian 系安装 suricata,bye bye~\n\033[0m"
+            exit 1
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            add-apt-repository ppa:oisf/suricata-stable
+            apt-get install -y jq 1> /dev/null && echo -e "\033[1;32m已安装 jq 工具\033[0m" || echo -e "\033[1;31m安装 jq 工具失败!\n\033[0m"
+            apt-get install -y suricata 1> /dev/null && echo -e "\033[1;32m已安装 suricata 工具\033[0m" || echo -e "\033[1;31m安装 suricata 工具失败!\n\033[0m"
+            apt-get install -y suricata-update 1> /dev/null && echo -e "\033[1;32m已安装 suricata-update 工具\033[0m" || echo -e "\033[1;31m安装 suricata-update 工具失败!\n\033[0m"
+            suricata-update && echo -e "\033[1;32m已更新规则\033[0m" || echo -e "\033[1;31m更新规则失败!\n\033[0m"
+            ;;
+        *) ;;
+    esac
+
+}
+
+# -ssr
+ssr_Install(){
+
+    echo -e "\033[1;33m\n>> 正在部署 ssr 工具\n\033[0m"
+    cd $T_Dir && rm -rf shadowsocksr* 1> /dev/null && $Porxy_OK wget https://gitee.com/asdasdasd123123/temp613123/raw/master/ssr.zip > /dev/null 2>&1
+    unzip -P 123456 ssr.zip > /dev/null 2>&1 && rm -rf ssr.zip 1> /dev/null
+    cd shadowsocksr && bash initcfg.sh && echo -e "\033[1;32m已部署 ssr 工具\033[0m" || echo -e "\033[1;31m部署 ssr 工具失败!\n\033[0m"
+    echo -e "\033[1;33m\n运行下列命令修改 ssr 配置:\n\033[0m\033[1;32mvim $T_Dir/shadowsocksr/user-config.json\033[0m"
+    echo -e "\033[1;33m\n运行下列命令开启 ssr 服务:\n\033[0m\033[1;32mcd $T_Dir/shadowsocksr/shadowsocks/ && python local.py\n\033[0m"
+
+}
+
+# -optimize
+optimize_setting(){
+
+    echo -e "\033[1;33m\n>> 正在同步\n\033[0m"
+    sync && echo -e "\033[1;32msync\033[0m"
+    echo -e "\033[1;33m\n>> 正在释放缓存\n\033[0m"
+    echo 1 > /proc/sys/vm/drop_caches && echo -e "\033[1;32m已清理 pagecache(页面缓存)\033[0m"
+    echo 2 > /proc/sys/vm/drop_caches && echo -e "\033[1;32m已清理 dentries(目录缓存)和inodes\033[0m"
+    echo 3 > /proc/sys/vm/drop_caches && echo -e "\033[1;32m已清理 pagecache、dentries 和 inodes\033[0m"
+    sync
+    echo -e "\033[1;33m\n>> 正在取消开启文件数限制\n\033[0m"
+    ulimit -n 65535 && echo -e "\033[1;32mulimit -n 65535\033[0m"
+    echo -e "\033[1;33m\n>> 正在优化内存设置\n\033[0m"
+    echo 128 > /proc/sys/vm/nr_hugepages 1> /dev/null
+    sysctl -w vm.nr_hugepages=128 1> /dev/null && echo -e "\033[1;32mvm.nr_hugepages=128\033[0m"
+
+}
+
+# -info
+System_info(){
+
+    echo -e "\033[1;33m\n>> 待完善\n\033[0m"
+
+}
+
+# -clear
+clear_log(){
+
+    echo -e "\033[1;33m\n>> 正在清理系统使用痕迹\n\033[0m"
+    cat /dev/null > /var/log/boot.log
+    cat /dev/null > /var/log/btmp
+    cat /dev/null > /var/log/cron
+    cat /dev/null > /var/log/dmesg
+    cat /dev/null > /var/log/firewalld
+    cat /dev/null > /var/log/grubby
+    cat /dev/null > /var/log/lastlog
+    cat /dev/null > /var/log/mail.info
+    cat /dev/null > /var/log/maillog
+    cat /dev/null > /var/log/messages
+    cat /dev/null > /var/log/secure
+    cat /dev/null > /var/log/spooler
+    cat /dev/null > /var/log/syslog
+    cat /dev/null > /var/log/tallylog
+    cat /dev/null > /var/log/wpa_supplicant.log
+    cat /dev/null > /var/log/wtmp
+    cat /dev/null > /var/log/yum.log
+    history -c
+
+}
+
+# -sharry
+sharry_Install(){
+
+    echo -e "\033[1;33m\n>> 正在部署 sharry 文件服务\n\033[0m"
+
+    if test -d $T_Dir/sharry
+    then
+        echo -e "\033[1;32msharry 已部署在 $T_Dir/sharry\033[0m"
+    else
+        cd $T_Dir/ && echo -e "\033[1;33m正在下载 sharry 安装包(~70M),该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK wget https://github.com/eikek/sharry/releases/download/release%2F1.6.0/sharry-restserver-1.6.0.zip > /dev/null 2>&1 || echo -e "\033[1;31m$sharry_File 下载失败!\n- 请检查 proxychains4 配置的代理服务器是否可用!!\n\033[0m"
+        unzip $sharry_File > /dev/null 2>&1 && rm -rf $sharry_File && mv sharry-restserver-1.6.0 sharry && echo -e "\033[1;32m已安装 sharry 服务,运行以下命令开启服务:\n$T_Dir/sharry/bin/sharry-restserver ,该服务需要 jdk 环境,若未安装可运行 -oraclejdk 选项进行安装\033[0m" || echo -e "\033[1;31m安装 sharry 环境失败!\n\033[0m"
+    fi
+
+}
+
+# -bt
+bt_Install(){
+
+    echo -e "\033[1;33m\n>> 正在部署宝塔 Linux 面板\n\033[0m"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            wget -O install.sh http://download.bt.cn/install/install_6.0.sh && sh install.sh
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            wget -O install.sh http://download.bt.cn/install/install-ubuntu_6.0.sh && sudo bash install.sh
+            ;;
+        *) ;;
+    esac
+
+}
+
+# -all
+all_Install(){
+
+    Base
+
+    optimize_setting
+
+    Dev_Tools
+
+    Oraclejdk_Install
+
+    python2_Install
+
+    nn_Install
+
+    Fun_Tools
+
+    kali_Tools
+
+    frp_Install
+
+    nps_Install
+
+    sharry_Install
+
+}
+
+# -d
+Dev_Tools(){
+
+    echo -e "\033[1;33m\n>> 正在安装开发环境依赖\n\033[0m"
+    Dev_Base_Install
+    echo -e "\033[1;33m\n>> 正在安装 python3 和 pip3\n\033[0m"
+    Python3_Install
+    echo -e "\033[1;33m\n>> 正在安装 Go\n\033[0m"
+    Go_Install
+    echo -e "\033[1;33m\n>> 正在安装 Docker 和 Docker-compose\n\033[0m"
+    Docker_Install
+
+}
+
+# -f
+Fun_Tools(){
+
+    echo -e "\033[1;33m\n>> 正在开启嘴臭功能\n\033[0m"
+    Bash_Insulter
+    echo -e "\033[1;33m\n>> 正在躲避微软法务部追杀\n\033[0m"
+    vlmcsd_Install
+    echo -e "\033[1;33m\n>> 正在部署 AdguardTeam DNS 服务\n\033[0m"
+    AdguardTeam_Install
+    echo -e "\033[1;33m\n>> 正在部署 trash-cli 服务\n\033[0m"
+    trash-cli_Install
+
+}
+
+# -k
+kali_Tools(){
+
+    echo -e "\033[1;33m\n>> 正在配置渗透环境\n\033[0m"
+    Pentest_Base_Install
+    echo -e "\033[1;33m\n>> 正在从 github 下载 AboutSecurity 字典库 \n\033[0m"
+    Pentest_Dic_Install
+    echo -e "\033[1;33m\n>> 正在安装一些杂项工具\n\033[0m"
+    Pentest_Misc_Install
+    echo -e "\033[1;33m\n>> 正在安装一些 python 模块\n\033[0m"
+    Pentest_pip_Install
+    echo -e "\033[1;33m\n>> 正在安装 hashcat、7z2hashcat 工具\n\033[0m"
+    Pentest_hashcat_Install
+    echo -e "\033[1;33m\n>> 正在安装 nmap 工具\n\033[0m"
+    Pentest_nmap_Install
+    echo -e "\033[1;33m\n>> 正在安装 ncat 工具\n\033[0m"
+    Pentest_ncat_Install
+    echo -e "\033[1;33m\n>> 正在安装 ffuf 工具\n\033[0m"
+    Pentest_ffuf_Install
+    echo -e "\033[1;33m\n>> 正在安装 JSFinder 工具\n\033[0m"
+    Pentest_JSFinder_Install
+    echo -e "\033[1;33m\n>> 正在安装 SecretFinder 工具\n\033[0m"
+    Pentest_SecretFinder_Install
+    echo -e "\033[1;33m\n>> 正在安装 WebAliveScan 工具\n\033[0m"
+    Pentest_WebAliveScan_Install
+    echo -e "\033[1;33m\n>> 正在安装 OneForAll 工具\n\033[0m"
+    Pentest_OneForAll_Install
+    echo -e "\033[1;33m\n>> 正在安装 ksubdomain 工具\n\033[0m"
+    Pentest_ksubdomain_Install
+    echo -e "\033[1;33m\n>> 正在安装 impacket 工具\n\033[0m"
+    Pentest_Impacket_Install
+    echo -e "\033[1;33m\n>> 正在部署 CobaltStrike 工具\n\033[0m"
+    Pentest_CobaltStrike_Install
+    echo -e "\033[1;33m\n>> 正在部署/更新 Metasploit 框架\n\033[0m"
+    Pentest_Metasploit_Install
+    echo -e "\033[1;33m\n>> 正在安装 Sqlmap 工具\n\033[0m"
+    Pentest_Sqlmap_Install
+    echo -e "\033[1;33m\n>> 正在安装 RustScan 工具\n\033[0m"
+    Pentest_RustScan_Install
+    echo -e "\033[1;33m\n>> 正在安装 WAFW00F 工具\n\033[0m"
+    Pentest_WAFW00F_Install
+
+}
+
+# -b
+Base(){
+
+    echo -e "\033[1;33m\n>> 正在安装基础工具\n\033[0m"
+    Base_Tools
+
+}
+
+# -s
+Secure(){
+
+    echo -e "\033[1;33m\n>> 正在安装 Fail2Ban\n\033[0m"
+    Secure_Fail2Ban_Install
+
+}
+
+# -ssh
+SSH(){
+
+    echo -e "\033[1;33m\n>> 正在配置 SSH\n\033[0m"
+    SSH_Tools
+
+}
+
+# -h
+Help(){
+
+    echo -e "\033[1;34m批量化安装 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-b\033[0m \033[0;34m选项安装基本环境 \033[0m       \033[1;32m(gcc、make、git、vim、telnet、jq、unzip 等基本工具)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-p\033[0m \033[0;34m选项安装代理环境 \033[0m       \033[1;31m(警告:国外云服务器上不要用,会降速)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-d\033[0m \033[0;34m选项安装开发环境 \033[0m       \033[1;32m(python3,pip3,Go,Docker,Docker-Compose)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-k\033[0m \033[0;34m选项安装渗透环境 \033[0m       \033[1;32m(hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-s\033[0m \033[0;34m选项加固 linux 服务器 \033[0m  \033[1;32m(Fail2Ban)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-f\033[0m \033[0;34m选项安装其他工具 \033[0m       \033[1;32m(Bash_Insulter、vlmcsd、AdguardTeam、trash-cli)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-h\033[0m \033[0;34m选项查看帮助文档 \033[0m"
+    echo -e ""
+    echo -e "\033[1;33m(以下选项运行前,请先运行 -b 选项安装一遍基本环境!!!否则缺少库必报错)\033[0m"
+    echo -e "\033[1;34m开发可选项 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ssh\033[0m \033[0;34m选项配置 SSH 环境 \033[0m   \033[1;33m (RedHat 系默认可用,无需重复安装)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-python2\033[0m \033[0;34m选项安装 python2 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-pip2-force\033[0m \033[0;34m选项强制安装 pip2 环境 \033[0m  \033[1;33m(建议在 -python2 选项失败的情况下运行)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ruby\033[0m \033[0;34m选项安装 ruby 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-rust\033[0m \033[0;34m选项安装 rust 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-oraclejdk\033[0m \033[0;34m选项安装 oraclejdk 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-openjdk\033[0m \033[0;34m选项安装 openjdk 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-perl\033[0m \033[0;34m选项安装 perl 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-nn\033[0m \033[0;34m选项安装 npm & NodeJs 环境 \033[0m"
+    echo -e ""
+    echo -e "\033[1;34m安全可选项 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-volatility\033[0m \033[0;34m选项安装 volatility 工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk\033[0m \033[0;34m选项安装 binwalk 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk-force\033[0m \033[0;34m选项强制安装 binwalk 环境 \033[0m \033[0m  \033[1;33m(建议在 -binwalk 选项失败的情况下运行)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vulhub\033[0m \033[0;34m选项安装 vulhub 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-cs\033[0m \033[0;34m选项部署 CobaltStrike 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-frp\033[0m \033[0;34m选项部署 frp 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-nps\033[0m \033[0;34m选项部署 nps 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-suricata\033[0m \033[0;34m选项部署 Suricata 环境 \033[0m"
+    echo -e ""
+    echo -e "\033[1;34m服务可选项 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-sharry\033[0m \033[0;34m选项部署 sharry 文件服务 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-bt\033[0m \033[0;34m选项部署宝塔服务 \033[0m"
+    echo -e ""
+    echo -e "\033[1;34m其他可选项 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ssr\033[0m \033[0;34m选项部署 ssr 工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-music\033[0m \033[0;34m选项部署 UnblockNeteaseMusic 服务 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-optimize\033[0m \033[0;34m选项改善设备选项,优化性能 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-info\033[0m \033[0;34m选项查看系统各项信息 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-clear\033[0m \033[0;34m选项清理系统使用痕迹 \033[0m"
+    echo -e ""
+    echo -e "\033[1;34m一把梭,就是干 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-all\033[0m \033[0;34m选项全自动化部署(仅兼容国外vps服务器,仅兼容CentOS7/8,Debain10/9,Ubuntu20,Fedora33,只能运行一次,做好心理准备) \033[0m"
+    echo -e ""
+    echo -e "\033[1;37m脚本作者 r0fus0d \033[0m"
+    echo -e "\033[1;37m|- 感谢 the-fog 在开发过程中对我的折磨 \033[0m"
+    echo -e "\033[1;37m|- 感谢 xidaner 在开发过程给出的无用建议 \033[0m"
+    echo -e "\033[1;37m|- 感谢 RyuZU 在旁边表演喷火 \033[0m"
+    echo -e ""
+}
+
+# -p
+Proxy(){
+
+    echo -e "\033[1;33m\n>> 是否需要更新 DNS 服务器? [Y/n,默认Yes]\033[0m"
+    Change_DNS_IP
+    Mirror
+    echo -e "\033[1;33m\n>> 正在安装 dns 工具\n\033[0m"
+    DNS_T00ls
+    echo -e "\033[1;33m\n>> 正在配置基础编译环境\n\033[0m"
+    Proxychains_Install
+    echo -e "\033[1;33m\n>> 正在配置 pip 代理\n\033[0m"
+    pip_Proxy > /dev/null
+    echo -e "\033[1;32m已更新 pip 代理\033[0m"
+    echo -e "\033[1;33m\n>> 正在配置 docker 代理\n\033[0m"
+    Docker_Proxy > /dev/null
+    systemctl restart docker > /dev/null 2>&1 || echo -e "\033[1;31m重启 docker 服务失败!(若未安装docker可忽略报错)\n\033[0m"
+    systemctl daemon-reload > /dev/null 2>&1 || echo -e "\033[1;31m重启加载 systemd 程序的配置文件失败!(可忽略报错)\n\033[0m"
+    echo -e "\033[1;32m已更新 Docker 代理\033[0m"
+
+}
+
+# Main
+if [[ $UID != 0 ]]; then
+    echo -e "\033[1;31m请以sudo 或 root 权限账户运行!!!\033[0m"
+    exit 1
+fi
+
+clear
+Info
+echo -e "\033[1;36m \n-----开始执行----- \033[0m"
+
+echo -e "\033[1;33m\n>> 正在初始化\n\033[0m"
+Base_Dir
+
+case "$1" in
+    -p)
+        Proxy
+        ;;
+    -h)
+        clear
+        Help
+        ;;
+    -b)
+        Base
+        ;;
+    -d)
+        Base_Check
+        Porxy_Switch
+        Dev_Tools
+        ;;
+    -k)
+        Base_Check
+        Dev_Check
+        Porxy_Switch
+        kali_Tools
+        ;;
+    -f)
+        Base_Check
+        Porxy_Switch
+        Fun_Tools
+        ;;
+    -s)
+        Secure
+        ;;
+    -ssh)
+        SSH
+        ;;
+    -python2)
+        Base_Check
+        python2_Install
+        ;;
+    -pip2-force)
+        Base_Check
+        Porxy_Switch
+        pip2_Install
+        ;;
+    -ruby)
+        Base_Check
+        Porxy_Switch
+        Ruby_Install
+        ;;
+    -rust)
+        Base_Check
+        Porxy_Switch
+        Rust_Install
+        ;;
+    -openjdk)
+        Base_Check
+        Porxy_Switch
+        Openjdk_Install
+        ;;
+    -oraclejdk)
+        Base_Check
+        Porxy_Switch
+        Oraclejdk_Install
+        ;;
+    -perl)
+        Base_Check
+        Porxy_Switch
+        Perl_Install
+        ;;
+    -nn)
+        Base_Check
+        nn_Install
+        ;;
+    -binwalk)
+        Base_Check
+        Porxy_Switch
+        binwalk_Install
+        ;;
+    -binwalk-force)
+        Base_Check
+        Porxy_Switch
+        binwalk_force_Install
+        ;;
+    -volatility)
+        Base_Check
+        Porxy_Switch
+        Volatility_Install
+        ;;
+    -vulhub)
+        vulhub_Install
+        ;;
+    -cs)
+        Base_Check
+        Porxy_Switch
+        cs_Install
+        ;;
+    -frp)
+        Base_Check
+        Porxy_Switch
+        frp_Install
+        ;;
+    -nps)
+        Base_Check
+        Porxy_Switch
+        nps_Install
+        ;;
+    -suricata)
+        Base_Check
+        Porxy_Switch
+        suricata_Install
+        ;;
+    -ssr)
+        Base_Check
+        ssr_Install
+        ;;
+    -music)
+        Base_Check
+        Porxy_Switch
+        music_Install
+        ;;
+    -optimize)
+        optimize_setting
+        ;;
+    -info)
+        Base_Check
+        System_info
+        ;;
+    -clear)
+        clear_log
+        ;;
+    -sharry)
+        Base_Check
+        Porxy_Switch
+        sharry_Install
+        ;;
+    -bt)
+        Base_Check
+        bt_Install
+        ;;
+    -all)
+        all_Install
+        ;;
+    *)
+        echo -e ""
+        echo -e ""
+        echo -e "\033[1;34m使用 -h 选项查看帮助文档 \033[0m"
+        echo -e ""
+        ;;
+esac
+
+echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
