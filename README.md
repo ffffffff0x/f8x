@@ -2,7 +2,7 @@
     <img src="./assets/img/banner.png">
 </p
 
-一款红队环境自动化部署工具,支持多种场景,渗透,开发,代理环境,服务可选项等
+一款红队环境自动化部署工具,支持多种场景,渗透,开发,代理环境,服务可选项等,对于工具中有 bug 或建议请提交 issue.
 
 # 开始
 
@@ -79,6 +79,16 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 **-h 查看帮助**
 
 ![](./assets/img/1.png)
+
+**-all 全自动化部署**
+
+以 vultr vps 为例,$10/mo 的配置,结果分别如下
+
+| <br><b><p align="center">CentOS 7</p> | <br><b><p align="center">Debian 10</p> |
+| - | - |
+| <p align="center"><a href="https://asciinema.org/a/385863"><img src="https://asciinema.org/a/385863.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/385861"><img src="https://asciinema.org/a/385861.svg" /></p></a> |
+| <br><b><p align="center">Fedora 33</p> | <br><b><p align="center">Ubuntu 20.10</p> |
+| <p align="center"><a href="https://asciinema.org/a/385868"><img src="https://asciinema.org/a/385868.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/385870"><img src="https://asciinema.org/a/385870.svg" /></p></a> |
 
 ---
 
