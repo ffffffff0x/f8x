@@ -13,7 +13,7 @@
 # 注: 该脚本适用于 debian、kali、Ubuntu、Centos、RedHat、Fedora 等系列系统下
 # 注: 完全适配 debian 系列系统
 # 注: 基本适配 RedHat 系列系统
-# 注: 适配 Centos8 和 Fedora34 系统时有些小bug,但不影响使用,可以忽略
+# 注: 适配 Centos8 和 Fedora 系统时有些小bug,但不影响使用,可以忽略
 # 注: 该脚本默认下不会走除 ffffffff0x.com 以外的代理,请通过 -p 选项配置好 Proxychains-ng 代理
 # ======================== !! NOTE !! ========================
 
@@ -25,7 +25,7 @@ Default_DNS=223.5.5.5
 Proxy_URL=https://ffffffff0x.com/proxychains-ng.zip
 Porxy_OK=
 error=0
-F8x_Version="1.0.0"
+F8x_Version="1.0.1"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -1043,7 +1043,7 @@ Docker_Install(){
     #    chmod +x /usr/local/bin/docker-compose 1> /dev/null && echo -e "\033[1;32m已安装 docker-compose $docker_compose_Version\033[0m" || echo -e "\033[1;31m安装 docker-compose 失败!\n\033[0m"
     #fi
 
-    pip3 install docker-compose && echo -e "\033[1;32m已安装 docker-compose\033[0m" || echo -e "\033[1;31m安装 docker-compose 失败!\n\033[0m"
+    pip3 install docker-compose > /dev/null 2>&1 && echo -e "\033[1;32m已安装 docker-compose\033[0m" || echo -e "\033[1;31m安装 docker-compose 失败!\n\033[0m"
 
 }
 
@@ -1767,7 +1767,7 @@ nn_Install(){
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             curl -sL https://deb.nodesource.com/setup_10.x | bash - > /dev/null 2>&1
             apt-get install -y nodejs 1> /dev/null && echo -e "\033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;31m安装 nodejs 工具失败!\n\033[0m"
-            apt-get install -y npm 1> /dev/null && echo -e "\033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;31m安装 npm 工具失败!\n\033[0m"
+            apt-get install -y npm 1> /dev/null && echo -e "\033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;31m安装 npm 工具失败!请尝试使用 aptitude install npm 命令进行安装\n\033[0m"
             ;;
         *) ;;
     esac
