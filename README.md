@@ -53,6 +53,7 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - 使用 -binwalk 选项安装 binwalk 环境
 - 使用 -binwalk-force 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
 - 使用 -vulhub 选项安装 vulhub 环境
+- 使用 -vulfocus 选项安装 vulfocus 环境
 - 使用 -cs 选项部署 CobaltStrike 环境
 - 使用 -frp 选项部署 frp 环境
 - 使用 -nps 选项部署 nps 环境
