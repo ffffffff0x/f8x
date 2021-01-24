@@ -63,7 +63,7 @@ Base_Dir(){
 
     timedatectl set-timezone Asia/Shanghai 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m当前时区已设置为 Asia/Shanghai\033[0m" || echo -e "\033[1;31m时区设置失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
 
-    rm -rf /tmp/f8x_error.log
+    echo "$(date +"%Y-%m-%d")" > /tmp/f8x_error.log
 
 }
 
@@ -134,22 +134,27 @@ Dev_Check(){
 # ===================== 代理开关 =====================
 Porxy_Switch(){
 
-    echo -e "\033[1;33m\n安装时是否需要走代理? [Y/n,默认Yes] \033[0m" && read -r input
-    case $input in
-        [nN][oO]|[nN])
-            echo -e "\033[1;32mPass~\033[0m" ;;
-        *)
-            if test -e /etc/proxychains.conf
-            then
-                echo -e "\033[1;32m正在调用 Proxychains-ng\033[0m"
-                Porxy_OK=proxychains4
-            else
-                echo -e "\033[1;33m未检测到 Proxychains-ng,正在执行自动安装脚本\033[0m"
-                Proxychains_Install
-                Porxy_OK=proxychains4
-            fi
-            ;;
-    esac
+    if [ $($IS_CI)==1 ]
+    then
+        echo -e "\033[1;32mIS_CI\033[0m"
+    else
+        echo -e "\033[1;33m\n安装时是否需要走代理? [Y/n,默认Yes] \033[0m" && read -r input
+        case $input in
+            [nN][oO]|[nN])
+                echo -e "\033[1;32mPass~\033[0m" ;;
+            *)
+                if test -e /etc/proxychains.conf
+                then
+                    echo -e "\033[1;32m正在调用 Proxychains-ng\033[0m"
+                    Porxy_OK=proxychains4
+                else
+                    echo -e "\033[1;33m未检测到 Proxychains-ng,正在执行自动安装脚本\033[0m"
+                    Proxychains_Install
+                    Porxy_OK=proxychains4
+                fi
+                ;;
+        esac
+    fi
 
 }
 
@@ -573,25 +578,30 @@ Update_YUM_Mirror(){
 # ===================== 修改 CentOS EPEL 源 =====================
 Update_EPEL_Mirror(){
 
-    Rm_Lock
-
-    case $Linux_Version_Num in
-        8)
-            yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
-            sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
-            ;;
-        7)
-            curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            ;;
-        6)
-            curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            ;;
-        *)
-            echo -e "\033[1;31m版本错误!\n\033[0m"
-            exit 1
-            ;;
-    esac
+    if test -e /etc/yum.repos.d/epel.repo
+    then
+        echo -e "\033[1;32mEPEL 源已安装\033[0m"
+    else
+        echo -e "\033[1;33m未监测到 epel 源,正在自动安装\033[0m"
+        Rm_Lock
+        case $Linux_Version_Num in
+            8)
+                yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
+                sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
+                ;;
+            7)
+                curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                ;;
+            6)
+                curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;31maliyun EPEL 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                ;;
+            *)
+                echo -e "\033[1;31m版本错误!\n\033[0m"
+                exit 1
+                ;;
+        esac
+    fi
 
 }
 
@@ -736,7 +746,7 @@ Proxychains_Install(){
 
     if test -e /etc/proxychains.conf
     then
-        echo -e "\033[1;33m\Proxychains-ng 已安装\n\033[0m"
+        echo -e "\033[1;33m\nProxychains-ng 已安装\033[0m"
     else
         echo -e "\033[1;33m\n是否需要从 ffffffff0x.com 安装 proxychains-ng [Y/n,默认Yes]\033[0m" && read -r input
 
@@ -795,14 +805,7 @@ Base_Tools(){
 
     case $Linux_Version in
         *"CentOS"*)
-            if test -e /etc/yum.repos.d/epel.repo
-            then
-                echo -e "\033[1;32mEPEL 源已安装\033[0m"
-            else
-                echo -e "\033[1;33m未监测到 epel 源,正在自动安装\033[0m"
-                Update_EPEL_Mirror
-            fi
-            ;;
+            Update_EPEL_Mirror;;
         *) ;;
     esac
 
@@ -868,6 +871,7 @@ Base_Tools(){
             apt-get install -y iptraf 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 iptraf 工具\033[0m" || echo -e "\033[1;31m安装 iptraf 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y tcpdump 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 tcpdump 工具\033[0m" || echo -e "\033[1;31m安装 tcpdump 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y iftop 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 iftop 工具\033[0m" || echo -e "\033[1;31m安装 iftop 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+            apt-get install -y aptitude 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 aptitude 工具\033[0m" || echo -e "\033[1;31m安装 aptitude 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *) ;;
     esac
@@ -1784,15 +1788,17 @@ nn_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装 nodejs\n\033[0m"
 
+    Rm_Lock
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
             yum install -y nodejs 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;31m安装 nodejs 工具失败!可能缺少 EPEL 源,建议先运行 -b 安装基本环境\n\033[0m"
             yum install -y npm 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;31m安装 npm 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            curl -sL https://deb.nodesource.com/setup_10.x | bash - 1> /dev/null 2>> /tmp/f8x_error.log
+            $Porxy_OK curl -sL https://deb.nodesource.com/setup_10.x | bash - 1> /dev/null 2>> /tmp/f8x_error.log
             apt-get install -y nodejs 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;31m安装 nodejs 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            apt-get install -y npm 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;31m安装 npm 工具失败! 请尝试使用 aptitude install npm 命令进行安装\n\033[0m"
+            apt-get install -y npm 1> /dev/null 2>> /tmp/f8x_error.log || aptitude install -y npm 1> /dev/null 2>> /tmp/f8x_error.log
+            npm --version 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;31m安装 npm 工具失败! 请尝试使用 aptitude install npm 命令进行安装\n\033[0m"
             ;;
         *) ;;
     esac
@@ -2043,13 +2049,12 @@ asciinema_Install(){
     echo -e "\033[1;33m\n>> 正在安装 asciinema 截图工具\n\033[0m"
     pip3 install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 asciinema 工具,运行以下命令开启截图:\nasciinema rec\033[0m" && exit 1 || echo -e "\033[1;31mpip3 安装 asciinema 失败,即将切换到包管理器安装\n\033[0m"
 
+    Rm_Lock
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            Rm_Lock
             yum install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 asciinema 工具\033[0m" || echo -e "\033[1;31m安装 asciinema 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            Rm_Lock
             apt-get install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 asciinema 工具\033[0m" || echo -e "\033[1;31m安装 asciinema 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *) ;;
@@ -2247,6 +2252,7 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-info\033[0m \033[0;34m选项查看系统各项信息 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-clear\033[0m \033[0;34m选项清理系统使用痕迹 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-remove\033[0m \033[0;34m选项卸载国内vps云监控 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-rmlock\033[0m \033[0;34m选项运行除锁模块 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-asciinema\033[0m \033[0;34m选项安装 asciinema 截图工具 \033[0m"
     echo -e ""
     echo -e "\033[1;34m一把梭,就是干 \033[0m"
@@ -2362,6 +2368,7 @@ case "$1" in
         ;;
     -nn)
         Base_Check
+        Porxy_Switch
         nn_Install
         ;;
     -binwalk)
@@ -2428,6 +2435,9 @@ case "$1" in
         ;;
     -remove)
         remove_watcher
+        ;;
+    -rmlock)
+        Rm_Lock
         ;;
     -sharry)
         Base_Check
