@@ -1,0 +1,57 @@
+name: test
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      IS_CI : 1
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+
+      - name: Run
+        run:
+          sudo bash f8x
+
+      - name: Run -h
+        run:
+          sudo bash f8x -h
+
+      - name: Run -optimize
+        run:
+          sudo bash f8x -optimize
+
+      - name: Run -clear
+        run:
+          sudo bash f8x -clear
+
+      - name: Run -b
+        run:
+          sudo bash f8x -b
+          cat /tmp/f8x_error.log
+
+      - name: Run -d
+        run:
+          sudo bash f8x -d
+          cat /tmp/f8x_error.log
+
+      - name: Run -s
+        run:
+          sudo bash f8x -s
+          cat /tmp/f8x_error.log
+
+      - name: Run -f
+        run:
+          sudo bash f8x -f
+          cat /tmp/f8x_error.log
+
+#      - name: Run -k
+#        run:
+#          sudo bash f8x -k
+#          cat /tmp/f8x_error.log
+
+      - name: Run -nn
+        run:
+          sudo bash f8x -nn
+          cat /tmp/f8x_error.log
