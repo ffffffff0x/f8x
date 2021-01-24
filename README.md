@@ -6,12 +6,9 @@
 
 # 开始
 
-**安装**
+**下载**
 
-下载 f8x 文件
-```bash
-wget https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x
-```
+- 访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
 
 **使用**
 ```bash
