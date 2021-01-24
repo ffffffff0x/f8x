@@ -1,4 +1,4 @@
-name: test
+name: dev
 on:
   push:
     paths:
@@ -7,11 +7,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      IS_CI : 1
     steps:
       - name: Checkout codes
         uses: actions/checkout@v2
+
+      - name: init
+        run:
+          touch /tmp/IS_CI
 
       - name: Run
         run:
@@ -32,71 +34,56 @@ jobs:
       - name: Run -b
         run:
           sudo bash f8x -b
-          cat /tmp/f8x_error.log
 
       - name: Run -d
         run:
           sudo bash f8x -d
-          cat /tmp/f8x_error.log
-
-      - name: Run -s
-        run:
-          sudo bash f8x -s
-          cat /tmp/f8x_error.log
-
-      - name: Run -f
-        run:
-          sudo bash f8x -f
-          cat /tmp/f8x_error.log
-
-      - name: Run -k
-        run:
-          sudo bash f8x -k
-          cat /tmp/f8x_error.log
 
       - name: Run -nn
         run:
           sudo bash f8x -nn
-          cat /tmp/f8x_error.log
 
-      - name: Run -vulhub
+      - name: Run -s
         run:
-          sudo bash f8x -vulhub
-          cat /tmp/f8x_error.log
+          sudo bash f8x -s
 
-      - name: Run -vulfocus
+      - name: Run -f
         run:
-          sudo bash f8x -vulfocus
-          cat /tmp/f8x_error.log
+          sudo bash f8x -f
 
-      - name: Run -cs
+      - name: Run -k
         run:
-          sudo bash f8x -cs
-          cat /tmp/f8x_error.log
+          sudo bash f8x -k
 
-      - name: Run -frp
+      - name: log
         run:
-          sudo bash f8x -frp
           cat /tmp/f8x_error.log
 
-      - name: Run -nps
-        run:
-          sudo bash f8x -nps
-          cat /tmp/f8x_error.log
+#      - name: Run -vulhub
+#        run:
+#          sudo bash f8x -vulhub
+#      - name: Run -vulfocus
+#        run:
+#          sudo bash f8x -vulfocus
+#      - name: Run -cs
+#        run:
+#          sudo bash f8x -cs
+#      - name: Run -frp
+#        run:
+#          sudo bash f8x -frp
+#      - name: Run -nps
+#        run:
+#          sudo bash f8x -nps
+#      - name: Run -sharry
+#        run:
+#          sudo bash f8x -sharry
+#      - name: Run -music
+#        run:
+#          sudo bash f8x -music
+#      - name: Run -asciinema
+#        run:
+#          sudo bash f8x -asciinema
 
-      - name: Run -sharry
-        run:
-          sudo bash f8x -sharry
-          cat /tmp/f8x_error.log
-
-      - name: Run -music
-        run:
-          sudo bash f8x -music
-          cat /tmp/f8x_error.log
-
-      - name: Run -asciinema
-        run:
-          sudo bash f8x -asciinema
-          cat /tmp/f8x_error.log
-
-
+#      - name: log
+#        run:
+#          cat /tmp/f8x_error.log
