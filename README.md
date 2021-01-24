@@ -8,7 +8,7 @@
 
 **下载**
 
-- 访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
+访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
 
 **使用**
 ```bash
