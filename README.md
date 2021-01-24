@@ -76,11 +76,11 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 
 # FAQ
 
-**这个 -p 选项是个什么意思**
+**-p 选项会执行什么**
 
-1. 替换你的DNS(默认为223.5.5.5),如果判断是 debian 系还会帮你安装 resolvconf,长期修改 DNS
-2. 检查基础的编译环境是否安装,并通过默认的包管理器安装 gcc,make,unzip 这些基本软件
-3. 可选的从 https://github.com/rofl0r/proxychains-ng 或 ffffffff0x.com 下载 Proxychains-ng 的源码,编译安装
+1. 替换你的 DNS(默认为 223.5.5.5), 如果判断是 debian 系还会帮你安装 resolvconf, 长期修改 DNS
+2. 检查基础的编译环境是否安装, 并通过默认的包管理器安装 gcc,make,unzip 这些基本软件
+3. 可选的从 https://github.com/rofl0r/proxychains-ng 或 ffffffff0x.com 下载 Proxychains-ng 的源码, 编译安装
 4. 要求你修改 /etc/proxychains.conf 文件
 5. 修改 pip 代理为 https://mirrors.aliyun.com/pypi/simple/
 6. 修改 docker 代理为 https://docker.mirrors.ustc.edu.cn , 并重启 docker 服务
@@ -88,7 +88,7 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 **为啥要从 ffffffff0x.com 或 gitee.com 下载软件压缩包**
 
 1. 下载的都是需要科学上网的东西,所以尽量在不科学上网的情况下,速度较快的下载,所以这个是先有鸡还是先有蛋的问题
-3. oracle jdk 安装包我就不用解释了把🤣
+2. oracle jdk 安装包我就不用解释了把🤣
 
 ---
 
