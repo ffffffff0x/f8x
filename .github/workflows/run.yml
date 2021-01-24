@@ -1,5 +1,8 @@
 name: test
-on: push
+on:
+  push:
+    paths:
+    - 'f8x'
 
 jobs:
   build:
@@ -46,12 +49,54 @@ jobs:
           sudo bash f8x -f
           cat /tmp/f8x_error.log
 
-#      - name: Run -k
-#        run:
-#          sudo bash f8x -k
-#          cat /tmp/f8x_error.log
+      - name: Run -k
+        run:
+          sudo bash f8x -k
+          cat /tmp/f8x_error.log
 
       - name: Run -nn
         run:
           sudo bash f8x -nn
           cat /tmp/f8x_error.log
+
+      - name: Run -vulhub
+        run:
+          sudo bash f8x -vulhub
+          cat /tmp/f8x_error.log
+
+      - name: Run -vulfocus
+        run:
+          sudo bash f8x -vulfocus
+          cat /tmp/f8x_error.log
+
+      - name: Run -cs
+        run:
+          sudo bash f8x -cs
+          cat /tmp/f8x_error.log
+
+      - name: Run -frp
+        run:
+          sudo bash f8x -frp
+          cat /tmp/f8x_error.log
+
+      - name: Run -nps
+        run:
+          sudo bash f8x -nps
+          cat /tmp/f8x_error.log
+
+      - name: Run -sharry
+        run:
+          sudo bash f8x -sharry
+          cat /tmp/f8x_error.log
+
+      - name: Run -music
+        run:
+          sudo bash f8x -music
+          cat /tmp/f8x_error.log
+
+      - name: Run -asciinema
+        run:
+          sudo bash f8x -asciinema
+          cat /tmp/f8x_error.log
+
+
