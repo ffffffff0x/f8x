@@ -36,6 +36,7 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 
 **开发可选项**
 - 使用 -ssh 选项配置 SSH 环境     (RedHat 系默认可用,无需重复安装)
+- 使用 -python3 选项安装 python3 环境
 - 使用 -python2 选项安装 python2 环境
 - 使用 -pip2-force 选项强制安装 pip2 环境   (建议在 -python2 选项失败的情况下运行)
 - 使用 -ruby 选项安装 ruby 环境
