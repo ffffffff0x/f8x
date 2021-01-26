@@ -25,7 +25,7 @@ Default_DNS=223.5.5.5
 Proxy_URL=https://ffffffff0x.com/proxychains-ng.zip
 Porxy_OK=
 error=0
-F8x_Version="1.3.4 Dev"
+F8x_Version="1.3.5 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -50,6 +50,12 @@ ksubdomain_Install=ksubdomain_linux.zip
 Go_Bin=go1.15.6.linux-amd64.tar.gz
 xray_Ver=1.7.0
 xray_File=xray_linux_amd64.zip
+goby_Ver=Beta1.8.230
+goby_File=goby-linux-x64-1.8.230.zip
+fscan_Ver=1.4
+fscan_Install=fscan_amd64
+ffuf_Ver=v1.1.0
+ffuf_Install=ffuf_1.1.0_linux_amd64.tar.gz
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -1191,9 +1197,6 @@ Pentest_ncat_Install(){
 # ===================== 安装 ffuf 工具 =====================
 Pentest_ffuf_Install(){
 
-    ffuf_Ver=v1.1.0
-    ffuf_Install=ffuf_1.1.0_linux_amd64.tar.gz
-
     cd /tmp && rm -rf $ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$ffuf_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
     tar -zxvf $ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$ffuf_Install 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     mv --force ffuf /usr/local/bin/ && chmod +x /usr/local/bin/ffuf && rm -rf /tmp/$ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log
@@ -1381,6 +1384,15 @@ Pentest_masscan_Install(){
             ;;
         *) ;;
     esac
+
+}
+
+# ===================== 安装 fscan 工具 =====================
+Pentest_fscan_Install(){
+
+    cd /tmp && rm -rf $fscan_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mfscan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+    mv $fscan_Install fscan && mv --force fscan /usr/local/bin/ && chmod +x /usr/local/bin/fscan
+    fscan 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 fscan $fscan_Ver 在 /usr/local/bin/ 目录下,直接输入 fscan 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mfscan 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
 
 }
 
@@ -1827,6 +1839,59 @@ vulfocus_Install(){
 
 }
 
+# -goby
+Goby_Install(){
+
+    echo -e "\033[1;33m\n>> 正在部署 Goby 环境\n\033[0m"
+
+    if test -d $P_Dir/goby
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mGoby 已部署在 $P_Dir/goby下,直接输入 cd $P_Dir/goby/goby* && ./goby 即可使用\033[0m"
+    else
+
+        Rm_Lock
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                yum install -y libXScrnSaver* 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libXScrnSaver 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libXScrnSaver 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                apt-get install -y libgconf2 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libgconf2 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libgconf2 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                ;;
+            *) ;;
+        esac
+
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 Goby 安装包(~120M),该步骤可能运行较长时间,请耐心等待\033[0m"
+        cd $P_Dir && mkdir -p $P_Dir/goby 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/gobysec/Goby/releases/download/$goby_Ver/$goby_File 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$goby_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        unzip $goby_File -d $P_Dir/goby 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $goby_File && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已部署 Goby $goby_Ver 在 $P_Dir/goby 目录下,直接输入 cd $P_Dir/goby/goby* && ./goby 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mgoby 部署失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
+
+}
+
+# -awvs13
+awvs13_Install(){
+
+    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
+    Docker_Install
+
+    echo -e "\033[1;33m\n>> 正在部署 awvs13 环境\n\033[0m"
+    docker pull secfa/docker-awvs && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已拉取最新版 awvs13 镜像, 请通过下列命令运行:\ndocker run -it -d -p 13443:3443 secfa/docker-awvs\n\n-awvs13 username: admin@admin.com\n-awvs13 password: Admin123\n-AWVS Version：13.0.200217097\n-browser access：https://127.0.0.1:13443/\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m部署 vulfocus 环境失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
+}
+
+# -arl
+arl_Install(){
+
+    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
+    Docker_Install
+
+    echo -e "\033[1;33m\n>> 正在部署 ARL 环境\n\033[0m"
+    docker pull tophant/arl && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已拉取最新版 ARL 镜像 \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m部署 ARL 环境失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
+    cd $P_Dir && rm -rf ARL 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/TophantTechnology/ARL 1> /dev/null 2>> /tmp/f8x_error.log
+    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m输入 cd $P_Dir/ARL/docker/ && docker-compose up -d 启动, 默认端口 5003, 默认用户名密码 admin/arlpass\033[0m"
+
+}
+
 # -music
 music_Install(){
 
@@ -2180,6 +2245,8 @@ kali_Tools(){
     Pentest_xray_Install
     echo -e "\033[1;33m\n>> 正在安装 masscan 工具\n\033[0m"
     Pentest_masscan_Install
+    echo -e "\033[1;33m\n>> 正在安装 fscan 工具\n\033[0m"
+    Pentest_fscan_Install
 
 }
 
@@ -2235,9 +2302,12 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-volatility\033[0m \033[0;34m选项安装 volatility 工具 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk\033[0m \033[0;34m选项安装 binwalk 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk-force\033[0m \033[0;34m选项强制安装 binwalk 环境 \033[0m \033[0m  \033[1;33m(建议在 -binwalk 选项失败的情况下运行)\033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vulhub\033[0m \033[0;34m选项安装 vulhub 环境 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vulfocus\033[0m \033[0;34m选项安装 vulfocus 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vulhub\033[0m \033[0;34m选项部署 vulhub 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vulfocus\033[0m \033[0;34m选项部署 vulfocus 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-cs\033[0m \033[0;34m选项部署 CobaltStrike 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-goby\033[0m \033[0;34m选项部署 Goby 环境 (需要图形化环境)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-awvs13\033[0m \033[0;34m选项部署 AWVS13 环境\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-arl\033[0m \033[0;34m选项部署 ARL 环境\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-frp\033[0m \033[0;34m选项部署 frp 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-nps\033[0m \033[0;34m选项部署 nps 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-suricata\033[0m \033[0;34m选项部署 Suricata 环境 \033[0m"
@@ -2292,6 +2362,8 @@ if [[ $UID != 0 ]]; then
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m请以sudo 或 root 权限账户运行! \033[0m"
     exit 1
 fi
+
+setenforce 0 > /dev/null 2>&1
 
 clear
 Info
@@ -2400,6 +2472,20 @@ case "$1" in
         Porxy_Switch
         cs_Install
         ;;
+    -goby)
+        Base_Check
+        Porxy_Switch
+        Goby_Install
+        ;;
+    -awvs13)
+        Porxy_Switch
+        awvs13_Install
+        ;;
+    -arl)
+        Pentest_Base_Install
+        Porxy_Switch
+        arl_Install
+        ;;
     -frp)
         Base_Check
         Porxy_Switch
@@ -2454,6 +2540,10 @@ case "$1" in
         ;;
     -all)
         all_Install
+        ;;
+    -debug)
+        Base_Check
+        Porxy_Switch
         ;;
     *)
         echo -e ""

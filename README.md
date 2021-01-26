@@ -52,6 +52,9 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - 使用 -vulhub 选项安装 vulhub 环境
 - 使用 -vulfocus 选项安装 vulfocus 环境
 - 使用 -cs 选项部署 CobaltStrike 环境
+- 使用 -goby 选项部署 Goby 环境 (需要图形化环境)
+- 使用 -awvs13 选项部署 awvs13 环境
+- 使用 -arl 选项部署 ARL 环境
 - 使用 -frp 选项部署 frp 环境
 - 使用 -nps 选项部署 nps 环境
 - 使用 -suricata 选项部署 Suricata 环境
@@ -71,7 +74,7 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - 使用 -asciinema 选项安装 asciinema 截图工具
 
 **一把梭,就是干**
-- 使用 -all 选项全自动化部署 (仅兼容国外 vps 服务器, 仅兼容 CentOS7/8,Debain10/9,Ubuntu20,Fedora33, 大部分情况下可以一次成功, 做好心理准备)
+- 使用 -all 选项全自动化部署 (仅兼容国外 vps 服务器, 仅兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33, 大部分情况下可以一次成功, 做好心理准备)
 
 ---
 
@@ -119,13 +122,13 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - [x] vulfocus 安装选项
 - [x] 卸载国内vps云监控
 - [x] 参考 oneforall 丰富输出信息
-- [ ] 将 goby 集成到 -k 选项中
+- [x] goby 安装选项
+- [x] awvs
 - [ ] tomcat 指定版本安装选项
 - [ ] weblogic 指定版本安装选项
 - [ ] CS插件
 - [ ] 修改python2安装方式
 - [ ] 完善 -info 选项内容
-- [ ] awvs
 
 ---
 
