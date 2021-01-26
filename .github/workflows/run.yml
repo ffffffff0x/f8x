@@ -5,8 +5,8 @@ on:
     - 'f8x'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  ubuntu-1804-build:
+    runs-on: ubuntu-18.04
     steps:
       - name: Checkout codes
         uses: actions/checkout@v2
@@ -59,31 +59,106 @@ jobs:
         run:
           cat /tmp/f8x_error.log
 
-#      - name: Run -vulhub
-#        run:
-#          sudo bash f8x -vulhub
-#      - name: Run -vulfocus
-#        run:
-#          sudo bash f8x -vulfocus
-#      - name: Run -cs
-#        run:
-#          sudo bash f8x -cs
-#      - name: Run -frp
-#        run:
-#          sudo bash f8x -frp
-#      - name: Run -nps
-#        run:
-#          sudo bash f8x -nps
-#      - name: Run -sharry
-#        run:
-#          sudo bash f8x -sharry
-#      - name: Run -music
-#        run:
-#          sudo bash f8x -music
-#      - name: Run -asciinema
-#        run:
-#          sudo bash f8x -asciinema
+      - name: Run -vulhub
+        run:
+          sudo bash f8x -vulhub
+      - name: Run -vulfocus
+        run:
+          sudo bash f8x -vulfocus
+      - name: Run -cs
+        run:
+          sudo bash f8x -cs
+      - name: Run -frp
+        run:
+          sudo bash f8x -frp
+      - name: Run -nps
+        run:
+          sudo bash f8x -nps
+      - name: Run -sharry
+        run:
+          sudo bash f8x -sharry
+      - name: Run -music
+        run:
+          sudo bash f8x -music
+      - name: Run -asciinema
+        run:
+          sudo bash f8x -asciinema
 
-#      - name: log
-#        run:
-#          cat /tmp/f8x_error.log
+  ubuntu-2004-build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+
+      - name: init
+        run:
+          touch /tmp/IS_CI
+
+      - name: Run
+        run:
+          sudo bash f8x
+
+      - name: Run -h
+        run:
+          sudo bash f8x -h
+
+      - name: Run -optimize
+        run:
+          sudo bash f8x -optimize
+
+      - name: Run -clear
+        run:
+          sudo bash f8x -clear
+
+      - name: Run -b
+        run:
+          sudo bash f8x -b
+
+      - name: Run -d
+        run:
+          sudo bash f8x -d
+
+      - name: Run -nn
+        run:
+          sudo bash f8x -nn
+
+      - name: Run -s
+        run:
+          sudo bash f8x -s
+
+      - name: Run -f
+        run:
+          sudo bash f8x -f
+
+      - name: Run -k
+        run:
+          sudo bash f8x -k
+
+      - name: log
+        run:
+          cat /tmp/f8x_error.log
+
+      - name: Run -vulhub
+        run:
+          sudo bash f8x -vulhub
+      - name: Run -vulfocus
+        run:
+          sudo bash f8x -vulfocus
+      - name: Run -cs
+        run:
+          sudo bash f8x -cs
+      - name: Run -frp
+        run:
+          sudo bash f8x -frp
+      - name: Run -nps
+        run:
+          sudo bash f8x -nps
+      - name: Run -sharry
+        run:
+          sudo bash f8x -sharry
+      - name: Run -music
+        run:
+          sudo bash f8x -music
+      - name: Run -asciinema
+        run:
+          sudo bash f8x -asciinema
