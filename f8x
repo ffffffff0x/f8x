@@ -25,7 +25,7 @@ Default_DNS=223.5.5.5
 Proxy_URL=https://ffffffff0x.com/proxychains-ng.zip
 Porxy_OK=
 error=0
-F8x_Version="1.3.5 Dev"
+F8x_Version="1.3.6 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -123,7 +123,7 @@ Dev_Check(){
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在检测 Python 环境可用性\033[0m"
     python2 -V 1> /dev/null 2>> /tmp/f8x_error.log || error=1
     python3 -V 1> /dev/null 2>> /tmp/f8x_error.log || error=1
-    pip2 -V 1> /dev/null 2>> /tmp/f8x_error.log || error=1
+    #pip2 -V 1> /dev/null 2>> /tmp/f8x_error.log || error=1
     pip3 -V 1> /dev/null 2>> /tmp/f8x_error.log || error=1
 
     if [ $error == 1 ]
@@ -1651,7 +1651,7 @@ binwalk_force_Install(){
 }
 
 # -python2
-python2_Install(){
+Python2_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装 python2\n\033[0m"
 
@@ -2111,20 +2111,23 @@ sharry_Install(){
 asciinema_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装 asciinema 截图工具\n\033[0m"
-    pip3 install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具,运行以下命令开启截图:\nasciinema rec\033[0m" || ( echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mpip3 安装 asciinema 失败,即将切换到包管理器安装\n\033[0m" && error=1  )
+    pip3 install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具,运行以下命令开启截图:\nasciinema rec\033[0m" || error=1
 
     if [ $error == 1 ]
     then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mpip3 安装 asciinema 失败,即将切换到包管理器安装\n\033[0m"
         Rm_Lock
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
-                yum install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m使用包管理器安装 asciinema 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                yum install -y asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具,运行以下命令开启截图:\nasciinema rec\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m使用包管理器安装 asciinema 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                apt-get install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m使用包管理器安装 asciinema 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                apt-get install -y asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具,运行以下命令开启截图:\nasciinema rec\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m使用包管理器安装 asciinema 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
                 ;;
             *) ;;
         esac
+    else
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mover~\033[0m"
     fi
 
 }
@@ -2178,7 +2181,7 @@ Dev_Tools(){
     Dev_Base_Install
     echo -e "\033[1;33m\n>> 正在安装 python3 和 pip3\n\033[0m"
     Python3_Install
-    python2_Install
+    Python2_Install
     echo -e "\033[1;33m\n>> 正在安装 Go\n\033[0m"
     Go_Install
     echo -e "\033[1;33m\n>> 正在安装 Docker 和 Docker-compose\n\033[0m"
@@ -2289,6 +2292,7 @@ Help(){
     echo -e "\033[1;33m(以下选项运行前,请先运行 -b 选项安装一遍基本环境!!!否则缺少库必报错)\033[0m"
     echo -e "\033[1;34m开发可选项 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ssh\033[0m \033[0;34m选项配置 SSH 环境 \033[0m   \033[1;33m (RedHat 系默认可用,无需重复安装)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-python3\033[0m \033[0;34m选项安装 python3 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-python2\033[0m \033[0;34m选项安装 python2 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-pip2-force\033[0m \033[0;34m选项强制安装 pip2 环境 \033[0m  \033[1;33m(建议在 -python2 选项失败的情况下运行)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ruby\033[0m \033[0;34m选项安装 ruby 环境 \033[0m"
@@ -2405,9 +2409,11 @@ case "$1" in
     -ssh)
         SSH
         ;;
+    -python3)
+        Python3_Install
+        ;;
     -python2)
-        Base_Check
-        python2_Install
+        Python2_Install
         ;;
     -pip2-force)
         Base_Check

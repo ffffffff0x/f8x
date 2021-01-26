@@ -108,9 +108,9 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 
 | <br><b><p align="center">CentOS 7</p> | <br><b><p align="center">Debian 10</p> |
 | - | - |
-| <p align="center"><a href="https://asciinema.org/a/385863"><img src="https://asciinema.org/a/385863.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/385861"><img src="https://asciinema.org/a/385861.svg" /></p></a> |
+| <p align="center"><a href="https://asciinema.org/a/387124"><img src="https://asciinema.org/a/387124.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/387123"><img src="https://asciinema.org/a/387123.svg" /></p></a> |
 | <br><b><p align="center">Fedora 33</p> | <br><b><p align="center">Ubuntu 20.10</p> |
-| <p align="center"><a href="https://asciinema.org/a/385868"><img src="https://asciinema.org/a/385868.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/385870"><img src="https://asciinema.org/a/385870.svg" /></p></a> |
+| <p align="center"><a href="https://asciinema.org/a/387128"><img src="https://asciinema.org/a/387128.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/387127"><img src="https://asciinema.org/a/387127.svg" /></p></a> |
 
 ---
 
@@ -127,7 +127,6 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - [ ] tomcat 指定版本安装选项
 - [ ] weblogic 指定版本安装选项
 - [ ] CS插件
-- [ ] 修改python2安装方式
 - [ ] 完善 -info 选项内容
 
 ---

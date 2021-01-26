@@ -68,6 +68,19 @@ jobs:
       - name: Run -cs
         run:
           sudo bash f8x -cs
+
+      - name: Run -goby
+        run:
+          sudo bash f8x -goby
+
+      - name: Run -awvs13
+        run:
+          sudo bash f8x -awvs13
+
+      - name: Run -arl
+        run:
+          sudo bash f8x -arl
+
       - name: Run -frp
         run:
           sudo bash f8x -frp
@@ -148,9 +161,22 @@ jobs:
       - name: Run -vulfocus
         run:
           sudo bash f8x -vulfocus
+
       - name: Run -cs
         run:
           sudo bash f8x -cs
+      - name: Run -goby
+        run:
+          sudo bash f8x -goby
+
+      - name: Run -awvs13
+        run:
+          sudo bash f8x -awvs13
+
+      - name: Run -arl
+        run:
+          sudo bash f8x -arl
+
       - name: Run -frp
         run:
           sudo bash f8x -frp
