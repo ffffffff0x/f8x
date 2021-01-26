@@ -25,7 +25,7 @@ Default_DNS=223.5.5.5
 Proxy_URL=https://ffffffff0x.com/proxychains-ng.zip
 Porxy_OK=
 error=0
-F8x_Version="1.3.2 Dev"
+F8x_Version="1.3.3 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -880,14 +880,10 @@ Base_Tools(){
 # ===================== 安装开发环境依赖 =====================
 Dev_Base_Install(){
 
-    Rm_Lock
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Rm_Lock
             yum groupinstall -y "Development Tools" 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 Development Tools\033[0m" || echo -e "\033[1;31m安装 Development Tools 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            yum install -y gdb 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;31m安装 gdb 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            apt-get install -y gdb 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;31m安装 gdb 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *)
             ;;
@@ -1088,14 +1084,18 @@ Pentest_Misc_Install(){
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
             yum install -y parallel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 parallel 工具\033[0m" || echo -e "\033[1;31m安装 parallel 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            yum install -y redis 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 redis 工具\033[0m" || echo -e "\033[1;31m安装 redis 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m" ;;
+            yum install -y redis 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 redis 工具\033[0m" || echo -e "\033[1;31m安装 redis 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+            yum install -y gdb 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;31m安装 gdb 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+            ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             apt-get install -y foremost 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 foremost 工具\033[0m" || echo -e "\033[1;31m安装 foremost 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y parallel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 parallel 工具\033[0m" || echo -e "\033[1;31m安装 parallel 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y btscanner 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 btscanner 工具\033[0m" || echo -e "\033[1;31m安装 btscanner 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y rarcrack 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 rarcrack 工具\033[0m" || echo -e "\033[1;31m安装 rarcrack 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y redis 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 redis 工具\033[0m" || echo -e "\033[1;31m安装 redis 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            apt-get install -y xdot 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 xdot 工具\033[0m" || echo -e "\033[1;31m安装 xdot 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m" ;;
+            apt-get install -y xdot 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 xdot 工具\033[0m" || echo -e "\033[1;31m安装 xdot 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+            apt-get install -y gdb 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;31m安装 gdb 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+            ;;
         *) ;;
     esac
 
@@ -1653,13 +1653,13 @@ python2_Install(){
 
             (yum install -y python-devel 1> /dev/null 2>> /tmp/f8x_error.log || yum install -y python2-devel 1> /dev/null 2>> /tmp/f8x_error.log) && echo -e "\033[1;32m已安装 python-devel 工具\033[0m" || echo -e "\033[1;31m安装 python-devel 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             yum install -y python2-pip 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 python2-pip 工具\033[0m" || echo -e "\033[1;31m安装 python2-pip 工具失败! 请运行 -pip2-force 选项安装 python2-pip 环境\n\033[0m"
-            python2 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已更新 python2-pip 工具\033[0m" || echo -e "\033[1;31m更新 python2-pip 工具失败(官方已停止对 pip2 更新的支持,报错可忽略)\n\033[0m"
+            #python2 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已更新 python2-pip 工具\033[0m" || echo -e "\033[1;31m更新 python2-pip 工具失败(官方已停止对 pip2 更新的支持,报错可忽略)\n\033[0m"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             apt-get install -y python 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 python 工具\033[0m" || echo -e "\033[1;31m安装 python 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y python-dev 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 python-dev 工具\033[0m" || echo -e "\033[1;31m安装 python-dev 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y python-pip 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 python2-pip 工具\033[0m" || echo -e "\033[1;31m安装 python2-pip 工具失败! 请运行 -pip2-force 选项安装 python2-pip 环境\n\033[0m"
-            python2 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已更新 python2-pip 工具\033[0m" || echo -e "\033[1;31m更新 python2-pip 工具失败(官方已停止对 pip2 更新的支持,报错可忽略)\n\033[0m"
+            #python2 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已更新 python2-pip 工具\033[0m" || echo -e "\033[1;31m更新 python2-pip 工具失败(官方已停止对 pip2 更新的支持,报错可忽略)\n\033[0m"
             python2 -m pip install setuptools 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;32m已安装 setuptools 模块\033[0m" || echo -e "\033[1;31m安装 setuptools 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
             ;;
         *) ;;
@@ -2115,7 +2115,6 @@ Dev_Tools(){
     Dev_Base_Install
     echo -e "\033[1;33m\n>> 正在安装 python3 和 pip3\n\033[0m"
     Python3_Install
-    echo -e "\033[1;33m\n>> 正在安装 python2 和 pip2\n\033[0m"
     python2_Install
     echo -e "\033[1;33m\n>> 正在安装 Go\n\033[0m"
     Go_Install
@@ -2260,7 +2259,7 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-asciinema\033[0m \033[0;34m选项安装 asciinema 截图工具 \033[0m"
     echo -e ""
     echo -e "\033[1;34m一把梭,就是干 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-all\033[0m \033[0;34m选项全自动化部署(仅兼容国外vps服务器,仅兼容CentOS7/8,Debain10/9,Ubuntu20,Fedora33,只能运行一次,做好心理准备) \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-all\033[0m \033[0;34m选项全自动化部署 (仅兼容国外 vps 服务器, 仅兼容 CentOS7/8,Debain10/9,Ubuntu20,Fedora33, 只能运行一次, 做好心理准备) \033[0m"
     echo -e ""
     echo -e "\033[1;37m脚本作者 r0fus0d \033[0m"
     echo -e "\033[1;37m|- 感谢 the-fog 在开发过程中对我的折磨 \033[0m"
