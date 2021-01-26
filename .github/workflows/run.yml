@@ -118,6 +118,10 @@ jobs:
         run:
           sudo bash f8x -d
 
+      - name: Run -pip2-force
+        run:
+          sudo bash f8x -pip2-force
+
       - name: Run -nn
         run:
           sudo bash f8x -nn
