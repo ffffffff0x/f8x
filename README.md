@@ -118,13 +118,13 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - [x] 生成错误日志
 - [x] vulfocus 安装选项
 - [x] 卸载国内vps云监控
+- [x] 参考 oneforall 丰富输出信息
 - [ ] 将 goby 集成到 -k 选项中
 - [ ] tomcat 指定版本安装选项
 - [ ] weblogic 指定版本安装选项
 - [ ] CS插件
 - [ ] 修改python2安装方式
 - [ ] 完善 -info 选项内容
-- [ ] 参考 oneforall 丰富输出信息
 - [ ] awvs
 
 ---
