@@ -107,10 +107,10 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 
 以 vultr vps 为例,$10/mo 的配置,结果分别如下
 
-| <br><b><p align="center">CentOS 7</p> | <br><b><p align="center">Debian 10</p> |
+| <br><b><p align="center">CentOS 7(完全兼容)</p> | <br><b><p align="center">Debian 10(完全兼容)</p> |
 | - | - |
 | <p align="center"><a href="https://asciinema.org/a/387124"><img src="https://asciinema.org/a/387124.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/387123"><img src="https://asciinema.org/a/387123.svg" /></p></a> |
-| <br><b><p align="center">Fedora 33</p> | <br><b><p align="center">Ubuntu 20.10</p> |
+| <br><b><p align="center">Fedora 33(99%兼容)</p> | <br><b><p align="center">Ubuntu 20.10(99%兼容)</p> |
 | <p align="center"><a href="https://asciinema.org/a/387128"><img src="https://asciinema.org/a/387128.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/387127"><img src="https://asciinema.org/a/387127.svg" /></p></a> |
 
 ---
