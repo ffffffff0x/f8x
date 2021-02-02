@@ -25,7 +25,7 @@ Default_DNS=223.5.5.5
 Proxy_URL=https://ffffffff0x.com/proxychains-ng.zip
 Porxy_OK=
 error=0
-F8x_Version="1.3.7 Dev"
+F8x_Version="1.3.8 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -135,6 +135,19 @@ Dev_Check(){
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m开发环境正常\033[0m"
     fi
 
+}
+
+pip2_Check(){
+
+    pip2 -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mpip2 可用\033[0m" && error=0 || error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 pip2\033[0m"
+        Python2_Install
+    else
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m依赖项正常\033[0m"
+    fi
 }
 
 pip3_Check(){
@@ -890,6 +903,7 @@ Base_Tools(){
             apt-get install -y tcpdump 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 tcpdump 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 tcpdump 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y iftop 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 iftop 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 iftop 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y aptitude 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 aptitude 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 aptitude 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+            apt-get install -y libcurl4-openssl-dev 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libcurl4-openssl-dev 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libcurl4-openssl-dev 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *) ;;
     esac
@@ -905,8 +919,6 @@ Dev_Base_Install(){
             yum groupinstall -y "Development Tools" 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Development Tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Development Tools 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *)
-            Rm_Lock
-            apt-get install -y libcurl4-openssl-dev 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libcurl4-openssl-dev 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libcurl4-openssl-dev 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
     esac
 
@@ -1147,6 +1159,7 @@ Pentest_pip_Install(){
     pip3 install bs4 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 bs4 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 bs4 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     pip3 install ftfy 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 ftfy 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 ftfy 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     pip3 install updog 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 updog 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 updog 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    pip3 install pefile 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 pefile 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 pefile 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     python2 -m pip install yara 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 yara 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 yara 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
     python2 -m pip install pycrypto 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 pycrypto 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 pycrypto 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
     python2 -m pip install openpyxl 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 openpyxl 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 openpyxl 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
@@ -1156,6 +1169,7 @@ Pentest_pip_Install(){
     python2 -m pip install pycryptodome 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 pycryptodome 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 pycryptodome 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
     python2 -m pip install pytz 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 pytz 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 pytz 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
     python2 -m pip install Pillow 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Pillow 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Pillow 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
+    python2 -m pip install pefile 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 pefile 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 pefile 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
 
 }
 
@@ -1529,6 +1543,7 @@ Volatility_Install(){
 
     case $Linux_Version in
         *"Ubuntu"*|*"Debian"*)
+            echo -e "\033[1;33m\n>> 正在安装 volatility 工具,请耐心等待 \n\033[0m"
             apt-get install -y volatility 1> /dev/null 2>> /tmp/f8x_error.log && volatility --info 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Volatility,直接输入 Volatility 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 volatility 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m" ;;
         *)
             if test -d $P_Dir/volatility
@@ -1536,16 +1551,19 @@ Volatility_Install(){
                 echo -e "\033[1;33m\n>> $P_Dir/Volatility 文件夹已存在,是否覆盖 [y/N,默认No]\n\033[0m" && read -r input
                 case $input in
                     [yY][eE][sS]|[Yy])
+                        echo -e "\033[1;33m\n>> 正在安装 volatility 工具,请耐心等待 \n\033[0m"
                         rm -rf $P_Dir/volatility
                         $Porxy_OK git clone https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 volatility\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mvolatility 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
                         cd $P_Dir/volatility
                         python setup.py build 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
                         python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-                        python vol.py --info 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Volatility 在 $P_Dir/volatility 路径\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Volatility 失败,请查看日志 /tmp/f8x_error.log \n\033[0m" ;;
+                        python vol.py --info 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Volatility 在 $P_Dir/volatility 路径\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Volatility 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                        ;;
                     *)
                         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mPass~\n\033[0m" ;;
                 esac
             else
+                echo -e "\033[1;33m\n>> 正在安装 volatility 工具,请耐心等待 \n\033[0m"
                 $Porxy_OK git clone https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 volatility\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mvolatility 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
                 cd $P_Dir/volatility
                 python setup.py build 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
@@ -1554,6 +1572,38 @@ Volatility_Install(){
             fi
             ;;
     esac
+
+}
+
+# -volatility3
+volatility3_Install(){
+
+    Rm_Lock
+
+    if test -d $P_Dir/volatility3
+    then
+        echo -e "\033[1;33m\n>> $P_Dir/volatility3 文件夹已存在,是否覆盖 [y/N,默认No]\n\033[0m" && read -r input
+        case $input in
+            [yY][eE][sS]|[Yy])
+                echo -e "\033[1;33m\n>> 正在安装 volatility 工具,请耐心等待 \n\033[0m"
+                rm -rf $P_Dir/volatility3
+                $Porxy_OK git clone https://github.com/volatilityfoundation/volatility3.git $P_Dir/volatility3 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 volatility3\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mvolatility3 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+                cd $P_Dir/volatility3
+                python3 setup.py build 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                python3 vol.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 volatility3 在 $P_Dir/volatility3 路径\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Volatility 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                ;;
+            *)
+                echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mPass~\n\033[0m" ;;
+        esac
+    else
+        echo -e "\033[1;33m\n>> 正在安装 volatility 工具,请耐心等待 \n\033[0m"
+        $Porxy_OK git clone https://github.com/volatilityfoundation/volatility3.git $P_Dir/volatility3 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 volatility3\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mvolatility3 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        cd $P_Dir/volatility3
+        python3 setup.py build 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        python3 vol.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 volatility3 在 $P_Dir/volatility3 路径\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Volatility 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
@@ -2364,6 +2414,7 @@ Help(){
     echo -e ""
     echo -e "\033[1;34m安全可选项 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-volatility\033[0m \033[0;34m选项安装 volatility 工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-volatility3\033[0m \033[0;34m选项安装 volatility3 工具 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk\033[0m \033[0;34m选项安装 binwalk 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk-force\033[0m \033[0;34m选项强制安装 binwalk 环境 \033[0m \033[0m  \033[1;33m(建议在 -binwalk 选项失败的情况下运行)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vulhub\033[0m \033[0;34m选项部署 vulhub 环境 \033[0m"
@@ -2392,7 +2443,7 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-asciinema\033[0m \033[0;34m选项安装 asciinema 截图工具 \033[0m"
     echo -e ""
     echo -e "\033[1;34m一把梭,就是干 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-all\033[0m \033[0;34m选项全自动化部署 (仅兼容国外 vps 服务器, 仅兼容 CentOS7/8,Debain10/9,Ubuntu20,Fedora33, 只能运行一次, 做好心理准备) \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-all\033[0m \033[0;34m选项全自动化部署 (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)\033[0m"
     echo -e ""
     echo -e "\033[1;37m脚本作者 r0fus0d \033[0m"
     echo -e "\033[1;37m|- 感谢 the-fog 在开发过程中对我的折磨 \033[0m"
@@ -2524,7 +2575,14 @@ case "$1" in
     -volatility)
         Base_Check
         Porxy_Switch
+        pip2_Check
         Volatility_Install
+        ;;
+    -volatility3)
+        Base_Check
+        Porxy_Switch
+        pip3_Check
+        volatility3_Install
         ;;
     -vulhub)
         Porxy_Switch
