@@ -48,6 +48,7 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 
 **安全可选项**
 - 使用 -volatility 选项安装 volatility 工具
+- 使用 -volatility3 选项安装 volatility3 工具
 - 使用 -binwalk 选项安装 binwalk 环境
 - 使用 -binwalk-force 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
 - 使用 -vulhub 选项安装 vulhub 环境
@@ -55,6 +56,7 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - 使用 -cs 选项部署 CobaltStrike 环境
 - 使用 -goby 选项部署 Goby 环境 (需要图形化环境)
 - 使用 -awvs13 选项部署 awvs13 环境
+- 使用 -viper 选项部署 Viper 环境 (本项不稳定)
 - 使用 -arl 选项部署 ARL 环境
 - 使用 -frp 选项部署 frp 环境
 - 使用 -nps 选项部署 nps 环境
@@ -75,7 +77,7 @@ f8x基本上不需要任何依赖,或者说它就是为了帮助你安装各种�
 - 使用 -asciinema 选项安装 asciinema 截图工具
 
 **一把梭,就是干**
-- 使用 -all 选项全自动化部署 (仅兼容国外 vps 服务器, 仅兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33, 大部分情况下可以一次成功, 做好心理准备)
+- 使用 -all 选项全自动化部署 (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 ---
 
