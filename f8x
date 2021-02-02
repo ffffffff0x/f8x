@@ -25,7 +25,7 @@ Default_DNS=223.5.5.5
 Proxy_URL=https://ffffffff0x.com/proxychains-ng.zip
 Porxy_OK=
 error=0
-F8x_Version="1.3.8 Dev"
+F8x_Version="1.3.9 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -915,6 +915,7 @@ Dev_Base_Install(){
 
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            echo -e "\033[1;33m\n>> 正在安装开发环境依赖\n\033[0m"
             Rm_Lock
             yum groupinstall -y "Development Tools" 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Development Tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Development Tools 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
@@ -1746,7 +1747,7 @@ Python2_Install(){
 pip2_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装 pip2\n\033[0m"
-    cd $T_Dir && $Porxy_OK wget https://bootstrap.pypa.io/get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m https://bootstrap.pypa.io/get-pip.py 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+    cd $T_Dir && $Porxy_OK curl https://bootstrap.pypa.io/2.7/get-pip.py --output get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m https://bootstrap.pypa.io/get-pip.py 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
     $Porxy_OK python2 get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 python-pip 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 python-pip 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     rm -rf get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log
     python2 -m pip install setuptools 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 setuptools 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 setuptools 模块失败! 请尝试更换 pip 代理或检查 python2 是否已安装! \n\033[0m"
@@ -2285,7 +2286,6 @@ all_Install(){
 # -d
 Dev_Tools(){
 
-    echo -e "\033[1;33m\n>> 正在安装开发环境依赖\n\033[0m"
     Dev_Base_Install
     echo -e "\033[1;33m\n>> 正在安装 python3 和 pip3\n\033[0m"
     Python3_Install
