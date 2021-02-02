@@ -90,6 +90,9 @@ jobs:
       - name: Run -sharry
         run:
           sudo bash f8x -sharry
+      - name: Run -volatility3
+        run:
+          sudo bash f8x -volatility3
       - name: Run -music
         run:
           sudo bash f8x -music
@@ -186,6 +189,9 @@ jobs:
       - name: Run -sharry
         run:
           sudo bash f8x -sharry
+      - name: Run -volatility3
+        run:
+          sudo bash f8x -volatility3
       - name: Run -music
         run:
           sudo bash f8x -music
