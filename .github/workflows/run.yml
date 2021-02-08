@@ -39,10 +39,6 @@ jobs:
         run:
           sudo bash f8x -d
 
-      - name: Run -nn
-        run:
-          sudo bash f8x -nn
-
       - name: Run -s
         run:
           sudo bash f8x -s
@@ -59,19 +55,29 @@ jobs:
         run:
           cat /tmp/f8x_error.log
 
-      - name: Run -vulhub
+      - name: Run -nn
         run:
-          sudo bash f8x -vulhub
-      - name: Run -vulfocus
+          sudo bash f8x -nn
+
+      - name: Run -volatility3
         run:
-          sudo bash f8x -vulfocus
+          sudo bash f8x -volatility3
+
       - name: Run -cs
         run:
           sudo bash f8x -cs
 
+      - name: Run -frp
+        run:
+          sudo bash f8x -frp
+
       - name: Run -goby
         run:
           sudo bash f8x -goby
+
+      - name: Run -nps
+        run:
+          sudo bash f8x -nps
 
       - name: Run -awvs13
         run:
@@ -81,24 +87,37 @@ jobs:
         run:
           sudo bash f8x -arl
 
-      - name: Run -frp
+      - name: Run -mobsf
         run:
-          sudo bash f8x -frp
-      - name: Run -nps
+          sudo bash f8x -mobsf
+
+      - name: Run -nodejsscan
         run:
-          sudo bash f8x -nps
+          sudo bash f8x -nodejsscan
+
+      - name: Run -viper
+        run:
+          sudo bash f8x -viper
+
+      - name: Run -vulhub
+        run:
+          sudo bash f8x -vulhub
+
+      - name: Run -vulfocus
+        run:
+          sudo bash f8x -vulfocus
+
       - name: Run -sharry
         run:
           sudo bash f8x -sharry
-      - name: Run -volatility3
-        run:
-          sudo bash f8x -volatility3
-      - name: Run -music
-        run:
-          sudo bash f8x -music
+
       - name: Run -asciinema
         run:
           sudo bash f8x -asciinema
+
+      - name: Run -music
+        run:
+          sudo bash f8x -music
 
   ubuntu-2004-build:
     runs-on: ubuntu-20.04
@@ -138,10 +157,6 @@ jobs:
         run:
           sudo bash f8x -pip2-force
 
-      - name: Run -nn
-        run:
-          sudo bash f8x -nn
-
       - name: Run -s
         run:
           sudo bash f8x -s
@@ -158,19 +173,29 @@ jobs:
         run:
           cat /tmp/f8x_error.log
 
-      - name: Run -vulhub
+      - name: Run -nn
         run:
-          sudo bash f8x -vulhub
-      - name: Run -vulfocus
+          sudo bash f8x -nn
+
+      - name: Run -volatility3
         run:
-          sudo bash f8x -vulfocus
+          sudo bash f8x -volatility3
 
       - name: Run -cs
         run:
           sudo bash f8x -cs
+
+      - name: Run -frp
+        run:
+          sudo bash f8x -frp
+
       - name: Run -goby
         run:
           sudo bash f8x -goby
+
+      - name: Run -nps
+        run:
+          sudo bash f8x -nps
 
       - name: Run -awvs13
         run:
@@ -180,21 +205,34 @@ jobs:
         run:
           sudo bash f8x -arl
 
-      - name: Run -frp
+      - name: Run -mobsf
         run:
-          sudo bash f8x -frp
-      - name: Run -nps
+          sudo bash f8x -mobsf
+
+      - name: Run -nodejsscan
         run:
-          sudo bash f8x -nps
+          sudo bash f8x -nodejsscan
+
+      - name: Run -viper
+        run:
+          sudo bash f8x -viper
+
+      - name: Run -vulhub
+        run:
+          sudo bash f8x -vulhub
+
+      - name: Run -vulfocus
+        run:
+          sudo bash f8x -vulfocus
+
       - name: Run -sharry
         run:
           sudo bash f8x -sharry
-      - name: Run -volatility3
-        run:
-          sudo bash f8x -volatility3
-      - name: Run -music
-        run:
-          sudo bash f8x -music
+
       - name: Run -asciinema
         run:
           sudo bash f8x -asciinema
+
+      - name: Run -music
+        run:
+          sudo bash f8x -music
