@@ -39,62 +39,66 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 目前 f8x 支持以下部署选项
 
-**批量化安装**
+**1. 批量化安装**
 - 使用 -b 选项安装基本环境        (gcc、make、git、vim、telnet、jq、unzip 等基本工具)
 - 使用 -p 选项安装代理环境        (警告:国外云服务器上不要用,会降速)
 - 使用 -d 选项安装开发环境        (python3,pip3,Go,Docker,Docker-Compose)
 - 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
-- 使用 -s 选项加固 linux 服务器   (Fail2Ban)
+- 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
 - 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli)
 - 使用 -h 选项查看帮助文档
 - 使用 -all 选项全自动化部署      (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
-**开发环境**
+(以下选项运行前,请先运行 -b 选项安装一遍基本环境!!!否则缺少库必报错)
+**2. 开发环境**
 - 使用 -nn 选项安装 npm & NodeJs 环境
 - 使用 -oraclejdk 选项安装 oraclejdk 环境
 - 使用 -openjdk 选项安装 openjdk 环境
 - 使用 -python3 选项安装 python3 环境
 - 使用 -python2 选项安装 python2 环境
-- 使用 -pip2-force 选项强制安装 pip2 环境   (建议在 -python2 选项失败的情况下运行)
+- 使用 -pip2-f 选项强制安装 pip2 环境          (建议在 -python2 选项失败的情况下运行)
 - 使用 -perl 选项安装 perl 环境
 - 使用 -ruby 选项安装 ruby 环境
 - 使用 -rust 选项安装 rust 环境
+- 使用 -chromium 选项安装 Chromium 环境        (用于配合 -k 选项中的 rad、crawlergo)
 
-**蓝队服务**
+**3. 蓝队服务**
 - 使用 -binwalk 选项安装 binwalk 环境
-- 使用 -binwalk-force 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
-- 使用 -volatility 选项安装 volatility 工具
-- 使用 -volatility3 选项安装 volatility3 工具
+- 使用 -binwalk-f 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
+- 使用 -hfish 选项安装 HFish 蜜罐
+- 使用 -lt 选项部署 LogonTracer 环境           (非超高配置机器不要部署,这个应用太吃配置了)
+- 使用 -suricata 选项部署 Suricata 环境
+- 使用 -vol 选项安装 volatility 取证工具
+- 使用 -vol3 选项安装 volatility3 取证工具
 
-**红队服务**
+**4. 红队服务**
 - 使用 -cs 选项部署 CobaltStrike 环境
 - 使用 -frp 选项部署 frp 环境
-- 使用 -goby 选项部署 Goby 环境 (需要图形化环境)
+- 使用 -goby 选项部署 Goby 环境                (需要图形化环境)
 - 使用 -nps 选项部署 nps 环境
-- 使用 -suricata 选项部署 Suricata 环境
 
-**基于 Docker 的环境部署**
+**5. 基于 Docker 的环境部署**
 - 使用 -arl 选项部署 ARL 环境
 - 使用 -awvs13 选项部署 AWVS13 环境
 - 使用 -mobsf 选项部署 MobSF 环境
 - 使用 -nodejsscan 选项部署 nodejsscan 环境
-- 使用 -viper 选项部署 Viper 环境 (本项不稳定)
+- 使用 -viper 选项部署 Viper 环境              (本项不稳定)
 - 使用 -vulhub 选项部署 vulhub 环境
 - 使用 -vulfocus 选项部署 vulfocus 环境
 
-**杂项服务**
+**6. 杂项服务**
 - 使用 -asciinema 选项安装 asciinema 截图工具
 - 使用 -bt 选项部署宝塔服务
 - 使用 -music 选项部署 UnblockNeteaseMusic 服务
 - 使用 -sharry 选项部署 sharry 文件服务
-- 使用 -ssh 选项配置 SSH 环境     (RedHat 系默认可用,无需重复安装)
+- 使用 -ssh 选项配置 SSH 环境                  (RedHat 系默认可用,无需重复安装)
 - 使用 -ssr 选项部署 ssr 工具
 
-**其他**
+**7. 其他**
 - 使用 -clear 选项清理系统使用痕迹
 - 使用 -info 选项查看系统各项信息
 - 使用 -optimize 选项改善设备选项,优化性能
-- 使用 -remove 选项卸载国内 vps 云监控
+- 使用 -remove 选项卸载国内vps云监控
 - 使用 -rmlock 选项运行除锁模块
 
 ---
