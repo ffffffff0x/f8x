@@ -1,9 +1,9 @@
 <h1 align="center">
   <br>
-  <img src="./assets/img/banner.png" width="300px" alt="Nuclei">
+  <img src="./assets/img/banner.png" width="300px" alt="f8x">
 </h1>
 
-<h4 align="center">一款红队环境自动化部署工具,支持多种场景,渗透,开发,代理环境,服务可选项等.</h4>
+<h4 align="center">一款红/蓝队环境自动化部署工具,支持多种场景,渗透,开发,代理环境,服务可选项等.</h4>
 
 <p align="center">
   <a href="#开始">开始</a> •
@@ -12,6 +12,12 @@
   <a href="#实际效果">实际效果</a> •
   <a href="#todo">TODO</a> •
   <a href="#license">License</a>
+</p>
+
+<p align="center">
+    <img src="https://img.shields.io/badge/Category-automation-red.svg">
+    <img src="https://img.shields.io/github/release/ffffffff0x/f8x"></a>
+    <img src="https://github.com/ffffffff0x/f8x/workflows/dev/badge.svg">
 </p>
 
 ---
@@ -136,8 +142,8 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 | <br><b><p align="center">CentOS 7(完全兼容)</p> | <br><b><p align="center">Debian 10(完全兼容)</p> |
 | - | - |
 | <p align="center"><a href="https://asciinema.org/a/387124"><img src="https://asciinema.org/a/387124.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/387123"><img src="https://asciinema.org/a/387123.svg" /></p></a> |
-| <br><b><p align="center">Fedora 33(99%兼容)</p> | <br><b><p align="center">Ubuntu 20.10(99%兼容)</p> |
-| <p align="center"><a href="https://asciinema.org/a/387128"><img src="https://asciinema.org/a/387128.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/387127"><img src="https://asciinema.org/a/387127.svg" /></p></a> |
+| <br><b><p align="center">Fedora 33(完全兼容)</p> | <br><b><p align="center">Ubuntu 20.10(完全兼容)</p> |
+| <p align="center"><a href="https://asciinema.org/a/391443"><img src="https://asciinema.org/a/391443.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/391433"><img src="https://asciinema.org/a/391433.svg" /></p></a> |
 
 ---
 
