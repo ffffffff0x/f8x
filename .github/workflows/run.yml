@@ -59,13 +59,9 @@ jobs:
         run:
           sudo bash f8x -nn
 
-      - name: Run -volatility3
+      - name: Run -vol3
         run:
-          sudo bash f8x -volatility3
-
-      - name: Run -cs
-        run:
-          sudo bash f8x -cs
+          sudo bash f8x -vol3
 
       - name: Run -frp
         run:
@@ -78,34 +74,6 @@ jobs:
       - name: Run -nps
         run:
           sudo bash f8x -nps
-
-      - name: Run -awvs13
-        run:
-          sudo bash f8x -awvs13
-
-      - name: Run -arl
-        run:
-          sudo bash f8x -arl
-
-      - name: Run -mobsf
-        run:
-          sudo bash f8x -mobsf
-
-      - name: Run -nodejsscan
-        run:
-          sudo bash f8x -nodejsscan
-
-      - name: Run -viper
-        run:
-          sudo bash f8x -viper
-
-      - name: Run -vulhub
-        run:
-          sudo bash f8x -vulhub
-
-      - name: Run -vulfocus
-        run:
-          sudo bash f8x -vulfocus
 
       - name: Run -sharry
         run:
@@ -153,10 +121,6 @@ jobs:
         run:
           sudo bash f8x -d
 
-      - name: Run -pip2-force
-        run:
-          sudo bash f8x -pip2-force
-
       - name: Run -s
         run:
           sudo bash f8x -s
@@ -177,13 +141,9 @@ jobs:
         run:
           sudo bash f8x -nn
 
-      - name: Run -volatility3
+      - name: Run -vol3
         run:
-          sudo bash f8x -volatility3
-
-      - name: Run -cs
-        run:
-          sudo bash f8x -cs
+          sudo bash f8x -vol3
 
       - name: Run -frp
         run:
@@ -196,34 +156,6 @@ jobs:
       - name: Run -nps
         run:
           sudo bash f8x -nps
-
-      - name: Run -awvs13
-        run:
-          sudo bash f8x -awvs13
-
-      - name: Run -arl
-        run:
-          sudo bash f8x -arl
-
-      - name: Run -mobsf
-        run:
-          sudo bash f8x -mobsf
-
-      - name: Run -nodejsscan
-        run:
-          sudo bash f8x -nodejsscan
-
-      - name: Run -viper
-        run:
-          sudo bash f8x -viper
-
-      - name: Run -vulhub
-        run:
-          sudo bash f8x -vulhub
-
-      - name: Run -vulfocus
-        run:
-          sudo bash f8x -vulfocus
 
       - name: Run -sharry
         run:

@@ -2,6 +2,16 @@
 
 ## Details
 
+### [1.4.3] - 2021-02-21
+
+* 安装 volatility3 时添加下载 Symbol Tables
+* 部署 CobaltStrike 时添加 genCrossC2
+* 安装 Docker 时添加安装 lazydocker
+* 添加对不支持的平台的判断
+* -d 选项添加 Terraform
+* -b 选项安装基础工具中部分工具移动到 -d 选项
+* 参考 sast 工具优化一些问题
+
 ### [1.4.2] - 2021-02-16
 
 * 现在默认4个系统已经完全兼容,无报错

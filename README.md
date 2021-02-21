@@ -28,7 +28,11 @@
 
 **下载**
 
-访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
+- 访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
+
+- 在网络不佳的情况下通过 jsdelivr cdn 加速下载
+  - wget : `wget https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x`
+  - curl : `curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x`
 
 **使用**
 ```bash
@@ -48,7 +52,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 **1. 批量化安装**
 - 使用 -b 选项安装基本环境        (gcc、make、git、vim、telnet、jq、unzip 等基本工具)
 - 使用 -p 选项安装代理环境        (警告:国外云服务器上不要用,会降速)
-- 使用 -d 选项安装开发环境        (python3,pip3,Go,Docker,Docker-Compose)
+- 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose、Terraform)
 - 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
 - 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
 - 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli)
@@ -84,13 +88,13 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -nps 选项部署 nps 环境
 
 **5. 基于 Docker 的环境部署**
-- 使用 -arl 选项部署 ARL 环境
-- 使用 -awvs13 选项部署 AWVS13 环境
-- 使用 -mobsf 选项部署 MobSF 环境
-- 使用 -nodejsscan 选项部署 nodejsscan 环境
-- 使用 -viper 选项部署 Viper 环境              (本项不稳定)
-- 使用 -vulhub 选项部署 vulhub 环境
-- 使用 -vulfocus 选项部署 vulfocus 环境
+- 使用 -arl 选项部署 ARL 环境(872 MB)
+- 使用 -awvs13 选项部署 AWVS13 环境(1.04 GB)
+- 使用 -mobsf 选项部署 MobSF 环境(1.54 GB)
+- 使用 -nodejsscan 选项部署 nodejsscan 环境(873 MB)
+- 使用 -viper 选项部署 Viper 环境(2.1 GB)
+- 使用 -vulhub 选项部署 vulhub 环境(210 MB)
+- 使用 -vulfocus 选项部署 vulfocus 环境(1.04 GB)
 
 **6. 杂项服务**
 - 使用 -asciinema 选项安装 asciinema 截图工具
@@ -157,9 +161,9 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - [x] 参考 oneforall 丰富输出信息
 - [x] goby 安装选项
 - [x] awvs
+- [x] CS CrossC2 插件
 - [ ] tomcat 指定版本安装选项
 - [ ] weblogic 指定版本安装选项
-- [ ] CS插件
 - [ ] 完善 -info 选项内容
 
 ---
