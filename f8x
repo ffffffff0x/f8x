@@ -24,7 +24,7 @@ Default_DNS=223.5.5.5
 Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/proxychains-ng/zip/master"
 Porxy_OK=
 error=0
-F8x_Version="1.4.3 Dev"
+F8x_Version="1.4.4 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -1139,7 +1139,7 @@ Pentest_Base_Install(){
 
     if test -d $P_Dir
     then
-        echo -e "\033[1;33m$(date +"%H:%M:%S")\033[0m \033[1;33m[INFOR]\033[0m - \033[1;33m$P_Dir 文件夹已存在\033[0m"
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m$P_Dir 文件夹已存在\033[0m"
     else
         mkdir -p $P_Dir && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已新建 $P_Dir 文件夹\033[0m"
     fi
@@ -1160,7 +1160,6 @@ Pentest_Misc_Install(){
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
             yum install -y parallel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 parallel 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 parallel 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            yum install -y redis 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 redis 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 redis 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             yum install -y gdb 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 gdb 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             yum install -y rlwrap 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 rlwrap 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 rlwrap 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
@@ -1169,7 +1168,6 @@ Pentest_Misc_Install(){
             apt-get install -y parallel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 parallel 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 parallel 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y btscanner 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 btscanner 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 btscanner 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y rarcrack 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 rarcrack 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 rarcrack 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            apt-get install -y redis 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 redis 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 redis 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y xdot 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 xdot 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 xdot 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y gdb 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 gdb 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 gdb 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             apt-get install -y rlwrap 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 rlwrap 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 rlwrap 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
@@ -2218,15 +2216,14 @@ viper_Install(){
 
     echo -e "\033[1;33m\n>> 正在部署 Viper 环境\033[0m"
 
-    mkdir -p /tmp/viper
-    cd /tmp/viper && rm -rf docker-compose.* 1> /dev/null 2>> /tmp/f8x_error.log
+    mkdir -p /root/viper && cd /root/viper && rm -rf docker-compose.* 1> /dev/null 2>> /tmp/f8x_error.log
 
     viper_conf 1> /dev/null 2>> /tmp/f8x_error.log
 
-    echo -e "\033[5;33m\n请输入 Viper 密码\033[0m" && read -r input
+    echo -e "\033[5;33m\n请输入 Viper 密码(密码需要大于8位)\033[0m" && read -r input
     Viper_Pass=$input
     cat docker-compose.yml.bak | sed "s/diypassword/$Viper_Pass/" >> docker-compose.yml
-    docker-compose up -d
+    cd /root/viper && docker-compose up -d
 
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m等待系统启动(15s),访问 https://vpsip:60000 登录服务器. 用户名:root 密码:$Viper_Pass \033[0m"
 
