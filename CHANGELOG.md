@@ -2,6 +2,11 @@
 
 ## Details
 
+### [1.4.4] - 2021-02-24
+
+* 修复 -viper 选项的路径问题 [#2](https://github.com/ffffffff0x/f8x/issues/2)
+* 在安装渗透杂项工具时,删除 redis 的安装
+
 ### [1.4.3] - 2021-02-21
 
 * 安装 volatility3 时添加下载 Symbol Tables
