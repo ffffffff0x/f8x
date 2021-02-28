@@ -51,13 +51,13 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **1. 批量化安装**
 - 使用 -b 选项安装基本环境        (gcc、make、git、vim、telnet、jq、unzip 等基本工具)
-- 使用 -p 选项安装代理环境        (警告:国外云服务器上不要用,会降速)
-- 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose、Terraform)
+- 使用 -p 选项安装代理环境        (警告: 国外云服务器上不要用, 会降速)
+- 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose)
 - 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
-- 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
+- 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马 webshell 查杀工具)
 - 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli)
-- 使用 -h 选项查看帮助文档
-- 使用 -all 选项全自动化部署      (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
+- 使用 -cloud 选项安装云应用      (Terraform、Serverless Framework、wrangler)
+- 使用 -all 选项全自动化部署      (默认不走代理, 兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 **2. 开发环境**
 - 使用 -nn 选项安装 npm & NodeJs 环境
@@ -81,6 +81,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -vol3 选项安装 volatility3 取证工具
 
 **4. 红队服务**
+- 使用 -bypass 选项部署 Bypass 环境
 - 使用 -cs 选项部署 CobaltStrike 环境
 - 使用 -frp 选项部署 frp 环境
 - 使用 -goby 选项部署 Goby 环境                (需要图形化环境)
@@ -107,8 +108,9 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -clear 选项清理系统使用痕迹
 - 使用 -info 选项查看系统各项信息
 - 使用 -optimize 选项改善设备选项,优化性能
-- 使用 -remove 选项卸载国内vps云监控
+- 使用 -remove 选项卸载国内 vps 云监控
 - 使用 -rmlock 选项运行除锁模块
+- 使用 -swap 选项配置 swap 分区
 
 ---
 
@@ -161,10 +163,10 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - [x] goby 安装选项
 - [x] awvs
 - [x] CS CrossC2 插件
+- [x] 增加虚拟内存
 - [ ] tomcat 指定版本安装选项
 - [ ] weblogic 指定版本安装选项
 - [ ] 完善 -info 选项内容
-- [ ] 增加虚拟内存
 
 ---
 
