@@ -23,8 +23,9 @@ T_Dir=/ffffffff0x
 Default_DNS=223.5.5.5
 Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/proxychains-ng/zip/master"
 Porxy_OK=
+Docker_OK=
 error=0
-F8x_Version="1.4.4 Dev"
+F8x_Version="1.4.5 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -63,6 +64,9 @@ crawlergo_File=crawlergo_linux_amd64.zip
 Terraform_Ver="0.14.6"
 Terraform_bin="terraform_0.14.6_linux_amd64.zip"
 CrossC2_Ver="v2.2"
+node_Ver="v14.16.0"
+node_bin="node-v14.16.0-linux-x64.tar.xz"
+node_Dir="node-v14.16.0-linux-x64"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -106,6 +110,21 @@ Rm_Lock(){
 
 }
 
+Docker_Check(){
+
+    case $(ls -alh /.dockerenv 2>> /tmp/f8x_error.log) in
+    *"docker"*)
+        case $(cat /proc/1/cgroup 2>> /tmp/f8x_error.log) in
+        *"docker"*)
+            echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m当前运行在 Docker 环境下,f8x 可能会有无法预期的问题,见谅\033[0m"
+            Docker_OK=1
+            ;;
+        esac
+        ;;
+    esac
+
+}
+
 # ===================== 依赖检查模块 =====================
 Base_Check(){
 
@@ -127,7 +146,7 @@ Base_Check(){
 
 }
 
-Dev_Check(){
+Py_Check(){
 
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在检测 Python 环境可用性\033[0m"
     python2 -V 1> /dev/null 2>> /tmp/f8x_error.log || error=1
@@ -137,7 +156,7 @@ Dev_Check(){
 
     if [ $error == 1 ]
     then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m开发环境检查不通过,请先运行 -d 和 -python2 选项安装 Python 环境,若安装 pip2 失败,可运行 -pip2-force 强制安装 pip2\033[0m"
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m开发环境检查不通过,请先运行 -d 选项安装 Python 环境\033[0m"
         echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
         exit 1
     else
@@ -172,6 +191,37 @@ pip3_Check(){
     fi
 }
 
+nn_Check(){
+
+    echo -e "\033[1;33m\n>> 正在检测 npm & nodejs 可用性\n\033[0m"
+    npm version 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnpm 可用\033[0m" || error=1
+    node --version 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnode $(node --version) 可用\033[0m" || error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 npm & nodejs\033[0m"
+        nn_Install
+    else
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m依赖项正常\033[0m"
+    fi
+
+}
+
+Rust_Check(){
+
+    echo -e "\033[1;33m\n>> 正在检测 Rust 可用性\n\033[0m"
+    cargo -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnode $(cargo -V) 可用\033[0m" || error=1
+
+    if [ $error == 1 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 Rust\033[0m"
+        Rust_Install
+    else
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m依赖项正常\033[0m"
+    fi
+
+}
+
 # ===================== 代理开关 =====================
 Porxy_Switch(){
 
@@ -182,6 +232,7 @@ Porxy_Switch(){
         echo -e "\033[1;33m\n>> 安装时是否需要走代理? [y/N,默认No] \033[0m" && read -r input
         case $input in
             [yY][eE][sS]|[Yy])
+                export GOPROXY=https://goproxy.io,direct
                 if test -e /etc/proxychains.conf
                 then
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m正在调用 Proxychains-ng\033[0m"
@@ -214,19 +265,27 @@ Info(){
         *"Kali"*|*"kali"*)
             Linux_Version="Kali"
             case $(cat /etc/*-release | head -n 4) in
+                *"2021"*)
+                    Linux_Version_Num="kali-rolling"
+                    Linux_Version_Name="buster"
+                    ;;
                 *"2020"*)
-                    Linux_Version_Num="Base Debian 10"
+                    Linux_Version_Num="kali-rolling"
                     Linux_Version_Name="buster"
                     ;;
                 *)
-                    Linux_Version_Num="Base Debian 9"
+                    Linux_Version_Num="kali-rolling"
                     Linux_Version_Name="stretch"
                     ;;
             esac
             ;;
         *"Ubuntu"*|*"ubuntu"*)
             Linux_Version="Ubuntu"
-            case $(lsb_release -c) in
+            case $(cat /etc/*-release | head -n 4) in
+                *"hirsute"*)
+                    Linux_Version_Num="21.04"
+                    Linux_Version_Name="hirsute"
+                    ;;
                 *"groovy"*)
                     Linux_Version_Num="20.10"
                     Linux_Version_Name="groovy"
@@ -234,6 +293,10 @@ Info(){
                 *"focal"*)
                     Linux_Version_Num="20.04"
                     Linux_Version_Name="focal"
+                    ;;
+                *"eoan"*)
+                    Linux_Version_Num="19.10"
+                    Linux_Version_Name="eoan"
                     ;;
                 *"bionic"*)
                     Linux_Version_Num="18.04"
@@ -251,7 +314,11 @@ Info(){
             ;;
         *"Debian"*|*"debian"*)
             Linux_Version="Debian"
-                case $(lsb_release -c 1> /dev/null 2>> /tmp/f8x_error.log) in
+            case $(cat /etc/*-release | head -n 4) in
+                *"bullseye"*)
+                    Linux_Version_Num="11"
+                    Linux_Version_Name="bullseye"
+                    ;;
                 *"buster"*)
                     Linux_Version_Num="10"
                     Linux_Version_Name="buster"
@@ -269,28 +336,8 @@ Info(){
                     Linux_Version_Name="wheezy"
                     ;;
                 *)
-                    case $(cat /etc/*-release | head -n 1) in
-                    *"buster"*)
-                        Linux_Version_Num="10"
-                        Linux_Version_Name="buster"
-                        ;;
-                    *"stretch"*)
-                        Linux_Version_Num="9"
-                        Linux_Version_Name="stretch"
-                        ;;
-                    *"jessie"*)
-                        Linux_Version_Num="8"
-                        Linux_Version_Name="jessie"
-                        ;;
-                    *"wheezy"*)
-                        Linux_Version_Num="7"
-                        Linux_Version_Name="wheezy"
-                        ;;
-                    *)
-                        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m未知版本\033[0m"
-                        exit 1
-                        ;;
-                    esac
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m未知版本\033[0m"
+                    exit 1
                     ;;
             esac
             ;;
@@ -347,12 +394,12 @@ Info(){
                     Linux_Version="Kali" ;;
                 [uU])
                     Linux_Version="Ubuntu"
-                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [20.10] [20.04] [18.04] [16.04]\033[0m" && read -r input
+                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [21.04] [20.10] [20.04] [19.10] [18.04] [16.04]\033[0m" && read -r input
                     Linux_Version_Name=$input
                     ;;
                 [dD])
                     Linux_Version="Debian"
-                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [10] [9] [8] [7]\033[0m" && read -r input
+                    echo -e "\033[1;33m\n请手动输入你的系统版本号 [11] [10] [9] [8] [7]\033[0m" && read -r input
                     Linux_Version_Name=$input
                     ;;
                 [cC])
@@ -368,6 +415,7 @@ Info(){
                     Linux_Version_Name=$input
                     ;;
                 *)
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m未知版本\033[0m"
                     exit 1
                     ;;
             esac
@@ -381,13 +429,28 @@ Info(){
     echo -e "\033[1;32m当前日期 :\033[0m \033[1;35m$(date +"%Y-%m-%d") \033[0m"
     echo -e "\033[1;32m当前时间 :\033[0m \033[1;35m$(date +"%H:%M:%S") \033[0m"
     echo -e "\033[1;32m开机运行时长 :\033[0m \033[1;35m$(uptime | awk '{print $3 $4}' | sed 's/\,.*$//g') \033[0m"
-    echo -e "\033[1;32m最近登陆IP :\033[0m"
+
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            echo -e "\033[1;35m$(grep 'Accepted' /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m" ;;
+            if test -e /var/log/secure
+            then
+                echo -e "\033[1;32m最近登陆IP :\033[0m"
+                echo -e "\033[1;35m$(grep 'Accepted' /var/log/secure | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m"
+            fi
+            ;;
+        *"Kali"*)
+                echo "" > /dev/null
+            ;;
         *)
-            echo -e "\033[1;35m$(grep "Accepted " /var/log/auth.log | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m" ;;
+            if test -e /var/log/auth.log
+            then
+                echo -e "\033[1;32m最近登陆IP :\033[0m"
+                echo -e "\033[1;35m$(grep "Accepted " /var/log/auth.log | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m"
+            fi
+            ;;
+
     esac
+
     echo -e "\033[1;32mf8x版本 :\033[0m \033[1;35m$F8x_Version \033[0m"
 }
 
@@ -404,6 +467,11 @@ Update_APT_Mirror(){
             ;;
         *"Ubuntu"*)
             case $Linux_Version_Num in
+                "21.04")
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mUbuntu21.04\033[0m"
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Ubuntu2104_Mirror > /dev/null
+                    ;;
                 "20.10")
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mUbuntu20.10\033[0m"
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已备份本地 apt 源\033[0m"
@@ -413,6 +481,11 @@ Update_APT_Mirror(){
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mUbuntu20.04\033[0m"
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已备份本地 apt 源\033[0m"
                     Update_Ubuntu2004_Mirror > /dev/null
+                    ;;
+                "19.10")
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mUbuntu18.04\033[0m"
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Ubuntu1910_Mirror > /dev/null
                     ;;
                 "18.04")
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mUbuntu18.04\033[0m"
@@ -425,13 +498,17 @@ Update_APT_Mirror(){
                     Update_Ubuntu1604_Mirror > /dev/null
                     ;;
                 *)
-                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误!\n\033[0m"
-                    exit 1
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误,此项 pass\n\033[0m"
                     ;;
             esac
             ;;
         *"Debian"*)
             case $Linux_Version_Num in
+                "11")
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mDebian11\033[0m"
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已备份本地 apt 源\033[0m"
+                    Update_Debian11_Mirror > /dev/null
+                    ;;
                 "10")
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mDebian10\033[0m"
                     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已备份本地 apt 源\033[0m"
@@ -453,8 +530,7 @@ Update_APT_Mirror(){
                     Update_Debian7_Mirror > /dev/null
                     ;;
                 *)
-                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误!\n\033[0m"
-                    exit 1
+                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误,此项 pass\n\033[0m"
                     ;;
             esac
             ;;
@@ -470,28 +546,46 @@ Update_APT_Mirror(){
 Update_kali_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
-deb-src https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+# deb-src https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
 deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
-deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
 deb http://http.kali.org/kali kali-rolling main non-free contrib
-deb-src http://http.kali.org/kali kali-rolling main non-free contrib
+# deb-src http://http.kali.org/kali kali-rolling main non-free contrib
 EOF
 
 }
 
 # ===================== 修改 Ubuntu apt 源 =====================
+Update_Ubuntu2104_Mirror(){
+rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-security main restricted universe multiverse
+EOF
+
+}
+
 Update_Ubuntu2010_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ groovy-security main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ groovy-security main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ groovy-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ groovy-updates main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ groovy-updates main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ groovy-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ groovy-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ groovy-backports main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ groovy-backports main restricted universe multiverse
 EOF
 
 }
@@ -499,16 +593,33 @@ EOF
 Update_Ubuntu2004_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ focal-proposed main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse
+EOF
+
+}
+
+Update_Ubuntu1910_Mirror(){
+rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-security main restricted universe multiverse
 EOF
 
 }
@@ -516,16 +627,17 @@ EOF
 Update_Ubuntu1804_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+# deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
 EOF
 
 }
@@ -533,18 +645,36 @@ EOF
 Update_Ubuntu1604_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ xenial main
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial main
+# deb-src http://mirrors.aliyun.com/ubuntu/ xenial main
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main
+# deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main
 deb http://mirrors.aliyun.com/ubuntu/ xenial universe
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial universe
+# deb-src http://mirrors.aliyun.com/ubuntu/ xenial universe
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
+# deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates universe
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security main
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main
+# deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security universe
+# deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security universe
+EOF
+
+}
+
+# ===================== 修改 Debian11 apt 源 =====================
+Update_Debian11_Mirror(){
+rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ bullseye main non-free contrib
+deb http://mirrors.aliyun.com/debian-security bullseye/updates main
+# deb-src http://mirrors.aliyun.com/debian-security bullseye/updates main
+deb http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib
 EOF
 
 }
@@ -553,14 +683,15 @@ EOF
 Update_Debian10_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib
 deb http://mirrors.aliyun.com/debian-security buster/updates main
-deb-src http://mirrors.aliyun.com/debian-security buster/updates main
+# deb-src http://mirrors.aliyun.com/debian-security buster/updates main
 deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
 deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
 EOF
 
 }
@@ -568,14 +699,15 @@ EOF
 Update_Debian9_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib
 deb http://mirrors.aliyun.com/debian-security stretch/updates main
-deb-src http://mirrors.aliyun.com/debian-security stretch/updates main
+# deb-src http://mirrors.aliyun.com/debian-security stretch/updates main
 deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
 deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
 EOF
 
 }
@@ -583,10 +715,11 @@ EOF
 Update_Debian8_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib
 deb http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
 EOF
 
 }
@@ -594,10 +727,11 @@ EOF
 Update_Debian7_Mirror(){
 rm -rf /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
+# 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
 deb http://mirrors.aliyun.com/debian/ wheezy-proposed-updates main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
-deb-src http://mirrors.aliyun.com/debian/ wheezy-proposed-updates main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
+# deb-src http://mirrors.aliyun.com/debian/ wheezy-proposed-updates main non-free contrib
 EOF
 
 }
@@ -659,8 +793,7 @@ Update_EPEL_Mirror(){
                 curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 aliyun EPEL 源\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31maliyun EPEL 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
                 ;;
             *)
-                echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误!\n\033[0m"
-                exit 1
+                echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误,此项 pass\n\033[0m"
                 ;;
         esac
     fi
@@ -684,8 +817,7 @@ Update_CentOS_Mirror(){
             curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-6.repo 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 aliyun Yum 源\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31maliyun Yum 源下载失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
             ;;
         *)
-            echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误!\n\033[0m"
-            exit 1
+            echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m版本错误,此项 pass\n\033[0m"
             ;;
     esac
 
@@ -1069,6 +1201,7 @@ Docker_Install(){
                 echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m正在更新 apt 软件包列表\033[0m" && apt-get update 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m更新 apt 软件包列表失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
 
                 echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在安装 docker,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK apt-get install -y docker-ce 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 docker-ce\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 docker-ce 失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+                rm -rf /etc/apt/sources.list.d/docker.list 1> /dev/null 2>> /tmp/f8x_error.log
                 ;;
             *)
                 ;;
@@ -1111,6 +1244,23 @@ Terraform_Install(){
 
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 terraform $Terraform_Ver 工具,输入 terraform 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mTerraform 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     fi
+
+}
+
+# ===================== 安装 Serverless_Framework =====================
+Serverless_Framework_Install(){
+
+    npm config set prefix /usr/local
+    $Porxy_OK npm install -g serverless
+    serverless -v && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Serverless Framework 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Serverless Framework 工具失败\n\033[0m"
+
+}
+
+# ===================== 安装 wrangler =====================
+wrangler_Install(){
+
+    $Porxy_OK cargo install wrangler
+    wrangler -V && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 wrangler 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 wrangler 工具失败\n\033[0m"
 
 }
 
@@ -1935,7 +2085,7 @@ Ruby_Install(){
 Rust_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装 rust(注意安装时选项)\n\033[0m"
-    $Porxy_OK curl https://sh.rustup.rs -sSf | sh
+    $Porxy_OK curl https://sh.rustup.rs -sSf | $Porxy_OK sh
 
 }
 
@@ -2105,22 +2255,17 @@ Perl_Install(){
 # -nn
 nn_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 nodejs\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 nodejs && npm\n\033[0m"
 
-    Rm_Lock
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            yum install -y nodejs 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 nodejs 工具失败!可能缺少 EPEL 源,建议先运行 -b 安装基本环境\n\033[0m"
-            yum install -y npm 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 npm 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            $Porxy_OK curl -sL https://deb.nodesource.com/setup_10.x | bash - 1> /dev/null 2>> /tmp/f8x_error.log
-            apt-get install -y nodejs 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 nodejs 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            apt-get install -y npm 1> /dev/null 2>> /tmp/f8x_error.log || aptitude install -y npm 1> /dev/null 2>> /tmp/f8x_error.log
-            npm --version 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 npm 工具失败! 请尝试使用 aptitude install npm 命令进行安装\n\033[0m"
-            ;;
-        *) ;;
-    esac
+    if test -e /usr/local/bin/node
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mnodejs && npm 已存在,若非管理员安装,建议追踪 /usr/local/bin/node 文件 \033[0m"
+    else
+        cd /tmp && $Porxy_OK wget https://nodejs.org/dist/$node_Ver/$node_bin > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 $node_bin \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$node_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        mkdir /usr/local/nodejs/ && tar -C /usr/local/nodejs -xvJf $node_bin > /dev/null 2>&1 && rm $node_bin
+        ln -s /usr/local/nodejs/$node_Dir/bin/node /usr/local/bin/node && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 nodejs 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 nodejs 工具失败!\n\033[0m"
+        ln -s /usr/local/nodejs/$node_Dir/bin/npm /usr/local/bin/npm && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 npm 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 npm 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
@@ -2266,17 +2411,7 @@ arl_Install(){
 # -music
 music_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 npm & nodejs 可用性\n\033[0m"
-    npm version 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnpm 可用\033[0m" || error=1
-    node --version 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnode $(node --version) 可用\033[0m" || error=1
-
-    if [ $error == 1 ]
-    then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 npm & nodejs\033[0m"
-        nn_Install
-    else
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m依赖项正常\033[0m"
-    fi
+    nn_Check
 
     echo -e "\033[1;33m\n>> 正在部署 UnblockNeteaseMusic 服务\n\033[0m"
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在安装 npx 模块\033[0m" && $Porxy_OK npm install npx -g 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnpx 模块安装完毕\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mnpx 模块安装失败\n\033[0m"
@@ -2284,6 +2419,23 @@ music_Install(){
     cd UnblockNeteaseMusic && $Porxy_OK npm install && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;33m部署完毕,运行以下命令开启服务:\n\033[0m\033[1;32mcd $T_Dir/UnblockNeteaseMusic && npx @nondanee/unblockneteasemusic\n\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m部署失败\n\033[0m"
 
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m若无法正常访问,请检查服务器防火墙设置\033[0m"
+}
+
+# -bypass
+bypass_Install(){
+
+    echo -e "\033[1;33m\n>> 正在检测 go 可用性\n\033[0m"
+    go version 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mgo 可用\033[0m" || ( echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 go\033[0m" && Go_Install )
+
+    Pentest_Base_Install
+
+    echo -e "\033[1;33m\n>> 正在安装 garble\n\033[0m"
+    go env -w GO111MODULE=on
+    go get mvdan.cc/garble 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 garble 在 $P_Dir/garble \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 garble 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
+    echo -e "\033[1;33m\n>> 正在安装 intensio-obfuscator\n\033[0m"
+    python3 -m pip install intensio-obfuscator 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 intensio-obfuscator \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 intensio-obfuscator 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
 }
 
 # -cs
@@ -2463,6 +2615,40 @@ remove_watcher(){
 
 }
 
+# -swap
+swap_setting(){
+
+    echo -e "\033[1;33m\n>> 正在进行 swap 分区配置\n\033[0m"
+    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前swap 分区使用情况如下: (为空则代表没有配置 swap 分区) \033[0m"
+    swapon -s 2>> /tmp/f8x_error.log
+
+    if test -e /home/f8xswap
+    then
+        echo -e "\033[1;36m\n$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m/home/f8xswap 文件已存在\033[0m"
+        exit 1
+    fi
+
+    echo -e "\033[5;33m\n请输入 swap 分区的大小(单位为G) [默认为 4G]\033[0m" && read -r input
+
+    VALID_CHECK=$(echo "$input"|awk -F. '$1>0&&$1<=254{print "yes"}')
+    if [ "${VALID_CHECK:-no}" == "yes" ]; then
+        echo -e "\033[1;32m\n>> ${input}G\033[0m"
+        swap_bin=`expr ${input} \* 1024`
+    else
+        echo -e "\033[1;32m\n>> 将使用默认大小\033[0m"
+        swap_bin="4096"
+    fi
+
+    echo -e "\033[1;33m\n>> 正在创建 swap 文件,时间随大小而定,稍等\n\033[0m"
+    dd if=/dev/zero of=/home/f8xswap bs=1M count=$swap_bin && echo -e "\033[1;36m\n$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已创建 swap 文件在 /home/f8xswap\033[0m"
+    mkswap /home/f8xswap 1> /dev/null
+    swapon /home/f8xswap 1> /dev/null && echo -e "\033[1;36m\n$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已挂载文件分区 /home/f8xswap\033[0m"
+    echo -e "\n/home/f8xswap swap swap default 0 0" >> /etc/fstab
+    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前swap 分区使用情况如下: (为空则代表没有配置 swap 分区) \033[0m"
+    swapon -s 2>> /tmp/f8x_error.log
+
+}
+
 # -sharry
 sharry_Install(){
 
@@ -2554,8 +2740,6 @@ Dev_Tools(){
     Go_Install
     echo -e "\033[1;33m\n>> 正在安装 Docker 和 Docker-compose\n\033[0m"
     Docker_Install
-    echo -e "\033[1;33m\n>> 正在安装 Terraform\n\033[0m"
-    Terraform_Install
 
 }
 
@@ -2655,6 +2839,38 @@ Secure(){
 
 }
 
+# -cloud
+cloud(){
+
+    echo -e "\033[1;33m\n>> 正在安装 Terraform\n\033[0m"
+    Terraform_Install
+
+    echo -e "\033[1;33m\n>> 是否继续安装 Serverless Framework? [y/N,默认No] \033[0m" && read -r input
+    case $input in
+        [yY][eE][sS]|[Yy])
+            nn_Check
+            echo -e "\033[1;33m\n>> 正在安装 Serverless Framework\n\033[0m"
+            Serverless_Framework_Install
+            ;;
+        *)
+            echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mPass~\033[0m"
+            ;;
+    esac
+
+    echo -e "\033[1;33m\n>> 是否继续安装 wrangler? [y/N,默认No] \033[0m" && read -r input
+    case $input in
+        [yY][eE][sS]|[Yy])
+            Rust_Check
+            echo -e "\033[1;33m\n>> 正在安装 wrangler\n\033[0m"
+            wrangler_Install
+            ;;
+        *)
+            echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mPass~\033[0m"
+            ;;
+    esac
+
+}
+
 # -ssh
 SSH(){
 
@@ -2669,11 +2885,11 @@ Help(){
     echo -e "\033[1;34m1. 批量化安装 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-b\033[0m \033[0;34m选项安装基本环境 \033[0m       \033[1;32m(gcc、make、git、vim、telnet、jq、unzip 等基本工具)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-p\033[0m \033[0;34m选项安装代理环境 \033[0m       \033[1;31m(警告:国外云服务器上不要用,会降速)\033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-d\033[0m \033[0;34m选项安装开发环境 \033[0m       \033[1;32m(python3、pip3、Go、Docker、Docker-Compose、Terraform)\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-d\033[0m \033[0;34m选项安装开发环境 \033[0m       \033[1;32m(python3、pip3、Go、Docker、Docker-Compose)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-k\033[0m \033[0;34m选项安装渗透环境 \033[0m       \033[1;32m(hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-s\033[0m \033[0;34m选项安装蓝队环境 \033[0m       \033[1;32m(Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-f\033[0m \033[0;34m选项安装其他工具 \033[0m       \033[1;32m(Bash_Insulter、vlmcsd、AdguardTeam、trash-cli)\033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-h\033[0m \033[0;34m选项查看帮助文档 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-cloud\033[0m \033[0;34m选项安装云应用 \033[0m     \033[1;32m(Terraform、Serverless Framework、wrangler)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-all\033[0m \033[0;34m选项全自动化部署\033[0m      \033[1;32m(默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)\033[0m"
     echo -e ""
     echo -e "\033[1;33m(以下选项运行前,请先运行 -b 选项安装一遍基本环境!!!否则缺少库必报错)\033[0m"
@@ -2700,6 +2916,7 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vol3\033[0m \033[0;34m选项安装 volatility3 取证工具 \033[0m"
     echo -e ""
     echo -e "\033[1;34m4. 红队服务 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-bypass\033[0m \033[0;34m选项部署 Bypass 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-cs\033[0m \033[0;34m选项部署 CobaltStrike 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-frp\033[0m \033[0;34m选项部署 frp 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-goby\033[0m \033[0;34m选项部署 Goby 环境 \033[0m               \033[1;33m(需要图形化环境)\033[0m"
@@ -2726,14 +2943,16 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-clear\033[0m \033[0;34m选项清理系统使用痕迹 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-info\033[0m \033[0;34m选项查看系统各项信息 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-optimize\033[0m \033[0;34m选项改善设备选项,优化性能 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-remove\033[0m \033[0;34m选项卸载国内vps云监控 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-remove\033[0m \033[0;34m选项卸载国内 vps 云监控 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-rmlock\033[0m \033[0;34m选项运行除锁模块 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-swap\033[0m \033[0;34m选项配置 swap 分区 \033[0m"
     echo -e ""
     echo -e "\033[1;37m脚本作者 r0fus0d \033[0m"
     echo -e "\033[1;37m|- 感谢 the-fog 在开发过程中对我的折磨 \033[0m"
     echo -e "\033[1;37m|- 感谢 xidaner 在开发过程给出的无用建议 \033[0m"
     echo -e "\033[1;37m|- 感谢 RyuZU 在旁边表演喷火 \033[0m"
     echo -e ""
+
 }
 
 # -p
@@ -2787,6 +3006,7 @@ Base_Dir
 }
 
 Main
+Docker_Check
 
 case "$1" in
     -b | b)
@@ -2802,7 +3022,7 @@ case "$1" in
         ;;
     -k | k)
         Base_Check
-        Dev_Check
+        Py_Check
         Porxy_Switch
         kali_Tools
         ;;
@@ -2819,6 +3039,11 @@ case "$1" in
     -h | h)
         printf "\033c"
         Help
+        ;;
+    -cloud)
+        Base_Check
+        Porxy_Switch
+        cloud
         ;;
     -all)
         all_Install
@@ -2903,6 +3128,12 @@ case "$1" in
     -lt)
         Porxy_Switch
         lt_Install
+        ;;
+    -bypass)
+        Base_Check
+        Py_Check
+        Porxy_Switch
+        bypass_Install
         ;;
     -cs)
         Base_Check
@@ -2997,6 +3228,9 @@ case "$1" in
         ;;
     -rmlock)
         Rm_Lock
+        ;;
+    -swap)
+        swap_setting
         ;;
     -debug)
         #Base_Check
