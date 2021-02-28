@@ -23,10 +23,6 @@ jobs:
         run:
           sudo bash f8x -h
 
-      - name: Run -optimize
-        run:
-          sudo bash f8x -optimize
-
       - name: Run -clear
         run:
           sudo bash f8x -clear
@@ -54,38 +50,6 @@ jobs:
       - name: log
         run:
           cat /tmp/f8x_error.log
-
-      - name: Run -nn
-        run:
-          sudo bash f8x -nn
-
-      - name: Run -vol3
-        run:
-          sudo bash f8x -vol3
-
-      - name: Run -frp
-        run:
-          sudo bash f8x -frp
-
-      - name: Run -goby
-        run:
-          sudo bash f8x -goby
-
-      - name: Run -nps
-        run:
-          sudo bash f8x -nps
-
-      - name: Run -sharry
-        run:
-          sudo bash f8x -sharry
-
-      - name: Run -asciinema
-        run:
-          sudo bash f8x -asciinema
-
-      - name: Run -music
-        run:
-          sudo bash f8x -music
 
   ubuntu-2004-build:
     runs-on: ubuntu-20.04
@@ -105,10 +69,6 @@ jobs:
         run:
           sudo bash f8x -h
 
-      - name: Run -optimize
-        run:
-          sudo bash f8x -optimize
-
       - name: Run -clear
         run:
           sudo bash f8x -clear
@@ -136,35 +96,3 @@ jobs:
       - name: log
         run:
           cat /tmp/f8x_error.log
-
-      - name: Run -nn
-        run:
-          sudo bash f8x -nn
-
-      - name: Run -vol3
-        run:
-          sudo bash f8x -vol3
-
-      - name: Run -frp
-        run:
-          sudo bash f8x -frp
-
-      - name: Run -goby
-        run:
-          sudo bash f8x -goby
-
-      - name: Run -nps
-        run:
-          sudo bash f8x -nps
-
-      - name: Run -sharry
-        run:
-          sudo bash f8x -sharry
-
-      - name: Run -asciinema
-        run:
-          sudo bash f8x -asciinema
-
-      - name: Run -music
-        run:
-          sudo bash f8x -music

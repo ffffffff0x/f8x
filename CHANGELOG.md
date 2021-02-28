@@ -2,6 +2,18 @@
 
 ## Details
 
+### [1.4.5] - 2021-02-28
+
+* 添加 -swap 选项,用于添加 swap 分区
+* 添加 -cloud 选项,用于安装 Terraform、Serverless Framework、wrangler
+* 添加 -bypass 选项,用于安装一些代码混淆的模块
+* 添加对 kali2021、Ubuntu 21.01、Ubuntu 19.10、Debian 11 系统的支持
+* 添加对 docker 环境下的判断
+* 添加 nn_Check、Rust_Check 用于检查依赖
+* Debian 系 Docker 安装完毕后会自动删除 /etc/apt/sources.list.d/docker.list
+* 修复 -rust 选项不会走代理的错误
+* 重构 -nn 选项的安装方式
+
 ### [1.4.4] - 2021-02-24
 
 * 修复 -viper 选项的路径问题 [#2](https://github.com/ffffffff0x/f8x/issues/2)
