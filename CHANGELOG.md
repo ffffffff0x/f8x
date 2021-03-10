@@ -2,6 +2,14 @@
 
 ## Details
 
+### [1.4.6] - 2021-03-10
+* 添加 -clamav 选项
+* 添加 -update 选项
+* -d 选项添加 SDKMAN
+* -rmlock 选项添加一条命令 `dpkg --configure -a > /dev/null 2>&1`
+* 修复 -pip2-force 选项的文件链接问题
+* 将 -ssr 选项的安装包移至 github,走 jsdelivr cdn 下载
+
 ### [1.4.5] - 2021-02-28
 
 * 添加 -swap 选项,用于添加 swap 分区

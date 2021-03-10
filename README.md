@@ -51,13 +51,13 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **1. 批量化安装**
 - 使用 -b 选项安装基本环境        (gcc、make、git、vim、telnet、jq、unzip 等基本工具)
-- 使用 -p 选项安装代理环境        (警告: 国外云服务器上不要用, 会降速)
-- 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose)
+- 使用 -p 选项安装代理环境        (警告:国外云服务器上不要用,会降速)
+- 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
 - 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
-- 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马 webshell 查杀工具)
+- 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
 - 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli)
 - 使用 -cloud 选项安装云应用      (Terraform、Serverless Framework、wrangler)
-- 使用 -all 选项全自动化部署      (默认不走代理, 兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
+- 使用 -all 选项全自动化部署      (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 **2. 开发环境**
 - 使用 -nn 选项安装 npm & NodeJs 环境
@@ -74,6 +74,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 **3. 蓝队服务**
 - 使用 -binwalk 选项安装 binwalk 环境
 - 使用 -binwalk-f 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
+- 使用 -clamav 选项安装 ClamAV 工具
 - 使用 -hfish 选项安装 HFish 蜜罐
 - 使用 -lt 选项部署 LogonTracer 环境           (非超高配置机器不要部署,这个应用太吃配置了)
 - 使用 -suricata 选项部署 Suricata 环境
@@ -111,6 +112,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -remove 选项卸载国内 vps 云监控
 - 使用 -rmlock 选项运行除锁模块
 - 使用 -swap 选项配置 swap 分区
+- 使用 -update 选项更新 f8x 工具
 
 ---
 
@@ -124,11 +126,6 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 4. 要求你修改 /etc/proxychains.conf 文件
 5. 修改 pip 代理为 https://mirrors.aliyun.com/pypi/simple/
 6. 修改 docker 代理为 https://docker.mirrors.ustc.edu.cn , 并重启 docker 服务
-
-**为啥要从 ffffffff0x.com 或 gitee.com 下载软件压缩包**
-
-1. 下载的都是需要科学上网的东西,所以尽量在不科学上网的情况下,速度较快的下载,所以这个是先有鸡还是先有蛋的问题
-2. oracle jdk 安装包我就不用解释了把🤣
 
 ---
 
@@ -164,9 +161,14 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - [x] awvs
 - [x] CS CrossC2 插件
 - [x] 增加虚拟内存
-- [ ] tomcat 指定版本安装选项
-- [ ] weblogic 指定版本安装选项
+- [x] tomcat 指定版本安装选项(使用 sdkman 进行安装)
 - [ ] 完善 -info 选项内容
+
+---
+
+## 开发日志
+
+[f8x 开发记录](https://r0fus0d.blog.ffffffff0x.com/post/f8x_development_record/)
 
 ---
 
