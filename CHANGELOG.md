@@ -2,6 +2,14 @@
 
 ## Details
 
+### [1.4.7] - 2021-03-21
+* -s 选项添加 anti-portscan
+* -k 选项添加 Responder、Girsh、ApkAnalyser
+* -f 选项添加 thefuck
+* 修改检查是否已安装状态的方法
+* 完善 -info 的输出
+* 调整默认的安装逻辑，在检测到前置软件为安装时会自动安装
+
 ### [1.4.6] - 2021-03-10
 * 添加 -clamav 选项
 * 添加 -update 选项
