@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.4.6 Dev"
+F8x_Version="1.4.7 Dev"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version=jdk1.8.0_271
@@ -67,11 +67,13 @@ CrossC2_Ver="v2.2"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
 node_Dir="node-v14.16.0-linux-x64"
+Girsh_Ver="v0.2"
+Girsh_bin="Girsh-v0.2-linux-amd64.tar.gz"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
 
-    mkdir -p /tmp 1> /dev/null 2>> /tmp/f8x_error.log
+    mkdir -p /tmp > /dev/null 2>&1
 
     if test -d $T_Dir
     then
@@ -80,7 +82,7 @@ Base_Dir(){
         mkdir -p $T_Dir && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已新建 $T_Dir 文件夹\033[0m"
     fi
 
-    timedatectl set-timezone Asia/Shanghai 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前时区已设置为 Asia/Shanghai\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m时区设置失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    timedatectl set-timezone Asia/Shanghai > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前时区已设置为 Asia/Shanghai\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m时区设置失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
 
     date +"%Y-%m-%d" > /tmp/f8x_error.log
 
@@ -137,9 +139,9 @@ Base_Check(){
 
     if [ $error == 1 ]
     then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,请先运行 -b 选项安装基本依赖\033[0m"
-        echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
-        exit 1
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装基本依赖\033[0m"
+        Base_Install
+        error=0
     else
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m依赖项正常\033[0m"
     fi
@@ -156,9 +158,10 @@ Py_Check(){
 
     if [ $error == 1 ]
     then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m开发环境检查不通过,请先运行 -d 选项安装 Python 环境\033[0m"
-        echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
-        exit 1
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m开发环境检查不通过,即将自动安装 Python 环境\033[0m"
+        Python3_Install
+        Python2_Install
+        error=0
     else
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m开发环境正常\033[0m"
     fi
@@ -167,9 +170,9 @@ Py_Check(){
 
 pip2_Check(){
 
-    pip2 -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mpip2 可用\033[0m" && error=0 || error=1
+    pip2 -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mpip2 可用\033[0m"
 
-    if [ $error == 1 ]
+    if [ $? == 0 ]
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 pip2\033[0m"
         Python2_Install
@@ -180,9 +183,9 @@ pip2_Check(){
 
 pip3_Check(){
 
-    pip3 -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mpip3 可用\033[0m" && error=0 || error=1
+    pip3 -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mpip3 可用\033[0m"
 
-    if [ $error == 1 ]
+    if [ $? == 0 ]
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 pip3\033[0m"
         Python3_Install
@@ -201,6 +204,7 @@ nn_Check(){
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 npm & nodejs\033[0m"
         nn_Install
+        error=0
     else
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m依赖项正常\033[0m"
     fi
@@ -210,9 +214,9 @@ nn_Check(){
 Rust_Check(){
 
     echo -e "\033[1;33m\n>> 正在检测 Rust 可用性\n\033[0m"
-    cargo -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnode $(cargo -V) 可用\033[0m" || error=1
+    cargo -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mnode $(cargo -V) 可用\033[0m"
 
-    if [ $error == 1 ]
+    if [ $? == 0 ]
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m依赖项不通过,即将自动安装 Rust\033[0m"
         Rust_Install
@@ -1113,9 +1117,11 @@ Python3_Install(){
 # ===================== 安装 Go =====================
 Go_Install(){
 
-    if test -e /usr/bin/go
+    go version 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
     then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mGolang 已存在,若非管理员安装,建议追踪 /usr/bin/go 文件 \033[0m"
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mGolang 已存在 \033[0m"
     else
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 Go 安装包(~120M),该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK wget -P $T_Dir https://golang.org/dl/$Go_Bin > /dev/null 2>&1 && tar -C /usr/local -xzf $T_Dir/$Go_Bin && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已从 golang.org 下载完安装包\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m下载 Go 安装包失败! 请检查 proxychains4 配置的代理服务器是否可用!  \n\033[0m"
 
@@ -1151,9 +1157,9 @@ Go_Install(){
 # ===================== 安装 Docker =====================
 Docker_Install(){
 
-    docker -v 1> /dev/null 2>> /tmp/f8x_error.log && error=1 || error=0
+    docker -v 1> /dev/null 2>> /tmp/f8x_error.log
 
-    if [ $error == 1 ]
+    if [ $? == 0 ]
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mDocker 环境已存在\033[0m"
     else
@@ -1211,8 +1217,8 @@ Docker_Install(){
         systemctl enable docker 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mdocker 服务已配置开机自启\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mdocker 服务已配置开机自启失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     fi
 
-    docker-compose -version 1> /dev/null 2>> /tmp/f8x_error.log && error=1 || error=0
-    if [ $error == 1 ]
+    docker-compose -version 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mdocker-compose 已安装\033[0m"
     else
@@ -1220,8 +1226,8 @@ Docker_Install(){
         pip3 install docker-compose 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 docker-compose\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 docker-compose 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
     fi
 
-    lazydocker -version 1> /dev/null 2>> /tmp/f8x_error.log && error=1 || error=0
-    if [ $error == 1 ]
+    lazydocker -version 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mlazydocker 已安装\033[0m"
     else
@@ -1233,9 +1239,15 @@ Docker_Install(){
 # ===================== 安装 SDKMAN =====================
 SDKMAN_Install(){
 
-    cd /tmp && $Porxy_OK curl -o sdkman.sh "https://get.sdkman.io" > /dev/null 2>&1 && $Porxy_OK bash sdkman.sh > /dev/null 2>&1
-    source "/root/.sdkman/bin/sdkman-init.sh"
-    sdk version && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 SDKMAN 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 SDKMAN 工具失败\n\033[0m"
+    sdk version 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mSDKMAN 已安装\033[0m"
+    else
+        cd /tmp && $Porxy_OK curl -o sdkman.sh "https://get.sdkman.io" > /dev/null 2>&1 && $Porxy_OK bash sdkman.sh > /dev/null 2>&1
+        source "/root/.sdkman/bin/sdkman-init.sh"
+        sdk version && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 SDKMAN 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 SDKMAN 工具失败\n\033[0m"
+    fi
 
 }
 
@@ -1306,7 +1318,12 @@ Pentest_Base_Install(){
 # ===================== AboutSecurity =====================
 Pentest_Dic_Install(){
 
-    rm -rf $P_Dir/AboutSecurity && $Porxy_OK git clone https://github.com/ffffffff0x/AboutSecurity.git $P_Dir/AboutSecurity > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 AboutSecurity 字典库在 /pentest \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m从 github 下载 AboutSecurity 字典库失败!\n- 请检查是否安装 git 工具,建议先运行 -b 选项安装基本工具\n- 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
+    if test -d /pentest/AboutSecurity
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mAboutSecurity 字典库已存在\033[0m"
+    else
+        rm -rf $P_Dir/AboutSecurity && $Porxy_OK git clone https://github.com/ffffffff0x/AboutSecurity.git $P_Dir/AboutSecurity > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 AboutSecurity 字典库在 /pentest \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m从 github 下载 AboutSecurity 字典库失败!\n- 请检查是否安装 git 工具,建议先运行 -b 选项安装基本工具\n- 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
+    fi
 
 }
 
@@ -1374,14 +1391,19 @@ Pentest_pip_Install(){
 # ===================== 安装 hashcat、7z2hashcat 工具 =====================
 Pentest_hashcat_Install(){
 
-    rm -rf $P_Dir/hashcat-6.1.1* 1> /dev/null 2>> /tmp/f8x_error.log
-    $Porxy_OK wget -O $P_Dir/hashcat-6.1.1.7z https://hashcat.net/files/hashcat-6.1.1.7z --no-check-certificate > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 hashcat-6.1.1\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m hashcat-6.1.1 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    rm -rf $P_Dir/7z2hashcat.pl 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK curl -o $P_Dir/7z2hashcat.pl https://raw.githubusercontent.com/philsmd/7z2hashcat/master/7z2hashcat.pl > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 7z2hashcat.pl 在 $P_Dir 目录下 \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m7z2hashcat.pl 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    7za x $P_Dir/hashcat-6.1.1.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 $P_Dir/hashcat-6.1.1.7z 失败!\n\033[0m"
-    rm -rf $P_Dir/hashcat-6.1.1.7z 1> /dev/null 2>> /tmp/f8x_error.log
-    cd $P_Dir/hashcat* 1> /dev/null 2>> /tmp/f8x_error.log && chmod +x hashcat.bin && cp hashcat.bin hashcat
-    ln -s /pentest/hashcat-6.1.1/hashcat /usr/sbin/hashcat 1> /dev/null 2>> /tmp/f8x_error.log
-    hashcat --help 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 hashcat 在 $P_Dir/hashcat-6.1.1 目录下,直接输入 hashcat 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mhashcat 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    if test -d $P_Dir/hashcat-6.1.1
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mhashcat-6.1.1 已下载在 $P_Dir/hashcat-6.1.1\033[0m"
+    else
+        rm -rf $P_Dir/hashcat-6.1.1* 1> /dev/null 2>> /tmp/f8x_error.log
+        $Porxy_OK wget -O $P_Dir/hashcat-6.1.1.7z https://hashcat.net/files/hashcat-6.1.1.7z --no-check-certificate > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 hashcat-6.1.1\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m hashcat-6.1.1 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        rm -rf $P_Dir/7z2hashcat.pl 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK curl -o $P_Dir/7z2hashcat.pl https://raw.githubusercontent.com/philsmd/7z2hashcat/master/7z2hashcat.pl > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 7z2hashcat.pl 在 $P_Dir 目录下 \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m7z2hashcat.pl 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        7za x $P_Dir/hashcat-6.1.1.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 $P_Dir/hashcat-6.1.1.7z 失败!\n\033[0m"
+        rm -rf $P_Dir/hashcat-6.1.1.7z 1> /dev/null 2>> /tmp/f8x_error.log
+        cd $P_Dir/hashcat* 1> /dev/null 2>> /tmp/f8x_error.log && chmod +x hashcat.bin && cp hashcat.bin hashcat
+        ln -s /pentest/hashcat-6.1.1/hashcat /usr/sbin/hashcat 1> /dev/null 2>> /tmp/f8x_error.log
+        hashcat --help 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 hashcat 在 $P_Dir/hashcat-6.1.1 目录下,直接输入 hashcat 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mhashcat 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
@@ -1424,90 +1446,129 @@ Pentest_ncat_Install(){
 # ===================== 安装 ffuf 工具 =====================
 Pentest_ffuf_Install(){
 
-    cd /tmp && rm -rf $ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$ffuf_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    tar -zxvf $ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$ffuf_Install 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    mv --force ffuf /usr/local/bin/ && chmod +x /usr/local/bin/ffuf && rm -rf /tmp/$ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log
-    ffuf -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 ffuf $ffuf_Ver 在 /usr/local/bin/ 目录下,直接输入 ffuf 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mffuf 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    ffuf -V 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mffuf 已安装 \033[0m"
+    else
+        cd /tmp && rm -rf $ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$ffuf_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        tar -zxvf $ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$ffuf_Install 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        mv --force ffuf /usr/local/bin/ && chmod +x /usr/local/bin/ffuf && rm -rf /tmp/$ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log
+        ffuf -V 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 ffuf $ffuf_Ver 在 /usr/local/bin/ 目录下,直接输入 ffuf 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mffuf 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
 # ===================== 安装 JSFinder 工具 =====================
 Pentest_JSFinder_Install(){
 
-    cd $P_Dir && rm -rf JSFinder 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/Threezh1/JSFinder.git > /dev/null 2>&1 && cd JSFinder || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mJSFinder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    python3 JSFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 JSFinder 在 $P_Dir/JSFinder 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mJSFinder 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    if test -d $P_Dir/JSFinder
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mJSFinder 已下载在 $P_Dir/JSFinder\033[0m"
+    else
+        cd $P_Dir && rm -rf JSFinder 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/Threezh1/JSFinder.git > /dev/null 2>&1 && cd JSFinder || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mJSFinder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        python3 JSFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 JSFinder 在 $P_Dir/JSFinder 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mJSFinder 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
 # ===================== 安装 SecretFinder 工具 =====================
 Pentest_SecretFinder_Install(){
 
-    cd $P_Dir && rm -rf SecretFinder 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/m4ll0k/SecretFinder.git > /dev/null 2>&1 && cd SecretFinder || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mSecretFinder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装依赖模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    python3 SecretFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 SecretFinder 在 $P_Dir/SecretFinder 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mSecretFinder 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    if test -d $P_Dir/SecretFinder
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mSecretFinder 已下载在 $P_Dir/SecretFinder\033[0m"
+    else
+        cd $P_Dir && rm -rf SecretFinder 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/m4ll0k/SecretFinder.git > /dev/null 2>&1 && cd SecretFinder || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mSecretFinder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装依赖模块\033[0m" || ( echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m" && rm -rf $P_Dir/SecretFinder )
+        python3 SecretFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 SecretFinder 在 $P_Dir/SecretFinder 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mSecretFinder 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
 # ===================== 安装 WebAliveScan 工具 =====================
 Pentest_WebAliveScan_Install(){
 
-    cd $P_Dir && rm -rf WebAliveScan 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/broken5/WebAliveScan.git > /dev/null 2>&1 && cd WebAliveScan || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mWebAliveScan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    pip3 install -r requirements.txt > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装依赖模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    pip3 install gevent > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 gevent 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 gevent 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    python3 webscan.py --help > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 WebAliveScan 在 $P_Dir/WebAliveScan 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mWebAliveScan 安装失败! \033[0m"
+    if test -d $P_Dir/WebAliveScan
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mWebAliveScan 已下载在 $P_Dir/WebAliveScan\033[0m"
+    else
+        cd $P_Dir && rm -rf WebAliveScan 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/broken5/WebAliveScan.git > /dev/null 2>&1 && cd WebAliveScan || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mWebAliveScan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        pip3 install -r requirements.txt > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装依赖模块\033[0m" || ( echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m" && rm -rf $P_Dir/WebAliveScan )
+        pip3 install gevent > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 gevent 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 gevent 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        python3 webscan.py --help > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 WebAliveScan 在 $P_Dir/WebAliveScan 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mWebAliveScan 安装失败! \033[0m"
+    fi
 
 }
 
 # ===================== 安装 OneForAll 工具 =====================
 Pentest_OneForAll_Install(){
 
-    python3 -m pip install setuptools 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 setuptools 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 setuptools 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    python3 -m pip install wheel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 wheel 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 wheel 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    cd $P_Dir && rm -rf OneForAll 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/shmilylty/OneForAll > /dev/null 2>&1 && cd OneForAll || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mOneForAll 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在安装依赖模块,该步骤可能运行较长时间,请耐心等待\033[0m" && pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装其他依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    python3 oneforall.py version 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 OneForAll 在 $P_Dir/OneForAll 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mOneForAll 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    if test -d $P_Dir/OneForAll
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mOneForAll 已下载在 $P_Dir/OneForAll\033[0m"
+    else
+        python3 -m pip install setuptools 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 setuptools 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 setuptools 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        python3 -m pip install wheel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 wheel 模块\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 wheel 模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        cd $P_Dir && rm -rf OneForAll 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/shmilylty/OneForAll > /dev/null 2>&1 && cd OneForAll || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mOneForAll 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在安装依赖模块,该步骤可能运行较长时间,请耐心等待\033[0m" && pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log || ( echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装其他依赖模块失败,请查看日志 /tmp/f8x_error.log \n\033[0m" && rm -rf $P_Dir/OneForAll )
+        python3 oneforall.py version 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 OneForAll 在 $P_Dir/OneForAll 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mOneForAll 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
 # ===================== 安装 ksubdomain 工具 =====================
 Pentest_ksubdomain_Install(){
 
-    Rm_Lock
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            yum install -y libpcap 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libpcap 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libpcap 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-            yum install -y libpcap-devel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libpcap-devel 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libpcap-devel 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m" ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            apt-get install -y libpcap-dev 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libpcap-dev 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libpcap-dev 工具失败! 请手动运行 apt-get install -y libpcap-dev 进行安装,此工具是 ksubdomain 必要组件\n\033[0m" ;;
-        *) ;;
-    esac
+    ksubdomain 1> /dev/null 2>> /tmp/f8x_error.log
 
-    cd $T_Dir && rm -rf $ksubdomain_Install 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf ksubdomain 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/knownsec/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$ksubdomain_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    unzip $ksubdomain_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 $T_Dir/$ksubdomain_Install 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    mv --force ksubdomain /usr/local/bin/ && chmod +x /usr/local/bin/ksubdomain && rm -rf ${T_Dir:?}/${ksubdomain_Install} 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mksubdomain 已安装 \033[0m"
+    else
+        Rm_Lock
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                yum install -y libpcap 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libpcap 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libpcap 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+                yum install -y libpcap-devel 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libpcap-devel 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libpcap-devel 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m" ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                apt-get install -y libpcap-dev 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 libpcap-dev 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 libpcap-dev 工具失败! 请手动运行 apt-get install -y libpcap-dev 进行安装,此工具是 ksubdomain 必要组件\n\033[0m" ;;
+            *) ;;
+        esac
 
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-                if test -e /usr/lib64/libpcap.so.0.8
-                then
-                    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mlibpcap.so.0.8 文件已存在\033[0m"
-                else
-                    cd /usr/lib64/ && ln -s libpcap.so.1 libpcap.so.0.8 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已配置 libpcap.so.0.8\033[0m"
-                fi
-            ;;
-        *) ;;
-    esac
+        cd $T_Dir && rm -rf $ksubdomain_Install 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf ksubdomain 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/knownsec/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$ksubdomain_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        unzip $ksubdomain_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 $T_Dir/$ksubdomain_Install 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        mv --force ksubdomain /usr/local/bin/ && chmod +x /usr/local/bin/ksubdomain && rm -rf ${T_Dir:?}/${ksubdomain_Install} 1> /dev/null 2>> /tmp/f8x_error.log
 
-    ksubdomain > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 ksubdomain $ksubdomain_Ver 在 /usr/local/bin/ 目录下,直接输入 ksubdomain 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mksubdomain 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                    if test -e /usr/lib64/libpcap.so.0.8
+                    then
+                        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mlibpcap.so.0.8 文件已存在\033[0m"
+                    else
+                        cd /usr/lib64/ && ln -s libpcap.so.1 libpcap.so.0.8 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已配置 libpcap.so.0.8\033[0m"
+                    fi
+                ;;
+            *) ;;
+        esac
+
+        ksubdomain > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 ksubdomain $ksubdomain_Ver 在 /usr/local/bin/ 目录下,直接输入 ksubdomain 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mksubdomain 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
 # ===================== 安装 Impacket 工具 =====================
 Pentest_Impacket_Install(){
 
-    rm -rf $P_Dir/impacket 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/SecureAuthCorp/impacket.git $P_Dir/impacket > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 impacket 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mimpacket 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    cd $P_Dir/impacket && pip3 install . > /dev/null 2>&1
-    python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Impacket 在 $P_Dir/impacket 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Impacket 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    if test -d $P_Dir/impacket
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mImpacket 已下载在 $P_Dir/impacket\033[0m"
+    else
+        rm -rf $P_Dir/impacket 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/SecureAuthCorp/impacket.git $P_Dir/impacket > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 impacket 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mimpacket 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        cd $P_Dir/impacket && pip3 install . > /dev/null 2>&1
+        python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Impacket 在 $P_Dir/impacket 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Impacket 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    fi
 
 }
 
@@ -1515,14 +1576,14 @@ Pentest_Impacket_Install(){
 Pentest_CobaltStrike_Install(){
 
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在检测 jdk 环境可用性\033[0m"
-    java -version > /dev/null 2>&1 || error=1
+    java -version > /dev/null 2>&1
 
-    if [ $error == 1 ]
+    if [ $? == 0 ]
     then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mjdk 环境正常\033[0m"
+    else
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m未检测到 jdk 环境,正在自动安装 oracle-jdk\033[0m"
         Oraclejdk_Install
-    else
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mjdk 环境正常\033[0m"
     fi
 
     if test -d $P_Dir/$CS_Version
@@ -1560,52 +1621,85 @@ Pentest_CobaltStrike_Install(){
 # ===================== 部署 Metasploit 框架 =====================
 Pentest_Metasploit_Install(){
 
-    Rm_Lock
-    cd $T_Dir && rm -rf msfinstall 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb 1> /dev/null 2>> /tmp/f8x_error.log && chmod 777 msfinstall
-    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在部署 Metasploit 框架,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK ./msfinstall 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Metasploit 框架,输入 msfconsole 进行体验\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m部署 Metasploit 框架失败!\033[0m"
-    rm -rf msfinstall 1> /dev/null 2>> /tmp/f8x_error.log
+    msfconsole -h 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mMetasploit 已安装 \033[0m"
+    else
+        Rm_Lock
+        cd /tmp && rm -rf msfinstall 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb 1> /dev/null 2>> /tmp/f8x_error.log && chmod 777 msfinstall
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在部署 Metasploit 框架,该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK ./msfinstall 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Metasploit 框架,输入 msfconsole 进行体验\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m部署 Metasploit 框架失败!\033[0m"
+        rm -rf msfinstall 1> /dev/null 2>> /tmp/f8x_error.log
+    fi
 
 }
 
 # ===================== 安装 Sqlmap 工具 =====================
 Pentest_Sqlmap_Install(){
 
-    cd $P_Dir && rm -rf sqlmap* 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 Sqlmap 工具(~70M),该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK git clone https://github.com/sqlmapproject/sqlmap > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m下载 sqlmap 失败! 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
-    cd sqlmap && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Sqlmap$(python3 sqlmap.py --version) 在 $P_Dir/sqlmap 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Sqlmap 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    if test -d $P_Dir/sqlmap
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mSqlmap 已下载在 $P_Dir/sqlmap\033[0m"
+    else
+        cd $P_Dir && rm -rf sqlmap* 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 Sqlmap 工具(~70M),该步骤可能运行较长时间,请耐心等待\033[0m" && $Porxy_OK git clone https://github.com/sqlmapproject/sqlmap > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m下载 sqlmap 失败! 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
+        cd sqlmap && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Sqlmap$(python3 sqlmap.py --version) 在 $P_Dir/sqlmap 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 Sqlmap 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    fi
 
 }
 
 # ===================== 安装 RustScan 工具 =====================
 Pentest_RustScan_Install(){
 
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            rm -rf /var/cache/dnf/metadata_lock.pid  2> /dev/null
-            $Porxy_OK dnf install -y 'dnf-command(copr)' 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf copr enable atim/rustscan -y 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf install -y rustscan 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 RustScan 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 RustScan 工具失败! 请检查是否安装 dnf!请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m" ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            cd $T_Dir && rm -rf $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mRustScan 失败!\n- 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
-            dpkg -i $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 RustScan 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 RustScan 工具失败! 在部分 debian 系列发行版上可能遇到 libc6 问题, 请自行解决\033[0m"
-            rm -rf $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log
-            ;;
-        *) ;;
-    esac
+    rustscan -V 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mRustScan 已安装 \033[0m"
+    else
+
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                rm -rf /var/cache/dnf/metadata_lock.pid  2> /dev/null
+                $Porxy_OK dnf install -y 'dnf-command(copr)' 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf copr enable atim/rustscan -y 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf install -y rustscan 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 RustScan 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 RustScan 工具失败! 请检查是否安装 dnf!请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m" ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                cd $T_Dir && rm -rf $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mRustScan 失败!\n- 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
+                dpkg -i $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 RustScan 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 RustScan 工具失败! 在部分 debian 系列发行版上可能遇到 libc6 问题, 请自行解决\033[0m"
+                rm -rf $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log
+                ;;
+            *) ;;
+        esac
+
+    fi
 
 }
 
 # ===================== 安装 WAFW00F 工具 =====================
 Pentest_WAFW00F_Install(){
 
-    cd $P_Dir && rm -rf wafw00f* 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 WAFW00F 工具\033[0m" && $Porxy_OK git clone https://github.com/EnableSecurity/wafw00f > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m WAFW00F 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
-    cd wafw00f && python3 setup.py install > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 WAFW00F 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 WAFW00F 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    wafw00f -V 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mWAFW00F 已安装 \033[0m"
+    else
+        cd $P_Dir && rm -rf wafw00f* 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 WAFW00F 工具\033[0m" && $Porxy_OK git clone https://github.com/EnableSecurity/wafw00f > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m WAFW00F 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
+        cd wafw00f && python3 setup.py install > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 WAFW00F 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 WAFW00F 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    fi
 
 }
 
 # ===================== 安装 xray 工具 =====================
 Pentest_xray_Install(){
 
-    cd $P_Dir && rm -rf xray* 1> /dev/null 2>> /tmp/f8x_error.log
-    mkdir xray && cd $_ && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 xray 工具\033[0m" && $Porxy_OK wget https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mxray 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
-    unzip $xray_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $xray_File && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 xray$xray_Ver 在 $P_Dir/xray 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 xray 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    if test -d $P_Dir/xray
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mxray 已下载在 $P_Dir/xray\033[0m"
+    else
+        cd $P_Dir && rm -rf xray* 1> /dev/null 2>> /tmp/f8x_error.log
+        mkdir xray && cd $_ && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m正在下载 xray 工具\033[0m" && $Porxy_OK wget https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mxray 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \033[0m"
+        unzip $xray_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $xray_File && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 xray$xray_Ver 在 $P_Dir/xray 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 xray 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    fi
 
 }
 
@@ -1628,9 +1722,16 @@ Pentest_masscan_Install(){
 # ===================== 安装 fscan 工具 =====================
 Pentest_fscan_Install(){
 
-    cd /tmp && rm -rf $fscan_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mfscan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    mv $fscan_Install fscan && mv --force fscan /usr/local/bin/ && chmod +x /usr/local/bin/fscan
-    fscan > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 fscan $fscan_Ver 在 /usr/local/bin/ 目录下,直接输入 fscan 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mfscan 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fscan 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mfscan 已安装 \033[0m"
+    else
+        cd /tmp && rm -rf $fscan_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mfscan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        mv $fscan_Install fscan && mv --force fscan /usr/local/bin/ && chmod +x /usr/local/bin/fscan
+        fscan > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 fscan $fscan_Ver 在 /usr/local/bin/ 目录下,直接输入 fscan 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mfscan 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
@@ -1644,46 +1745,121 @@ Pentest_pocsuite3_Install(){
 # ===================== 安装 Nuclei 工具 =====================
 Pentest_Nuclei_Install(){
 
-    cd /tmp && rm -rf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$Nuclei_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    tar -zxvf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$Nuclei_Install 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    mv --force nuclei /usr/local/bin/ && chmod +x /usr/local/bin/nuclei && rm -rf /tmp/$Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log
-    nuclei -version > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Nuclei $Nuclei_Ver 在 /usr/local/bin/ 目录下,直接输入 nuclei 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mnuclei 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    nuclei -version 1> /dev/null 2>> /tmp/f8x_error.log
 
-    echo -e "\033[1;33m\n>> 正在更新 Nuclei 扫描规则\n\033[0m"
-    cd $P_Dir && $Porxy_OK nuclei -update-templates > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已更新 nuclei-templates 列表 \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mnuclei-templates 列表更新失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mNuclei 已安装\033[0m"
+    else
+        cd /tmp && rm -rf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$Nuclei_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        tar -zxvf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$Nuclei_Install 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        mv --force nuclei /usr/local/bin/ && chmod +x /usr/local/bin/nuclei && rm -rf /tmp/$Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log
+        nuclei -version > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Nuclei $Nuclei_Ver 在 /usr/local/bin/ 目录下,直接输入 nuclei 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mnuclei 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
+        echo -e "\033[1;33m\n>> 正在更新 Nuclei 扫描规则\n\033[0m"
+        cd $P_Dir && $Porxy_OK nuclei -update-templates > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已更新 nuclei-templates 列表 \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mnuclei-templates 列表更新失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
 # ===================== 安装 rad 工具 =====================
 Pentest_rad_Install(){
 
-    cd /tmp && rm -rf $rad_File 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/chaitin/rad/releases/download/$rad_Ver/$rad_File > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$rad_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    unzip $rad_File 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$rad_File 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    mv rad_linux_amd64 rad
-    mv --force rad /usr/local/bin/ && chmod +x /usr/local/bin/rad && rm -rf /tmp/$rad_File 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 rad $rad_Ver 在 /usr/local/bin/ 目录下,直接输入 rad 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mrad 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    rad -h 1> /dev/null 2>> /tmp/f8x_error.log
 
-    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[INFOR]\033[0m - \033[1;33mrad 需配合 chromium 使用,可使用 -chromium 选项安装 chromium \033[0m"
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mrad 已安装\033[0m"
+    else
+        cd /tmp && rm -rf $rad_File 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/chaitin/rad/releases/download/$rad_Ver/$rad_File > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$rad_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        unzip $rad_File 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$rad_File 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        mv rad_linux_amd64 rad
+        mv --force rad /usr/local/bin/ && chmod +x /usr/local/bin/rad && rm -rf /tmp/$rad_File 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 rad $rad_Ver 在 /usr/local/bin/ 目录下,直接输入 rad 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mrad 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[INFOR]\033[0m - \033[1;33mrad 需配合 chromium 使用,可使用 -chromium 选项安装 chromium \033[0m"
+    fi
 
 }
 
 # ===================== 安装 crawlergo 工具 =====================
 Pentest_crawlergo_Install(){
 
-    cd /tmp && rm -rf $crawlergo_File 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/0Kee-Team/crawlergo/releases/download/$crawlergo_Ver/$crawlergo_File > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$crawlergo_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    unzip $crawlergo_File 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$crawlergo_File 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
-    mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -rf /tmp/$crawlergo_File 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 crawlergo $crawlergo_Ver 在 /usr/local/bin/ 目录下,直接输入 crawlergo 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mcrawlergo 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    crawlergo -v 1> /dev/null 2>> /tmp/f8x_error.log
 
-    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[INFOR]\033[0m - \033[1;33mrad 需配合 chromium 使用,可使用 -chromium 选项安装 chromium \033[0m"
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mcrawlergo 已安装\033[0m"
+    else
+        cd /tmp && rm -rf $crawlergo_File 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/0Kee-Team/crawlergo/releases/download/$crawlergo_Ver/$crawlergo_File > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$crawlergo_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        unzip $crawlergo_File 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$crawlergo_File 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -rf /tmp/$crawlergo_File 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 crawlergo $crawlergo_Ver 在 /usr/local/bin/ 目录下,直接输入 crawlergo 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mcrawlergo 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[INFOR]\033[0m - \033[1;33mrad 需配合 chromium 使用,可使用 -chromium 选项安装 chromium \033[0m"
+    fi
 
 }
 
 # ===================== 安装 w13scan 工具 =====================
 Pentest_w13scan_Install(){
 
-    rm -rf $P_Dir/w13scan 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/w-digital-scanner/w13scan.git $P_Dir/w13scan > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 w13scan 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mw13scan 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
-    cd $P_Dir/w13scan && pip3 install -r requirements.txt > /dev/null 2>&1
-    pip3 install cowpy > /dev/null 2>&1
-    cd W13SCAN && python3 w13scan.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 w13scan 在 $P_Dir/w13scan 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 w13scan 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    if test -d $P_Dir/w13scan
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mw13scan 已下载在 $P_Dir/w13sca\033[0m"
+    else
+        rm -rf $P_Dir/w13scan 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/w-digital-scanner/w13scan.git $P_Dir/w13scan > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 w13scan 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mw13scan 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        cd $P_Dir/w13scan && pip3 install -r requirements.txt > /dev/null 2>&1
+        pip3 install cowpy > /dev/null 2>&1
+        cd W13SCAN && python3 w13scan.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 w13scan 在 $P_Dir/w13scan 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 w13scan 工具失败,请查看日志 /tmp/f8x_error.log \033[0m"
+    fi
+
+}
+
+# ===================== 安装 Responder 工具 =====================
+Pentest_Responder_Install(){
+
+    if test -d $P_Dir/Responder
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mResponder 已下载在 $P_Dir/Responder\033[0m"
+    else
+        cd $P_Dir && rm -rf Responder 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/lgandx/Responder.git > /dev/null 2>&1 && cd Responder || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mResponder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        python3 Responder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Responder 在 $P_Dir/Responder 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mResponder 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
+
+    if test -d $P_Dir/krbrelayx
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mkrbrelayx 已下载在 $P_Dir/krbrelayx\033[0m"
+    else
+        cd $P_Dir && rm -rf krbrelayx 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/dirkjanm/krbrelayx.git > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 krbrelayx 在 $P_Dir/krbrelayx 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mkrbrelayx 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+    fi
+
+}
+
+# ===================== 安装 Girsh 工具 =====================
+Pentest_Girsh_Install(){
+
+    Girsh -h 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mGirsh 已安装 \033[0m"
+    else
+        cd /tmp && rm -rf $Girsh_bin 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/nodauf/Girsh/releases/download/$Girsh_Ver/$Girsh_bin > /dev/null 2>&1 || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$Girsh_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+        tar -zxvf $Girsh_bin 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m解压 /tmp/$Girsh_bin 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+        mv --force Girsh /usr/local/bin/ && chmod +x /usr/local/bin/Girsh && rm -rf /tmp/$Girsh_bin 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 Girsh $Girsh_Ver 在 /usr/local/bin/ 目录下,直接输入 Girsh 即可使用\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mGirsh 安装失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
+
+}
+
+# ===================== 安装 ApkAnalyser 工具 =====================
+Pentest_ApkAnalyser_Install(){
+
+    if test -e $P_Dir/apkAnalyser.py
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mApkAnalyser 已下载在 $P_Dir/ \033[0m"
+    else
+
+        cd $P_Dir && rm -rf krbrelayx 1> /dev/null 2>> /tmp/f8x_error.log && curl -o apkAnalyser.py https://cdn.jsdelivr.net/gh/TheKingOfDuck/ApkAnalyser@main/apkAnalyser.py > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 ApkAnalyser 在 $P_Dir/ 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mApkAnalyser 下载失败! 请检查 proxychains4 配置的代理服务器是否可用!\n\033[0m"
+    fi
 
 }
 
@@ -1718,10 +1894,15 @@ Secure_Fail2Ban_Install(){
 # ===================== 安装 chkrootkit 工具 =====================
 Secure_chkrootkit_Install(){
 
-    cd $T_Dir && rm -rf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 chkrootkit 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mchkrootkit 工具下载失败! \n\033[0m"
-    tar zxvf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log
-    cd chkrootkit-* && make sense 1> /dev/null 2>> /tmp/f8x_error.log
-    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 chkrootkit 工具在 $T_Dir 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 chkrootkit 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    if test -d $T_Dir/chkrootkit-*
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mchkrootkit 已下载在 $T_Dir/\033[0m"
+    else
+        cd $T_Dir && rm -rf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 chkrootkit 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mchkrootkit 工具下载失败! \n\033[0m"
+        tar zxvf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log
+        cd chkrootkit-* && make sense 1> /dev/null 2>> /tmp/f8x_error.log
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 chkrootkit 工具在 $T_Dir 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 chkrootkit 工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
 
 }
 
@@ -1745,8 +1926,25 @@ Secure_rkhunter_Install(){
 # ===================== 安装 shellpub 工具 =====================
 Secure_shellpub_Install(){
 
-    cd $T_Dir && rm -rf $T_Dir/hm && mkdir $T_Dir/hm && cd $_ && $Porxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载河马 webshell 查杀工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m河马 webshell 查杀工具下载失败! \n\033[0m"
-    tar zxvf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装河马 webshell 查杀工具在 $T_Dir/hm 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装河马 webshell 查杀工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    if test -d $T_Dir/hm
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33m河马 webshell 查杀工具已下载在 $T_Dir/hm\033[0m"
+    else
+        cd $T_Dir && rm -rf $T_Dir/hm && mkdir $T_Dir/hm && cd $_ && $Porxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载河马 webshell 查杀工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m河马 webshell 查杀工具下载失败! \n\033[0m"
+        tar zxvf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装河马 webshell 查杀工具在 $T_Dir/hm 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装河马 webshell 查杀工具失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+    fi
+
+}
+
+# ===================== 安装 anti-portscan 工具 =====================
+Secure_anti_portscan_Install(){
+
+    if test -d $T_Dir/anti-portscan
+    then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33manti-portscan 已下载在 $T_Dir/anti-portscan\033[0m"
+    else
+        cd $T_Dir && rm -rf anti-portscan 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/EtherDream/anti-portscan.git > /dev/null 2>&1 && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已下载 anti-portscan 在 $T_Dir/anti-portscan 目录下\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31manti-portscan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
+    fi
 
 }
 
@@ -1755,7 +1953,7 @@ Bash_Insulter(){
 
     if test -e /etc/bash.command-not-found
     then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mBash_Insulter 已安装在 /etc/bash.command-not-found\033[0m"
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mBash_Insulter 已安装在 /etc/bash.command-not-found\033[0m"
     else
         rm -rf $T_Dir/bash-insulter 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK git clone https://github.com/No-Github/bash-insulter.git $T_Dir/bash-insulter 1> /dev/null 2>> /tmp/f8x_error.log|| echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
         mv --force $T_Dir/bash-insulter/src/bash.command-not-found /etc/ && rm -rf $T_Dir/bash-insulter
@@ -1779,7 +1977,7 @@ vlmcsd_Install(){
 
     if test -d $T_Dir/vlmcsd
     then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mvlmcsd 已安装在 $T_Dir/vlmcsd\033[0m"
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mvlmcsd 已安装在 $T_Dir/vlmcsd\033[0m"
     else
         cd $T_Dir && rm -rf binaries.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf vlmcsd 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://github.com/Wind4/vlmcsd/releases/download/svn1113/binaries.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mvlmcsd 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
         tar -xzvf binaries.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log
@@ -1795,7 +1993,7 @@ AdguardTeam_Install(){
 
     if test -d $T_Dir/AdGuardHome
     then
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mAdguardTeam 已部署在 $T_Dir/AdGuardHome\033[0m"
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;33m[ALERT]\033[0m - \033[1;33mAdguardTeam 已部署在 $T_Dir/AdGuardHome\033[0m"
     else
         cd $T_Dir && rm -rf $AdguardTeam_File && $Porxy_OK wget https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.105.0-beta.2/$AdguardTeam_File 1> /dev/null 2>> /tmp/f8x_error.log || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mAdguardTeam 下载失败! 请检查 proxychains4 配置的代理服务器是否可用! \n\033[0m"
         tar -xzvf $AdguardTeam_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $AdguardTeam_File
@@ -1810,6 +2008,15 @@ trash-cli_Install(){
     pip3_Check
 
     pip3 install trash-cli 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 trash-cli 环境,现在可使用以下命令进行管理:\n- 移动文件到回收站 : trash-put\n- 列出回收站文件 : trash-list\n- 搜索回收站文件 : trash-list | grep foo\n- 恢复回收站文件 : trash-restore\n- 删除所有回收站文件 : trash-empty\n- 删除回收站中 n 天前被回收的文件 : trash-empty <days>\n- 只删除符合某种模式的文件 : trash-rm \\\*.o\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 trash-cli 环境失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
+
+}
+
+# ===================== 安装 thefuck 环境 =====================
+thefuck_Install(){
+
+    pip3_Check
+
+    pip3 install thefuck 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 thefuck \033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m安装 thefuck 失败,请查看日志 /tmp/f8x_error.log \n\033[0m"
 
 }
 
@@ -2219,9 +2426,9 @@ Openjdk_Install(){
 # -oraclejdk
 Oraclejdk_Install(){
 
-    java -version > /dev/null 2>&1 && error=1 || error=0
+    java -version > /dev/null 2>&1
 
-    if [ $error == 1 ]
+    if [ $? == 0 ]
     then
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 java 环境\033[0m"
     else
@@ -2566,7 +2773,94 @@ optimize_setting(){
 # -info
 System_info(){
 
-    echo -e "\033[1;33m\n>> 待完善\n\033[0m"
+    rm -rf /tmp/f8x_info.log
+
+    date +"%Y-%m-%d" > /tmp/f8x_info.log
+
+    echo -e "\033[1;33m\n>> 当前系统使用状态\n\033[0m"
+
+    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前用户: \033[0m"
+    w
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前系统管理员用户: \033[0m"
+    awk -F: '($3 == "0") {print}' /etc/passwd
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m近几次登陆情况: \033[0m"
+    last
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前内核版本: \033[0m"
+    uname -r
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前 CPU 型号: \033[0m"
+    cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前 CPU 使用情况: \033[0m"
+    uptime
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前 CPU 核数: \033[0m"
+    cat /proc/cpuinfo | grep 'processor' | sort | uniq | wc -l
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前内存使用情况: \033[0m"
+    free -h
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前 IP 地址: \033[0m"
+    ip addr | grep inet | grep -v "inet6" | grep -v "127.0.0.1" | awk '{ print $2; }' | tr '\n' '\t'
+
+    echo -e "\n\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前 TCP 连接: \033[0m"
+    cat  /proc/net/tcp | wc -l
+
+    echo -e "\n\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m磁盘空间利用率: \033[0m"
+    df -h
+
+    echo -e "\n\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m可用块设备信息: \033[0m"
+    lsblk
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前 swap 分区使用情况: (为空则代表没有配置 swap 分区) \033[0m"
+    swapon -s 2>> /tmp/f8x_error.log
+
+    echo -e "\n\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m挂载状态: \033[0m"
+    more /etc/fstab  | grep -v "^#" | grep -v "^$"
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m路由转发状态: \033[0m"
+    ip_forward=$(more /proc/sys/net/ipv4/ip_forward | awk -F: '{if ($1==1) print "1"}')
+    if [ -n "$ip_forward" ]; then
+        echo "已开启路由转发"
+    else
+        echo "未开启路由转发"
+    fi
+
+    echo -e "\033[1;33m\n>> 身份认证信息\n\033[0m"
+
+    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m系统所有用户: \033[0m"
+    echo -e "\n\n\n>> 系统所有用户: " >> /tmp/f8x_info.log
+    cut -d: -f1 /etc/passwd >> /tmp/f8x_info.log && echo -e "由于回显较多,已输出至 /tmp/f8x_info.log"
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m系统超级用户: \033[0m"
+    grep -v -E "^#" /etc/passwd | awk -F: '$3 == 0 { print $1}'
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m可以远程登录的帐号信息: \033[0m"
+    awk '/\$1|\$6/{print $1}' /etc/shadow
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m系统所有组: \033[0m"
+    echo -e "\n\n\n>> 系统所有组: " >> /tmp/f8x_info.log
+    cut -d: -f1,2,3 /etc/group >> /tmp/f8x_info.log && echo -e "由于回显较多,已输出至 /tmp/f8x_info.log"
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前用户的计划任务: \033[0m"
+    crontab -l
+
+    echo -e "\033[1;33m\n>> 安全信息\n\033[0m"
+
+    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m检查所有的 rpm 软件包，查看哪些命令被替换了: \033[0m"
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            rpm -Va
+            ;;
+        *) ;;
+    esac
+
+    echo -e "\n\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m系统所有别名: \033[0m"
+    echo -e "\n\n\n>> 系统所有别名: " >> /tmp/f8x_info.log
+    alias -p >> /tmp/f8x_info.log && echo -e "由于无法回显,已输出至 /tmp/f8x_info.log"
 
 }
 
@@ -2649,7 +2943,7 @@ remove_watcher(){
 swap_setting(){
 
     echo -e "\033[1;33m\n>> 正在进行 swap 分区配置\n\033[0m"
-    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前swap 分区使用情况如下: (为空则代表没有配置 swap 分区) \033[0m"
+    echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m当前 swap 分区使用情况如下: (为空则代表没有配置 swap 分区) \033[0m"
     swapon -s 2>> /tmp/f8x_error.log
 
     if test -e /home/f8xswap
@@ -2698,10 +2992,12 @@ sharry_Install(){
 asciinema_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装 asciinema 截图工具\n\033[0m"
-    pip3 install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具,运行以下命令开启截图:\nasciinema rec\033[0m" || error=1
+    pip3 install asciinema 1> /dev/null 2>> /tmp/f8x_error.log && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 asciinema 工具,运行以下命令开启截图:\nasciinema rec\033[0m"
 
-    if [ $error == 1 ]
+    if [ $? == 0 ]
     then
+        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mover~\033[0m"
+    else
         echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mpip3 安装 asciinema 失败,即将切换到包管理器安装\n\033[0m"
         Rm_Lock
         case $Linux_Version in
@@ -2713,8 +3009,6 @@ asciinema_Install(){
                 ;;
             *) ;;
         esac
-    else
-        echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mover~\033[0m"
     fi
 
 }
@@ -2786,6 +3080,8 @@ Fun_Tools(){
     AdguardTeam_Install
     echo -e "\033[1;33m\n>> 正在部署 trash-cli 服务\n\033[0m"
     trash-cli_Install
+    echo -e "\033[1;33m\n>> 正在安装 thefuck\n\033[0m"
+    thefuck_Install
 
 }
 
@@ -2812,8 +3108,8 @@ kali_Tools(){
     Pentest_JSFinder_Install
     echo -e "\033[1;33m\n>> 正在安装 SecretFinder 工具\n\033[0m"
     Pentest_SecretFinder_Install
-    echo -e "\033[1;33m\n>> 正在安装 WebAliveScan 工具\n\033[0m"
-    Pentest_WebAliveScan_Install
+    #echo -e "\033[1;33m\n>> 正在安装 WebAliveScan 工具\n\033[0m"
+    #Pentest_WebAliveScan_Install
     echo -e "\033[1;33m\n>> 正在安装 OneForAll 工具\n\033[0m"
     Pentest_OneForAll_Install
     echo -e "\033[1;33m\n>> 正在安装 ksubdomain 工具\n\033[0m"
@@ -2846,6 +3142,12 @@ kali_Tools(){
     Pentest_crawlergo_Install
     echo -e "\033[1;33m\n>> 正在安装 w13scan 工具\n\033[0m"
     Pentest_w13scan_Install
+    echo -e "\033[1;33m\n>> 正在安装 Responder 工具\n\033[0m"
+    Pentest_Responder_Install
+    echo -e "\033[1;33m\n>> 正在安装 Girsh 工具\n\033[0m"
+    Pentest_Girsh_Install
+    echo -e "\033[1;33m\n>> 正在安装 ApkAnalyser 工具\n\033[0m"
+    Pentest_ApkAnalyser_Install
 
 }
 
@@ -2868,6 +3170,8 @@ Secure(){
     Secure_rkhunter_Install
     echo -e "\033[1;33m\n>> 正在安装 河马 webshell 查杀工具\n\033[0m"
     Secure_shellpub_Install
+    echo -e "\033[1;33m\n>> 正在安装 anti-portscan\n\033[0m"
+    Secure_anti_portscan_Install
 
 }
 
@@ -2953,6 +3257,7 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-frp\033[0m \033[0;34m选项部署 frp 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-goby\033[0m \033[0;34m选项部署 Goby 环境 \033[0m               \033[1;33m(需要图形化环境)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-nps\033[0m \033[0;34m选项部署 nps 环境 \033[0m"
+    #echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-poc\033[0m \033[0;34m选项部署 公开的 poc 库 \033[0m            \033[1;33m(内容较多)\033[0m"
     echo -e ""
     echo -e "\033[1;34m5. 基于 Docker 的环境部署\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-arl\033[0m \033[0;34m选项部署 ARL 环境(872 MB)\033[0m"
@@ -2980,7 +3285,7 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-swap\033[0m \033[0;34m选项配置 swap 分区 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-update\033[0m \033[0;34m选项更新 f8x 工具 \033[0m"
     echo -e ""
-    echo -e "\033[1;37m脚本作者 r0fus0d \033[0m"
+    echo -e "\033[1;37m脚本作者 r0fus0d ,需要添加工具支持或运行遇到问题欢迎提交 issue\033[0m"
     echo -e "\033[1;37m|- 感谢 the-fog 在开发过程中对我的折磨 \033[0m"
     echo -e "\033[1;37m|- 感谢 xidaner 在开发过程给出的无用建议 \033[0m"
     echo -e "\033[1;37m|- 感谢 RyuZU 在旁边表演喷火 \033[0m"
@@ -3278,6 +3583,7 @@ case "$1" in
         ;;
     -debug)
         #Base_Check
+        #Pentest_Base_Install
         #Porxy_Switch
         echo -e "自毁程序启动,倒数5分钟"
         ;;
