@@ -82,6 +82,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -vol3 选项安装 volatility3 取证工具
 
 **4. 红队服务**
+- 使用 -aircrack 选项部署 aircrack-ng 环境
 - 使用 -bypass 选项部署 Bypass 环境
 - 使用 -cs 选项部署 CobaltStrike 环境
 - 使用 -frp 选项部署 frp 环境
@@ -104,6 +105,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -sharry 选项部署 sharry 文件服务
 - 使用 -ssh 选项配置 SSH 环境                  (RedHat 系默认可用,无需重复安装)
 - 使用 -ssr 选项部署 ssr 工具
+- 使用 -zsh 选项部署 zsh 工具
 
 **7. 其他**
 - 使用 -clear 选项清理系统使用痕迹

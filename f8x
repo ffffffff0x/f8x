@@ -2562,7 +2562,7 @@ pip2_Install(){
 # -ruby
 Ruby_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 Ruby,时间超长,建议看会视频,耐心等待(编译过程中出现 warning 告警请无视)\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 Ruby,时间超长,建议看会视频,耐心等待,编译过程中出现 warning 告警请无视\n\033[0m"
     cd $T_Dir && rm -rf $Ruby_Install 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/ruby-3.0.0.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "$Ruby_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用 "
     tar xvfvz $Ruby_Install 1> /dev/null 2>> /tmp/f8x_error.log
     cd $Ruby_Dir && ./configure 1> /dev/null 2>> /tmp/f8x_error.log && make 1> /dev/null 2>> /tmp/f8x_error.log && make install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $(ruby -v) 安装在 /usr/local/bin/ 目录下" || Echo_ERROR "安装 Ruby 环境失败,请查看日志 /tmp/f8x_error.log "
@@ -2572,7 +2572,7 @@ Ruby_Install(){
 # -rust
 Rust_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 rust(注意安装时选项)\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 rust (注意安装时选项)\n\033[0m"
     $Porxy_OK curl https://sh.rustup.rs -sSf | $Porxy_OK sh
 
 }
@@ -2643,7 +2643,7 @@ chromium_Install(){
         *) ;;
     esac
 
-    echo -e "\033[1;33m\n>> 正在安装 chromium(120M)\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 chromium (120M)\n\033[0m"
 
     cd $T_Dir && rm -rf chrome-linux* 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/706915/chrome-linux.zip 1> /dev/null 2>> /tmp/f8x_error.log
 
