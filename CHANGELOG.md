@@ -2,6 +2,15 @@
 
 ## Details
 
+### [1.4.8] - 2021-03-28
+
+* 添加 -aircrack 选项
+* 添加 -zsh 选项
+* -k 选项添加 commix、exploitdb、tplmap、routersploit、bettercap、mitmproxy、naabu、proxify、pypykatz、CrackMapExec
+* -s 选项添加 BruteShark
+* 更新所有安装软件的版本
+* 体积缩减 50%
+
 ### [1.4.7] - 2021-03-21
 * -s 选项添加 anti-portscan
 * -k 选项添加 Responder、Girsh、ApkAnalyser
