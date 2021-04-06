@@ -39,6 +39,10 @@
 bash f8x -h
 ```
 
+如果你希望方便点使用可以直接加到环境变量中
+- wget : `wget https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod 777 /usr/local/bin/f8x`
+- curl : `curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod 777 /usr/local/bin/f8x`
+
 **系统依赖**
 
 f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种依赖而生的😁
@@ -55,7 +59,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
 - 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
 - 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
-- 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli)
+- 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli 等辅助工具)
 - 使用 -cloud 选项安装云应用      (Terraform、Serverless Framework、wrangler)
 - 使用 -all 选项全自动化部署      (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
@@ -101,9 +105,10 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 **6. 杂项服务**
 - 使用 -asciinema 选项安装 asciinema 截图工具
 - 使用 -bt 选项部署宝塔服务
+- 使用 -clash 选项安装 clash 工具
 - 使用 -music 选项部署 UnblockNeteaseMusic 服务
-- 使用 -sharry 选项部署 sharry 文件服务
-- 使用 -ssh 选项配置 SSH 环境                  (RedHat 系默认可用,无需重复安装)
+- 使用 -nginx 选项配置 nginx 服务
+- 使用 -ssh 选项配置 ssh 环境                  (RedHat 系默认可用,无需重复安装)
 - 使用 -ssr 选项部署 ssr 工具
 - 使用 -zsh 选项部署 zsh 工具
 
@@ -145,9 +150,9 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 | <br><b><p align="center">CentOS 7(完全兼容)</p> | <br><b><p align="center">Debian 10(完全兼容)</p> |
 | - | - |
-| <p align="center"><a href="https://asciinema.org/a/387124"><img src="https://asciinema.org/a/387124.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/387123"><img src="https://asciinema.org/a/387123.svg" /></p></a> |
+| <p align="center"><a href="https://asciinema.org/a/405335"><img src="https://asciinema.org/a/405335.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/405338"><img src="https://asciinema.org/a/405338.svg" /></p></a> |
 | <br><b><p align="center">Fedora 33(完全兼容)</p> | <br><b><p align="center">Ubuntu 20.10(完全兼容)</p> |
-| <p align="center"><a href="https://asciinema.org/a/391443"><img src="https://asciinema.org/a/391443.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/391433"><img src="https://asciinema.org/a/391433.svg" /></p></a> |
+| <p align="center"><a href="https://asciinema.org/a/405339"><img src="https://asciinema.org/a/405339.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/405333"><img src="https://asciinema.org/a/405333.svg" /></p></a> |
 
 ---
 

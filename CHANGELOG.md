@@ -2,6 +2,17 @@
 
 ## Details
 
+### [1.4.9] - 2021-04-06
+
+* 添加 -clash 选项
+* 添加 -nginx 选项
+* 更新 -info 选项
+* 添加对 Ubuntu15.04、Ubuntu14.04、Ubuntu12.04 系统的支持
+* -k 选项添加 httpx、subfinder、mapcidr、apktool、OpenRedireX、gau、apkleaks
+* -f 选项添加 fzf、annie、you-get、ffmpeg、aria2、filebrowser、starship
+* -sharry 选项移至 -f
+* 优化使用体验,已安装过的不会重复安装
+
 ### [1.4.8] - 2021-03-28
 
 * 添加 -aircrack 选项
