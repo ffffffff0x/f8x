@@ -40,8 +40,8 @@ bash f8x -h
 ```
 
 如果你希望方便点使用可以直接加到环境变量中
-- wget : `wget https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod 777 /usr/local/bin/f8x`
-- curl : `curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod 777 /usr/local/bin/f8x`
+- wget : `wget https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+- curl : `curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
 
 **系统依赖**
 
