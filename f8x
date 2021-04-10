@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.0 Dev(Beta 1)"
+F8x_Version="1.5.0 Dev(Beta 2)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
@@ -36,7 +36,7 @@ AdguardTeam_File="AdGuardHome_linux_amd64.tar.gz"
 frp_Version="v0.36.1"
 frp_File="frp_0.36.1_linux_amd64.tar.gz"
 frp_Dir="frp_0.36.1_linux_amd64"
-nps_Ver="v0.26.9"
+nps_Ver="v0.26.10"
 nps_Install="linux_amd64_server.tar.gz"
 sharry_Ver="1.6.0"
 sharry_File="sharry-restserver-1.6.0.zip"
@@ -75,14 +75,14 @@ mitmproxy_bin="mitmproxy-6.0.2-linux.tar.gz"
 naabu_bin="naabu-linux-amd64.tar.gz"
 proxify_Ver="v0.0.3"
 proxify_bin="proxify_0.0.3_linux_amd64.tar.gz"
-clash_Ver="v1.4.2"
-clash_bin="clash-linux-amd64-v1.4.2.gz"
+clash_Ver="v1.5.0"
+clash_bin="clash-linux-amd64-v1.5.0.gz"
 fzf_Ver="0.27.0"
 fzf_bin="fzf-0.27.0-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.7"
 subfinder_bin="subfinder_2.4.7_linux_amd64.tar.gz"
-httpx_Ver="v1.0.3"
-httpx_bin="httpx_1.0.3_linux_amd64.tar.gz"
+httpx_Ver="v1.0.4"
+httpx_bin="httpx_1.0.4_linux_amd64.tar.gz"
 mapcidr_Ver="v0.0.5"
 mapcidr_bin="mapcidr_0.0.5_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
@@ -523,6 +523,10 @@ Info(){
             ;;
     esac
 
+}
+
+Info2(){
+
     echo -e "\033[1;32m当前发行版 :\033[0m \033[1;35m$Linux_Version $Linux_Version_Num $Linux_Version_Name \033[0m"
     echo -e "\033[1;32m当前主机名 :\033[0m \033[1;35m$(hostname) \033[0m"
     echo -e "\033[1;32m当前用户 :\033[0m \033[1;35m$(whoami) \033[0m"
@@ -553,6 +557,7 @@ Info(){
     esac
 
     echo -e "\033[1;32mf8x 当前版本 :\033[0m \033[1;35m$F8x_Version \033[0m"
+
 }
 
 # ===================== 修改 apt 源 =====================
@@ -1534,7 +1539,7 @@ Pentest_Misc_Install(){
             Install_Switch "owasp-mantra-ff"
             Install_Switch "powershell"
 
-            if [ $GitPorxy ==  ]
+            if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
             then
                 $Porxy_OK gem install zsteg 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 zsteg 工具" || Echo_ERROR "调用 gem 安装 zsteg 工具失败! 请运行 -ruby 选项安装 Ruby 环境"
             fi
@@ -2453,6 +2458,23 @@ Pentest_Diggy_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         cd $P_Dir && rm -rf diggy.sh > /dev/null 2>&1 && curl -o diggy.sh https://cdn.jsdelivr.net/gh/s0md3v/Diggy/diggy.sh > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+    fi
+
+}
+
+# ===================== 安装 CORScanner 工具 =====================
+Pentest_CORScanner_Install(){
+
+    name="CORScanner"
+    dir="$P_Dir/CORScanner"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        rm -rf $dir > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/chenjj/CORScanner.git $P_Dir/CORScanner > /dev/null 2>&1 && Echo_INFOR "已下载 $name 工具" || Echo_ERROR "$name 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
+        python3 cors_scan.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "安装 $name 工具失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
@@ -4296,6 +4318,9 @@ kali_Tools(){
     Pentest_jadx_Install
     echo -e "\033[1;33m\n>> 正在安装 Diggy 工具\n\033[0m"
     Pentest_Diggy_Install
+    echo -e "\033[1;33m\n>> 正在安装 CORScanner 工具\n\033[0m"
+    Pentest_CORScanner_Install
+
 
 }
 
@@ -4499,16 +4524,26 @@ fi
 setenforce 0 > /dev/null 2>&1
 
 printf "\033c"
-Banner
-Info
+
 }
 
 Main
-echo -e "\033[1;36m \n-----开始执行----- \033[0m"
 
-echo -e "\033[1;33m\n>> 正在初始化\n\033[0m"
-Base_Dir
-Docker_Check
+if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+then
+    Banner
+fi
+
+Info
+
+if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+then
+    Info2
+    echo -e "\033[1;36m \n-----开始执行----- \033[0m"
+    echo -e "\033[1;33m\n>> 正在初始化\n\033[0m"
+    Base_Dir
+    Docker_Check
+fi
 
 case "$1" in
     -b | b)
@@ -4768,9 +4803,15 @@ case "$1" in
         Debug_Fun
         ;;
     *)
-        echo -e ""
-        echo -e "\033[1;34m使用 -h 选项查看帮助文档 \033[0m"
+        if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+        then
+            echo -e ""
+            echo -e "\033[1;34m使用 -h 选项查看帮助文档 \033[0m"
+        fi
         ;;
 esac
 
-echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
+if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+then
+    echo -e "\033[1;36m \n-----执行结束-----\n \033[0m"
+fi
