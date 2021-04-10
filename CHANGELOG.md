@@ -4,10 +4,10 @@
 
 ### [1.5.0] - 2021-04-08
 
-* -k 选项添加 jadx、Diggy
+* -k 选项添加 jadx、Diggy、CORScanner
 * 修复安装 bettercap 时的一个错误
 * 修复安装 ApkAnalyser 时的一个错误
-* 添加2个变量,为后续走web代理做准备
+* 添加2个变量,为后续走web代理做准备,并且可以忽略一些banner信息
 
 ### [1.4.9] - 2021-04-06
 
