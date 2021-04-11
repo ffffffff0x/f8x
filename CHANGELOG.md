@@ -4,10 +4,12 @@
 
 ### [1.5.0] - 2021-04-08
 
-* -k 选项添加 jadx、Diggy、CORScanner
+* -k 选项添加 jadx、Diggy、CORScanner、swagger-exp
 * 修复安装 bettercap 时的一个错误
 * 修复安装 ApkAnalyser 时的一个错误
 * 添加2个变量,为后续走web代理做准备,并且可以忽略一些banner信息
+* -goby 选项添加服务端启动命令
+* 继续优化使用体验,添加对开发环境依赖、渗透杂项工具、pip 模块的重复安装检测
 
 ### [1.4.9] - 2021-04-06
 
