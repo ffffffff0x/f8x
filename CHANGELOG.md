@@ -2,7 +2,11 @@
 
 ## Details
 
-### [1.5.0] - 2021-04-08
+### [1.5.1] - 2021-04-15
+
+* -k 选项添加 swagger-hack、shiro-exploit、ysoserial、remote-method-guesser、SSRFmap、See-SURF、testssl.sh、MassBleed
+
+### [1.5.0] - 2021-04-12
 
 * -k 选项添加 jadx、Diggy、CORScanner、swagger-exp
 * 修复安装 bettercap 时的一个错误
