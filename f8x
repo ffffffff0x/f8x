@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.0 Dev(Beta 3)"
+F8x_Version="1.5.1 Dev(Beta1)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
@@ -60,8 +60,8 @@ Nuclei_Ver="v2.3.4"
 Nuclei_Install="nuclei_2.3.4_linux_amd64.tar.gz"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="0.14.8"
-Terraform_bin="terraform_0.14.8_linux_amd64.zip"
+Terraform_Ver="0.15.0"
+Terraform_bin="terraform_0.15.0_linux_amd64.zip"
 CrossC2_Ver="v2.2.1"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
@@ -95,6 +95,8 @@ nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
 jadx_Ver="v1.2.0"
 jadx_bin="jadx-1.2.0.zip"
+rmg_Ver="v3.2.0"
+rmg_bin="rmg-3.2.0-jar-with-dependencies.jar"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -268,6 +270,18 @@ Echo_ALERT(){
 Echo_ERROR(){
 
     echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31m$1\n\033[0m"
+
+}
+
+Echo_ERROR2(){
+
+    Echo_ERROR "$name 下载失败,请检查网络是否可达,proxychains4 配置的代理服务器是否可用"
+
+}
+
+Echo_ERROR3(){
+
+    Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
 
 }
 
@@ -665,7 +679,7 @@ Update_APT_Mirror(){
 
 # ===================== 修改 kali apt 源 =====================
 Update_kali_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
@@ -680,7 +694,7 @@ EOF
 
 # ===================== 修改 Ubuntu apt 源 =====================
 Update_Ubuntu2104_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy main restricted universe multiverse
@@ -696,7 +710,7 @@ EOF
 }
 
 Update_Ubuntu2010_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
@@ -712,7 +726,7 @@ EOF
 }
 
 Update_Ubuntu2004_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
@@ -730,7 +744,7 @@ EOF
 }
 
 Update_Ubuntu1910_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan main restricted universe multiverse
@@ -746,7 +760,7 @@ EOF
 }
 
 Update_Ubuntu1804_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
@@ -764,7 +778,7 @@ EOF
 }
 
 Update_Ubuntu1604_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ xenial main
@@ -784,7 +798,7 @@ EOF
 }
 
 Update_Ubuntu1504_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ vivid main restricted universe multiverse
@@ -802,7 +816,7 @@ EOF
 }
 
 Update_Ubuntu1404_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
@@ -820,7 +834,7 @@ EOF
 }
 
 Update_Ubuntu1204_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/ubuntu/ precise main restricted universe multiverse
@@ -840,7 +854,7 @@ EOF
 
 # ===================== 修改 Debian11 apt 源 =====================
 Update_Debian11_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib
@@ -857,7 +871,7 @@ EOF
 
 # ===================== 修改 Debian10 apt 源 =====================
 Update_Debian10_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
@@ -873,7 +887,7 @@ EOF
 }
 
 Update_Debian9_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
@@ -889,7 +903,7 @@ EOF
 }
 
 Update_Debian8_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib
@@ -901,7 +915,7 @@ EOF
 }
 
 Update_Debian7_Mirror(){
-rm -rf /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
 tee /etc/apt/sources.list <<-'EOF'
 # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
 deb http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
@@ -927,7 +941,7 @@ Update_YUM_Mirror(){
             ;;
         *"Fedora"*)
             Echo_INFOR "Fedora"
-            rm -rf /etc/yum.repos.d/fedora.repo.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
+            rm -f /etc/yum.repos.d/fedora.repo.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
             curl -o /etc/yum.repos.d/fedora.repo http://mirrors.aliyun.com/repo/fedora.repo 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 aliyun Yum 源" || Echo_ERROR "aliyun Yum 源下载失败,请查看日志 /tmp/f8x_error.log"
             curl -o /etc/yum.repos.d/fedora-updates.repo http://mirrors.aliyun.com/repo/fedora-updates.repo 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 aliyun Yum update 源" || Echo_ERROR "aliyun Yum update 源下载失败,请查看日志 /tmp/f8x_error.log"
             ;;
@@ -982,15 +996,15 @@ Update_CentOS_Mirror(){
 
     case $Linux_Version_Num in
         8)
-            rm -rf /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
+            rm -f /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
             curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-8.repo 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 aliyun Yum 源" || Echo_ERROR "aliyun Yum 源下载失败,请查看日志 /tmp/f8x_error.log"
             ;;
         7)
-            rm -rf /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
+            rm -f /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
             curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 aliyun Yum 源" || Echo_ERROR "aliyun Yum 源下载失败,请查看日志 /tmp/f8x_error.log"
             ;;
         6)
-            rm -rf /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
+            rm -f /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已备份本地 Yum 源"
             curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-6.repo 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 aliyun Yum 源" || Echo_ERROR "aliyun Yum 源下载失败,请查看日志 /tmp/f8x_error.log"
             ;;
         *)
@@ -1074,12 +1088,12 @@ Change_DNS(){
 
 }
 
-# ===================== 安装 DNS 工具 =====================
+# ===================== 安装 DNS =====================
 DNS_T00ls(){
 
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            Echo_INFOR "RedHat 系没有 resolvconf 工具,本项 Pass"
+            Echo_INFOR "RedHat 系没有 resolvconf ,本项 Pass"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             Rm_Lock
@@ -1114,7 +1128,7 @@ Proxychains_Install(){
 
     case $Linux_Version in
         *"Kali"*)
-            rm -rf /etc/proxychains.conf > /dev/null 2>&1
+            rm -f /etc/proxychains.conf > /dev/null 2>&1
             ;;
         *) ;;
     esac
@@ -1131,7 +1145,7 @@ Proxychains_Install(){
                 ;;
             *)
                 cd $T_Dir && rm -rf proxychains-ng* > /dev/null 2>&1 && wget -O proxychains-ng.zip "$Proxy_URL" > /dev/null 2>&1 && Echo_INFOR "已从 ffffffff0x.com 下载完安装包"
-                unzip proxychains-ng.zip 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf proxychains-ng.zip > /dev/null 2>&1
+                unzip proxychains-ng.zip 1> /dev/null 2>> /tmp/f8x_error.log && rm -f proxychains-ng.zip > /dev/null 2>&1
                 mv proxychains-ng-master proxychains-ng
                 ;;
         esac
@@ -1271,7 +1285,7 @@ Python3_Install(){
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
             Install_Switch "python3-devel"
             Install_Switch "python3-pip"
-            python3 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已更新 python3-pip 工具" || Echo_ERROR "更新 python3-pip 工具失败,请查看日志 /tmp/f8x_error.log"
+            python3 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已更新 python3-pip" || Echo_ERROR "更新 python3-pip 失败,请查看日志 /tmp/f8x_error.log"
 
             Install_Switch4 "setuptools"
             Install_Switch4 "virtualenv"
@@ -1281,7 +1295,7 @@ Python3_Install(){
             Install_Switch "python3-dev"
             Install_Switch "python3-pip"
             Install_Switch "python3-venv"
-            python3 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已更新 python3-pip 工具" || Echo_ERROR "更新 python3-pip 工具失败,请查看日志 /tmp/f8x_error.log"
+            python3 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已更新 python3-pip" || Echo_ERROR "更新 python3-pip 失败,请查看日志 /tmp/f8x_error.log"
             ;;
         *)
             ;;
@@ -1325,7 +1339,7 @@ Go_Install(){
 
         ln -s /usr/local/go/bin/go /usr/bin/go 1> /dev/null 2>> /tmp/f8x_error.log
         Echo_INFOR "$(go version)" || Echo_ERROR "Golang 安装失败,请查看日志 /tmp/f8x_error.log"
-        rm -rf ${T_Dir:?}/${Go_Bin} > /dev/null 2>&1
+        rm -f ${T_Dir:?}/${Go_Bin} > /dev/null 2>&1
     fi
 
 }
@@ -1384,7 +1398,7 @@ Docker_Install(){
                 Echo_INFOR "正在更新 apt 软件包列表" && apt-get update 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "更新 apt 软件包列表失败,请查看日志 /tmp/f8x_error.log"
 
                 Echo_ALERT "正在安装 docker,该步骤可能运行较长时间,请耐心等待" && $Porxy_OK apt-get install -y docker-ce 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 docker-ce" || Echo_ERROR "安装 docker-ce 失败! 请检查 proxychains4 配置的代理服务器是否可用"
-                rm -rf /etc/apt/sources.list.d/docker.list > /dev/null 2>&1
+                rm -f /etc/apt/sources.list.d/docker.list > /dev/null 2>&1
                 ;;
             *)
                 ;;
@@ -1424,7 +1438,7 @@ SDKMAN_Install(){
     else
         cd /tmp && $Porxy_OK curl -o sdkman.sh "https://get.sdkman.io" > /dev/null 2>&1 && $Porxy_OK bash sdkman.sh > /dev/null 2>&1
         source "/root/.sdkman/bin/sdkman-init.sh"
-        sdk version && Echo_INFOR "已安装 $name 工具" || Echo_ERROR "安装 $name 工具失败"
+        sdk version && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败"
     fi
 
 }
@@ -1436,10 +1450,10 @@ Terraform_Install(){
     then
         Echo_ALERT "terraform 已存在,若非管理员安装,建议追踪 /usr/local/bin/terraform 文件 "
     else
-        Echo_ALERT "正在下载 terraform 安装包"1
+        Echo_ALERT "正在下载 terraform 安装包"
         cd /tmp && $Porxy_OK wget https://releases.hashicorp.com/terraform/$Terraform_Ver/$Terraform_bin > /dev/null 2>&1 && Echo_INFOR "已从 hashicorp.com 下载完安装包" || Echo_ERROR "下载 Terraform 安装包失败! 请检查 proxychains4 配置的代理服务器是否可用"
         unzip $Terraform_bin > /dev/null 2>&1
-        mv terraform /usr/local/bin/terraform > /dev/null 2>&1 && Echo_INFOR "已安装 terraform $Terraform_Ver 工具,输入 terraform 即可使用" || Echo_ERROR "Terraform 安装失败"
+        mv terraform /usr/local/bin/terraform > /dev/null 2>&1 && Echo_INFOR "已安装 terraform $Terraform_Ver ,输入 terraform 即可使用" || Echo_ERROR "Terraform 安装失败"
     fi
 
 }
@@ -1456,7 +1470,7 @@ Serverless_Framework_Install(){
     else
         npm config set prefix /usr/local
         $Porxy_OK npm install -g serverless
-        serverless -v && Echo_INFOR "已安装 $name 工具" || Echo_ERROR "安装 $name 工具失败"
+        serverless -v && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败"
     fi
 
 }
@@ -1472,7 +1486,7 @@ wrangler_Install(){
         Echo_ALERT "$name 已安装"
     else
         $Porxy_OK cargo install wrangler
-        wrangler -V && Echo_INFOR "已安装 $name 工具" || Echo_ERROR "安装 $name 工具失败"
+        wrangler -V && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败"
     fi
 
 }
@@ -1552,7 +1566,7 @@ Pentest_Misc_Install(){
 
                 if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
                 then
-                    $Porxy_OK gem install zsteg 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 zsteg 工具" || Echo_ERROR "调用 gem 安装 zsteg 工具失败! 请运行 -ruby 选项安装 Ruby 环境"
+                    $Porxy_OK gem install zsteg 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 zsteg" || Echo_ERROR "调用 gem 安装 zsteg 失败! 请运行 -ruby 选项安装 Ruby 环境"
                 fi
 
                 ;;
@@ -1571,7 +1585,7 @@ Pentest_pip_Install(){
     then
         Echo_ALERT "检测到 pip 模块记录,跳过此步骤"
     else
-        python3 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已更新 python3-pip 工具" || Echo_ERROR "更新 python3-pip 工具失败,请查看日志 /tmp/f8x_error.log"
+        python3 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已更新 python3-pip" || Echo_ERROR "更新 python3-pip 失败,请查看日志 /tmp/f8x_error.log"
         Install_Switch4 "PyJWT"
         Install_Switch4 "pyshark"
         Install_Switch4 "requests"
@@ -1598,28 +1612,40 @@ Pentest_pip_Install(){
 
 }
 
-# ===================== 安装 hashcat、7z2hashcat 工具 =====================
+# ===================== 安装 hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
-    if test -d $P_Dir/hashcat-6.1.1
+    dir="$P_Dir/hashcat-6.1.1"
+
+    if test -d $dir
     then
-        Echo_ALERT "hashcat-6.1.1 已下载在 $P_Dir/hashcat-6.1.1"
+        Echo_ALERT "hashcat 已下载在 $dir"
     else
-        rm -rf $P_Dir/7z2hashcat.pl > /dev/null 2>&1 && $Porxy_OK curl -o $P_Dir/7z2hashcat.pl ${GitPorxy}https://raw.githubusercontent.com/philsmd/7z2hashcat/master/7z2hashcat.pl > /dev/null 2>&1 && Echo_INFOR "已下载 7z2hashcat.pl 在 $P_Dir 目录下 " || Echo_ERROR "7z2hashcat.pl 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        rm -rf $P_Dir/hashcat-6.1.1* > /dev/null 2>&1 && $Porxy_OK wget -O $P_Dir/hashcat-6.1.1.7z ${GitPorxy2}https://hashcat.net/files/hashcat-6.1.1.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "已下载 hashcat-6.1.1" || Echo_ERROR " hashcat-6.1.1 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        name="hashcat"
+        $Porxy_OK wget -O $P_Dir/hashcat-6.1.1.7z ${GitPorxy2}https://hashcat.net/files/hashcat-6.1.1.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "已下载 hashcat-6.1.1" || Echo_ERROR2
         7za x $P_Dir/hashcat-6.1.1.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $P_Dir/hashcat-6.1.1.7z 失败!\n\033[0m"
-        rm -rf $P_Dir/hashcat-6.1.1.7z > /dev/null 2>&1
+        rm -f $P_Dir/hashcat-6.1.1.7z > /dev/null 2>&1
         cd $P_Dir/hashcat* 1> /dev/null 2>> /tmp/f8x_error.log && chmod +x hashcat.bin && cp hashcat.bin hashcat
         ln -s /pentest/hashcat-6.1.1/hashcat /usr/sbin/hashcat 1> /dev/null 2>> /tmp/f8x_error.log
-        hashcat --help 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 hashcat 在 $P_Dir/hashcat-6.1.1 目录下,直接输入 hashcat 即可使用" || Echo_ERROR "hashcat 安装失败,请查看日志 /tmp/f8x_error.log"
+        hashcat --help 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 hashcat 在 $dir 目录下,直接输入 hashcat 即可使用" || Echo_ERROR "hashcat 安装失败,请查看日志 /tmp/f8x_error.log"
+    fi
+
+    if test -e $P_Dir/7z2hashcat.pl
+    then
+        Echo_ALERT "7z2hashcat 已下载在 $P_Dir"
+    else
+        name="7z2hashcat"
+        $Porxy_OK curl -o $P_Dir/7z2hashcat.pl ${GitPorxy}https://raw.githubusercontent.com/philsmd/7z2hashcat/master/7z2hashcat.pl > /dev/null 2>&1 && Echo_INFOR "已下载 7z2hashcat.pl 在 $P_Dir 目录下 " || Echo_ERROR2
+
     fi
 
 }
 
-# ===================== 安装 nmap 工具 =====================
+# ===================== 安装 nmap =====================
 Pentest_nmap_Install(){
 
     name="nmap"
+
     nmap -V 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
@@ -1632,7 +1658,7 @@ Pentest_nmap_Install(){
 
 }
 
-# ===================== 安装 ncat 工具 =====================
+# ===================== 安装 ncat =====================
 Pentest_ncat_Install(){
 
     name="ncat"
@@ -1660,8 +1686,10 @@ Pentest_ncat_Install(){
 
 }
 
-# ===================== 安装 ffuf 工具 =====================
+# ===================== 安装 ffuf =====================
 Pentest_ffuf_Install(){
+
+    name="ffuf"
 
     ffuf -V 1> /dev/null 2>> /tmp/f8x_error.log
 
@@ -1669,74 +1697,88 @@ Pentest_ffuf_Install(){
     then
         Echo_ALERT "ffuf 已安装"
     else
-        cd /tmp && rm -rf $ffuf_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install > /dev/null 2>&1 || Echo_ERROR "$ffuf_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $ffuf_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $ffuf_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$ffuf_Install 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force ffuf /usr/local/bin/ && chmod +x /usr/local/bin/ffuf && rm -rf /tmp/$ffuf_Install > /dev/null 2>&1
-        ffuf -V 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 ffuf $ffuf_Ver 在 /usr/local/bin/ 目录下,直接输入 ffuf 即可使用" || Echo_ERROR "ffuf 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force ffuf /usr/local/bin/ && chmod +x /usr/local/bin/ffuf && rm -f /tmp/$ffuf_Install > /dev/null 2>&1
+        ffuf -V 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 ffuf $ffuf_Ver 在 /usr/local/bin/ 目录下,直接输入 ffuf 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 JSFinder 工具 =====================
+# ===================== 安装 JSFinder =====================
 Pentest_JSFinder_Install(){
 
-    if test -d $P_Dir/JSFinder
+    name="JSFinder"
+    dir="$P_Dir/JSFinder"
+
+    if test -d $dir
     then
-        Echo_ALERT "JSFinder 已下载在 $P_Dir/JSFinder"
+        Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf JSFinder > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/Threezh1/JSFinder.git > /dev/null 2>&1 && cd JSFinder || Echo_ERROR "JSFinder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        python3 JSFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 JSFinder 在 $P_Dir/JSFinder 目录下" || Echo_ERROR "JSFinder 安装失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/Threezh1/JSFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        python3 JSFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 SecretFinder 工具 =====================
+# ===================== 安装 SecretFinder =====================
 Pentest_SecretFinder_Install(){
 
-    if test -d $P_Dir/SecretFinder
+    name="SecretFinder"
+    dir="$P_Dir/SecretFinder"
+
+    if test -d $dir
     then
-        Echo_ALERT "SecretFinder 已下载在 $P_Dir/SecretFinder"
+        Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf SecretFinder > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/m4ll0k/SecretFinder.git > /dev/null 2>&1 && cd SecretFinder || Echo_ERROR "SecretFinder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/m4ll0k/SecretFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装依赖模块" || ( Echo_ERROR "安装依赖模块失败,请查看日志 /tmp/f8x_error.log" && rm -rf $P_Dir/SecretFinder > /dev/null 2>&1 )
-        python3 SecretFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 SecretFinder 在 $P_Dir/SecretFinder 目录下" || Echo_ERROR "SecretFinder 安装失败,请查看日志 /tmp/f8x_error.log"
+        python3 SecretFinder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 WebAliveScan 工具 =====================
+# ===================== 安装 WebAliveScan =====================
 Pentest_WebAliveScan_Install(){
 
-    if test -d $P_Dir/WebAliveScan
+    name="WebAliveScan"
+    dir="$P_Dir/WebAliveScan"
+
+    if test -d $dir
     then
-        Echo_ALERT "WebAliveScan 已下载在 $P_Dir/WebAliveScan"
+        Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf WebAliveScan > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/broken5/WebAliveScan.git > /dev/null 2>&1 && cd WebAliveScan || Echo_ERROR "WebAliveScan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/broken5/WebAliveScan.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "已安装依赖模块" || ( Echo_ERROR "安装依赖模块失败,请查看日志 /tmp/f8x_error.log" && rm -rf $P_Dir/WebAliveScan )
         Install_Switch4 "gevent"
-        python3 webscan.py --help > /dev/null 2>&1 && Echo_INFOR "已安装 WebAliveScan 在 $P_Dir/WebAliveScan 目录下" || Echo_ERROR "WebAliveScan 安装失败"
+        python3 webscan.py --help > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $P_Dir/WebAliveScan 目录下" || Echo_ERROR "$name 安装失败"
     fi
 
 }
 
-# ===================== 安装 OneForAll 工具 =====================
+# ===================== 安装 OneForAll =====================
 Pentest_OneForAll_Install(){
 
-    if test -d $P_Dir/OneForAll
+    name="OneForAll"
+    dir="$P_Dir/OneForAll"
+
+    if test -d $dir
     then
-        Echo_ALERT "OneForAll 已下载在 $P_Dir/OneForAll"
+        Echo_ALERT "$name 已下载在 $dir"
     else
         Install_Switch5 "setuptools"
         Install_Switch5 "wheel"
-        cd $P_Dir && rm -rf OneForAll > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/shmilylty/OneForAll > /dev/null 2>&1 && cd OneForAll || Echo_ERROR "OneForAll 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/shmilylty/OneForAll.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用,或使用 gitee 下载 git clone https://gitee.com/shmilylty/OneForAll.git "
         Echo_ALERT "正在安装依赖模块,该步骤可能运行较长时间,请耐心等待\033[0m" && pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log || ( Echo_ERROR "安装其他依赖模块失败,请查看日志 /tmp/f8x_error.log" && rm -rf $P_Dir/OneForAll > /dev/null 2>&1 )
-        python3 oneforall.py version 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 OneForAll 在 $P_Dir/OneForAll 目录下" || Echo_ERROR "OneForAll 安装失败,请查看日志 /tmp/f8x_error.log"
+        python3 oneforall.py version 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $P_Dir/OneForAll 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 ksubdomain 工具 =====================
+# ===================== 安装 ksubdomain =====================
 Pentest_ksubdomain_Install(){
+
+    name="ksubdomain"
 
     ksubdomain > /dev/null 2>&1
 
@@ -1756,9 +1798,9 @@ Pentest_ksubdomain_Install(){
             *) ;;
         esac
 
-        cd $T_Dir && rm -rf $ksubdomain_Install > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/knownsec/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR "$ksubdomain_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd $T_Dir && rm -f $ksubdomain_Install > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/knownsec/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR2
         unzip $ksubdomain_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $T_Dir/$ksubdomain_Install 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force ksubdomain /usr/local/bin/ && chmod +x /usr/local/bin/ksubdomain && rm -rf ${T_Dir:?}/${ksubdomain_Install} > /dev/null 2>&1
+        mv --force ksubdomain /usr/local/bin/ && chmod +x /usr/local/bin/ksubdomain && rm -f ${T_Dir:?}/${ksubdomain_Install} > /dev/null 2>&1
 
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
@@ -1772,27 +1814,32 @@ Pentest_ksubdomain_Install(){
             *) ;;
         esac
 
-        ksubdomain > /dev/null 2>&1 && Echo_INFOR "已安装 ksubdomain $ksubdomain_Ver 在 /usr/local/bin/ 目录下,直接输入 ksubdomain 即可使用" || Echo_ERROR "ksubdomain 安装失败,请查看日志 /tmp/f8x_error.log"
+        ksubdomain > /dev/null 2>&1 && Echo_INFOR "已安装 ksubdomain $ksubdomain_Ver 在 /usr/local/bin/ 目录下,直接输入 ksubdomain 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 Impacket 工具 =====================
+# ===================== 安装 Impacket =====================
 Pentest_Impacket_Install(){
 
-    if test -d $P_Dir/impacket
+    name="Impacket"
+    dir="$P_Dir/impacket"
+
+    if test -d $dir
     then
-        Echo_ALERT "Impacket 已下载在 $P_Dir/impacket"
+        Echo_ALERT "$name 已下载在 $dir"
     else
-        rm -rf $P_Dir/impacket > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/SecureAuthCorp/impacket.git $P_Dir/impacket > /dev/null 2>&1 && Echo_INFOR "已下载 impacket 工具" || Echo_ERROR "impacket 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        cd $P_Dir/impacket && pip3 install . > /dev/null 2>&1
-        python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 Impacket 在 $P_Dir/impacket 目录下" || Echo_ERROR "安装 Impacket 工具失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/SecureAuthCorp/impacket.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        cd $dir && pip3 install . > /dev/null 2>&1
+        python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "安装 $name 失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
 
 # ===================== 部署 CobaltStrike 环境 =====================
 Pentest_CobaltStrike_Install(){
+
+    name="CobaltStrike"
 
     Echo_ALERT "正在检测 jdk 环境可用性"
     java -version > /dev/null 2>&1
@@ -1809,20 +1856,20 @@ Pentest_CobaltStrike_Install(){
     then
         Echo_ALERT "$CS_Version 已部署在 $P_Dir/$CS_Version"
     else
-        cd $P_Dir && rm -rf $CS_File > /dev/null 2>&1 && $Porxy_OK wget -O $CS_File ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/CS/$CS_File > /dev/null 2>&1 || Echo_ERROR "$CS_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        rm -rf $CS_Version > /dev/null 2>&1 && unzip $CS_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $CS_File > /dev/null 2>&1
+        cd $P_Dir && rm -f $CS_File > /dev/null 2>&1 && $Porxy_OK wget -O $CS_File ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/CS/$CS_File > /dev/null 2>&1 || Echo_ERROR "$CS_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        rm -rf $CS_Version > /dev/null 2>&1 && unzip $CS_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $CS_File > /dev/null 2>&1
         cd $P_Dir/$CS_Version && chmod +x teamserver 1> /dev/null 2>> /tmp/f8x_error.log
-        rm -rf cobaltstrike.store > /dev/null 2>&1
+        rm -f cobaltstrike.store > /dev/null 2>&1
 
         /usr/local/java/$jdk_Version/bin/keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log || keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log
-        Echo_INFOR "已将 $CS_Version 部署在 $P_Dir/$CS_Version 目录下" || Echo_ERROR "部署 CobaltStrike 环境失败,请查看日志 /tmp/f8x_error.log"
+        Echo_INFOR "已将 $CS_Version 部署在 $P_Dir/$CS_Version 目录下" || Echo_ERROR "部署 $name 环境失败,请查看日志 /tmp/f8x_error.log"
     fi
 
     if test -e $P_Dir/$CS_Version/genCrossC2.Linux
     then
         Echo_ALERT "genCrossC2.Linux 文件已存在 "
     else
-        cd $P_Dir/$CS_Version 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget ${GitPorxy}https://github.com/gloxec/CrossC2/releases/download/$CrossC2_Ver/genCrossC2.Linux > /dev/null 2>&1 && Echo_INFOR "已下载 CrossC2 工具至 $P_Dir/$CS_Version/genCrossC2.Linux " || Echo_ERROR "安装 CrossC2 工具失败"
+        cd $P_Dir/$CS_Version 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget ${GitPorxy}https://github.com/gloxec/CrossC2/releases/download/$CrossC2_Ver/genCrossC2.Linux > /dev/null 2>&1 && Echo_INFOR "已下载 CrossC2 至 $P_Dir/$CS_Version/genCrossC2.Linux " || Echo_ERROR "安装 CrossC2 失败"
         chmod +x genCrossC2.Linux 1> /dev/null 2>> /tmp/f8x_error.log
     fi
 
@@ -1840,6 +1887,8 @@ Pentest_CobaltStrike_Install(){
 # ===================== 部署 Metasploit 框架 =====================
 Pentest_Metasploit_Install(){
 
+    name="Metasploit"
+
     which msfconsole 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
@@ -1849,30 +1898,35 @@ Pentest_Metasploit_Install(){
         if [ $GitPorxy ==  ]
         then
             Rm_Lock
-            cd /tmp && rm -rf msfinstall > /dev/null 2>&1 && $Porxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb 1> /dev/null 2>> /tmp/f8x_error.log && chmod 777 msfinstall
-            Echo_ALERT "正在部署 Metasploit 框架,该步骤可能运行较长时间,请耐心等待" && $Porxy_OK ./msfinstall 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 Metasploit 框架,输入 msfconsole 进行体验" || Echo_ERROR "部署 Metasploit 框架失败!"
-            rm -rf msfinstall > /dev/null 2>&1
+            cd /tmp && rm -f msfinstall > /dev/null 2>&1 && $Porxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb 1> /dev/null 2>> /tmp/f8x_error.log && chmod 777 msfinstall
+            Echo_ALERT "正在部署 Metasploit 框架,该步骤可能运行较长时间,请耐心等待" && $Porxy_OK ./msfinstall 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 框架,输入 msfconsole 进行体验" || Echo_ERROR "部署 $name 框架失败!"
+            rm -f msfinstall > /dev/null 2>&1
 
         fi
     fi
 
 }
 
-# ===================== 安装 Sqlmap 工具 =====================
+# ===================== 安装 Sqlmap =====================
 Pentest_Sqlmap_Install(){
 
-    if test -d $P_Dir/sqlmap
+    name="Sqlmap"
+    dir="$P_Dir/sqlmap"
+
+    if test -d $dir
     then
-        Echo_ALERT "Sqlmap 已下载在 $P_Dir/sqlmap"
+        Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf sqlmap* > /dev/null 2>&1 && Echo_ALERT "正在下载 Sqlmap 工具(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK git clone ${GitPorxy}https://github.com/sqlmapproject/sqlmap > /dev/null 2>&1 || Echo_ERROR "下载 sqlmap 失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        cd sqlmap && Echo_INFOR "已安装 Sqlmap$(python3 sqlmap.py --version) 在 $P_Dir/sqlmap 目录下" || Echo_ERROR "安装 Sqlmap 工具失败,请查看日志 /tmp/f8x_error.log"
+        Echo_ALERT "正在下载 Sqlmap (70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK git clone ${GitPorxy}https://github.com/sqlmapproject/sqlmap $dir > /dev/null 2>&1 || Echo_ERROR2
+        cd $dir && Echo_INFOR "已安装 Sqlmap$(python3 sqlmap.py --version) 在 $P_Dir/sqlmap 目录下" || Echo_ERROR "安装 $name 失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
 
-# ===================== 安装 RustScan 工具 =====================
+# ===================== 安装 RustScan =====================
 Pentest_RustScan_Install(){
+
+    name="RustScan"
 
     rustscan -V 1> /dev/null 2>> /tmp/f8x_error.log
 
@@ -1884,14 +1938,14 @@ Pentest_RustScan_Install(){
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
                 if [ $GitPorxy ==  ]
                 then
-                    rm -rf /var/cache/dnf/metadata_lock.pid > /dev/null 2>&1
-                    $Porxy_OK dnf install -y 'dnf-command(copr)' 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf copr enable atim/rustscan -y 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf install -y rustscan 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 RustScan 工具" || Echo_ERROR "安装 RustScan 工具失败! 请检查是否安装 dnf!请检查 proxychains4 配置的代理服务器是否可用"
+                    rm -f /var/cache/dnf/metadata_lock.pid > /dev/null 2>&1
+                    $Porxy_OK dnf install -y 'dnf-command(copr)' 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf copr enable atim/rustscan -y 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK dnf install -y rustscan 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 工具" || Echo_ERROR "安装 $name 工具失败! 请检查是否安装 dnf!请检查 proxychains4 配置的代理服务器是否可用"
                 fi
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                cd $T_Dir && rm -rf $RustScan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || Echo_ERROR "RustScan 失败!\n- 请检查 proxychains4 配置的代理服务器是否可用"
-                dpkg -i $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 RustScan 工具" || Echo_ERROR "安装 RustScan 工具失败! 在部分 debian 系列发行版上可能遇到 libc6 问题, 请自行解决"
-                rm -rf $RustScan_Install > /dev/null 2>&1
+                cd /tmp && rm -f $RustScan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || Echo_ERROR2
+                dpkg -i $RustScan_Install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败! 在部分 debian 系列发行版上可能遇到 libc6 问题, 请自行解决"
+                rm -f $RustScan_Install > /dev/null 2>&1
                 ;;
             *) ;;
         esac
@@ -1900,8 +1954,11 @@ Pentest_RustScan_Install(){
 
 }
 
-# ===================== 安装 WAFW00F 工具 =====================
+# ===================== 安装 WAFW00F =====================
 Pentest_WAFW00F_Install(){
+
+    name="WAFW00F"
+    dir="$P_Dir/wafw00f"
 
     wafw00f -V 1> /dev/null 2>> /tmp/f8x_error.log
 
@@ -1909,30 +1966,33 @@ Pentest_WAFW00F_Install(){
     then
         Echo_ALERT "WAFW00F 已安装"
     else
-        cd $P_Dir && rm -rf wafw00f* > /dev/null 2>&1 && Echo_ALERT "正在下载 WAFW00F 工具" && $Porxy_OK git clone ${GitPorxy}https://github.com/EnableSecurity/wafw00f > /dev/null 2>&1 || Echo_ERROR " WAFW00F 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        cd wafw00f && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "已安装 WAFW00F 工具" || Echo_ERROR "安装 WAFW00F 工具失败,请查看日志 /tmp/f8x_error.log"
+        rm -rf $dir && $Porxy_OK git clone ${GitPorxy}https://github.com/EnableSecurity/wafw00f $dir > /dev/null 2>&1 || Echo_ERROR2
+        cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
 
-# ===================== 安装 xray 工具 =====================
+# ===================== 安装 xray =====================
 Pentest_xray_Install(){
 
-    if test -d $P_Dir/xray
+    name="xray"
+    dir="$P_Dir/xray"
+
+    if test -d $dir
     then
-        Echo_ALERT "xray 已下载在 $P_Dir/xray"
+        Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf xray* > /dev/null 2>&1
-        mkdir xray && cd $_ && Echo_ALERT "正在下载 xray 工具" && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR "xray 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        unzip $xray_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $xray_File > /dev/null 2>&1 && Echo_INFOR "已安装 xray$xray_Ver 在 $P_Dir/xray 目录下" || Echo_ERROR "安装 xray 工具失败,请查看日志 /tmp/f8x_error.log"
+        mkdir -p $dir && cd $_ && Echo_ALERT "正在下载 xray" && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $xray_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $xray_File > /dev/null 2>&1 && Echo_INFOR "已安装 $name $xray_Ver 在 $dir 目录下" || Echo_ERROR "安装 xray 失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
 
-# ===================== 安装 masscan 工具 =====================
+# ===================== 安装 masscan =====================
 Pentest_masscan_Install(){
 
     name="masscan"
+
     which masscan 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
@@ -1945,8 +2005,10 @@ Pentest_masscan_Install(){
 
 }
 
-# ===================== 安装 fscan 工具 =====================
+# ===================== 安装 fscan =====================
 Pentest_fscan_Install(){
+
+    name="fscan"
 
     fscan > /dev/null 2>&1
 
@@ -1954,14 +2016,14 @@ Pentest_fscan_Install(){
     then
         Echo_ALERT "fscan 已安装"
     else
-        cd /tmp && rm -rf $fscan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR "fscan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $fscan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
         mv $fscan_Install fscan && mv --force fscan /usr/local/bin/ && chmod +x /usr/local/bin/fscan
-        fscan > /dev/null 2>&1 && Echo_INFOR "已安装 fscan $fscan_Ver 在 /usr/local/bin/ 目录下,直接输入 fscan 即可使用" || Echo_ERROR "fscan 安装失败,请查看日志 /tmp/f8x_error.log"
+        fscan > /dev/null 2>&1 && Echo_INFOR "已安装 $name $fscan_Ver 在 /usr/local/bin/ 目录下,直接输入 fscan 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 pocsuite3 工具 =====================
+# ===================== 安装 pocsuite3 =====================
 Pentest_pocsuite3_Install(){
 
     name="pocsuite3"
@@ -1977,8 +2039,10 @@ Pentest_pocsuite3_Install(){
 
 }
 
-# ===================== 安装 Nuclei 工具 =====================
+# ===================== 安装 Nuclei =====================
 Pentest_Nuclei_Install(){
+
+    name="Nuclei"
 
     nuclei -version > /dev/null 2>&1
 
@@ -1986,10 +2050,10 @@ Pentest_Nuclei_Install(){
     then
         Echo_ALERT "Nuclei 已安装"
     else
-        cd /tmp && rm -rf $Nuclei_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || Echo_ERROR "$Nuclei_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $Nuclei_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$Nuclei_Install 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force nuclei /usr/local/bin/ && chmod +x /usr/local/bin/nuclei && rm -rf /tmp/$Nuclei_Install > /dev/null 2>&1
-        nuclei -version > /dev/null 2>&1 && Echo_INFOR "已安装 Nuclei $Nuclei_Ver 在 /usr/local/bin/ 目录下,直接输入 nuclei 即可使用" || Echo_ERROR "nuclei 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force nuclei /usr/local/bin/ && chmod +x /usr/local/bin/nuclei && rm -f /tmp/$Nuclei_Install > /dev/null 2>&1
+        nuclei -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $Nuclei_Ver 在 /usr/local/bin/ 目录下,直接输入 nuclei 即可使用" || Echo_ERROR3
 
         if [ $GitPorxy ==  ]
         then
@@ -2001,7 +2065,7 @@ Pentest_Nuclei_Install(){
 
 }
 
-# ===================== 安装 rad 工具 =====================
+# ===================== 安装 rad =====================
 Pentest_rad_Install(){
 
     name="rad"
@@ -2012,17 +2076,17 @@ Pentest_rad_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $rad_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/rad/releases/latest/download/$rad_File > /dev/null 2>&1 || Echo_ERROR "$rad_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $rad_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/rad/releases/latest/download/$rad_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $rad_File 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$rad_File 失败,请查看日志 /tmp/f8x_error.log"
         mv rad_linux_amd64 rad
-        mv --force rad /usr/local/bin/ && chmod +x /usr/local/bin/rad && rm -rf /tmp/$rad_File > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 rad 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force rad /usr/local/bin/ && chmod +x /usr/local/bin/rad && rm -f /tmp/$rad_File > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 rad 即可使用" || Echo_ERROR3
 
         Echo_INFOR "rad 需配合 chromium 使用,可使用 -chromium 选项安装 chromium"
     fi
 
 }
 
-# ===================== 安装 crawlergo 工具 =====================
+# ===================== 安装 crawlergo =====================
 Pentest_crawlergo_Install(){
 
     name="crawlergo"
@@ -2033,32 +2097,35 @@ Pentest_crawlergo_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $crawlergo_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/0Kee-Team/crawlergo/releases/latest/download/$crawlergo_File > /dev/null 2>&1 || Echo_ERROR "$crawlergo_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $crawlergo_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/0Kee-Team/crawlergo/releases/latest/download/$crawlergo_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $crawlergo_File 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$crawlergo_File 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -rf /tmp/$crawlergo_File > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 crawlergo 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -f /tmp/$crawlergo_File > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 crawlergo 即可使用" || Echo_ERROR3
 
         Echo_INFOR "crawlergo 需配合 chromium 使用,可使用 -chromium 选项安装 chromium"
     fi
 
 }
 
-# ===================== 安装 w13scan 工具 =====================
+# ===================== 安装 w13scan =====================
 Pentest_w13scan_Install(){
 
-    if test -d $P_Dir/w13scan
+    name="w13scan"
+    dir="$P_Dir/w13scan"
+
+    if test -d $dir
     then
         Echo_ALERT "w13scan 已下载在 $P_Dir/w13sca"
     else
-        rm -rf $P_Dir/w13scan > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/w-digital-scanner/w13scan.git $P_Dir/w13scan > /dev/null 2>&1 && Echo_INFOR "已下载 w13scan 工具" || Echo_ERROR "w13scan 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        cd $P_Dir/w13scan && pip3 install -r requirements.txt > /dev/null 2>&1
+        $Porxy_OK git clone ${GitPorxy}https://github.com/w-digital-scanner/w13scan.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 w13scan" || Echo_ERROR2
+        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
 
         Install_Switch4 "cowpy"
-        cd W13SCAN && python3 w13scan.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 w13scan 在 $P_Dir/w13scan 目录下" || Echo_ERROR "安装 w13scan 工具失败,请查看日志 /tmp/f8x_error.log"
+        cd W13SCAN && python3 w13scan.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 w13scan 在 $P_Dir/w13scan 目录下" || Echo_ERROR "安装 w13scan 失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
 
-# ===================== 安装 Responder 工具 =====================
+# ===================== 安装 Responder =====================
 Pentest_Responder_Install(){
 
     name="Responder"
@@ -2068,12 +2135,12 @@ Pentest_Responder_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf Responder > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/lgandx/Responder.git > /dev/null 2>&1 && cd Responder || Echo_ERROR "Responder 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        python3 Responder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/lgandx/Responder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        python3 Responder.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 }
 
-# ===================== 安装 krbrelayx 工具 =====================
+# ===================== 安装 krbrelayx =====================
 Pentest_krbrelayx_Install(){
 
     name="krbrelayx"
@@ -2083,12 +2150,12 @@ Pentest_krbrelayx_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf krbrelayx > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/dirkjanm/krbrelayx.git > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/dirkjanm/krbrelayx.git $dir > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 Girsh 工具 =====================
+# ===================== 安装 Girsh =====================
 Pentest_Girsh_Install(){
 
     name="Girsh"
@@ -2099,14 +2166,14 @@ Pentest_Girsh_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $Girsh_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/nodauf/Girsh/releases/download/$Girsh_Ver/$Girsh_bin > /dev/null 2>&1 || Echo_ERROR "$Girsh_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $Girsh_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/nodauf/Girsh/releases/download/$Girsh_Ver/$Girsh_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $Girsh_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$Girsh_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force Girsh /usr/local/bin/ && chmod +x /usr/local/bin/Girsh && rm -rf /tmp/$Girsh_bin > /dev/null 2>&1 && Echo_INFOR "已安装 $name $Girsh_Ver 在 /usr/local/bin/ 目录下,直接输入 Girsh 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force Girsh /usr/local/bin/ && chmod +x /usr/local/bin/Girsh && rm -f /tmp/$Girsh_bin > /dev/null 2>&1 && Echo_INFOR "已安装 $name $Girsh_Ver 在 /usr/local/bin/ 目录下,直接输入 Girsh 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 ApkAnalyser 工具 =====================
+# ===================== 安装 ApkAnalyser =====================
 Pentest_ApkAnalyser_Install(){
 
     name="ApkAnalyser"
@@ -2117,12 +2184,12 @@ Pentest_ApkAnalyser_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         Install_Switch4 "apkutils"
-        cd $P_Dir && rm -rf apkAnalyser.py > /dev/null 2>&1 && curl -o apkAnalyser.py https://cdn.jsdelivr.net/gh/TheKingOfDuck/ApkAnalyser/apkAnalyser.py > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        curl -o $P_Dir/apkAnalyser.py https://cdn.jsdelivr.net/gh/TheKingOfDuck/ApkAnalyser/apkAnalyser.py > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 commix 工具 =====================
+# ===================== 安装 commix =====================
 Pentest_commix_Install(){
 
     name="commix"
@@ -2132,8 +2199,8 @@ Pentest_commix_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf commix > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/commixproject/commix.git > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        python3 commix.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/commixproject/commix.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        python3 commix.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
@@ -2148,12 +2215,12 @@ Pentest_exploitdb_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf exploitdb > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/offensive-security/exploitdb.git > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/offensive-security/exploitdb.git $dir > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 tplmap 工具 =====================
+# ===================== 安装 tplmap =====================
 Pentest_tplmap_Install(){
 
     name="tplmap"
@@ -2163,13 +2230,13 @@ Pentest_tplmap_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf tplmap > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/epinna/tplmap.git > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        python2 tplmap.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/epinna/tplmap.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        python2 tplmap.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 routersploit 工具 =====================
+# ===================== 安装 routersploit =====================
 Pentest_routersploit_Install(){
 
     name="routersploit"
@@ -2179,10 +2246,8 @@ Pentest_routersploit_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf routersploit > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/threat9/routersploit.git > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-
-        Echo_ALERT "正在安装依赖模块,该步骤可能运行较长时间,请耐心等待" && pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
-
+        $Porxy_OK git clone ${GitPorxy}https://github.com/threat9/routersploit.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        Echo_ALERT "正在安装依赖模块,该步骤可能运行较长时间,请耐心等待" && pip3 install -r requirements.txt 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Echo_ALERT "正在安装 Bluetooth Low Energy 支持"
@@ -2197,7 +2262,7 @@ Pentest_routersploit_Install(){
 
 }
 
-# ===================== 安装 bettercap 工具 =====================
+# ===================== 安装 bettercap =====================
 Pentest_bettercap_Install(){
 
     name="bettercap"
@@ -2208,9 +2273,9 @@ Pentest_bettercap_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $bettercap_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/bettercap/bettercap/releases/download/$bettercap_Ver/$bettercap_bin > /dev/null 2>&1 || Echo_ERROR "$bettercap_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $bettercap_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/bettercap/bettercap/releases/download/$bettercap_Ver/$bettercap_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $bettercap_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$bettercap_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force bettercap /usr/local/bin/ && chmod +x /usr/local/bin/bettercap && rm -rf /tmp/$bettercap_bin > /dev/null 2>&1 && Echo_INFOR "已安装 $name $bettercap_Ver 在 /usr/local/bin/ 目录下,直接输入 bettercap 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force bettercap /usr/local/bin/ && chmod +x /usr/local/bin/bettercap && rm -f /tmp/$bettercap_bin > /dev/null 2>&1 && Echo_INFOR "已安装 $name $bettercap_Ver 在 /usr/local/bin/ 目录下,直接输入 bettercap 即可使用" || Echo_ERROR3
 
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -2225,7 +2290,7 @@ Pentest_bettercap_Install(){
 
 }
 
-# ===================== 安装 mitmproxy 工具 =====================
+# ===================== 安装 mitmproxy =====================
 Pentest_mitmproxy_Install(){
 
     name="mitmproxy"
@@ -2238,9 +2303,9 @@ Pentest_mitmproxy_Install(){
     else
         if [ $GitPorxy ==  ]
         then
-            cd /tmp && rm -rf $mitmproxy_bin > /dev/null 2>&1 && $Porxy_OK wget -O $mitmproxy_bin https://snapshots.mitmproxy.org/$mitmproxy_Ver/$mitmproxy_bin > /dev/null 2>&1 || Echo_ERROR "$mitmproxy_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+            cd /tmp && rm -f $mitmproxy_bin > /dev/null 2>&1 && $Porxy_OK wget -O $mitmproxy_bin https://snapshots.mitmproxy.org/$mitmproxy_Ver/$mitmproxy_bin > /dev/null 2>&1 || Echo_ERROR2
             tar -zxvf $mitmproxy_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$mitmproxy_bin 失败,请查看日志 /tmp/f8x_error.log"
-            mv --force mitmproxy /usr/local/bin/ && chmod +x /usr/local/bin/mitmproxy && rm -rf /tmp/$mitmproxy_bin > /dev/null 2>&1 && Echo_INFOR "已安装 $name $mitmproxy_Ver 在 /usr/local/bin/ 目录下,直接输入 mitmproxy 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+            mv --force mitmproxy /usr/local/bin/ && chmod +x /usr/local/bin/mitmproxy && rm -f /tmp/$mitmproxy_bin > /dev/null 2>&1 && Echo_INFOR "已安装 $name $mitmproxy_Ver 在 /usr/local/bin/ 目录下,直接输入 mitmproxy 即可使用" || Echo_ERROR3
             mv --force mitmdump /usr/local/bin/ && chmod +x /usr/local/bin/mitmdump && Echo_INFOR "已安装 mitmdump 在 /usr/local/bin/ 目录下,直接输入 mitmdump 即可使用" || Echo_ERROR "mitmdump 安装失败,请查看日志 /tmp/f8x_error.log"
             mv --force mitmweb /usr/local/bin/ && chmod +x /usr/local/bin/mitmweb && Echo_INFOR "已安装 mitmweb 在 /usr/local/bin/ 目录下,直接输入 mitmweb 即可使用" || Echo_ERROR "mitmweb 安装失败,请查看日志 /tmp/f8x_error.log"
         fi
@@ -2248,7 +2313,7 @@ Pentest_mitmproxy_Install(){
 
 }
 
-# ===================== 安装 naabu 工具 =====================
+# ===================== 安装 naabu =====================
 Pentest_naabu_Install(){
 
     name="naabu"
@@ -2259,15 +2324,15 @@ Pentest_naabu_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $naabu_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/naabu/releases/latest/download/$naabu_bin > /dev/null 2>&1 || Echo_ERROR "$naabu_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $naabu_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/naabu/releases/latest/download/$naabu_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $naabu_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$naabu_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force naabu-linux-amd64 /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu && rm -rf /tmp/$naabu_bin > /dev/null 2>&1
-        naabu -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 naabu 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force naabu-linux-amd64 /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu && rm -f /tmp/$naabu_bin > /dev/null 2>&1
+        naabu -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 naabu 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 proxify 工具 =====================
+# ===================== 安装 proxify =====================
 Pentest_proxify_Install(){
 
     name="proxify"
@@ -2278,15 +2343,15 @@ Pentest_proxify_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $proxify_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/proxify/releases/download/$proxify_Ver/$proxify_bin > /dev/null 2>&1 || Echo_ERROR "$proxify_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $proxify_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/proxify/releases/download/$proxify_Ver/$proxify_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $proxify_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$proxify_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force proxify /usr/local/bin/proxify && chmod +x /usr/local/bin/proxify && rm -rf /tmp/$proxify_bin > /dev/null 2>&1
-        proxify -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $proxify_Ver 在 /usr/local/bin/ 目录下,直接输入 proxify 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force proxify /usr/local/bin/proxify && chmod +x /usr/local/bin/proxify && rm -f /tmp/$proxify_bin > /dev/null 2>&1
+        proxify -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $proxify_Ver 在 /usr/local/bin/ 目录下,直接输入 proxify 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 pypykatz 工具 =====================
+# ===================== 安装 pypykatz =====================
 Pentest_pypykatz_Install(){
 
     name="pypykatz"
@@ -2302,7 +2367,7 @@ Pentest_pypykatz_Install(){
 
 }
 
-# ===================== 安装 CrackMapExec 工具 =====================
+# ===================== 安装 CrackMapExec =====================
 Pentest_CrackMapExec_Install(){
 
     name="CrackMapExec"
@@ -2320,7 +2385,7 @@ Pentest_CrackMapExec_Install(){
 
 }
 
-# ===================== 安装 httpx 工具 =====================
+# ===================== 安装 httpx =====================
 Pentest_httpx_Install(){
 
     name="httpx"
@@ -2331,15 +2396,15 @@ Pentest_httpx_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $httpx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/httpx/releases/download/$httpx_Ver/$httpx_bin > /dev/null 2>&1 || Echo_ERROR "$httpx_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $httpx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/httpx/releases/download/$httpx_Ver/$httpx_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $httpx_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$httpx_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force httpx /usr/local/bin/httpx && chmod +x /usr/local/bin/httpx && rm -rf /tmp/$httpx_bin > /dev/null 2>&1
-        httpx -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $httpx_Ver 在 /usr/local/bin/ 目录下,直接输入 httpx 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force httpx /usr/local/bin/httpx && chmod +x /usr/local/bin/httpx && rm -f /tmp/$httpx_bin > /dev/null 2>&1
+        httpx -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $httpx_Ver 在 /usr/local/bin/ 目录下,直接输入 httpx 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 subfinder 工具 =====================
+# ===================== 安装 subfinder =====================
 Pentest_subfinder_Install(){
 
     name="subfinder"
@@ -2350,15 +2415,15 @@ Pentest_subfinder_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $subfinder_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/subfinder/releases/download/$subfinder_Ver/$subfinder_bin > /dev/null 2>&1 || Echo_ERROR "$subfinder_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $subfinder_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/subfinder/releases/download/$subfinder_Ver/$subfinder_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $subfinder_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$subfinder_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force subfinder /usr/local/bin/subfinder && chmod +x /usr/local/bin/subfinder && rm -rf > /dev/null 2>&1
-        subfinder -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $subfinder_Ver 在 /usr/local/bin/ 目录下,直接输入 subfinder 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force subfinder /usr/local/bin/subfinder && chmod +x /usr/local/bin/subfinder && rm -f /tmp/$subfinder_bin > /dev/null 2>&1
+        subfinder -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $subfinder_Ver 在 /usr/local/bin/ 目录下,直接输入 subfinder 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 mapcidr 工具 =====================
+# ===================== 安装 mapcidr =====================
 Pentest_mapcidr_Install(){
 
     name="mapcidr"
@@ -2369,15 +2434,15 @@ Pentest_mapcidr_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $mapcidr_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/mapcidr/releases/download/$mapcidr_Ver/$mapcidr_bin > /dev/null 2>&1 || Echo_ERROR "$mapcidr_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $mapcidr_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/mapcidr/releases/download/$mapcidr_Ver/$mapcidr_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $mapcidr_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$mapcidr_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force mapcidr /usr/local/bin/mapcidr && chmod +x /usr/local/bin/mapcidr && rm -rf /tmp/$mapcidr_bin > /dev/null 2>&1
-        mapcidr -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $mapcidr_Ver 在 /usr/local/bin/ 目录下,直接输入 mapcidr 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force mapcidr /usr/local/bin/mapcidr && chmod +x /usr/local/bin/mapcidr && rm -f /tmp/$mapcidr_bin > /dev/null 2>&1
+        mapcidr -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $mapcidr_Ver 在 /usr/local/bin/ 目录下,直接输入 mapcidr 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 apktool 工具 =====================
+# ===================== 安装 apktool =====================
 Pentest_apktool_Install(){
 
     name="apktool"
@@ -2388,16 +2453,16 @@ Pentest_apktool_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf apktool > /dev/null 2>&1 && $Porxy_OK wget -O apktool ${GitPorxy}https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool > /dev/null 2>&1 || Echo_ERROR "apktool 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        rm -rf $apktool_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/iBotPeaches/Apktool/releases/download/$apktool_Ver/$apktool_bin > /dev/null 2>&1 || Echo_ERROR "$apktool_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f apktool > /dev/null 2>&1 && $Porxy_OK wget -O apktool ${GitPorxy}https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool > /dev/null 2>&1 || Echo_ERROR2
+        rm -f $apktool_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/iBotPeaches/Apktool/releases/download/$apktool_Ver/$apktool_bin > /dev/null 2>&1 || Echo_ERROR2
         mv $apktool_bin apktool.jar && mv --force apktool.jar /usr/local/bin/apktool.jar && chmod +x /usr/local/bin/apktool.jar
         mv --force apktool /usr/local/bin/apktool && chmod +x /usr/local/bin/apktool
-        apktool -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $apktool_Ver 在 /usr/local/bin/ 目录下,直接输入 apktool 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        apktool -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $apktool_Ver 在 /usr/local/bin/ 目录下,直接输入 apktool 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 OpenRedireX 工具 =====================
+# ===================== 安装 OpenRedireX =====================
 Pentest_OpenRedireX_Install(){
 
     name="OpenRedireX"
@@ -2408,13 +2473,13 @@ Pentest_OpenRedireX_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         Install_Switch4 "aiohttp"
-        cd $P_Dir && rm -rf OpenRedireX > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/OpenRedireX.git > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        python3 openredirex.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/OpenRedireX.git > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        python3 openredirex.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 gau 工具 =====================
+# ===================== 安装 gau =====================
 Pentest_gau_Install(){
 
     name="gau"
@@ -2425,15 +2490,15 @@ Pentest_gau_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $gau_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/lc/gau/releases/download/$gau_Ver/$gau_bin > /dev/null 2>&1 || Echo_ERROR "$gau_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $gau_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/lc/gau/releases/download/$gau_Ver/$gau_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $gau_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$gau_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force gau /usr/local/bin/gau && chmod +x /usr/local/bin/gau && rm -rf /tmp/$gau_bin > /dev/null 2>&1
-        gau -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $gau_Ver 在 /usr/local/bin/ 目录下,直接输入 gau 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        mv --force gau /usr/local/bin/gau && chmod +x /usr/local/bin/gau && rm -f /tmp/$gau_bin > /dev/null 2>&1
+        gau -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $gau_Ver 在 /usr/local/bin/ 目录下,直接输入 gau 即可使用" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 apkleaks 工具 =====================
+# ===================== 安装 apkleaks =====================
 Pentest_apkleaks_Install(){
 
     name="apkleaks"
@@ -2448,7 +2513,7 @@ Pentest_apkleaks_Install(){
 
 }
 
-# ===================== 安装 jadx 工具 =====================
+# ===================== 安装 jadx =====================
 Pentest_jadx_Install(){
 
     name="jadx"
@@ -2458,16 +2523,16 @@ Pentest_jadx_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        mkdir -p /usr/local/jadx && cd /usr/local/jadx && rm -rf $jadx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/skylot/jadx/releases/download/$jadx_Ver/$jadx_bin > /dev/null 2>&1 || Echo_ERROR "$jadx_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        mkdir -p /usr/local/jadx && cd /usr/local/jadx && rm -f $jadx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/skylot/jadx/releases/download/$jadx_Ver/$jadx_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $jadx_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /usr/local/$jadx_bin 失败,请查看日志 /tmp/f8x_error.log"
-        chmod +x /usr/local/jadx/bin/jadx && ln -s /usr/local/jadx/bin/jadx /usr/local/bin/jadx && rm -rf /usr/local/$jadx_bin > /dev/null 2>&1
-        jadx --version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $jadx_Ver 在 /usr/local/jadx/ 目录下,直接输入 jadx 即可使用" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        chmod +x /usr/local/jadx/bin/jadx && ln -s /usr/local/jadx/bin/jadx /usr/local/bin/jadx && rm -f /usr/local/$jadx_bin > /dev/null 2>&1
+        jadx --version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $jadx_Ver 在 /usr/local/jadx/ 目录下,直接输入 jadx 即可使用" || Echo_ERROR3
 
     fi
 
 }
 
-# ===================== 安装 Diggy 工具 =====================
+# ===================== 安装 Diggy =====================
 Pentest_Diggy_Install(){
 
     name="Diggy"
@@ -2477,12 +2542,12 @@ Pentest_Diggy_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf diggy.sh > /dev/null 2>&1 && curl -o diggy.sh https://cdn.jsdelivr.net/gh/s0md3v/Diggy/diggy.sh > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+        cd $P_Dir && curl -o diggy.sh https://cdn.jsdelivr.net/gh/s0md3v/Diggy/diggy.sh > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 CORScanner 工具 =====================
+# ===================== 安装 CORScanner =====================
 Pentest_CORScanner_Install(){
 
     name="CORScanner"
@@ -2492,14 +2557,14 @@ Pentest_CORScanner_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        rm -rf $dir > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/chenjj/CORScanner.git $P_Dir/CORScanner > /dev/null 2>&1 && Echo_INFOR "已下载 $name 工具" || Echo_ERROR "$name 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/chenjj/CORScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
         cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
-        python3 cors_scan.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "安装 $name 工具失败,请查看日志 /tmp/f8x_error.log"
+        python3 cors_scan.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 swagger-exp 工具 =====================
+# ===================== 安装 swagger-exp =====================
 Pentest_swagger-exp_Install(){
 
     name="swagger-exp"
@@ -2509,21 +2574,155 @@ Pentest_swagger-exp_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        rm -rf $dir > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/lijiejie/swagger-exp.git $P_Dir/swagger-exp > /dev/null 2>&1 && Echo_INFOR "已下载 $name 工具" || Echo_ERROR "$name 工具下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        cd $dir && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR "安装 $name 工具失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/lijiejie/swagger-exp.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        cd $dir && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 unyaffs 工具 =====================
+# ===================== 安装 swagger-hack =====================
+Pentest_swagger-hack_Install(){
+
+    name="swagger-hack"
+    dir="$P_Dir/swagger-hack"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/jayus0821/swagger-hack.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        cd $dir && python3 swagger-hack2.0.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 shiro-exploit =====================
+Pentest_shiro-exploit_Install(){
+
+    name="shiro-exploit"
+    dir="$P_Dir/shiro-exploit"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        Install_Switch4 "pycryptodome"
+        cd $dir && python3 shiro-exploit.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 ysoserial =====================
+Pentest_ysoserial_Install(){
+
+    name="ysoserial"
+    dir="$P_Dir/ysoserial"
+
+    if test -e $dir/ysoserial.jar
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -f ysoserial.jar > /dev/null 2>&1 && $Porxy_OK wget -O ysoserial.jar ${GitPorxy2}https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar > /dev/null 2>&1 || Echo_ERROR2
+        if test -e $dir/ysoserial.jar
+        then
+            Echo_INFOR "已安装 $name 在 $dir 目录下"
+        else
+            Echo_ERROR3
+        fi
+    fi
+
+}
+
+# ===================== 安装 remote-method-guesser =====================
+Pentest_remote-method-guesser_Install(){
+
+    name="remote-method-guesser"
+    dir="$P_Dir/remote-method-guesser"
+
+    if test -e $dir/rmg.jar
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -f rmg.jar > /dev/null 2>&1 && $Porxy_OK wget -O rmg.jar ${GitPorxy}https://github.com/qtc-de/remote-method-guesser/releases/download/$rmg_Ver/$rmg_bin > /dev/null 2>&1 || Echo_ERROR2
+        java -jar rmg.jar --help > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 SSRFmap =====================
+Pentest_SSRFmap_Install(){
+
+    name="SSRFmap"
+    dir="$P_Dir/SSRFmap"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/swisskyrepo/SSRFmap.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && python3 ssrfmap.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 See-SURF =====================
+Pentest_See-SURF_Install(){
+
+    name="See-SURF"
+    dir="$P_Dir/See-SURF"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/In3tinct/See-SURF.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        cd $dir && python3 see-surf.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 testssl =====================
+Pentest_testssl_Install(){
+
+    name="testssl"
+    dir="$P_Dir/"
+
+    if test -e $P_Dir/testssl.sh
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        cd $P_Dir && curl -o testssl.sh https://cdn.jsdelivr.net/gh/drwetter/testssl.sh/testssl.sh > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 MassBleed =====================
+Pentest_MassBleed_Install(){
+
+    name="MassBleed"
+    dir="$P_Dir/MassBleed"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/1N3/MassBleed.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+    fi
+
+}
+
+# ===================== 安装 unyaffs =====================
 unyaffs_Install(){
 
-    cd $T_Dir && rm -rf unyaffs > /dev/null 2>&1 && $Porxy_OK wget -O unyaffs ${GitPorxy2}https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unyaffs/unyaffs > /dev/null 2>&1 || Echo_ERROR "unyaffs 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+    name="unyaffs"
+
+    cd $T_Dir && rm -f unyaffs > /dev/null 2>&1 && $Porxy_OK wget -O unyaffs ${GitPorxy2}https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unyaffs/unyaffs > /dev/null 2>&1 || Echo_ERROR2
     mv --force unyaffs /usr/local/bin/ && chmod +x /usr/local/bin/unyaffs && Echo_INFOR "已安装 unyaffs 在 /usr/local/bin/ 目录下" || Echo_ERROR "unyaffs 安装失败,请查看日志 /tmp/f8x_error.log"
 
 }
 
-# ===================== 安装 Fail2Ban 工具 =====================
+# ===================== 安装 Fail2Ban =====================
 Secure_Fail2Ban_Install(){
 
     name="Fail2Ban"
@@ -2541,7 +2740,7 @@ Secure_Fail2Ban_Install(){
 
 }
 
-# ===================== 安装 chkrootkit 工具 =====================
+# ===================== 安装 chkrootkit =====================
 Secure_chkrootkit_Install(){
 
     name="chkrootkit"
@@ -2550,15 +2749,15 @@ Secure_chkrootkit_Install(){
     then
         Echo_ALERT "$name 已下载在 $T_Dir/"
     else
-        cd $T_Dir && rm -rf chkrootkit.tar.gz > /dev/null 2>&1 && $Porxy_OK wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz > /dev/null 2>&1 && Echo_INFOR "已下载 $name 工具" || Echo_ERROR "$name 工具下载失败"
-        tar zxvf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf chkrootkit.tar.gz > /dev/null 2>&1
+        cd $T_Dir && rm -f chkrootkit.tar.gz > /dev/null 2>&1 && $Porxy_OK wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR "$name 下载失败"
+        tar zxvf chkrootkit.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log && rm -f chkrootkit.tar.gz > /dev/null 2>&1
         cd chkrootkit-* && make sense 1> /dev/null 2>> /tmp/f8x_error.log
-        Echo_INFOR "已安装 $name 工具在 $T_Dir 目录下" || Echo_ERROR "安装 $name 工具失败,请查看日志 /tmp/f8x_error.log"
+        Echo_INFOR "已安装 $name 在 $T_Dir 目录下" || Echo_ERROR3
     fi
 
 }
 
-# ===================== 安装 rkhunter 工具 =====================
+# ===================== 安装 rkhunter =====================
 Secure_rkhunter_Install(){
 
     name="rkhunter"
@@ -2574,32 +2773,36 @@ Secure_rkhunter_Install(){
 
 }
 
-# ===================== 安装 shellpub 工具 =====================
+# ===================== 安装 shellpub =====================
 Secure_shellpub_Install(){
+
+    name="shellpub"
 
     if test -d $T_Dir/hm
     then
         Echo_ALERT "河马 webshell 查杀工具已下载在 $T_Dir/hm"
     else
-        cd $T_Dir && rm -rf $T_Dir/hm > /dev/null 2>&1 && mkdir $T_Dir/hm && cd $_ && $Porxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 > /dev/null 2>&1 && Echo_INFOR "已下载河马 webshell 查杀工具" || Echo_ERROR "河马 webshell 查杀工具下载失败"
-        tar zxvf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf hm-linux.tgz > /dev/null 2>&1 && Echo_INFOR "已安装河马 webshell 查杀工具在 $T_Dir/hm 目录下" || Echo_ERROR "安装河马 webshell 查杀工具失败,请查看日志 /tmp/f8x_error.log"
+        mkdir -p $T_Dir/hm && cd $_ && $Porxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 > /dev/null 2>&1 && Echo_INFOR "已下载河马 webshell 查杀工具" || Echo_ERROR "河马 webshell 查杀工具下载失败"
+        tar zxvf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && rm -f hm-linux.tgz > /dev/null 2>&1 && Echo_INFOR "已安装河马 webshell 查杀工具在 $T_Dir/hm 目录下" || Echo_ERROR "安装河马 webshell 查杀工具失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
 
-# ===================== 安装 anti-portscan 工具 =====================
+# ===================== 安装 anti-portscan =====================
 Secure_anti_portscan_Install(){
+
+    name="anti-portscan"
 
     if test -d $T_Dir/anti-portscan
     then
         Echo_ALERT "anti-portscan 已下载在 $T_Dir/anti-portscan"
     else
-        cd $T_Dir && rm -rf anti-portscan > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/EtherDream/anti-portscan.git > /dev/null 2>&1 && Echo_INFOR "已下载 anti-portscan 在 $T_Dir/anti-portscan 目录下 (不清楚用法的情况先不要使用,不然有可能会无法连接ssh)" || Echo_ERROR "anti-portscan 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd $T_Dir && rm -f anti-portscan > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/EtherDream/anti-portscan.git > /dev/null 2>&1 && Echo_INFOR "已下载 anti-portscan 在 $T_Dir/anti-portscan 目录下 (不清楚用法的情况先不要使用,不然有可能会无法连接ssh)" || Echo_ERROR2
     fi
 
 }
 
-# ===================== 安装 BruteShark 工具 =====================
+# ===================== 安装 BruteShark =====================
 Secure_BruteShark_Install(){
 
     name="BruteShark"
@@ -2607,7 +2810,7 @@ Secure_BruteShark_Install(){
 
     if test -d $T_Dir/BruteShark
     then
-        Echo_ALERT "$name 工具已下载在 $T_Dir/ "
+        Echo_ALERT "$name 已下载在 $T_Dir/ "
     else
         Rm_Lock
         case $Linux_Version in
@@ -2620,7 +2823,7 @@ Secure_BruteShark_Install(){
                 ;;
             *) ;;
         esac
-        cd $T_Dir && rm -rf $T_Dir/BruteSharkCli > /dev/null 2>&1 && mkdir $T_Dir/BruteShark && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/odedshimon/BruteShark/releases/latest/download/BruteSharkCli > /dev/null 2>&1 && chmod +x BruteSharkCli && Echo_INFOR "已下载 $name 工具在 $dir " || Echo_ERROR "$name 工具下载失败"
+        mkdir -p $T_Dir/BruteShark && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/odedshimon/BruteShark/releases/latest/download/BruteSharkCli > /dev/null 2>&1 && chmod +x BruteSharkCli && Echo_INFOR "已下载 $name 在 $dir " || Echo_ERROR2
         find /usr/lib/x86_64-linux-gnu -type f | grep libpcap | head -1 | xargs -i sudo ln -s {} /usr/lib/x86_64-linux-gnu/libpcap.so > /dev/null 2>&1
     fi
 
@@ -2629,11 +2832,13 @@ Secure_BruteShark_Install(){
 # ===================== 安装 Bash_Insulter =====================
 Bash_Insulter(){
 
+    name="Bash_Insulter"
+
     if test -e /etc/bash.command-not-found
     then
         Echo_ALERT "Bash_Insulter 已安装在 /etc/bash.command-not-found"
     else
-        rm -rf $T_Dir/bash-insulter > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/bash-insulter.git $T_Dir/bash-insulter > /dev/null 2>&1 || Echo_ERROR "下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        rm -rf $T_Dir/bash-insulter > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/bash-insulter.git $T_Dir/bash-insulter > /dev/null 2>&1 || Echo_ERROR2
         mv --force $T_Dir/bash-insulter/src/bash.command-not-found /etc/ && rm -rf $T_Dir/bash-insulter > /dev/null 2>&1
         chmod 777 /etc/bash.command-not-found && Echo_INFOR "最纯粹的嘴臭,最极致的享受,当你重启机器后,输错命令会有惊喜"
 
@@ -2653,15 +2858,15 @@ Bash_Insulter(){
 # ===================== 安装 vlmcsd 环境 =====================
 vlmcsd_Install(){
 
+    name="vlmcsd"
+
     if test -d $T_Dir/vlmcsd
     then
         Echo_ALERT "vlmcsd 已安装在 $T_Dir/vlmcsd"
     else
-        cd $T_Dir && rm -rf binaries.tar.gz > /dev/null 2>&1 && rm -rf vlmcsd > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/Wind4/vlmcsd/releases/download/svn1113/binaries.tar.gz > /dev/null 2>&1 || Echo_ERROR "vlmcsd 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd $T_Dir && rm -f binaries.tar.gz > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/Wind4/vlmcsd/releases/download/svn1113/binaries.tar.gz > /dev/null 2>&1 || Echo_ERROR2
         tar -xzvf binaries.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log
-        mv binaries vlmcsd
-        rm -rf binaries.tar.gz > /dev/null 2>&1
-        Echo_INFOR "vlmcsd 已安装在 $T_Dir/vlmcsd 下,可通过以下命令运行 vlmcsd 服务:\ncd $T_Dir/vlmcsd/Linux/intel/static && ./vlmcsd-x86-musl-static"
+        mv binaries vlmcsd && rm -f binaries.tar.gz > /dev/null 2>&1 && Echo_INFOR "$name 已安装在 $T_Dir/vlmcsd 下,可通过以下命令运行 vlmcsd 服务:\ncd $T_Dir/vlmcsd/Linux/intel/static && ./vlmcsd-x86-musl-static"
     fi
 
 }
@@ -2669,13 +2874,15 @@ vlmcsd_Install(){
 # ===================== 安装 AdguardTeam 环境 =====================
 AdguardTeam_Install(){
 
+    name="AdguardTeam"
+
     if test -d $T_Dir/AdGuardHome
     then
         Echo_ALERT "AdguardTeam 已部署在 $T_Dir/AdGuardHome"
     else
-        cd $T_Dir && rm -rf $AdguardTeam_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.105.0-beta.2/$AdguardTeam_File > /dev/null 2>&1 || Echo_ERROR "AdguardTeam 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        tar -xzvf $AdguardTeam_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $AdguardTeam_File > /dev/null 2>&1
-        cd AdGuardHome && Echo_INFOR "已安装 AdguardTeam $AdGuardHome_Version 环境,运行以下命令开启 AdguardTeam 服务\n\033[0m\033[1;32mcd $T_Dir/AdGuardHome && ./AdGuardHome -s install" || Echo_ERROR "安装 AdguardTeam 环境失败,请查看日志 /tmp/f8x_error.log"
+        cd $T_Dir && rm -f $AdguardTeam_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.105.0-beta.2/$AdguardTeam_File > /dev/null 2>&1 || Echo_ERROR2
+        tar -xzvf $AdguardTeam_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $AdguardTeam_File > /dev/null 2>&1
+        cd AdGuardHome && Echo_INFOR "已安装 $name $AdGuardHome_Version 环境,运行以下命令开启 AdguardTeam 服务\n\033[0m\033[1;32mcd $T_Dir/AdGuardHome && ./AdGuardHome -s install" || Echo_ERROR "安装 $name 环境失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
@@ -2684,13 +2891,14 @@ AdguardTeam_Install(){
 trash-cli_Install(){
 
     name="trash-cli"
+
     trash-list --version 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name 已安装"
     else
-        pip3 install trash-cli 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 trash-cli 环境,现在可使用以下命令进行管理:\n- 移动文件到回收站 : trash-put\n- 列出回收站文件 : trash-list\n- 搜索回收站文件 : trash-list | grep foo\n- 恢复回收站文件 : trash-restore\n- 删除所有回收站文件 : trash-empty\n- 删除回收站中 n 天前被回收的文件 : trash-empty <days>\n- 只删除符合某种模式的文件 : trash-rm \\\*.o" || Echo_ERROR "安装 trash-cli 环境失败,请查看日志 /tmp/f8x_error.log"
+        pip3 install trash-cli 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 环境,现在可使用以下命令进行管理:\n- 移动文件到回收站 : trash-put\n- 列出回收站文件 : trash-list\n- 搜索回收站文件 : trash-list | grep foo\n- 恢复回收站文件 : trash-restore\n- 删除所有回收站文件 : trash-empty\n- 删除回收站中 n 天前被回收的文件 : trash-empty <days>\n- 只删除符合某种模式的文件 : trash-rm \\\*.o" || Echo_ERROR "安装 $name 环境失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
@@ -2699,6 +2907,7 @@ trash-cli_Install(){
 thefuck_Install(){
 
     name="thefuck"
+
     thefuck -v 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
@@ -2714,15 +2923,16 @@ thefuck_Install(){
 fzf_Install(){
 
     name="fzf"
+
     fzf --version 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $fzf_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/junegunn/fzf/releases/download/$fzf_Ver/$fzf_bin > /dev/null 2>&1 || Echo_ERROR "$fzf_bin 下载失败"
-        tar -zxvf $fzf_bin 1> /dev/null 2>> /tmp/f8x_error.log && mv fzf /usr/local/bin/fzf && chmod +x /usr/local/bin/fzf && rm -rf $fzf_bin > /dev/null 2>&1
-        fzf --version 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 工具" || Echo_ERROR "安装 $name 工具失败,请查看日志 /tmp/f8x_error.log"
+        cd /tmp && rm -f $fzf_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/junegunn/fzf/releases/download/$fzf_Ver/$fzf_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf $fzf_bin 1> /dev/null 2>> /tmp/f8x_error.log && mv fzf /usr/local/bin/fzf && chmod +x /usr/local/bin/fzf && rm -f $fzf_bin > /dev/null 2>&1
+        fzf --version 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name" || Echo_ERROR3
     fi
 
 }
@@ -2731,16 +2941,17 @@ fzf_Install(){
 annie_Install(){
 
     name="annie"
+
     annie -v 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $annie_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/iawia002/annie/releases/download/$annie_Ver/$annie_bin > /dev/null 2>&1 || Echo_ERROR "$annie_bin 下载失败"
+        cd /tmp && rm -f $annie_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/iawia002/annie/releases/download/$annie_Ver/$annie_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $annie_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$annie_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv annie /usr/local/bin/annie && chmod +x /usr/local/bin/annie && rm -rf $annie_bin > /dev/null 2>&1
-        annie -v 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $annie_Ver 在 /usr/local/bin/ 目录下,直接输入 annie 即可使用" || Echo_ERROR "安装 $name 工具失败,请查看日志 /tmp/f8x_error.log"
+        mv annie /usr/local/bin/annie && chmod +x /usr/local/bin/annie && rm -f $annie_bin > /dev/null 2>&1
+        annie -v 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $annie_Ver 在 /usr/local/bin/ 目录下,直接输入 annie 即可使用" || Echo_ERROR3
     fi
 
 }
@@ -2749,6 +2960,7 @@ annie_Install(){
 you-get_Install(){
 
     name="you-get"
+
     you-get --version 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
@@ -2764,6 +2976,7 @@ you-get_Install(){
 ffmpeg_Install(){
 
     name="ffmpeg"
+
     ffmpeg -h 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
@@ -2788,6 +3001,7 @@ ffmpeg_Install(){
 aria2_Install(){
 
     name="aria2"
+
     aria2c --version 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
@@ -2807,20 +3021,21 @@ aria2_Install(){
 filebrowser_Install(){
 
     name="filebrowser"
+
     filebrowser version 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name 已安装,运行以下命令开启服务:"
     else
-        cd /tmp && $Porxy_OK curl -o install.sh https://raw.githubusercontent.com/filebrowser/get/master/get.sh > /dev/null 2>&1 && $Porxy_OK bash install.sh > /dev/null 2>&1 && Echo_INFOR "已安装 $name ,运行以下命令开启服务:" || Echo_ERROR "安装 $name 失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && $Porxy_OK curl -o install.sh https://raw.githubusercontent.com/filebrowser/get/master/get.sh > /dev/null 2>&1 && $Porxy_OK bash install.sh > /dev/null 2>&1 && Echo_INFOR "已安装 $name ,运行以下命令开启服务:" || Echo_ERROR2
     fi
 
     Echo_INFOR "filebrowser -a [监听的IP] -r [文件夹路径]" && Echo_INFOR "默认账号密码 admin"
 
 }
 
-# ===================== 安装 sharry 工具 =====================
+# ===================== 安装 sharry =====================
 sharry_Install(){
 
     name="sharry"
@@ -2829,25 +3044,26 @@ sharry_Install(){
     then
         Echo_ALERT "$name 已部署在 $T_Dir/$name ,运行以下命令开启服务:"
     else
-        cd $T_Dir/ && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget ${GitPorxy}https://github.com/eikek/sharry/releases/download/release/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR "$sharry_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用!"
-        unzip $sharry_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $sharry_File > /dev/null 2>&1 && mv sharry-restserver-1.6.0 sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
+        cd $T_Dir/ && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget ${GitPorxy}https://github.com/eikek/sharry/releases/download/release/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $sharry_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $sharry_File > /dev/null 2>&1 && mv sharry-restserver-1.6.0 sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
     fi
 
     Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver ,该服务需要 jdk 环境,若未安装可运行 -oraclejdk 选项进行安装"
 
 }
 
-# ===================== 安装 starship 工具 =====================
+# ===================== 安装 starship =====================
 starship_Install(){
 
     name="starship"
+
     starship --version 1> /dev/null 2>> /tmp/f8x_error.log
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf install.sh > /dev/null 2>&1 && $Porxy_OK curl -o install.sh https://starship.rs/install.sh > /dev/null 2>&1 && $Porxy_OK bash install.sh && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f install.sh > /dev/null 2>&1 && $Porxy_OK curl -o install.sh https://starship.rs/install.sh > /dev/null 2>&1 && $Porxy_OK bash install.sh && Echo_INFOR "已安装 $name" || Echo_ERROR2
     fi
 
     Echo_INFOR "Bash 配置:  echo \"eval \\\"\\\$(starship init bash)\\\"\" >> ~/.bashrc"
@@ -2859,7 +3075,7 @@ starship_Install(){
 # -vol
 Volatility_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 Volatility 工具,请耐心等待 \n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 Volatility ,请耐心等待 \n\033[0m"
     name="Volatility"
 
     case $Linux_Version in
@@ -2899,7 +3115,7 @@ Volatility_Install(){
                 Install_Switch3 "yara-python"
                 ln -s /usr/local/lib/python2.7/dist-packages/usr/lib/libyara.so /usr/lib/libyara.so 1> /dev/null 2>> /tmp/f8x_error.log
 
-                $Porxy_OK git clone ${GitPorxy}https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 $name" || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+                $Porxy_OK git clone ${GitPorxy}https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 $name" || Echo_ERROR2
                 cd $P_Dir/volatility && python setup.py build 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "安装依赖模块失败,请查看日志 /tmp/f8x_error.log"
                 python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "安装依赖模块失败,请查看日志 /tmp/f8x_error.log"
                 python vol.py --info 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $P_Dir/volatility 路径" || Echo_ERROR "安装 $name 失败,请查看日志 /tmp/f8x_error.log"
@@ -2912,14 +3128,14 @@ Volatility_Install(){
 # -vol3
 volatility3_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 volatility3 工具,请耐心等待 \n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 volatility3 ,请耐心等待 \n\033[0m"
     name="volatility3"
 
     if test -d $P_Dir/volatility3
     then
         Echo_ALERT "$name 已安装在 $P_Dir/volatility3"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/volatilityfoundation/volatility3.git $P_Dir/volatility3 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 $name" || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/volatilityfoundation/volatility3.git $P_Dir/volatility3 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已下载 $name" || Echo_ERROR2
         cd $P_Dir/volatility3 && python3 setup.py build 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "安装依赖模块失败,请查看日志 /tmp/f8x_error.log"
         python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "安装依赖模块失败,请查看日志 /tmp/f8x_error.log"
         python3 vol.py -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 在 $P_Dir/volatility3 路径" || Echo_ERROR "安装 Volatility3 失败,请查看日志 /tmp/f8x_error.log"
@@ -2966,17 +3182,19 @@ lt_Install(){
 # -binwalk
 binwalk_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 binwalk 工具及相关组件\n\033[0m"
+    name="binwalk"
+
+    echo -e "\033[1;33m\n>> 正在安装 binwalk 及相关组件\n\033[0m"
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
             Echo_INFOR "RedHat 系不建议安装,本项 Pass\n"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             Echo_ALERT "正在安装 binwalk,该步骤可能运行很长时间,请看部电影"
-            cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/ReFirmLabs/binwalk.git 1> /dev/null 2>> /tmp/f8x_error.log && cd binwalk 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "binwalk 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+            cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/ReFirmLabs/binwalk.git 1> /dev/null 2>> /tmp/f8x_error.log && cd binwalk 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR2
             $Porxy_OK sudo ./deps.sh && python setup.py uninstall && python setup.py install
             binwalk -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 binwalk" || Echo_ERROR "binwalk 安装失败!建议使用 -binwalk-force 进行强制安装"
-            echo -e "\033[1;33m\n>> 正在安装 unyaffs 工具\n\033[0m"
+            echo -e "\033[1;33m\n>> 正在安装 unyaffs\n\033[0m"
             unyaffs_Install
             ;;
         *) ;;
@@ -2987,7 +3205,7 @@ binwalk_Install(){
 # -binwalk-force
 binwalk_force_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 binwalk 工具及相关组件\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 binwalk 及相关组件\n\033[0m"
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
             Echo_INFOR "RedHat 系不建议安装,本项 Pass\n"
@@ -3024,7 +3242,7 @@ binwalk_force_Install(){
             Install_Switch "liblzma-dev"
             Install_Switch "liblzo2-dev"
             Install_Switch "python-lzo"
-            pip install cstruct 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 cstruct 工具" || Echo_ERROR "安装 cstruct 工具失败,请查看日志 /tmp/f8x_error.log"
+            pip install cstruct 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 cstruct" || Echo_ERROR "安装 cstruct 失败,请查看日志 /tmp/f8x_error.log"
 
             Install_Switch4 "nose"
             Install_Switch4 "coverage"
@@ -3032,41 +3250,48 @@ binwalk_force_Install(){
             Install_Switch4 "capstone"
 
             # sasquatch
-            echo -e "\033[1;33m\n>> 正在安装 sasquatch 工具\n\033[0m"
-            cd $T_Dir && rm -rf sasquatch > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/devttys0/sasquatch 1> /dev/null 2>> /tmp/f8x_error.log && cd sasquatch 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "sasquatch 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-            $Porxy_OK ./build.sh 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 sasquatch" || Echo_ERROR "sasquatch 安装失败! 请检查 proxychains4 配置的代理服务器是否可用"
+            name="sasquatch"
+            echo -e "\033[1;33m\n>> 正在安装 sasquatch\n\033[0m"
+            cd $T_Dir && rm -rf sasquatch > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/devttys0/sasquatch > /dev/null 2>&1 && cd sasquatch || Echo_ERROR2
+            $Porxy_OK ./build.sh 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 sasquatch" || Echo_ERROR3
 
             # jefferson
-            echo -e "\033[1;33m\n>> 正在安装 jefferson 工具\n\033[0m"
-            cd $T_Dir && rm -rf jefferson > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/sviehb/jefferson 1> /dev/null 2>> /tmp/f8x_error.log && cd jefferson 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "jefferson 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-            $Porxy_OK python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 jefferson" || Echo_ERROR "jefferson 安装失败! 请检查 proxychains4 配置的代理服务器是否可用"
+            name="jefferson"
+            echo -e "\033[1;33m\n>> 正在安装 jefferson\n\033[0m"
+            cd $T_Dir && rm -rf jefferson > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/sviehb/jefferson > /dev/null 2>&1 && cd jefferson || Echo_ERROR2
+            $Porxy_OK python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 jefferson" || Echo_ERROR3
 
             # ubi_reader
-            echo -e "\033[1;33m\n>> 正在安装 ubi_reader 工具\n\033[0m"
-            cd $T_Dir && rm -rf ubi_reader > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/jrspruitt/ubi_reader 1> /dev/null 2>> /tmp/f8x_error.log && cd ubi_reader 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "ubi_reader 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-            $Porxy_OK python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 ubi_reader" || Echo_ERROR "ubi_reader 安装失败! 请检查 proxychains4 配置的代理服务器是否可用"
+            name="ubi_reader"
+            echo -e "\033[1;33m\n>> 正在安装 ubi_reader\n\033[0m"
+            cd $T_Dir && rm -rf ubi_reader > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/jrspruitt/ubi_reader > /dev/null 2>&1 && cd ubi_reader || Echo_ERROR2
+            $Porxy_OK python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 ubi_reader" || Echo_ERROR3
 
             # yaffshiv
-            echo -e "\033[1;33m\n>> 正在安装 yaffshiv 工具\n\033[0m"
-            cd $T_Dir && rm -rf yaffshiv > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/devttys0/yaffshiv 1> /dev/null 2>> /tmp/f8x_error.log && cd yaffshiv 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "yaffshiv 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-            $Porxy_OK python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 yaffshiv" || Echo_ERROR "yaffshiv 安装失败! 请检查 proxychains4 配置的代理服务器是否可用"
+            name="yaffshiv"
+            echo -e "\033[1;33m\n>> 正在安装 yaffshiv\n\033[0m"
+            cd $T_Dir && rm -rf yaffshiv > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/devttys0/yaffshiv > /dev/null 2>&1 && cd yaffshiv || Echo_ERROR2
+            $Porxy_OK python setup.py install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 yaffshiv" || Echo_ERROR3
 
             # unstuff
-            echo -e "\033[1;33m\n>> 正在安装 unstuff 工具\n\033[0m"
-            cd $T_Dir && $Porxy_OK curl -o - http://downloads.tuxfamily.org/sdtraces/stuffit520.611linux-i386.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log | tar -zxv 1> /dev/null 2>> /tmp/f8x_error.log
-            mv --force bin/unstuff /usr/local/bin/ && Echo_INFOR "已安装 unstuff" || Echo_ERROR "unstuff 安装失败,请查看日志 /tmp/f8x_error.log"
+            name="unstuff"
+            echo -e "\033[1;33m\n>> 正在安装 unstuff\n\033[0m"
+            cd $T_Dir && $Porxy_OK curl -o stuffit520.611linux-i386.tar.gz http://downloads.tuxfamily.org/sdtraces/stuffit520.611linux-i386.tar.gz > /dev/null 2>&1 | tar -zxvf stuffit520.611linux-i386.tar.gz > /dev/null 2>&1
+            mv --force bin/unstuff /usr/local/bin/ && Echo_INFOR "已安装 unstuff" || Echo_ERROR3
 
             # unyaffs
-            echo -e "\033[1;33m\n>> 正在安装 unyaffs 工具\n\033[0m"
+            name="unyaffs"
+            echo -e "\033[1;33m\n>> 正在安装 unyaffs\n\033[0m"
             unyaffs_Install
 
             # binwalk
+            name="binwalk"
             echo -e "\033[1;33m\n>> 正在安装 binwalk,耐心等待\n\033[0m"
-            cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/ReFirmLabs/binwalk 1> /dev/null 2>> /tmp/f8x_error.log && cd binwalk 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "binwalk 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+            cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/ReFirmLabs/binwalk > /dev/null 2>&1 && cd binwalk || Echo_ERROR2
 
             python3 setup.py install 1> /dev/null 2>> /tmp/f8x_error.log
 
-            binwalk -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 binwalk" || Echo_ERROR "binwalk 安装失败,请查看日志 /tmp/f8x_error.log"
+            binwalk -h 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name" || Echo_ERROR3
             ;;
         *) ;;
     esac
@@ -3112,22 +3337,22 @@ Python2_Install(){
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*)
 
-            ( (python -h 1> /dev/null 2>> /tmp/f8x_error.log || python2 -h 1> /dev/null 2>> /tmp/f8x_error.log) && Echo_INFOR "已安装 python2 工具" ) || ( ( (yum install -y python 1> /dev/null 2>> /tmp/f8x_error.log || yum install -y python2 1> /dev/null 2>> /tmp/f8x_error.log) && Echo_INFOR "已安装 python2 工具") || Echo_ERROR "安装 python 工具失败! 请尽量手动安装,否则会出现大量依赖问题!")
+            ( (python -h 1> /dev/null 2>> /tmp/f8x_error.log || python2 -h 1> /dev/null 2>> /tmp/f8x_error.log) && Echo_INFOR "已安装 python2" ) || ( ( (yum install -y python 1> /dev/null 2>> /tmp/f8x_error.log || yum install -y python2 1> /dev/null 2>> /tmp/f8x_error.log) && Echo_INFOR "已安装 python2") || Echo_ERROR "安装 python 失败! 请尽量手动安装,否则会出现大量依赖问题!")
 
-            ( yum install -y python-devel 1> /dev/null 2>> /tmp/f8x_error.log || yum install -y python2-devel 1> /dev/null 2>> /tmp/f8x_error.log) && Echo_INFOR "已安装 python-devel 工具" || Echo_ERROR "安装 python-devel 工具失败,请查看日志 /tmp/f8x_error.log"
-            ( yum install -y python2-pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2-pip 工具" ) || ( Echo_ERROR "安装 python2-pip 工具失败! 即将自动运行 -pip2-force 选项安装 python2-pip 环境" && pip2_Install )
+            ( yum install -y python-devel 1> /dev/null 2>> /tmp/f8x_error.log || yum install -y python2-devel 1> /dev/null 2>> /tmp/f8x_error.log) && Echo_INFOR "已安装 python-devel" || Echo_ERROR "安装 python-devel 失败,请查看日志 /tmp/f8x_error.log"
+            ( yum install -y python2-pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2-pip" ) || ( Echo_ERROR "安装 python2-pip 失败! 即将自动运行 -pip2-force 选项安装 python2-pip 环境" && pip2_Install )
             ;;
         *"Fedora"*)
             yum install -y python 1> /dev/null 2>> /tmp/f8x_error.log
-            yum install -y python2 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2 工具" || Echo_ERROR "安装 python 工具失败! 请尽量手动安装,否则会出现大量依赖问题!"
+            yum install -y python2 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2" || Echo_ERROR "安装 python 失败! 请尽量手动安装,否则会出现大量依赖问题!"
             yum install -y python-devel 1> /dev/null 2>> /tmp/f8x_error.log
             yum install -y python2-devel 1> /dev/null 2>> /tmp/f8x_error.log
-            ( yum install -y python2-pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2-pip 工具" ) || ( Echo_ERROR "安装 python2-pip 工具失败! 即将自动运行 -pip2-force 选项安装 python2-pip 环境" && pip2_Install )
+            ( yum install -y python2-pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2-pip" ) || ( Echo_ERROR "安装 python2-pip 失败! 即将自动运行 -pip2-force 选项安装 python2-pip 环境" && pip2_Install )
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             Install_Switch "python"
             Install_Switch "python-dev"
-            ( apt-get install -y python-pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2-pip 工具" ) || ( Echo_ERROR "安装 python2-pip 工具失败! 即将自动运行 -pip2-force 选项安装 python2-pip 环境" && pip2_Install )
+            ( apt-get install -y python-pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python2-pip" ) || ( Echo_ERROR "安装 python2-pip 失败! 即将自动运行 -pip2-force 选项安装 python2-pip 环境" && pip2_Install )
 
             Install_Switch3 "setuptools"
             ;;
@@ -3143,8 +3368,8 @@ pip2_Install(){
     then
         echo -e "\033[1;33m\n>> 正在安装 pip2\n\033[0m"
         cd $T_Dir && $Porxy_OK curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR " https://bootstrap.pypa.io/get-pip.py 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        $Porxy_OK python2 get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python-pip 工具" || Echo_ERROR "安装 python-pip 工具失败,请查看日志 /tmp/f8x_error.log"
-        rm -rf get-pip.py > /dev/null 2>&1
+        $Porxy_OK python2 get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 python-pip" || Echo_ERROR "安装 python-pip 失败,请查看日志 /tmp/f8x_error.log"
+        rm -f get-pip.py > /dev/null 2>&1
 
         Install_Switch3 "setuptools"
     fi
@@ -3154,8 +3379,10 @@ pip2_Install(){
 # -ruby
 Ruby_Install(){
 
+    name="ruby"
+
     echo -e "\033[1;33m\n>> 正在安装 Ruby,时间超长,建议看会视频,耐心等待,编译过程中出现 warning 告警请无视\n\033[0m"
-    cd $T_Dir && rm -rf $Ruby_Install > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/ruby-3.0.0.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "$Ruby_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+    cd $T_Dir && rm -f $Ruby_Install > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/ruby-3.0.0.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR2
     tar xvfvz $Ruby_Install 1> /dev/null 2>> /tmp/f8x_error.log
     cd $Ruby_Dir && ./configure 1> /dev/null 2>> /tmp/f8x_error.log && make 1> /dev/null 2>> /tmp/f8x_error.log && make install 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $(ruby -v) 安装在 /usr/local/bin/ 目录下" || Echo_ERROR "安装 Ruby 环境失败,请查看日志 /tmp/f8x_error.log"
 
@@ -3163,6 +3390,8 @@ Ruby_Install(){
 
 # -rust
 Rust_Install(){
+
+    name="rust"
 
     echo -e "\033[1;33m\n>> 正在安装 rust (注意安装时选项)\n\033[0m"
     $Porxy_OK curl https://sh.rustup.rs -sSf | $Porxy_OK sh
@@ -3173,6 +3402,8 @@ Rust_Install(){
 chromium_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装大量依赖库,时间较长,请耐心等待\n\033[0m"
+
+    name="chromium"
 
     Rm_Lock
     case $Linux_Version in
@@ -3240,12 +3471,14 @@ chromium_Install(){
     cd $T_Dir && rm -rf chrome-linux* > /dev/null 2>&1 && $Porxy_OK wget https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/706915/chrome-linux.zip 1> /dev/null 2>> /tmp/f8x_error.log
 
     unzip chrome-linux.zip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 chromium 环境在 $T_Dir/chrome-linux " || Echo_ERROR "安装 chromium 环境失败,请查看日志 /tmp/f8x_error.log"
-    rm -rf chrome-linux.zip > /dev/null 2>&1
+    rm -f chrome-linux.zip > /dev/null 2>&1
 
 }
 
 # -openjdk
 Openjdk_Install(){
+
+    name="openjdk"
 
     java -version > /dev/null 2>&1
 
@@ -3274,6 +3507,8 @@ Openjdk_Install(){
 # -oraclejdk
 Oraclejdk_Install(){
 
+    name="oraclejdk"
+
     java -version > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -3283,11 +3518,11 @@ Oraclejdk_Install(){
         echo -e "\033[1;33m\n>> 正在安装 Java 环境\n\033[0m"
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
-                cd $T_Dir && rm -rf targz.z* > /dev/null 2>&1 && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z01 失败! 请检查 proxychains4 配置的代理服务器是否可用"
+                cd $T_Dir && rm -f targz.z* > /dev/null 2>&1 && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z01 失败! 请检查 proxychains4 配置的代理服务器是否可用"
                 $Porxy_OK wget -O targz.z02 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z02 失败! 请检查 proxychains4 配置的代理服务器是否可用"
                 $Porxy_OK wget -O targz.z03 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z03 失败! 请检查 proxychains4 配置的代理服务器是否可用"
                 $Porxy_OK wget -O targz.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.zip > /dev/null 2>&1 || Echo_ERROR "下载 targz.zip 失败! 请检查 proxychains4 配置的代理服务器是否可用"
-                rm -rf jdk* > /dev/null 2>&1 && rm -rf myzip.zip > /dev/null 2>&1
+                rm -rf jdk* > /dev/null 2>&1 && rm -f myzip.zip > /dev/null 2>&1
                 cat targz.z* > myzip.zip && unzip myzip.zip 1> /dev/null 2>> /tmp/f8x_error.log
                 tar -xzvf jdk-8u271-linux-x64.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log
                 rm -rf /usr/local/java/ > /dev/null 2>&1 && mkdir /usr/local/java/
@@ -3299,16 +3534,16 @@ Oraclejdk_Install(){
                 ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java 1> /dev/null 2>> /tmp/f8x_error.log
                 ln -s /usr/local/java/$jdk_Version/bin/keytool /usr/bin/keytool 1> /dev/null 2>> /tmp/f8x_error.log
                 /usr/bin/java -version && Echo_INFOR "已安装 java 环境,环境变量可能需要重新进入 bash 才能生效" || Echo_ERROR "安装 java 环境失败!(在 Redhat 系下会有误报,请手动执行 java -version 看下,珍爱生命,远离 Redhat 系!环境变量需要重新进入 bash 才能生效或手动执行下列命令生效\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH)"
-                rm -rf targz.z* > /dev/null 2>&1
-                rm -rf jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
-                rm -rf myzip.zip > /dev/null 2>&1
+                rm -f targz.z* > /dev/null 2>&1
+                rm -f jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
+                rm -f myzip.zip > /dev/null 2>&1
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                cd $T_Dir && rm -rf targz.z* 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z01 失败! 请检查 proxychains4 配置的代理服务器是否可用"
+                cd $T_Dir && rm -f targz.z* 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z01 失败! 请检查 proxychains4 配置的代理服务器是否可用"
                 $Porxy_OK wget -O targz.z02 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z02 失败! 请检查 proxychains4 配置的代理服务器是否可用"
                 $Porxy_OK wget -O targz.z03 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || Echo_ERROR "下载 targz.z03 失败! 请检查 proxychains4 配置的代理服务器是否可用"
                 $Porxy_OK wget -O targz.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.zip > /dev/null 2>&1 || Echo_ERROR "下载 targz.zip 失败! 请检查 proxychains4 配置的代理服务器是否可用"
-                rm -rf jdk* > /dev/null 2>&1 && rm -rf myzip.zip > /dev/null 2>&1
+                rm -rf jdk* > /dev/null 2>&1 && rm -f myzip.zip > /dev/null 2>&1
                 cat targz.z* > myzip.zip && unzip myzip.zip 1> /dev/null 2>> /tmp/f8x_error.log
                 tar -xzvf jdk-8u271-linux-x64.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log
                 rm -rf /usr/local/java/ > /dev/null 2>&1 && mkdir /usr/local/java/
@@ -3319,9 +3554,9 @@ Oraclejdk_Install(){
                 echo "PATH=\$JAVA_HOME/bin:\$PATH " >> /etc/bash.bashrc
                 ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java 1> /dev/null 2>> /tmp/f8x_error.log
                 /usr/bin/java -version && Echo_INFOR "已安装 java 环境,环境变量需要重新进入 bash 才能生效或手动执行下列命令生效\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH" || Echo_ERROR "安装 java 环境失败,请查看日志 /tmp/f8x_error.log"
-                rm -rf targz.z* > /dev/null 2>&1
-                rm -rf jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
-                rm -rf myzip.zip > /dev/null 2>&1
+                rm -f targz.z* > /dev/null 2>&1
+                rm -f jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
+                rm -f myzip.zip > /dev/null 2>&1
                 ;;
             *) ;;
         esac
@@ -3332,6 +3567,8 @@ Oraclejdk_Install(){
 # -perl
 Perl_Install(){
 
+    name="perl"
+
     echo -e "\033[1;33m\n>> 正在安装 perl(注意安装时选项,安装时若长时间无反应请按几下回车,并且在安装完毕后需手动 exit 退出)\n\033[0m" && cd $T_Dir && $Porxy_OK sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) --activate-default ActiveState/ActivePerl-5.28
 
 }
@@ -3341,14 +3578,16 @@ nn_Install(){
 
     echo -e "\033[1;33m\n>> 正在安装 nodejs && npm\n\033[0m"
 
+    name="nodejs"
+
     if test -e /usr/local/bin/node
     then
         Echo_ALERT "nodejs && npm 已存在,若非管理员安装,建议追踪 /usr/local/bin/node 文件 "
     else
         cd /tmp && $Porxy_OK wget https://nodejs.org/dist/$node_Ver/$node_bin > /dev/null 2>&1 && Echo_INFOR "已下载 $node_bin " || Echo_ERROR "$node_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
         mkdir /usr/local/nodejs/ && tar -C /usr/local/nodejs -xvJf $node_bin > /dev/null 2>&1 && rm $node_bin
-        ln -s /usr/local/nodejs/$node_Dir/bin/node /usr/local/bin/node && Echo_INFOR "已安装 nodejs 工具" || Echo_ERROR "安装 nodejs 工具失败!"
-        ln -s /usr/local/nodejs/$node_Dir/bin/npm /usr/local/bin/npm && Echo_INFOR "已安装 npm 工具" || Echo_ERROR "安装 npm 工具失败,请查看日志 /tmp/f8x_error.log"
+        ln -s /usr/local/nodejs/$node_Dir/bin/node /usr/local/bin/node && Echo_INFOR "已安装 nodejs" || Echo_ERROR "安装 nodejs 失败!"
+        ln -s /usr/local/nodejs/$node_Dir/bin/npm /usr/local/bin/npm && Echo_INFOR "已安装 npm" || Echo_ERROR "安装 npm 失败,请查看日志 /tmp/f8x_error.log"
     fi
 
 }
@@ -3357,6 +3596,8 @@ nn_Install(){
 vulhub_Install(){
 
     Pentest_Base_Install
+
+    name="vulhub"
 
     echo -e "\033[1;33m\n>> 正在部署 vulhub 环境\n\033[0m"
 
@@ -3381,6 +3622,8 @@ Goby_Install(){
 
     echo -e "\033[1;33m\n>> 正在部署 Goby 环境\n\033[0m"
 
+    name="goby"
+
     if test -d $P_Dir/goby
     then
         Echo_INFOR "Goby 已部署在 $P_Dir/goby下,直接输入 cd $P_Dir/goby/goby* && ./goby 即可使用(需要图形化界面)"
@@ -3400,7 +3643,7 @@ Goby_Install(){
         Echo_ALERT "正在下载 Goby 安装包(120M),该步骤可能运行较长时间,请耐心等待"
         #cd $P_Dir && mkdir -p $P_Dir/goby 1> /dev/null 2>> /tmp/f8x_error.log && $Porxy_OK wget ${GitPorxy}https://github.com/gobysec/Goby/releases/download/$goby_Ver/$goby_File > /dev/null 2>&1 || Echo_ERROR "$goby_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
         cd $P_Dir && mkdir -p $P_Dir/goby 1> /dev/null 2>> /tmp/f8x_error.log && wget https://cn.gobies.org/$goby_File > /dev/null 2>&1 || Echo_ERROR "$goby_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        unzip $goby_File -d $P_Dir/goby 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf $goby_File && Echo_INFOR "已部署 Goby $goby_Ver 在 $P_Dir/goby 目录下,直接输入 cd $P_Dir/goby/goby* && ./goby 即可使用(需要图形化界面)" || Echo_ERROR "goby 部署失败,请查看日志 /tmp/f8x_error.log"
+        unzip $goby_File -d $P_Dir/goby 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $goby_File && Echo_INFOR "已部署 Goby $goby_Ver 在 $P_Dir/goby 目录下,直接输入 cd $P_Dir/goby/goby* && ./goby 即可使用(需要图形化界面)" || Echo_ERROR "goby 部署失败,请查看日志 /tmp/f8x_error.log"
     fi
 
     if test -d $P_Dir/goby
@@ -3461,7 +3704,7 @@ viper_Install(){
 
     echo -e "\033[1;33m\n>> 正在部署 Viper 环境\033[0m"
 
-    mkdir -p /root/VIPER && cd /root/VIPER && rm -rf docker-compose.* 1> /dev/null 2>> /tmp/f8x_error.log
+    mkdir -p /root/VIPER && cd /root/VIPER && rm -f docker-compose.* 1> /dev/null 2>> /tmp/f8x_error.log
 
     viper_conf 1> /dev/null 2>> /tmp/f8x_error.log
 
@@ -3546,8 +3789,8 @@ nginx_Install(){
             *) ;;
         esac
 
-        cd /tmp && rm -rf $nginx_bin > /dev/null 2>&1 && $Porxy_OK wget https://nginx.org/download/$nginx_bin > /dev/null 2>&1 || Echo_ERROR "$nginx_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-        tar -zxvf $nginx_bin > /dev/null 2>&1 && rm -rf $nginx_bin > /dev/null 2>&1 && cd nginx-*
+        cd /tmp && rm -f $nginx_bin > /dev/null 2>&1 && $Porxy_OK wget https://nginx.org/download/$nginx_bin > /dev/null 2>&1 || Echo_ERROR "$nginx_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        tar -zxvf $nginx_bin > /dev/null 2>&1 && rm -f $nginx_bin > /dev/null 2>&1 && cd nginx-*
         ./configure && make && make install && Echo_INFOR "编译成功" || Echo_ERROR "编译失败"
         mv --force /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && chmod +x /usr/local/bin/nginx && nginx -h > /dev/null 2>&1 && Echo_INFOR "$name 安装成功,配置文件在 /usr/local/nginx/conf/ 中,运行 nginx 即可" || Echo_ERROR "$name 安装失败"
     fi
@@ -3566,7 +3809,7 @@ aircrack_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $P_Dir && rm -rf aircrack-ng > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/aircrack-ng/aircrack-ng.git > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd $P_Dir && rm -rf aircrack-ng > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/aircrack-ng/aircrack-ng.git > /dev/null 2>&1 && cd $dir || Echo_ERROR2
 
         Rm_Lock
         case $Linux_Version in
@@ -3725,8 +3968,11 @@ cs_Install(){
 frp_Install(){
 
     echo -e "\033[1;33m\n>> 正在部署 frp 环境\n\033[0m"
+
+    name="frp"
+
     cd $T_Dir && rm -rf frp* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fatedier/frp/releases/download/$frp_Version/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
-    tar -zxvf $frp_File > /dev/null 2>&1 && rm -rf $frp_File > /dev/null 2>&1
+    tar -zxvf $frp_File > /dev/null 2>&1 && rm -f $frp_File > /dev/null 2>&1
     cd $frp_Dir && Echo_INFOR "frp 已部署在 $T_Dir/$frp_Dir" || Echo_ERROR "frp 部署失败\n"
 
 }
@@ -3736,6 +3982,8 @@ nps_Install(){
 
     echo -e "\033[1;33m\n>> 正在部署 nps 环境\n\033[0m"
 
+    name="nps"
+
     if test -d $T_Dir/nps
     then
         Echo_INFOR "nps 已部署在 $T_Dir/nps"
@@ -3743,7 +3991,7 @@ nps_Install(){
         mkdir -p $T_Dir/nps
         cd $T_Dir/nps && $Porxy_OK wget ${GitPorxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_Install > /dev/null 2>&1 || Echo_ERROR "$nps_Install 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
         tar -zxvf $nps_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $T_Dir/$nps_Install 失败,请查看日志 /tmp/f8x_error.log"
-        rm -rf $T_Dir/nps/$nps_Install > /dev/null 2>&1 && chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
+        rm -f $T_Dir/nps/$nps_Install > /dev/null 2>&1 && chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
         $T_Dir/nps/nps -version 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 nps $nps_Ver 在 $T_Dir/nps 目录下,直接输入 $T_Dir/nps/nps 即可使用" || Echo_ERROR "nps 安装失败,请查看日志 /tmp/f8x_error.log"
     fi
 
@@ -3775,7 +4023,7 @@ suricata_Install(){
 # -ssr
 ssr_Install(){
 
-    echo -e "\033[1;33m\n>> 正在部署 ssr 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在部署 ssr\n\033[0m"
 
     name="ssr"
 
@@ -3783,9 +4031,9 @@ ssr_Install(){
     then
         Echo_ALERT "$name 已安装在 $T_Dir/shadowsocksr"
     else
-        cd $T_Dir && rm -rf shadowsocksr* > /dev/null 2>&1 && wget https://cdn.jsdelivr.net/gh/No-Github/Archive@1.0.3/ssr/ssr.zip > /dev/null 2>&1
-        unzip -P 123456 ssr.zip 1> /dev/null 2>> /tmp/f8x_error.log && rm -rf ssr.zip > /dev/null 2>&1
-        cd shadowsocksr && bash initcfg.sh && Echo_INFOR "已部署 ssr 工具" || Echo_ERROR "部署 ssr 工具失败,请查看日志 /tmp/f8x_error.log"
+        cd $T_Dir && rm -f ssr.zip > /dev/null 2>&1 && wget https://cdn.jsdelivr.net/gh/No-Github/Archive@1.0.3/ssr/ssr.zip > /dev/null 2>&1
+        unzip -P 123456 ssr.zip 1> /dev/null 2>> /tmp/f8x_error.log && rm -f ssr.zip > /dev/null 2>&1
+        cd shadowsocksr && bash initcfg.sh && Echo_INFOR "已部署 ssr" || Echo_ERROR "部署 ssr 失败,请查看日志 /tmp/f8x_error.log"
         Echo_INFOR "运行下列命令修改 ssr 配置:\n\033[0m\033[1;32mvim $T_Dir/shadowsocksr/user-config.json\n"
         Echo_INFOR "运行下列命令开启 ssr 服务:\n\033[0m\033[1;32mcd $T_Dir/shadowsocksr/shadowsocks/ && python local.py"
     fi
@@ -3882,7 +4130,7 @@ optimize_setting(){
 # -info
 System_info(){
 
-    rm -rf /tmp/f8x_info.log > /dev/null 2>&1
+    rm -f /tmp/f8x_info.log > /dev/null 2>&1
 
     date +"%Y-%m-%d" > /tmp/f8x_info.log
 
@@ -4121,7 +4369,7 @@ swap_setting(){
 # -asciinema
 asciinema_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 asciinema 截图工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 asciinema\n\033[0m"
 
     name="asciinema"
     asciinema --version 1> /dev/null 2>> /tmp/f8x_error.log
@@ -4134,7 +4382,7 @@ asciinema_Install(){
 
         if [ $? == 0 ]
         then
-            Echo_INFOR "已安装 $name 工具"
+            Echo_INFOR "已安装 $name"
         else
             Echo_ERROR "pip3 安装 $name 失败,即将切换到包管理器安装"
             Rm_Lock
@@ -4167,7 +4415,7 @@ bt_Install(){
 # -clash
 clash_Install(){
 
-    echo -e "\033[1;33m\n>> 正在安装 clash 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 clash\n\033[0m"
 
     name="clash"
     clash -v 1> /dev/null 2>> /tmp/f8x_error.log
@@ -4176,10 +4424,10 @@ clash_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -rf $clash_bin > /dev/null 2>&1 && wget https://github.ffffffff0x.com/https://github.com/Dreamacro/clash/releases/download/$clash_Ver/$clash_bin > /dev/null 2>&1 || Echo_ERROR "$clash_bin 下载失败"
+        cd /tmp && rm -f $clash_bin > /dev/null 2>&1 && wget https://github.ffffffff0x.com/https://github.com/Dreamacro/clash/releases/download/$clash_Ver/$clash_bin > /dev/null 2>&1 || Echo_ERROR "$clash_bin 下载失败"
         gunzip $clash_bin && mv clash-linux-amd64-v1.4.2 /usr/local/bin/clash && chmod +x /usr/local/bin/clash
 
-        clash -v 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name 工具" || Echo_ERROR "安装 $name 工具失败,请查看日志 /tmp/f8x_error.log"
+        clash -v 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name" || Echo_ERROR3
     fi
 
     echo -e "\033[1;33m\n>> 是否需要配置 Clash 托管链接 [Y/n,默认Yes] \033[0m" && read -r input
@@ -4277,104 +4525,120 @@ kali_Tools(){
     Pentest_Misc_Install
     echo -e "\033[1;33m\n>> 正在安装一些 python 模块\n\033[0m"
     Pentest_pip_Install
-    echo -e "\033[1;33m\n>> 正在安装 hashcat、7z2hashcat 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 hashcat、7z2hashcat\n\033[0m"
     Pentest_hashcat_Install
-    echo -e "\033[1;33m\n>> 正在安装 nmap 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 nmap\n\033[0m"
     Pentest_nmap_Install
-    echo -e "\033[1;33m\n>> 正在安装 ncat 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 ncat\n\033[0m"
     Pentest_ncat_Install
-    echo -e "\033[1;33m\n>> 正在安装 ffuf 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 ffuf\n\033[0m"
     Pentest_ffuf_Install
-    echo -e "\033[1;33m\n>> 正在安装 JSFinder 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 JSFinder\n\033[0m"
     Pentest_JSFinder_Install
-    echo -e "\033[1;33m\n>> 正在安装 SecretFinder 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 SecretFinder\n\033[0m"
     Pentest_SecretFinder_Install
-    #echo -e "\033[1;33m\n>> 正在安装 WebAliveScan 工具\n\033[0m"
+    #echo -e "\033[1;33m\n>> 正在安装 WebAliveScan\n\033[0m"
     #Pentest_WebAliveScan_Install
-    echo -e "\033[1;33m\n>> 正在安装 OneForAll 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 OneForAll\n\033[0m"
     Pentest_OneForAll_Install
-    echo -e "\033[1;33m\n>> 正在安装 ksubdomain 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 ksubdomain\n\033[0m"
     Pentest_ksubdomain_Install
-    echo -e "\033[1;33m\n>> 正在安装 impacket 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 impacket\n\033[0m"
     Pentest_Impacket_Install
-    echo -e "\033[1;33m\n>> 正在部署 CobaltStrike 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在部署 CobaltStrike\n\033[0m"
     Pentest_CobaltStrike_Install
     echo -e "\033[1;33m\n>> 正在部署/更新 Metasploit 框架\n\033[0m"
     Pentest_Metasploit_Install
-    echo -e "\033[1;33m\n>> 正在安装 Sqlmap 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 Sqlmap\n\033[0m"
     Pentest_Sqlmap_Install
-    echo -e "\033[1;33m\n>> 正在安装 RustScan 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 RustScan\n\033[0m"
     Pentest_RustScan_Install
-    echo -e "\033[1;33m\n>> 正在安装 WAFW00F 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 WAFW00F\n\033[0m"
     Pentest_WAFW00F_Install
-    echo -e "\033[1;33m\n>> 正在安装 xray 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 xray\n\033[0m"
     Pentest_xray_Install
-    echo -e "\033[1;33m\n>> 正在安装 masscan 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 masscan\n\033[0m"
     Pentest_masscan_Install
-    echo -e "\033[1;33m\n>> 正在安装 fscan 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 fscan\n\033[0m"
     Pentest_fscan_Install
-    echo -e "\033[1;33m\n>> 正在安装 pocsuite3 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 pocsuite3\n\033[0m"
     Pentest_pocsuite3_Install
-    echo -e "\033[1;33m\n>> 正在安装 Nuclei 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 Nuclei\n\033[0m"
     Pentest_Nuclei_Install
-    echo -e "\033[1;33m\n>> 正在安装 rad 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 rad\n\033[0m"
     Pentest_rad_Install
-    echo -e "\033[1;33m\n>> 正在安装 crawlergo 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 crawlergo\n\033[0m"
     Pentest_crawlergo_Install
-    echo -e "\033[1;33m\n>> 正在安装 w13scan 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 w13scan\n\033[0m"
     Pentest_w13scan_Install
-    echo -e "\033[1;33m\n>> 正在安装 Responder 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 Responder\n\033[0m"
     Pentest_Responder_Install
-    echo -e "\033[1;33m\n>> 正在安装 krbrelayx 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 krbrelayx\n\033[0m"
     Pentest_krbrelayx_Install
-    echo -e "\033[1;33m\n>> 正在安装 Girsh 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 Girsh\n\033[0m"
     Pentest_Girsh_Install
-    echo -e "\033[1;33m\n>> 正在安装 ApkAnalyser 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 ApkAnalyser\n\033[0m"
     Pentest_ApkAnalyser_Install
-    echo -e "\033[1;33m\n>> 正在安装 commix 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 commix\n\033[0m"
     Pentest_commix_Install
     echo -e "\033[1;33m\n>> 正在安装 exploitdb 库\n\033[0m"
     Pentest_exploitdb_Install
-    echo -e "\033[1;33m\n>> 正在安装 tplmap 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 tplmap\n\033[0m"
     Pentest_tplmap_Install
-    echo -e "\033[1;33m\n>> 正在安装 routersploit 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 routersploit\n\033[0m"
     Pentest_routersploit_Install
-    echo -e "\033[1;33m\n>> 正在安装 bettercap 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 bettercap\n\033[0m"
     Pentest_bettercap_Install
-    echo -e "\033[1;33m\n>> 正在安装 mitmproxy 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 mitmproxy\n\033[0m"
     Pentest_mitmproxy_Install
-    echo -e "\033[1;33m\n>> 正在安装 naabu 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 naabu\n\033[0m"
     Pentest_naabu_Install
-    echo -e "\033[1;33m\n>> 正在安装 proxify 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 proxify\n\033[0m"
     Pentest_proxify_Install
-    echo -e "\033[1;33m\n>> 正在安装 pypykatz 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 pypykatz\n\033[0m"
     Pentest_pypykatz_Install
-    echo -e "\033[1;33m\n>> 正在安装 CrackMapExec 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 CrackMapExec\n\033[0m"
     Pentest_CrackMapExec_Install
-    echo -e "\033[1;33m\n>> 正在安装 httpx 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 httpx\n\033[0m"
     Pentest_httpx_Install
-    echo -e "\033[1;33m\n>> 正在安装 subfinder 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 subfinder\n\033[0m"
     Pentest_subfinder_Install
-    echo -e "\033[1;33m\n>> 正在安装 mapcidr 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 mapcidr\n\033[0m"
     Pentest_mapcidr_Install
-    echo -e "\033[1;33m\n>> 正在安装 apktool 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 apktool\n\033[0m"
     Pentest_apktool_Install
-    #echo -e "\033[1;33m\n>> 正在安装 DarkEye 工具\n\033[0m"
+    #echo -e "\033[1;33m\n>> 正在安装 DarkEye\n\033[0m"
     #Pentest_DarkEye_Install
-    echo -e "\033[1;33m\n>> 正在安装 OpenRedireX 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 OpenRedireX\n\033[0m"
     Pentest_OpenRedireX_Install
-    echo -e "\033[1;33m\n>> 正在安装 gau 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 gau\n\033[0m"
     Pentest_gau_Install
-    echo -e "\033[1;33m\n>> 正在安装 apkleaks 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 apkleaks\n\033[0m"
     Pentest_apkleaks_Install
-    echo -e "\033[1;33m\n>> 正在安装 jadx 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 jadx\n\033[0m"
     Pentest_jadx_Install
-    echo -e "\033[1;33m\n>> 正在安装 Diggy 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 Diggy\n\033[0m"
     Pentest_Diggy_Install
-    echo -e "\033[1;33m\n>> 正在安装 CORScanner 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 CORScanner\n\033[0m"
     Pentest_CORScanner_Install
-    echo -e "\033[1;33m\n>> 正在安装 swagger-exp 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 swagger-exp\n\033[0m"
     Pentest_swagger-exp_Install
+    echo -e "\033[1;33m\n>> 正在安装 swagger-hack\n\033[0m"
+    Pentest_swagger-hack_Install
+    echo -e "\033[1;33m\n>> 正在安装 shiro-exploit\n\033[0m"
+    Pentest_shiro-exploit_Install
+    echo -e "\033[1;33m\n>> 正在安装 ysoserial\n\033[0m"
+    Pentest_ysoserial_Install
+    echo -e "\033[1;33m\n>> 正在安装 remote-method-guesser\n\033[0m"
+    Pentest_remote-method-guesser_Install
+    echo -e "\033[1;33m\n>> 正在安装 SSRFmap\n\033[0m"
+    Pentest_SSRFmap_Install
+    echo -e "\033[1;33m\n>> 正在安装 See-SURF\n\033[0m"
+    Pentest_See-SURF_Install
+    echo -e "\033[1;33m\n>> 正在安装 testssl.sh\n\033[0m"
+    Pentest_testssl_Install
+    echo -e "\033[1;33m\n>> 正在安装 MassBleed\n\033[0m"
+    Pentest_MassBleed_Install
 
 }
 
@@ -4472,12 +4736,12 @@ Help(){
     echo -e "\033[1;34m3. 蓝队服务 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk\033[0m \033[0;34m选项安装 binwalk 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-binwalk-f\033[0m \033[0;34m选项强制安装 binwalk 环境 \033[0m   \033[1;33m(建议在 -binwalk 选项失败的情况下运行)\033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-clamav\033[0m \033[0;34m选项安装 ClamAV 工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-clamav\033[0m \033[0;34m选项安装 ClamAV \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-hfish\033[0m \033[0;34m选项安装 HFish 蜜罐 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-lt\033[0m \033[0;34m选项部署 LogonTracer 环境 \033[0m          \033[1;33m(非超高配置机器不要部署,这个应用太吃配置了)\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-suricata\033[0m \033[0;34m选项部署 Suricata 环境 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vol\033[0m \033[0;34m选项安装 volatility 取证工具 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vol3\033[0m \033[0;34m选项安装 volatility3 取证工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vol\033[0m \033[0;34m选项安装 volatility \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vol3\033[0m \033[0;34m选项安装 volatility3 \033[0m"
     echo -e ""
     echo -e "\033[1;34m4. 红队服务 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-aircrack\033[0m \033[0;34m选项部署 aircrack-ng 环境 \033[0m"
@@ -4498,13 +4762,13 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-vulfocus\033[0m \033[0;34m选项部署 vulfocus 环境(1.04 GB)\033[0m"
     echo -e ""
     echo -e "\033[1;34m6. 杂项服务 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-asciinema\033[0m \033[0;34m选项安装 asciinema 截图工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-asciinema\033[0m \033[0;34m选项安装 asciinema \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-bt\033[0m \033[0;34m选项部署宝塔服务 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-clash\033[0m \033[0;34m选项安装 clash 工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-clash\033[0m \033[0;34m选项安装 clash \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-music\033[0m \033[0;34m选项部署 UnblockNeteaseMusic 服务 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-nginx\033[0m \033[0;34m选项配置 nginx 服务 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ssh\033[0m \033[0;34m选项配置 ssh 环境 \033[0m                \033[1;33m (RedHat 系默认可用,无需重复安装)\033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ssr\033[0m \033[0;34m选项安装 ssr 工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-ssr\033[0m \033[0;34m选项安装 ssr \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-zsh\033[0m \033[0;34m选项配置 zsh 环境 \033[0m"
     echo -e ""
     echo -e "\033[1;34m7. 其他 \033[0m"
@@ -4514,7 +4778,7 @@ Help(){
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-remove\033[0m \033[0;34m选项卸载国内 vps 云监控 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-rmlock\033[0m \033[0;34m选项运行除锁模块 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-swap\033[0m \033[0;34m选项配置 swap 分区 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-update\033[0m \033[0;34m选项更新 f8x 工具 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-update\033[0m \033[0;34m选项更新 f8x \033[0m"
     echo -e ""
     echo -e "\033[1;37m脚本作者 r0fus0d ,需要添加工具支持或运行遇到问题欢迎提交 issue\033[0m"
     echo -e "\033[1;37m|- 感谢 the-fog 在开发过程中对我的折磨 \033[0m"
@@ -4531,7 +4795,7 @@ Proxy(){
     echo -e "\033[1;33m\n>> 是否需要更新 DNS 服务器? [Y/n,默认Yes]\033[0m"
     Change_DNS_IP
     Mirror
-    echo -e "\033[1;33m\n>> 正在安装 dns 工具\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在安装 resolvconf\n\033[0m"
     DNS_T00ls
     echo -e "\033[1;33m\n>> 正在配置基础编译环境\n\033[0m"
     Proxychains_Install
@@ -4848,7 +5112,7 @@ case "$1" in
         swap_setting
         ;;
     -update)
-        curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+        rm -f f8x && curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
         ;;
     -debug)
         Base_Check
