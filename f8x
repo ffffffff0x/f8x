@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.1 Dev(Beta1)"
+F8x_Version="1.5.2 Dev(Beta1)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
@@ -54,8 +54,8 @@ goby_Ver="Beta1.8.239"
 goby_File="goby-linux-x64-1.8.239.zip"
 fscan_Ver="1.5.1"
 fscan_Install="fscan_amd64"
-ffuf_Ver="v1.2.1"
-ffuf_Install="ffuf_1.2.1_linux_amd64.tar.gz"
+ffuf_Ver="v1.3.0"
+ffuf_Install="ffuf_1.3.0_linux_amd64.tar.gz"
 Nuclei_Ver="v2.3.4"
 Nuclei_Install="nuclei_2.3.4_linux_amd64.tar.gz"
 rad_File="rad_linux_amd64.zip"
@@ -66,10 +66,10 @@ CrossC2_Ver="v2.2.1"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
 node_Dir="node-v14.16.0-linux-x64"
-Girsh_Ver="v0.27"
-Girsh_bin="Girsh-v0.27-linux-amd64.tar.gz"
-bettercap_Ver="v2.30.2"
-bettercap_bin="bettercap_linux_amd64_v2.30.2.zip"
+Girsh_Ver="v0.30"
+Girsh_bin="Girsh-v0.30-linux-amd64.tar.gz"
+bettercap_Ver="v2.31.0"
+bettercap_bin="bettercap_linux_amd64_v2.31.0.zip"
 mitmproxy_Ver="6.0.2"
 mitmproxy_bin="mitmproxy-6.0.2-linux.tar.gz"
 naabu_bin="naabu-linux-amd64.tar.gz"
@@ -1295,6 +1295,7 @@ Python3_Install(){
             Install_Switch "python3-dev"
             Install_Switch "python3-pip"
             Install_Switch "python3-venv"
+            Install_Switch "python3-distutils"
             python3 -m pip install --upgrade pip 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已更新 python3-pip" || Echo_ERROR "更新 python3-pip 失败,请查看日志 /tmp/f8x_error.log"
             ;;
         *)
@@ -1976,14 +1977,25 @@ Pentest_WAFW00F_Install(){
 Pentest_xray_Install(){
 
     name="xray"
+
+    xray version > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        cd /tmp && rm -f $xray_File && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $xray_File > /dev/null 2>&1 && rm -f $xray_File && mv --force xray_linux_amd64 xray && mv --force xray /usr/local/bin/ && chmod +x /usr/local/bin/xray
+        xray version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $xray_Ver 在 /usr/local/bin/ 目录下,直接输入 xray 即可使用" || Echo_ERROR3
+    fi
+
     dir="$P_Dir/xray"
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已下载在 $dir"
+        Echo_ALERT "$name poc 已下载在 $dir"
     else
-        mkdir -p $dir && cd $_ && Echo_ALERT "正在下载 xray" && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR2
-        unzip $xray_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $xray_File > /dev/null 2>&1 && Echo_INFOR "已安装 $name $xray_Ver 在 $dir 目录下" || Echo_ERROR "安装 xray 失败,请查看日志 /tmp/f8x_error.log"
+        $Porxy_OK git clone ${GitPorxy}https://github.com/chaitin/xray.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name poc 在 $dir" || Echo_ERROR2
     fi
 
 }
@@ -2708,6 +2720,23 @@ Pentest_MassBleed_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         $Porxy_OK git clone ${GitPorxy}https://github.com/1N3/MassBleed.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+    fi
+
+}
+
+# ===================== 安装 weblogic_cmd_plus =====================
+Pentest_weblogic_cmd_plus_Install(){
+
+    name="weblogic_cmd_plus"
+    dir="$P_Dir/weblogic_cmd_plus"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        mkdir -p $P_Dir/weblogic_cmd_plus && cd $_
+        $Porxy_OK wget -O weblogic_cmd_plus.zip ${GitPorxy2}https://github.com/DesaiParekh/weblogic_cmd_plus/releases/download/v1.0/weblogic_cmd_plus.zip > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+        unzip weblogic_cmd_plus.zip > /dev/null 2>&1 && rm -f weblogic_cmd_plus.zip
     fi
 
 }
@@ -3785,11 +3814,13 @@ nginx_Install(){
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Install_Switch "libpcre3-dev"
+                Install_Switch "zlib1g"
+                Install_Switch "zlib1g.dev"
                 ;;
             *) ;;
         esac
 
-        cd /tmp && rm -f $nginx_bin > /dev/null 2>&1 && $Porxy_OK wget https://nginx.org/download/$nginx_bin > /dev/null 2>&1 || Echo_ERROR "$nginx_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
+        cd /tmp && rm -f $nginx_bin > /dev/null 2>&1 && $Porxy_OK wget -O $nginx_bin https://nginx.org/download/$nginx_bin > /dev/null 2>&1 || Echo_ERROR "$nginx_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
         tar -zxvf $nginx_bin > /dev/null 2>&1 && rm -f $nginx_bin > /dev/null 2>&1 && cd nginx-*
         ./configure && make && make install && Echo_INFOR "编译成功" || Echo_ERROR "编译失败"
         mv --force /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && chmod +x /usr/local/bin/nginx && nginx -h > /dev/null 2>&1 && Echo_INFOR "$name 安装成功,配置文件在 /usr/local/nginx/conf/ 中,运行 nginx 即可" || Echo_ERROR "$name 安装失败"
@@ -4551,10 +4582,10 @@ kali_Tools(){
     Pentest_Metasploit_Install
     echo -e "\033[1;33m\n>> 正在安装 Sqlmap\n\033[0m"
     Pentest_Sqlmap_Install
-    echo -e "\033[1;33m\n>> 正在安装 RustScan\n\033[0m"
-    Pentest_RustScan_Install
-    echo -e "\033[1;33m\n>> 正在安装 WAFW00F\n\033[0m"
-    Pentest_WAFW00F_Install
+    #echo -e "\033[1;33m\n>> 正在安装 RustScan\n\033[0m"
+    #Pentest_RustScan_Install
+    #echo -e "\033[1;33m\n>> 正在安装 WAFW00F\n\033[0m"
+    #Pentest_WAFW00F_Install
     echo -e "\033[1;33m\n>> 正在安装 xray\n\033[0m"
     Pentest_xray_Install
     echo -e "\033[1;33m\n>> 正在安装 masscan\n\033[0m"
@@ -4637,8 +4668,10 @@ kali_Tools(){
     Pentest_See-SURF_Install
     echo -e "\033[1;33m\n>> 正在安装 testssl.sh\n\033[0m"
     Pentest_testssl_Install
-    echo -e "\033[1;33m\n>> 正在安装 MassBleed\n\033[0m"
-    Pentest_MassBleed_Install
+    #echo -e "\033[1;33m\n>> 正在安装 MassBleed\n\033[0m"
+    #Pentest_MassBleed_Install
+    echo -e "\033[1;33m\n>> 正在安装 weblogic_cmd_plus\n\033[0m"
+    Pentest_weblogic_cmd_plus_Install
 
 }
 
