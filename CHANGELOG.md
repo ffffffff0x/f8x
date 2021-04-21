@@ -2,6 +2,18 @@
 
 ## Details
 
+### [1.5.2] - 2021-04-21
+
+**功能添加**
+* -k 选项添加 weblogic_cmd_plus
+* debian 系安装 nginx 时添加 zlib1g 和 zlib1g.dev [#6](https://github.com/ffffffff0x/f8x/issues/6)
+* debian 系安装 Python3 时添加 python3-distutils
+
+**功能修改**
+* 安装 xray 至 /usr/local/bin/
+* 下载 xray poc 至 /pentest/xray
+* 暂时注释 RustScan、WAFW00F、MassBleed 的安装
+
 ### [1.5.1] - 2021-04-15
 
 * -k 选项添加 swagger-hack、shiro-exploit、ysoserial、remote-method-guesser、SSRFmap、See-SURF、testssl.sh、MassBleed
