@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.2 Dev(Beta2)"
+F8x_Version="1.5.2 Dev(Beta3)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
@@ -2735,7 +2735,7 @@ Pentest_weblogic_cmd_plus_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         mkdir -p $dir && cd $_
-        $Porxy_OK wget -O weblogic_cmd_plus.zip ${GitPorxy2}https://github.com/DesaiParekh/weblogic_cmd_plus/releases/download/v1.0/weblogic_cmd_plus.zip > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+        $Porxy_OK wget -O weblogic_cmd_plus.zip ${GitPorxy2}https://github.com/No-Github/Archive/releases/download/1.0.5/weblogic_cmd_plus.zip > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
         unzip weblogic_cmd_plus.zip > /dev/null 2>&1 && rm -f weblogic_cmd_plus.zip
     fi
 
