@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.2 Dev(Beta3)"
+F8x_Version="1.5.2 Dev(Beta4)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
@@ -2724,23 +2724,6 @@ Pentest_MassBleed_Install(){
 
 }
 
-# ===================== 安装 weblogic_cmd_plus =====================
-Pentest_weblogic_cmd_plus_Install(){
-
-    name="weblogic_cmd_plus"
-    dir="$P_Dir/weblogic_cmd_plus"
-
-    if test -d $dir
-    then
-        Echo_ALERT "$name 已下载在 $dir"
-    else
-        mkdir -p $dir && cd $_
-        $Porxy_OK wget -O weblogic_cmd_plus.zip ${GitPorxy2}https://github.com/No-Github/Archive/releases/download/1.0.5/weblogic_cmd_plus.zip > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
-        unzip weblogic_cmd_plus.zip > /dev/null 2>&1 && rm -f weblogic_cmd_plus.zip
-    fi
-
-}
-
 # ===================== 安装 shiro_rce_tool =====================
 Pentest_shiro_rce_tool_Install(){
 
@@ -4686,8 +4669,6 @@ kali_Tools(){
     Pentest_testssl_Install
     #echo -e "\033[1;33m\n>> 正在安装 MassBleed\n\033[0m"
     #Pentest_MassBleed_Install
-    echo -e "\033[1;33m\n>> 正在安装 weblogic_cmd_plus\n\033[0m"
-    Pentest_weblogic_cmd_plus_Install
     echo -e "\033[1;33m\n>> 正在安装 shiro_rce_tool\n\033[0m"
     Pentest_shiro_rce_tool_Install
 
@@ -5163,7 +5144,14 @@ case "$1" in
         swap_setting
         ;;
     -update)
-        rm -f f8x && curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+
+        if test -e /usr/local/bin/f8x
+        then
+            rm -f /usr/local/bin/f8x && curl -o /usr/local/bin/f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && chmod +x /usr/local/bin/f8x && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+        else
+            rm -f f8x && curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+        fi
+
         ;;
     -debug)
         Base_Check
