@@ -5,7 +5,7 @@
 ### [1.5.2] - 2021-04-21
 
 **功能添加**
-* -k 选项添加 weblogic_cmd_plus、shiro_rce_tool
+* -k 选项添加 shiro_rce_tool
 * debian 系安装 nginx 时添加 zlib1g 和 zlib1g.dev [#6](https://github.com/ffffffff0x/f8x/issues/6)
 * debian 系安装 Python3 时添加 python3-distutils
 
