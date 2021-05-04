@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.2 Dev(Beta4)"
+F8x_Version="1.5.2 Dev(Beta5)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
@@ -54,10 +54,10 @@ goby_Ver="Beta1.8.239"
 goby_File="goby-linux-x64-1.8.239.zip"
 fscan_Ver="1.5.1"
 fscan_Install="fscan_amd64"
-ffuf_Ver="v1.3.0"
-ffuf_Install="ffuf_1.3.0_linux_amd64.tar.gz"
-Nuclei_Ver="v2.3.4"
-Nuclei_Install="nuclei_2.3.4_linux_amd64.tar.gz"
+ffuf_Ver="v1.3.1"
+ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
+Nuclei_Ver="v2.3.6"
+Nuclei_Install="nuclei_2.3.6_linux_amd64.tar.gz"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
 Terraform_Ver="0.15.0"
@@ -66,8 +66,8 @@ CrossC2_Ver="v2.2.1"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
 node_Dir="node-v14.16.0-linux-x64"
-Girsh_Ver="v0.30"
-Girsh_bin="Girsh-v0.30-linux-amd64.tar.gz"
+Girsh_Ver="v0.31"
+Girsh_bin="Girsh-v0.31-linux-amd64.tar.gz"
 bettercap_Ver="v2.31.0"
 bettercap_bin="bettercap_linux_amd64_v2.31.0.zip"
 mitmproxy_Ver="6.0.2"
@@ -79,8 +79,8 @@ clash_Ver="v1.5.0"
 clash_bin="clash-linux-amd64-v1.5.0.gz"
 fzf_Ver="0.27.0"
 fzf_bin="fzf-0.27.0-linux_amd64.tar.gz"
-subfinder_Ver="v2.4.7"
-subfinder_bin="subfinder_2.4.7_linux_amd64.tar.gz"
+subfinder_Ver="v2.4.8"
+subfinder_bin="subfinder_2.4.8_linux_amd64.tar.gz"
 httpx_Ver="v1.0.5"
 httpx_bin="httpx_1.0.5_linux_amd64.tar.gz"
 mapcidr_Ver="v0.0.6"
@@ -4103,7 +4103,7 @@ zsh_Install(){
 
     Echo_INFOR "正在配置 Oh My Zsh"
 
-    if [ $Porxy_OK == proxychains4 ]
+    if [ $Porxy_OK == proxychains4 ] 2>> /tmp/f8x_error.log
     then
         $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/zsh/install.sh > /dev/null 2>&1
         $Porxy_OK bash install.sh
@@ -4611,8 +4611,8 @@ kali_Tools(){
     Pentest_ApkAnalyser_Install
     echo -e "\033[1;33m\n>> 正在安装 commix\n\033[0m"
     Pentest_commix_Install
-    echo -e "\033[1;33m\n>> 正在安装 exploitdb 库\n\033[0m"
-    Pentest_exploitdb_Install
+    #echo -e "\033[1;33m\n>> 正在安装 exploitdb 库\n\033[0m"
+    #Pentest_exploitdb_Install
     echo -e "\033[1;33m\n>> 正在安装 tplmap\n\033[0m"
     Pentest_tplmap_Install
     echo -e "\033[1;33m\n>> 正在安装 routersploit\n\033[0m"
