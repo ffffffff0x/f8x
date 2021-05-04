@@ -12,7 +12,7 @@
 **功能修改**
 * 安装 xray 至 /usr/local/bin/
 * 下载 xray poc 至 /pentest/xray
-* 暂时注释 RustScan、WAFW00F、MassBleed 的安装
+* 暂时注释 RustScan、WAFW00F、MassBleed、exploitdb 的安装
 
 ### [1.5.1] - 2021-04-15
 
