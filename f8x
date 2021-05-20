@@ -25,21 +25,21 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.2 Dev(Beta5)"
+F8x_Version="1.5.2 Dev(Beta6)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
 CS_File="CobaltStrike4.1.zip"
 CS_Version="CobaltStrike4.1"
-AdGuardHome_Version="v0.105.2"
+AdGuardHome_Version="v0.106.3"
 AdguardTeam_File="AdGuardHome_linux_amd64.tar.gz"
 frp_Version="v0.36.1"
 frp_File="frp_0.36.1_linux_amd64.tar.gz"
 frp_Dir="frp_0.36.1_linux_amd64"
 nps_Ver="v0.26.10"
 nps_Install="linux_amd64_server.tar.gz"
-sharry_Ver="1.6.0"
-sharry_File="sharry-restserver-1.6.0.zip"
+sharry_Ver="v1.7.1"
+sharry_File="sharry-restserver-1.7.1.zip"
 Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
 Ruby_Install=ruby-3.0.0.tar.gz
@@ -52,17 +52,17 @@ xray_Ver="1.7.1"
 xray_File="xray_linux_amd64.zip"
 goby_Ver="Beta1.8.239"
 goby_File="goby-linux-x64-1.8.239.zip"
-fscan_Ver="1.5.1"
+fscan_Ver="1.6.1"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.3.6"
-Nuclei_Install="nuclei_2.3.6_linux_amd64.tar.gz"
+Nuclei_Ver="v2.3.7"
+Nuclei_Install="nuclei_2.3.7_linux_amd64.tar.gz"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="0.15.0"
-Terraform_bin="terraform_0.15.0_linux_amd64.zip"
-CrossC2_Ver="v2.2.1"
+Terraform_Ver="0.15.4"
+Terraform_bin="terraform_0.15.4_linux_amd64.zip"
+CrossC2_Ver="v2.2.2"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
 node_Dir="node-v14.16.0-linux-x64"
@@ -81,10 +81,10 @@ fzf_Ver="0.27.0"
 fzf_bin="fzf-0.27.0-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.8"
 subfinder_bin="subfinder_2.4.8_linux_amd64.tar.gz"
-httpx_Ver="v1.0.5"
-httpx_bin="httpx_1.0.5_linux_amd64.tar.gz"
-mapcidr_Ver="v0.0.6"
-mapcidr_bin="mapcidr_0.0.6_linux_amd64.tar.gz"
+httpx_Ver="v1.0.6"
+httpx_bin="httpx_1.0.6_linux_amd64.tar.gz"
+mapcidr_Ver="v0.0.7"
+mapcidr_bin="mapcidr_0.0.7_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
 apktool_bin="apktool_2.5.0.jar"
 gau_Ver="v1.1.0"
@@ -97,6 +97,8 @@ jadx_Ver="v1.2.0"
 jadx_bin="jadx-1.2.0.zip"
 rmg_Ver="v3.2.0"
 rmg_bin="rmg-3.2.0-jar-with-dependencies.jar"
+anew_Ver="1.0.0"
+anew_bin="anew_v1.0.0-snapshot_Linux_x86_64.tar.gz"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -1616,18 +1618,18 @@ Pentest_pip_Install(){
 # ===================== 安装 hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
-    dir="$P_Dir/hashcat-6.1.1"
+    dir="$P_Dir/hashcat-6.2.1"
 
     if test -d $dir
     then
         Echo_ALERT "hashcat 已下载在 $dir"
     else
         name="hashcat"
-        $Porxy_OK wget -O $P_Dir/hashcat-6.1.1.7z ${GitPorxy2}https://hashcat.net/files/hashcat-6.1.1.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "已下载 hashcat-6.1.1" || Echo_ERROR2
-        7za x $P_Dir/hashcat-6.1.1.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $P_Dir/hashcat-6.1.1.7z 失败!\n\033[0m"
-        rm -f $P_Dir/hashcat-6.1.1.7z > /dev/null 2>&1
+        $Porxy_OK wget -O $P_Dir/hashcat-6.2.1.7z ${GitPorxy2}https://hashcat.net/files/hashcat-6.2.1.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "已下载 hashcat-6.2.1" || Echo_ERROR2
+        7za x $P_Dir/hashcat-6.2.1.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $P_Dir/hashcat-6.2.1.7z 失败!\n\033[0m"
+        rm -f $P_Dir/hashcat-6.2.1.7z > /dev/null 2>&1
         cd $P_Dir/hashcat* 1> /dev/null 2>> /tmp/f8x_error.log && chmod +x hashcat.bin && cp hashcat.bin hashcat
-        ln -s /pentest/hashcat-6.1.1/hashcat /usr/sbin/hashcat 1> /dev/null 2>> /tmp/f8x_error.log
+        ln -s /pentest/hashcat-6.2.1/hashcat /usr/sbin/hashcat 1> /dev/null 2>> /tmp/f8x_error.log
         hashcat --help 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 hashcat 在 $dir 目录下,直接输入 hashcat 即可使用" || Echo_ERROR "hashcat 安装失败,请查看日志 /tmp/f8x_error.log"
     fi
 
@@ -2067,7 +2069,7 @@ Pentest_Nuclei_Install(){
         mv --force nuclei /usr/local/bin/ && chmod +x /usr/local/bin/nuclei && rm -f /tmp/$Nuclei_Install > /dev/null 2>&1
         nuclei -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $Nuclei_Ver 在 /usr/local/bin/ 目录下,直接输入 nuclei 即可使用" || Echo_ERROR3
 
-        if [ $GitPorxy ==  ]
+        if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
         then
             echo -e "\033[1;33m\n>> 正在更新 Nuclei 扫描规则\n\033[0m"
             cd $P_Dir && $Porxy_OK nuclei -update-templates > /dev/null 2>&1 && Echo_INFOR "已更新 nuclei-templates 列表 " || Echo_ERROR "nuclei-templates 列表更新失败,请查看日志 /tmp/f8x_error.log"
@@ -3072,8 +3074,8 @@ sharry_Install(){
     then
         Echo_ALERT "$name 已部署在 $T_Dir/$name ,运行以下命令开启服务:"
     else
-        cd $T_Dir/ && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget ${GitPorxy}https://github.com/eikek/sharry/releases/download/release/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
-        unzip $sharry_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $sharry_File > /dev/null 2>&1 && mv sharry-restserver-1.6.0 sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
+        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget ${GitPorxy}https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $sharry_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
     fi
 
     Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver ,该服务需要 jdk 环境,若未安装可运行 -oraclejdk 选项进行安装"
@@ -3097,6 +3099,23 @@ starship_Install(){
     Echo_INFOR "Bash 配置:  echo \"eval \\\"\\\$(starship init bash)\\\"\" >> ~/.bashrc"
     Echo_INFOR "Fish 配置:  echo \"starship init fish | source\" >> ~/.config/fish/config.fish"
     Echo_INFOR "Zsh  配置:  echo \"eval \\\"\\\$(starship init zsh)\\\"\" >> ~/.zshrc"
+
+}
+
+# ===================== 安装 anew =====================
+anew_Install(){
+
+    name="anew"
+    which anew 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        cd $T_Dir && rm -f $anew_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/No-Github/anew/releases/download/$anew_Ver/$anew_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -xzvf $anew_bin 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $anew_bin > /dev/null 2>&1
+        mv anew /usr/local/bin/anew && chmod +x /usr/local/bin/anew && rm -f $anew_bin > /dev/null 2>&1
+        which anew 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $anew_Ver 在 /usr/local/bin/ 目录下,直接输入 anew 即可使用" || Echo_ERROR3
+    fi
 
 }
 
@@ -3392,7 +3411,7 @@ Python2_Install(){
 # -pip2-force
 pip2_Install(){
 
-    if [ $GitPorxy ==  ]
+    if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
     then
         echo -e "\033[1;33m\n>> 正在安装 pip2\n\033[0m"
         cd $T_Dir && $Porxy_OK curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR " https://bootstrap.pypa.io/get-pip.py 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
@@ -4541,6 +4560,8 @@ Fun_Tools(){
     sharry_Install
     echo -e "\033[1;33m\n>> 正在安装 starship\n\033[0m"
     starship_Install
+    echo -e "\033[1;33m\n>> 正在安装 anew\n\033[0m"
+    anew_Install
 
 }
 
