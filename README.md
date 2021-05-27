@@ -95,7 +95,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **5. 基于 Docker 的环境部署**
 - 使用 -arl 选项部署 ARL 环境(872 MB)
-- 使用 -awvs13 选项部署 AWVS13 环境(1.04 GB)
+- 使用 -awvs14 选项部署 AWVS13 环境(1.04 GB)
 - 使用 -mobsf 选项部署 MobSF 环境(1.54 GB)
 - 使用 -nodejsscan 选项部署 nodejsscan 环境(873 MB)
 - 使用 -viper 选项部署 Viper 环境(2.1 GB)
