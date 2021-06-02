@@ -25,12 +25,13 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.2 Dev(Beta8)"
+F8x_Version="1.5.3 Dev"
 
 # ===================== 软件版本变量设置 =====================
+hashcat_Version="hashcat-6.2.1"
 jdk_Version="jdk1.8.0_271"
-CS_File="CobaltStrike4.1.zip"
-CS_Version="CobaltStrike4.1"
+CS_File="CobaltStrike4.3.zip"
+CS_Version="CobaltStrike4.3"
 AdGuardHome_Version="v0.106.3"
 AdguardTeam_File="AdGuardHome_linux_amd64.tar.gz"
 frp_Version="v0.36.1"
@@ -99,6 +100,10 @@ rmg_Ver="v3.2.0"
 rmg_bin="rmg-3.2.0-jar-with-dependencies.jar"
 anew_Ver="1.0.0"
 anew_bin="anew_v1.0.0-snapshot_Linux_x86_64.tar.gz"
+nali_Ver="v0.2.4"
+nali_bin="nali-linux-amd64-v0.2.4.gz"
+dalfox_Ver="v2.3.7"
+dalfox_bin="dalfox_2.3.7_linux_amd64.tar.gz"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -1622,18 +1627,19 @@ Pentest_pip_Install(){
 # ===================== 安装 hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
-    dir="$P_Dir/hashcat-6.2.1"
+    dir="$P_Dir/${hashcat_Version}"
 
     if test -d $dir
     then
         Echo_ALERT "hashcat 已下载在 $dir"
     else
         name="hashcat"
-        $Porxy_OK wget -O $P_Dir/hashcat-6.2.1.7z ${GitPorxy2}https://hashcat.net/files/hashcat-6.2.1.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "已下载 hashcat-6.2.1" || Echo_ERROR2
-        7za x $P_Dir/hashcat-6.2.1.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $P_Dir/hashcat-6.2.1.7z 失败!\n\033[0m"
-        rm -f $P_Dir/hashcat-6.2.1.7z > /dev/null 2>&1
+        rm -rf /usr/sbin/hashcat
+        $Porxy_OK wget -O $P_Dir/${hashcat_Version}.7z ${GitPorxy2}https://hashcat.net/files/${hashcat_Version}.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "已下载 ${hashcat_Version}" || Echo_ERROR2
+        7za x $P_Dir/${hashcat_Version}.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $P_Dir/${hashcat_Version}.7z 失败!\n\033[0m"
+        rm -f $P_Dir/${hashcat_Version}.7z > /dev/null 2>&1
         cd $P_Dir/hashcat* 1> /dev/null 2>> /tmp/f8x_error.log && chmod +x hashcat.bin && cp hashcat.bin hashcat
-        ln -s /pentest/hashcat-6.2.1/hashcat /usr/sbin/hashcat 1> /dev/null 2>> /tmp/f8x_error.log
+        ln -s /pentest/${hashcat_Version}/hashcat /usr/sbin/hashcat 1> /dev/null 2>> /tmp/f8x_error.log
         hashcat --help 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 hashcat 在 $dir 目录下,直接输入 hashcat 即可使用" || Echo_ERROR "hashcat 安装失败,请查看日志 /tmp/f8x_error.log"
     fi
 
@@ -1868,7 +1874,7 @@ Pentest_CobaltStrike_Install(){
         cd $P_Dir/$CS_Version && chmod +x teamserver 1> /dev/null 2>> /tmp/f8x_error.log
         rm -f cobaltstrike.store > /dev/null 2>&1
 
-        /usr/local/java/$jdk_Version/bin/keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log || keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log
+        /usr/local/java/$jdk_Version/bin/keytool -keystore ./cobaltstrike.store -storepass sUp3r@dm1n -keypass sUp3r@dm1n -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log || keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log
         Echo_INFOR "已将 $CS_Version 部署在 $P_Dir/$CS_Version 目录下" || Echo_ERROR "部署 $name 环境失败,请查看日志 /tmp/f8x_error.log"
     fi
 
@@ -1884,9 +1890,9 @@ Pentest_CobaltStrike_Install(){
 
     if test -e $P_Dir/$CS_Version/cobaltstrike.store
     then
-        Echo_ALERT "cobaltstrike.store 文件已生成,默认 keypass 为 123456,实战中强烈建议替换!! "
+        Echo_ALERT "cobaltstrike.store 文件已生成,默认 keypass 为 sUp3r@dm1n,实战中强烈建议替换!! "
     else
-        Echo_ERROR "运行 keytool 失败,此步骤需要 jdk 环境,请使用 -oraclejdk 选项安装 jdk 环境,然后运行以下命令\n/usr/local/java/$jdk_Version/bin/keytool -keystore $P_Dir/$CS_Version/cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname \"CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun\"\n手动生成 cobaltstrike.store 文件!"
+        Echo_ERROR "运行 keytool 失败,此步骤需要 jdk 环境,请使用 -oraclejdk 选项安装 jdk 环境,然后运行以下命令\n/usr/local/java/$jdk_Version/bin/keytool -keystore $P_Dir/$CS_Version/cobaltstrike.store -storepass sUp3r@dm1n -keypass sUp3r@dm1n -genkey -keyalg RSA -alias aliyun -dname \"CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun\"\n手动生成 cobaltstrike.store 文件!"
     fi
 
 }
@@ -2752,6 +2758,55 @@ Pentest_shiro_rce_tool_Install(){
 
 }
 
+# ===================== 安装 ZoomEye-python =====================
+Pentest_ZoomEye_Install(){
+
+    name="ZoomEye-python"
+    zoomeye -h > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        Install_Switch4 "zoomeye"
+    fi
+
+}
+
+# ===================== 安装 nali =====================
+Pentest_nali_Install(){
+
+    name="nali"
+    which nali 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        cd /tmp && rm -f nali-linux-* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/zu1k/nali/releases/download/$nali_Ver/$nali_bin > /dev/null 2>&1 || Echo_ERROR2
+        gunzip $nali_bin 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $nali_bin > /dev/null 2>&1
+        mv nali-linux-* /usr/local/bin/nali && chmod +x /usr/local/bin/nali && rm -f $nali_bin > /dev/null 2>&1
+        which nali 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $nali_Ver 在 /usr/local/bin/ 目录下,直接输入 nali 即可使用" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 dalfox =====================
+Pentest_dalfox_Install(){
+
+    name="dalfox"
+    which dalfox 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        cd /tmp && rm -f $dalfox_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/hahwul/dalfox/releases/download/$dalfox_Ver/$dalfox_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf $dalfox_bin 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $dalfox_bin > /dev/null 2>&1
+        mv dalfox /usr/local/bin/dalfox && chmod +x /usr/local/bin/dalfox && rm -f $dalfox_bin > /dev/null 2>&1
+        which dalfox 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $dalfox_Ver 在 /usr/local/bin/ 目录下,直接输入 dalfox 即可使用" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== 安装 unyaffs =====================
 unyaffs_Install(){
 
@@ -3121,7 +3176,7 @@ anew_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd $T_Dir && rm -f $anew_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/No-Github/anew/releases/download/$anew_Ver/$anew_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $anew_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/No-Github/anew/releases/download/$anew_Ver/$anew_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -xzvf $anew_bin 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $anew_bin > /dev/null 2>&1
         mv anew /usr/local/bin/anew && chmod +x /usr/local/bin/anew && rm -f $anew_bin > /dev/null 2>&1
         which anew 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $anew_Ver 在 /usr/local/bin/ 目录下,直接输入 anew 即可使用" || Echo_ERROR3
@@ -4013,13 +4068,13 @@ cs_Install(){
 
     Pentest_Base_Install
 
-    echo -e "\033[1;33m\n>> 正在部署 CobaltStrike 4.1 环境\n\033[0m"
+    echo -e "\033[1;33m\n>> 正在部署 $CS_Version 环境\n\033[0m"
     Pentest_CobaltStrike_Install
     echo -e "\033[5;33m\n请输入你的 teamserver 服务端 IP\033[0m" && read -r input
     CS_IP=$input
     echo -e "\033[5;33m\n请输入你的 teamserver 服务端密码(特殊字符请在前面加反斜杠 \"\\\" 转义)\033[0m" && read -r input
     CS_Pass=$input
-    Echo_INFOR "请新建一个窗口会话,运行以下命令:\n\033[0m\033[1;32mcd $P_Dir/$CS_Version/ && nohup ./teamserver $CS_IP $CS_Pass & "
+    Echo_INFOR "请新建一个窗口会话,运行以下命令:(默认端口 41337)\n\033[0m\033[1;32mcd $P_Dir/$CS_Version/ && nohup ./teamserver $CS_IP $CS_Pass & "
 
 }
 
@@ -4702,6 +4757,12 @@ kali_Tools(){
     #Pentest_MassBleed_Install
     echo -e "\033[1;33m\n>> 正在安装 shiro_rce_tool\n\033[0m"
     Pentest_shiro_rce_tool_Install
+    echo -e "\033[1;33m\n>> 正在安装 ZoomEye-python\n\033[0m"
+    Pentest_ZoomEye_Install
+    echo -e "\033[1;33m\n>> 正在安装 nali\n\033[0m"
+    Pentest_nali_Install
+    echo -e "\033[1;33m\n>> 正在安装 dalfox\n\033[0m"
+    Pentest_dalfox_Install
 
 }
 
