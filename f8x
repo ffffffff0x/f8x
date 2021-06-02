@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.2 Dev(Beta7)"
+F8x_Version="1.5.2 Dev(Beta8)"
 
 # ===================== 软件版本变量设置 =====================
 jdk_Version="jdk1.8.0_271"
@@ -52,7 +52,7 @@ xray_Ver="1.7.1"
 xray_File="xray_linux_amd64.zip"
 goby_Ver="Beta1.8.239"
 goby_File="goby-linux-x64-1.8.275.zip"
-fscan_Ver="1.6.1"
+fscan_Ver="1.6.2"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
@@ -62,7 +62,7 @@ rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
 Terraform_Ver="0.15.4"
 Terraform_bin="terraform_0.15.4_linux_amd64.zip"
-CrossC2_Ver="v2.2.2"
+CrossC2_Ver="v2.2.3"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
 node_Dir="node-v14.16.0-linux-x64"
@@ -73,16 +73,16 @@ bettercap_bin="bettercap_linux_amd64_v2.31.1.zip"
 mitmproxy_Ver="6.0.2"
 mitmproxy_bin="mitmproxy-6.0.2-linux.tar.gz"
 naabu_bin="naabu-linux-amd64.tar.gz"
-proxify_Ver="v0.0.3"
-proxify_bin="proxify_0.0.3_linux_amd64.tar.gz"
+proxify_Ver="v0.0.4"
+proxify_bin="proxify_0.0.4_linux_amd64.tar.gz"
 clash_Ver="v1.5.0"
 clash_bin="clash-linux-amd64-v1.5.0.gz"
-fzf_Ver="0.27.1"
-fzf_bin="fzf-0.27.1-linux_amd64.tar.gz"
+fzf_Ver="0.27.2"
+fzf_bin="fzf-0.27.2-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.8"
 subfinder_bin="subfinder_2.4.8_linux_amd64.tar.gz"
-httpx_Ver="v1.0.8"
-httpx_bin="httpx_1.0.8_linux_amd64.tar.gz"
+httpx_Ver="v1.0.9"
+httpx_bin="httpx_1.0.9_linux_amd64.tar.gz"
 mapcidr_Ver="v0.0.7"
 mapcidr_bin="mapcidr_0.0.7_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
@@ -1994,6 +1994,8 @@ Pentest_xray_Install(){
         unzip $xray_File > /dev/null 2>&1 && rm -f $xray_File && mv --force xray_linux_amd64 xray && mv --force xray /usr/local/bin/ && chmod +x /usr/local/bin/xray
         xray version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $xray_Ver 在 /usr/local/bin/ 目录下,直接输入 xray 即可使用" || Echo_ERROR3
     fi
+
+    name="xray poc"
 
     dir="$P_Dir/xray"
 
@@ -5176,9 +5178,9 @@ case "$1" in
 
         if test -e /usr/local/bin/f8x
         then
-            rm -f /usr/local/bin/f8x && curl -o /usr/local/bin/f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && chmod +x /usr/local/bin/f8x && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+            rm -f /usr/local/bin/f8x && curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
         else
-            rm -f f8x && curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+            rm -f f8x && curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
         fi
 
         ;;
