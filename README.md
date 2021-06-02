@@ -30,9 +30,9 @@
 
 - 访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
 
-- 在网络不佳的情况下通过 jsdelivr cdn 加速下载
-  - wget : `wget https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x`
-  - curl : `curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x`
+- 在网络不佳的情况下通过 CF Workers 加速下载
+  - wget : `wget -O f8x https://f8x.io/`
+  - curl : `curl -o f8x https://f8x.io/`
 
 **使用**
 ```bash
@@ -40,8 +40,8 @@ bash f8x -h
 ```
 
 如果你希望方便点使用可以直接加到环境变量中
-- wget : `wget https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
-- curl : `curl -o f8x https://cdn.jsdelivr.net/gh/ffffffff0x/f8x@main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+- wget : `wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+- curl : `curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
 
 **系统依赖**
 
