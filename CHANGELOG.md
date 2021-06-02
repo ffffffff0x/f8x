@@ -2,6 +2,19 @@
 
 ## Details
 
+### [1.5.3] - 2021-06-02
+
+**功能添加**
+
+* -k 选项添加 ZoomEye-python、nali、dalfox
+* -f 选项添加 anew
+
+**功能修改**
+
+* CobaltStrike4.1 更换至 CobaltStrike4.3
+* 修复小 bug
+* 更新大部分软件的版本
+
 ### [1.5.2] - 2021-04-21
 
 **功能添加**
