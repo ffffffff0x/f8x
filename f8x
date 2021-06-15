@@ -25,10 +25,10 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.3 Dev"
+F8x_Version="1.5.3 Dev(Beta1)"
 
 # ===================== 软件版本变量设置 =====================
-hashcat_Version="hashcat-6.2.1"
+hashcat_Version="hashcat-6.2.2"
 jdk_Version="jdk1.8.0_271"
 CS_File="CobaltStrike4.3.zip"
 CS_Version="CobaltStrike4.3"
@@ -57,13 +57,13 @@ fscan_Ver="1.6.2"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.3.7"
-Nuclei_Install="nuclei_2.3.7_linux_amd64.tar.gz"
+Nuclei_Ver="v2.3.8"
+Nuclei_Install="nuclei_2.3.8_linux_amd64.tar.gz"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="0.15.4"
-Terraform_bin="terraform_0.15.4_linux_amd64.zip"
-CrossC2_Ver="v2.2.3"
+Terraform_Ver="1.0.0"
+Terraform_bin="terraform_1.0.0_linux_amd64.zip"
+CrossC2_Ver="v2.2.4"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
 node_Dir="node-v14.16.0-linux-x64"
@@ -88,8 +88,8 @@ mapcidr_Ver="v0.0.7"
 mapcidr_bin="mapcidr_0.0.7_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
 apktool_bin="apktool_2.5.0.jar"
-gau_Ver="v1.1.0"
-gau_bin="gau_1.1.0_linux_amd64.tar.gz"
+gau_Ver="v1.2.0"
+gau_bin="gau_1.2.0_linux_amd64.tar.gz"
 annie_Ver="0.10.3"
 annie_bin="annie_0.10.3_Linux_64-bit.tar.gz"
 nginx_Ver="1.18.0"
@@ -104,6 +104,7 @@ nali_Ver="v0.2.4"
 nali_bin="nali-linux-amd64-v0.2.4.gz"
 dalfox_Ver="v2.3.7"
 dalfox_bin="dalfox_2.3.7_linux_amd64.tar.gz"
+DomainSplit_Ver="1.0"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -335,6 +336,7 @@ Porxy_Switch(){
     then
         Echo_INFOR "IS_CI"
     else
+        Echo_ALERT "国内机器请自行配置走代理,否则基本无法下载"
         echo -e "\033[1;33m\n>> 运行时是否需要走代理? [y/N,默认No] \033[0m" && read -r input
         case $input in
             [yY][eE][sS]|[Yy])
@@ -2434,6 +2436,26 @@ Pentest_httpx_Install(){
 
 }
 
+# httpx 从 1.0.6 开始会中断批量脚本的输出,这里保留老版本的下载
+# ===================== 安装 httpx1.0.5 =====================
+Pentest_httpx_old_Install(){
+
+    name="httpx1.0.5"
+
+    httpx1.0.5 -version > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        cd /tmp && rm -f $httpx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/httpx/releases/download/v1.0.5/httpx_1.0.5_linux_amd64.tar.gz > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf httpx_1.0.5_linux_amd64.tar.gz 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/httpx_1.0.5_linux_amd64.tar.gz 失败,请查看日志 /tmp/f8x_error.log"
+        mv --force httpx /usr/local/bin/httpx1.0.5 && chmod +x /usr/local/bin/httpx1.0.5 && rm -f /tmp/httpx_1.0.5_linux_amd64.tar.gz > /dev/null 2>&1
+        httpx1.0.5 -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $httpx_Ver 在 /usr/local/bin/ 目录下,直接输入 httpx1.0.5 即可使用" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== 安装 subfinder =====================
 Pentest_subfinder_Install(){
 
@@ -2803,6 +2825,28 @@ Pentest_dalfox_Install(){
         tar -zxvf $dalfox_bin 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $dalfox_bin > /dev/null 2>&1
         mv dalfox /usr/local/bin/dalfox && chmod +x /usr/local/bin/dalfox && rm -f $dalfox_bin > /dev/null 2>&1
         which dalfox 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $dalfox_Ver 在 /usr/local/bin/ 目录下,直接输入 dalfox 即可使用" || Echo_ERROR3
+    fi
+
+}
+
+# 域名分割工具,默认不安装
+# ===================== 安装 DomainSplit =====================
+Pentest_DomainSplit_Install(){
+
+    name="DomainSplit"
+    dir="$P_Dir/DomainSplit"
+
+    if test -e $dir/DomainSplit.jar
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -f DomainSplit.jar > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy2}https://github.com/ffffffff0x/DomainSplit/releases/download/$DomainSplit_Ver/DomainSplit.jar > /dev/null 2>&1 || Echo_ERROR2
+        if test -e $dir/DomainSplit.jar
+        then
+            Echo_INFOR "已安装 $name 在 $dir 目录下"
+        else
+            Echo_ERROR3
+        fi
     fi
 
 }
@@ -3780,7 +3824,7 @@ awvs14_Install(){
     Docker_Install
 
     echo -e "\033[1;33m\n>> 正在部署 awvs14 环境\n\033[0m"
-    docker pull secfa/docker-awvs && Echo_INFOR "已拉取最新版 awvs14 镜像, 请通过下列命令运行:\ndocker run -it -d -p 13443:3443 secfa/docker-awvs\n\n-awvs14 username: admin@admin.com\n-awvs14 password: Admin123\n-AWVS Version：13.0.200217097\n-browser access：https://127.0.0.1:13443/\n" || Echo_ERROR "部署 awvs14 环境失败"
+    docker pull secfa/docker-awvs && Echo_INFOR "已拉取最新版 awvs14 镜像, 请通过下列命令运行:\ndocker run -it -d -p 13443:3443 secfa/docker-awvs\n\n-awvs14 username: admin@admin.com\n-awvs14 password: Admin123\n-AWVS Version：14.2.210503151\n-browser access：https://127.0.0.1:13443/\n" || Echo_ERROR "部署 awvs14 环境失败"
 
     Echo_INFOR "推荐使用该项目脚本增强配置 : https://github.com/test502git/awvs13_batch_py3"
 
@@ -4292,6 +4336,21 @@ System_info(){
 
     echo -e "" && Echo_INFOR "磁盘空间利用率:"
     df -h
+
+    df_a1=$(df -h|sed '1d'|awk '{print $5}'|sed 's/%//g'|sed -n 1p)
+    df_a2=$(df -h|sed '1d'|awk '{print $5}'|sed 's/%//g'|sed -n 2p)
+    df_a3=$(df -h|sed '1d'|awk '{print $5}'|sed 's/%//g'|sed -n 3p)
+    df_a4=$(df -h|sed '1d'|awk '{print $5}'|sed 's/%//g'|sed -n 4p)
+
+    df_b1=$(df -h|sed 1d|awk '{print $1}'|sed -n 1p)
+    df_b2=$(df -h|sed 1d|awk '{print $1}'|sed -n 2p)
+    df_b3=$(df -h|sed 1d|awk '{print $1}'|sed -n 3p)
+    df_b4=$(df -h|sed 1d|awk '{print $1}'|sed -n 4p)
+
+    if [ $df_a1 -gt 69 ];then Echo_ERROR "$DAY $df_b1 使用量接近 70% !!!!!"; fi
+    if [ $df_a2 -gt 69 ];then Echo_ERROR "$DAY $df_b2 使用量接近 70% !!!!!"; fi
+    if [ $df_a3 -gt 69 ];then Echo_ERROR "$DAY $df_b3 使用量接近 70% !!!!!"; fi
+    if [ $df_a4 -gt 69 ];then Echo_ERROR "$DAY $df_b4 使用量接近 70% !!!!!"; fi
 
     echo -e "" && Echo_INFOR "可用块设备信息:"
     lsblk
