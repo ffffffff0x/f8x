@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.3 Dev(Beta1)"
+F8x_Version="1.5.3 Dev(Beta2)"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.2"
@@ -51,9 +51,9 @@ ksubdomain_Install="ksubdomain_linux.zip"
 Go_Bin=go1.15.6.linux-amd64.tar.gz
 xray_Ver="1.7.1"
 xray_File="xray_linux_amd64.zip"
-goby_Ver="Beta1.8.239"
-goby_File="goby-linux-x64-1.8.275.zip"
-fscan_Ver="1.6.2"
+goby_Ver="Beta1.8.279"
+goby_File="goby-linux-x64-1.8.279.zip"
+fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
@@ -73,7 +73,8 @@ bettercap_Ver="v2.31.1"
 bettercap_bin="bettercap_linux_amd64_v2.31.1.zip"
 mitmproxy_Ver="6.0.2"
 mitmproxy_bin="mitmproxy-6.0.2-linux.tar.gz"
-naabu_bin="naabu-linux-amd64.tar.gz"
+naabu_Ver="v2.0.4"
+naabu_bin="naabu_2.0.4_linux_amd64.zip"
 proxify_Ver="v0.0.4"
 proxify_bin="proxify_0.0.4_linux_amd64.tar.gz"
 clash_Ver="v1.5.0"
@@ -96,8 +97,8 @@ nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
 jadx_Ver="v1.2.0"
 jadx_bin="jadx-1.2.0.zip"
-rmg_Ver="v3.2.0"
-rmg_bin="rmg-3.2.0-jar-with-dependencies.jar"
+rmg_Ver="v3.3.0"
+rmg_bin="rmg-3.3.0-jar-with-dependencies.jar"
 anew_Ver="1.0.0"
 anew_bin="anew_v1.0.0-snapshot_Linux_x86_64.tar.gz"
 nali_Ver="v0.2.4"
@@ -1637,6 +1638,7 @@ Pentest_hashcat_Install(){
     else
         name="hashcat"
         rm -rf /usr/sbin/hashcat
+        rm -rf /pentest/hashcat-6.2.*
         $Porxy_OK wget -O $P_Dir/${hashcat_Version}.7z ${GitPorxy2}https://hashcat.net/files/${hashcat_Version}.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "已下载 ${hashcat_Version}" || Echo_ERROR2
         7za x $P_Dir/${hashcat_Version}.7z -o$P_Dir 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 $P_Dir/${hashcat_Version}.7z 失败!\n\033[0m"
         rm -f $P_Dir/${hashcat_Version}.7z > /dev/null 2>&1
@@ -2356,10 +2358,10 @@ Pentest_naabu_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -f $naabu_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/naabu/releases/latest/download/$naabu_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $naabu_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$naabu_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force naabu-linux-amd64 /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu && rm -f /tmp/$naabu_bin > /dev/null 2>&1
-        naabu -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 naabu 即可使用" || Echo_ERROR3
+        cd /tmp && rm -f $naabu_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/naabu/releases/download/$naabu_Ver/$naabu_bin > /dev/null 2>&1 || Echo_ERROR2
+        unzip $naabu_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$naabu_bin 失败,请查看日志 /tmp/f8x_error.log"
+        mv --force naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu && rm -f /tmp/$naabu_bin > /dev/null 2>&1
+        naabu -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $naabu_Ver 在 /usr/local/bin/ 目录下,直接输入 naabu 即可使用" || Echo_ERROR3
     fi
 
 }
@@ -2823,8 +2825,29 @@ Pentest_dalfox_Install(){
     else
         cd /tmp && rm -f $dalfox_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/hahwul/dalfox/releases/download/$dalfox_Ver/$dalfox_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $dalfox_bin 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $dalfox_bin > /dev/null 2>&1
-        mv dalfox /usr/local/bin/dalfox && chmod +x /usr/local/bin/dalfox && rm -f $dalfox_bin > /dev/null 2>&1
+        mv dalfox /usr/local/bin/dalfox && chmod +x /usr/local/bin/dalfox && rm -f /tmp/$dalfox_bin > /dev/null 2>&1
         which dalfox 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $dalfox_Ver 在 /usr/local/bin/ 目录下,直接输入 dalfox 即可使用" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 JNDI-Injection-Exploit =====================
+Pentest_JNDI-Injection-Exploit_Install(){
+
+    name="JNDI-Injection-Exploit"
+    dir="$P_Dir/JNDI-Injection-Exploit"
+
+    if test -e $dir/JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -f JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy2}https://github.com/welk1n/JNDI-Injection-Exploit/releases/download/v1.0/JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar > /dev/null 2>&1 || Echo_ERROR2
+        if test -e $dir/JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar
+        then
+            Echo_INFOR "已安装 $name 在 $dir 目录下"
+        else
+            Echo_ERROR3
+        fi
     fi
 
 }
@@ -4822,6 +4845,8 @@ kali_Tools(){
     Pentest_nali_Install
     echo -e "\033[1;33m\n>> 正在安装 dalfox\n\033[0m"
     Pentest_dalfox_Install
+    echo -e "\033[1;33m\n>> 正在安装 JNDI-Injection-Exploit\n\033[0m"
+    Pentest_JNDI-Injection-Exploit_Install
 
 }
 
