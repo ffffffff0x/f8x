@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.3 Dev(Beta2)"
+F8x_Version="1.5.4 Dev"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.2"
@@ -61,8 +61,8 @@ Nuclei_Ver="v2.3.8"
 Nuclei_Install="nuclei_2.3.8_linux_amd64.tar.gz"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.0.0"
-Terraform_bin="terraform_1.0.0_linux_amd64.zip"
+Terraform_Ver="1.0.2"
+Terraform_bin="terraform_1.0.2_linux_amd64.zip"
 CrossC2_Ver="v2.2.4"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
@@ -83,8 +83,8 @@ fzf_Ver="0.27.2"
 fzf_bin="fzf-0.27.2-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.8"
 subfinder_bin="subfinder_2.4.8_linux_amd64.tar.gz"
-httpx_Ver="v1.0.9"
-httpx_bin="httpx_1.0.9_linux_amd64.tar.gz"
+httpx_Ver="v1.1.0"
+httpx_bin="httpx_1.1.0_linux_amd64.tar.gz"
 mapcidr_Ver="v0.0.7"
 mapcidr_bin="mapcidr_0.0.7_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
@@ -103,9 +103,11 @@ anew_Ver="1.0.0"
 anew_bin="anew_v1.0.0-snapshot_Linux_x86_64.tar.gz"
 nali_Ver="v0.2.4"
 nali_bin="nali-linux-amd64-v0.2.4.gz"
-dalfox_Ver="v2.3.7"
-dalfox_bin="dalfox_2.3.7_linux_amd64.tar.gz"
+dalfox_Ver="v2.4.5"
+dalfox_bin="dalfox_2.4.5_linux_amd64.tar.gz"
 DomainSplit_Ver="1.0"
+Platypus_Ver="v1.4.3"
+Platypus_bin="Platypus_linux_amd64"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -290,7 +292,7 @@ Echo_ERROR2(){
 
 Echo_ERROR3(){
 
-    Echo_ERROR "$name 安装失败,请查看日志 /tmp/f8x_error.log"
+    Echo_ERROR "$name 安装失败"
 
 }
 
@@ -1349,7 +1351,7 @@ Go_Install(){
         esac
 
         ln -s /usr/local/go/bin/go /usr/bin/go 1> /dev/null 2>> /tmp/f8x_error.log
-        Echo_INFOR "$(go version)" || Echo_ERROR "Golang 安装失败,请查看日志 /tmp/f8x_error.log"
+        Echo_INFOR "$(go version)" || Echo_ERROR "Golang 安装失败"
         rm -f ${T_Dir:?}/${Go_Bin} > /dev/null 2>&1
     fi
 
@@ -1694,7 +1696,7 @@ Pentest_ncat_Install(){
                 Rm_Lock
                 Install_Switch "ncat"
                 Echo_INFOR "到这一步若长时间无反应,请手动按一下回车"
-                update-alternatives --set nc /usr/bin/ncat >/dev/null 2>&1 && Echo_INFOR "已配置默认 nc 为 /usr/bin/ncat" || Echo_ERROR "设置默认 nc 为 /usr/bin/ncat 失败,请查看日志 /tmp/f8x_error.log"
+                update-alternatives --set nc /usr/bin/ncat >/dev/null 2>&1 && Echo_INFOR "已配置默认 nc 为 /usr/bin/ncat" || Echo_ERROR "设置默认 nc 为 /usr/bin/ncat 失败"
             fi
 
             ;;
@@ -1755,6 +1757,7 @@ Pentest_SecretFinder_Install(){
 
 }
 
+# 依赖库报错,默认不安装
 # ===================== 安装 WebAliveScan =====================
 Pentest_WebAliveScan_Install(){
 
@@ -1766,7 +1769,7 @@ Pentest_WebAliveScan_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         $Porxy_OK git clone ${GitPorxy}https://github.com/broken5/WebAliveScan.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "已安装依赖模块" || ( Echo_ERROR "安装依赖模块失败,请查看日志 /tmp/f8x_error.log" && rm -rf $P_Dir/WebAliveScan )
+        pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "已安装依赖模块" || ( Echo_ERROR "安装依赖模块失败" && rm -rf $P_Dir/WebAliveScan )
         Install_Switch4 "gevent"
         python3 webscan.py --help > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $P_Dir/WebAliveScan 目录下" || Echo_ERROR "$name 安装失败"
     fi
@@ -1879,7 +1882,7 @@ Pentest_CobaltStrike_Install(){
         rm -f cobaltstrike.store > /dev/null 2>&1
 
         /usr/local/java/$jdk_Version/bin/keytool -keystore ./cobaltstrike.store -storepass sUp3r@dm1n -keypass sUp3r@dm1n -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log || keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  1> /dev/null 2>> /tmp/f8x_error.log
-        Echo_INFOR "已将 $CS_Version 部署在 $P_Dir/$CS_Version 目录下" || Echo_ERROR "部署 $name 环境失败,请查看日志 /tmp/f8x_error.log"
+        Echo_INFOR "已将 $CS_Version 部署在 $P_Dir/$CS_Version 目录下" || Echo_ERROR "部署 $name 环境失败"
     fi
 
     if test -e $P_Dir/$CS_Version/genCrossC2.Linux
@@ -1935,11 +1938,12 @@ Pentest_Sqlmap_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         Echo_ALERT "正在下载 Sqlmap (70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK git clone ${GitPorxy}https://github.com/sqlmapproject/sqlmap $dir > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && Echo_INFOR "已安装 Sqlmap$(python3 sqlmap.py --version) 在 $P_Dir/sqlmap 目录下" || Echo_ERROR "安装 $name 失败,请查看日志 /tmp/f8x_error.log"
+        cd $dir && Echo_INFOR "已安装 Sqlmap$(python3 sqlmap.py --version) 在 $P_Dir/sqlmap 目录下" || Echo_ERROR "安装 $name 失败"
     fi
 
 }
 
+# 不友好的 wiki 和使用帮助
 # ===================== 安装 RustScan =====================
 Pentest_RustScan_Install(){
 
@@ -1971,6 +1975,7 @@ Pentest_RustScan_Install(){
 
 }
 
+# 使用较少,默认不安装
 # ===================== 安装 WAFW00F =====================
 Pentest_WAFW00F_Install(){
 
@@ -1984,7 +1989,7 @@ Pentest_WAFW00F_Install(){
         Echo_ALERT "WAFW00F 已安装"
     else
         rm -rf $dir && $Porxy_OK git clone ${GitPorxy}https://github.com/EnableSecurity/wafw00f $dir > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败,请查看日志 /tmp/f8x_error.log"
+        cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "已安装 $name" || Echo_ERROR "安装 $name 失败"
     fi
 
 }
@@ -2081,14 +2086,14 @@ Pentest_Nuclei_Install(){
         Echo_ALERT "Nuclei 已安装"
     else
         cd /tmp && rm -f $Nuclei_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$Nuclei_Install 失败,请查看日志 /tmp/f8x_error.log"
+        tar -zxvf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$Nuclei_Install 失败"
         mv --force nuclei /usr/local/bin/ && chmod +x /usr/local/bin/nuclei && rm -f /tmp/$Nuclei_Install > /dev/null 2>&1
         nuclei -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $Nuclei_Ver 在 /usr/local/bin/ 目录下,直接输入 nuclei 即可使用" || Echo_ERROR3
 
         if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
         then
             echo -e "\033[1;33m\n>> 正在更新 Nuclei 扫描规则\n\033[0m"
-            cd $P_Dir && $Porxy_OK nuclei -update-templates > /dev/null 2>&1 && Echo_INFOR "已更新 nuclei-templates 列表 " || Echo_ERROR "nuclei-templates 列表更新失败,请查看日志 /tmp/f8x_error.log"
+            cd $P_Dir && $Porxy_OK nuclei -update-templates > /dev/null 2>&1 && Echo_INFOR "已更新 nuclei-templates 列表 " || Echo_ERROR "nuclei-templates 列表更新失败"
         fi
 
     fi
@@ -2235,6 +2240,7 @@ Pentest_commix_Install(){
 
 }
 
+# git clone 时间过长,默认不安装
 # ===================== 安装 exploitdb 库 =====================
 Pentest_exploitdb_Install(){
 
@@ -2340,8 +2346,8 @@ Pentest_mitmproxy_Install(){
             cd /tmp && rm -f $mitmproxy_bin > /dev/null 2>&1 && $Porxy_OK wget -O $mitmproxy_bin https://snapshots.mitmproxy.org/$mitmproxy_Ver/$mitmproxy_bin > /dev/null 2>&1 || Echo_ERROR2
             tar -zxvf $mitmproxy_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$mitmproxy_bin 失败,请查看日志 /tmp/f8x_error.log"
             mv --force mitmproxy /usr/local/bin/ && chmod +x /usr/local/bin/mitmproxy && rm -f /tmp/$mitmproxy_bin > /dev/null 2>&1 && Echo_INFOR "已安装 $name $mitmproxy_Ver 在 /usr/local/bin/ 目录下,直接输入 mitmproxy 即可使用" || Echo_ERROR3
-            mv --force mitmdump /usr/local/bin/ && chmod +x /usr/local/bin/mitmdump && Echo_INFOR "已安装 mitmdump 在 /usr/local/bin/ 目录下,直接输入 mitmdump 即可使用" || Echo_ERROR "mitmdump 安装失败,请查看日志 /tmp/f8x_error.log"
-            mv --force mitmweb /usr/local/bin/ && chmod +x /usr/local/bin/mitmweb && Echo_INFOR "已安装 mitmweb 在 /usr/local/bin/ 目录下,直接输入 mitmweb 即可使用" || Echo_ERROR "mitmweb 安装失败,请查看日志 /tmp/f8x_error.log"
+            mv --force mitmdump /usr/local/bin/ && chmod +x /usr/local/bin/mitmdump && Echo_INFOR "已安装 mitmdump 在 /usr/local/bin/ 目录下,直接输入 mitmdump 即可使用" || Echo_ERROR "mitmdump 安装失败"
+            mv --force mitmweb /usr/local/bin/ && chmod +x /usr/local/bin/mitmweb && Echo_INFOR "已安装 mitmweb 在 /usr/local/bin/ 目录下,直接输入 mitmweb 即可使用" || Echo_ERROR "mitmweb 安装失败"
         fi
     fi
 
@@ -2667,6 +2673,7 @@ Pentest_shiro-exploit_Install(){
 
 }
 
+# jitpack.io 经常下载失败
 # ===================== 安装 ysoserial =====================
 Pentest_ysoserial_Install(){
 
@@ -2751,6 +2758,7 @@ Pentest_testssl_Install(){
 
 }
 
+# 实际使用较少默认不安装
 # ===================== 安装 MassBleed =====================
 Pentest_MassBleed_Install(){
 
@@ -2874,13 +2882,60 @@ Pentest_DomainSplit_Install(){
 
 }
 
+# ===================== 安装 Platypus =====================
+Pentest_Platypus_Install(){
+
+    name="Platypus"
+    which Platypus 1> /dev/null 2>> /tmp/f8x_error.log
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        cd /tmp && rm -f ${Platypus_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/WangYihang/Platypus/releases/download/${Platypus_Ver}/${Platypus_bin} > /dev/null 2>&1 || Echo_ERROR2
+        mv ${Platypus_bin} /usr/local/bin/Platypus && chmod +x /usr/local/bin/Platypus
+        which Platypus 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name ${Platypus_Ver} 在 /usr/local/bin/ 目录下,直接输入 Platypus 即可使用" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== 安装 Neo-reGeorg =====================
+Pentest_Neo-reGeorg_Install(){
+
+    name="Neo-reGeorg"
+    dir="$P_Dir/Neo-reGeorg"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/L-codes/Neo-reGeorg.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+    fi
+
+}
+
+# ===================== 安装 AppInfoScanner =====================
+Pentest_AppInfoScanner_Install(){
+
+    name="AppInfoScanner"
+    dir="$P_Dir/AppInfoScanner"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/kelvinBen/AppInfoScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        cd $dir && python3 -m pip install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== 安装 unyaffs =====================
 unyaffs_Install(){
 
     name="unyaffs"
 
     cd $T_Dir && rm -f unyaffs > /dev/null 2>&1 && $Porxy_OK wget -O unyaffs ${GitPorxy2}https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unyaffs/unyaffs > /dev/null 2>&1 || Echo_ERROR2
-    mv --force unyaffs /usr/local/bin/ && chmod +x /usr/local/bin/unyaffs && Echo_INFOR "已安装 unyaffs 在 /usr/local/bin/ 目录下" || Echo_ERROR "unyaffs 安装失败,请查看日志 /tmp/f8x_error.log"
+    mv --force unyaffs /usr/local/bin/ && chmod +x /usr/local/bin/unyaffs && Echo_INFOR "已安装 unyaffs 在 /usr/local/bin/ 目录下" || Echo_ERROR "unyaffs 安装失败"
 
 }
 
@@ -2945,7 +3000,7 @@ Secure_shellpub_Install(){
         Echo_ALERT "河马 webshell 查杀工具已下载在 $T_Dir/hm"
     else
         mkdir -p $T_Dir/hm && cd $_ && $Porxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 > /dev/null 2>&1 && Echo_INFOR "已下载河马 webshell 查杀工具" || Echo_ERROR "河马 webshell 查杀工具下载失败"
-        tar zxvf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && rm -f hm-linux.tgz > /dev/null 2>&1 && Echo_INFOR "已安装河马 webshell 查杀工具在 $T_Dir/hm 目录下" || Echo_ERROR "安装河马 webshell 查杀工具失败,请查看日志 /tmp/f8x_error.log"
+        tar zxvf hm-linux.tgz 1> /dev/null 2>> /tmp/f8x_error.log && rm -f hm-linux.tgz > /dev/null 2>&1 && Echo_INFOR "已安装河马 webshell 查杀工具在 $T_Dir/hm 目录下" || Echo_ERROR "安装河马 webshell 查杀工具失败"
     fi
 
 }
@@ -3354,7 +3409,7 @@ lt_Install(){
     Docker_Install
 
     echo -e "\033[1;33m\n>> 正在部署 LogonTracer 环境\n\033[0m"
-    docker pull jpcertcc/docker-logontracer && Echo_INFOR "已拉取最新版 LogonTracer 镜像, 请通过下列命令运行:\ndocker run --name logontracer --detach -p 7474:7474 -p 7687:7687 -p 8080:8080 -e LTHOSTNAME=[IP_Address] jpcertcc/docker-logontracer\n\n-browser access：http://[IP_Address]:8080/" || Echo_ERROR "部署 LogonTracer 环境失败,请查看日志 /tmp/f8x_error.log"
+    docker pull jpcertcc/docker-logontracer && Echo_INFOR "已拉取最新版 LogonTracer 镜像, 请通过下列命令运行:\ndocker run --name logontracer --detach -p 7474:7474 -p 7687:7687 -p 8080:8080 -e LTHOSTNAME=[IP_Address] jpcertcc/docker-logontracer\n\n-browser access：http://[IP_Address]:8080/" || Echo_ERROR "部署 LogonTracer 环境失败"
 
 }
 
@@ -3766,7 +3821,7 @@ nn_Install(){
         cd /tmp && $Porxy_OK wget https://nodejs.org/dist/$node_Ver/$node_bin > /dev/null 2>&1 && Echo_INFOR "已下载 $node_bin " || Echo_ERROR "$node_bin 下载失败! 请检查 proxychains4 配置的代理服务器是否可用"
         mkdir /usr/local/nodejs/ && tar -C /usr/local/nodejs -xvJf $node_bin > /dev/null 2>&1 && rm $node_bin
         ln -s /usr/local/nodejs/$node_Dir/bin/node /usr/local/bin/node && Echo_INFOR "已安装 nodejs" || Echo_ERROR "安装 nodejs 失败!"
-        ln -s /usr/local/nodejs/$node_Dir/bin/npm /usr/local/bin/npm && Echo_INFOR "已安装 npm" || Echo_ERROR "安装 npm 失败,请查看日志 /tmp/f8x_error.log"
+        ln -s /usr/local/nodejs/$node_Dir/bin/npm /usr/local/bin/npm && Echo_INFOR "已安装 npm" || Echo_ERROR "安装 npm 失败"
     fi
 
 }
@@ -4214,7 +4269,7 @@ ssr_Install(){
     else
         cd $T_Dir && rm -f ssr.zip > /dev/null 2>&1 && wget https://cdn.jsdelivr.net/gh/No-Github/Archive@1.0.3/ssr/ssr.zip > /dev/null 2>&1
         unzip -P 123456 ssr.zip 1> /dev/null 2>> /tmp/f8x_error.log && rm -f ssr.zip > /dev/null 2>&1
-        cd shadowsocksr && bash initcfg.sh && Echo_INFOR "已部署 ssr" || Echo_ERROR "部署 ssr 失败,请查看日志 /tmp/f8x_error.log"
+        cd shadowsocksr && bash initcfg.sh && Echo_INFOR "已部署 ssr" || Echo_ERROR "部署 ssr 失败"
         Echo_INFOR "运行下列命令修改 ssr 配置:\n\033[0m\033[1;32mvim $T_Dir/shadowsocksr/user-config.json\n"
         Echo_INFOR "运行下列命令开启 ssr 服务:\n\033[0m\033[1;32mcd $T_Dir/shadowsocksr/shadowsocks/ && python local.py"
     fi
@@ -4370,10 +4425,10 @@ System_info(){
     df_b3=$(df -h|sed 1d|awk '{print $1}'|sed -n 3p)
     df_b4=$(df -h|sed 1d|awk '{print $1}'|sed -n 4p)
 
-    if [ $df_a1 -gt 69 ];then Echo_ERROR "$DAY $df_b1 使用量接近 70% !!!!!"; fi
-    if [ $df_a2 -gt 69 ];then Echo_ERROR "$DAY $df_b2 使用量接近 70% !!!!!"; fi
-    if [ $df_a3 -gt 69 ];then Echo_ERROR "$DAY $df_b3 使用量接近 70% !!!!!"; fi
-    if [ $df_a4 -gt 69 ];then Echo_ERROR "$DAY $df_b4 使用量接近 70% !!!!!"; fi
+    if [ $df_a1 -gt 69 ];then Echo_ERROR "$DAY $df_b1 使用量超过 70% !!!!!"; fi
+    if [ $df_a2 -gt 69 ];then Echo_ERROR "$DAY $df_b2 使用量超过 70% !!!!!"; fi
+    if [ $df_a3 -gt 69 ];then Echo_ERROR "$DAY $df_b3 使用量超过 70% !!!!!"; fi
+    if [ $df_a4 -gt 69 ];then Echo_ERROR "$DAY $df_b4 使用量超过 70% !!!!!"; fi
 
     echo -e "" && Echo_INFOR "可用块设备信息:"
     lsblk
@@ -4805,8 +4860,6 @@ kali_Tools(){
     Pentest_mapcidr_Install
     echo -e "\033[1;33m\n>> 正在安装 apktool\n\033[0m"
     Pentest_apktool_Install
-    #echo -e "\033[1;33m\n>> 正在安装 DarkEye\n\033[0m"
-    #Pentest_DarkEye_Install
     echo -e "\033[1;33m\n>> 正在安装 OpenRedireX\n\033[0m"
     Pentest_OpenRedireX_Install
     echo -e "\033[1;33m\n>> 正在安装 gau\n\033[0m"
@@ -4847,6 +4900,12 @@ kali_Tools(){
     Pentest_dalfox_Install
     echo -e "\033[1;33m\n>> 正在安装 JNDI-Injection-Exploit\n\033[0m"
     Pentest_JNDI-Injection-Exploit_Install
+    echo -e "\033[1;33m\n>> 正在安装 Platypus\n\033[0m"
+    Pentest_Platypus_Install
+    echo -e "\033[1;33m\n>> 正在安装 Neo-reGeorg\n\033[0m"
+    Pentest_Neo-reGeorg_Install
+    echo -e "\033[1;33m\n>> 正在安装 AppInfoScanner\n\033[0m"
+    Pentest_AppInfoScanner_Install
 
 }
 
