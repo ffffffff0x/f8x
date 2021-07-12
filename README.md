@@ -50,7 +50,8 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 **f8x-dev**
 
 部分开发环境安装独立到该脚本
-- wget : `wget -O f8x https://f8x.io/dev`
+- wget : `wget -O f8x-dev https://f8x.io/dev`
+- curl : `curl -o f8x-dev https://f8x.io/dev`
 
 ---
 
