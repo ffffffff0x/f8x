@@ -2,6 +2,17 @@
 
 ## Details
 
+### [1.5.4] - 2021-07-12
+
+**功能添加**
+
+* -k 选项添加 JNDI-Injection-Exploit、Platypus、Neo-reGeorg、AppInfoScanner
+
+**功能修改**
+
+* 修复 naabu 的安装问题
+* 优化 -info 的信息输出
+
 ### [1.5.3] - 2021-06-02
 
 **功能添加**
