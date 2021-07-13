@@ -57,8 +57,8 @@ fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.3.8"
-Nuclei_Install="nuclei_2.3.8_linux_amd64.tar.gz"
+Nuclei_Ver="v2.4.0"
+Nuclei_Install="nuclei_2.4.0_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
 Terraform_Ver="1.0.2"
@@ -2086,7 +2086,7 @@ Pentest_Nuclei_Install(){
         Echo_ALERT "Nuclei 已安装"
     else
         cd /tmp && rm -f $Nuclei_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$Nuclei_Install 失败"
+        unzip $Nuclei_Install 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$Nuclei_Install 失败"
         mv --force nuclei /usr/local/bin/ && chmod +x /usr/local/bin/nuclei && rm -f /tmp/$Nuclei_Install > /dev/null 2>&1
         nuclei -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $Nuclei_Ver 在 /usr/local/bin/ 目录下,直接输入 nuclei 即可使用" || Echo_ERROR3
 
