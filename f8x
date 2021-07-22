@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.4 Dev(Beta1)"
+F8x_Version="1.5.4 Dev(Beta2)"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.2"
@@ -61,8 +61,8 @@ Nuclei_Ver="v2.4.0"
 Nuclei_Install="nuclei_2.4.0_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.0.2"
-Terraform_bin="terraform_1.0.2_linux_amd64.zip"
+Terraform_Ver="1.0.3"
+Terraform_bin="terraform_1.0.3_linux_amd64.zip"
 CrossC2_Ver="v2.2.4"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
@@ -103,10 +103,10 @@ anew_Ver="1.0.0"
 anew_bin="anew_v1.0.0-snapshot_Linux_x86_64.tar.gz"
 nali_Ver="v0.2.4"
 nali_bin="nali-linux-amd64-v0.2.4.gz"
-dalfox_Ver="v2.4.5"
-dalfox_bin="dalfox_2.4.5_linux_amd64.tar.gz"
+dalfox_Ver="v2.4.6"
+dalfox_bin="dalfox_2.4.6_linux_amd64.tar.gz"
 DomainSplit_Ver="1.0"
-Platypus_Ver="v1.4.3"
+Platypus_Ver="v1.5.0"
 Platypus_bin="Platypus_linux_amd64"
 
 # ===================== 基础文件夹 =====================
@@ -981,7 +981,7 @@ Update_EPEL_Mirror(){
     then
         Echo_INFOR "EPEL 源已安装"
     else
-        Echo_ALERT "未监测到 epel 源,正在自动安装"
+        Echo_ALERT "未检测到 epel 源,正在自动安装"
         Rm_Lock
         case $Linux_Version_Num in
             8)
