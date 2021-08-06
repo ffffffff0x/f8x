@@ -51,7 +51,9 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 部分开发环境安装独立到该脚本
 - wget : `wget -O f8x-dev https://f8x.io/dev`
+  - `bash f8x-dev -help`
 - curl : `curl -o f8x-dev https://f8x.io/dev`
+  - `bash f8x-dev -help`
 
 ---
 
@@ -64,12 +66,18 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -p 选项安装代理环境        (警告:国外云服务器上不要用,会降速)
 - 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
 - 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
+  - -k -a 信息收集、扫描、爆破、抓取
+  - -k -b 漏洞利用
+  - -k -c 后渗透、C2
+  - -k -d 其他
+  - -k -e 功能重叠或长期不维护
 - 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
 - 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli 等辅助工具)
 - 使用 -cloud 选项安装云应用      (Terraform、Serverless Framework、wrangler)
 - 使用 -all 选项全自动化部署      (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 **2. 开发环境**
+- 使用 -lua 选项安装 lua 环境
 - 使用 -nn 选项安装 npm & NodeJs 环境
 - 使用 -oraclejdk 选项安装 oraclejdk 环境
 - 使用 -openjdk 选项安装 openjdk 环境
@@ -126,6 +134,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -rmlock 选项运行除锁模块
 - 使用 -swap 选项配置 swap 分区
 - 使用 -update 选项更新 f8x 工具
+- 使用 -mock 选项单独调用某个模块
 
 ---
 
