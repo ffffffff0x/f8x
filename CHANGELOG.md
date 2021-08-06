@@ -2,6 +2,27 @@
 
 ## Details
 
+### [1.5.5] - 2021-8-6
+
+**功能添加**
+
+* -k 支持部分软件安装
+  * -k -a 信息收集、扫描、爆破、抓取
+  * -k -b 漏洞利用
+  * -k -c 后渗透、C2
+  * -k -d 其他
+  * -k -e 功能重叠或长期不维护
+* -k 选项添加 Amass、gobuster、dirsearch、Gopherus、gron、unfurl、qsreplace、Interlace、SecLists、jaeles、subjs、assetfinder、hakrawler [#8](https://github.com/ffffffff0x/f8x/issues/8)
+* 添加 -lua 选项
+* 添加 -mock 选项
+
+**功能修改**
+
+* 修复 nuclei 的安装问题
+* 修复 remote-method-guesser 的安装问题
+
+本次添加内容较多,若存在问题,欢迎在 issue 反馈
+
 ### [1.5.4] - 2021-07-12
 
 **功能添加**
