@@ -25,9 +25,135 @@ tomcat8_dir="apache-tomcat-8.5.68"
 tomcat9_bin="apache-tomcat-9.0.50.tar.gz"
 tomcat9_dir="apache-tomcat-9.0.50"
 
+redis3_bin="redis-3.2.0.tar.gz"
+redis3_dir="redis-3.2.0"
+redis4_bin="redis-4.0.11.tar.gz"
+redis4_dir="redis-4.0.11"
+redis5_bin="redis-5.0.12.tar.gz"
+redis5_dir="redis-5.0.12"
+
 Main
 Base_Dir
 Pentest_Base_Install > /dev/null 2>&1
+
+# ===================== 部署 mariadb =====================
+mariadb_Install(){
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Install_Switch "mariadb"
+            Install_Switch "mariadb-server"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "mariadb-client"
+            Install_Switch "mariadb-server"
+            ;;
+        *) ;;
+    esac
+
+    systemctl start mariadb
+    mysql_secure_installation
+
+    mysqlcmd="select User, host from mysql.user;
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'toor' WITH GRANT OPTION;"
+
+    mysql -u root -p -e "${mysqlcmd}"
+    Echo_INFOR "默认 root/toor 只建议开发环境部署"
+
+}
+
+# ===================== 部署 redis3 =====================
+redis3_Install(){
+
+    Install_Switch "tcl"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Install_Switch "tcl-devel"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "tcl-dev"
+            ;;
+        *) ;;
+    esac
+
+    name="redis3"
+
+    cd /tmp && rm -rf $redis3_bin && wget http://download.redis.io/releases/$redis3_bin
+    tar -zxf $redis3_bin
+    cd $redis3_dir
+    make test
+    make MALLOC=libc
+    make install
+    cd /tmp && rm -rf $redis3_bin
+
+    mv --force /tmp/$redis3_dir/redis.conf /etc/redis.conf
+    Echo_INFOR "redis.conf 已复制到 /etc/redis.conf"
+    rm -rf $redis3_dir
+
+}
+
+# ===================== 部署 redis4 =====================
+redis4_Install(){
+
+    Install_Switch "tcl"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Install_Switch "tcl-devel"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "tcl-dev"
+            ;;
+        *) ;;
+    esac
+
+    name="redis4"
+
+    cd /tmp && rm -rf $redis4_bin && wget http://download.redis.io/releases/$redis4_bin
+    tar -zxf $redis4_bin
+    cd $redis4_dir
+    make test
+    make MALLOC=libc
+    make install
+    cd /tmp && rm -rf $redis4_bin
+
+    mv --force /tmp/$redis4_dir/redis.conf /etc/redis.conf
+    Echo_INFOR "redis.conf 已复制到 /etc/redis.conf"
+    rm -rf $redis4_dir
+
+}
+
+# ===================== 部署 redis5 =====================
+redis5_Install(){
+
+    Install_Switch "tcl"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Install_Switch "tcl-devel"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "tcl-dev"
+            ;;
+        *) ;;
+    esac
+
+    name="redis5"
+
+    cd /tmp && rm -rf $redis5_bin && wget http://download.redis.io/releases/$redis5_bin
+    tar -zxf $redis5_bin
+    cd $redis5_dir
+    make test
+    make MALLOC=libc
+    make install
+    cd /tmp && rm -rf $redis5_bin
+
+    mv --force /tmp/$redis5_dir/redis.conf /etc/redis.conf
+    Echo_INFOR "redis.conf 已复制到 /etc/redis.conf"
+    rm -rf $redis5_dir
+
+}
 
 # ===================== 部署 tomcat6 =====================
 
@@ -138,15 +264,43 @@ tomcat9_Install(){
 
 Help_Info(){
 
-    echo -e "\033[1;34m1. tomcat 安装 \033[0m"
+    echo -e "\033[1;34m1. redis 安装 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis3\033[0m \033[0;34m安装 redis3 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis4\033[0m \033[0;34m安装 redis4 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis5\033[0m \033[0;34m安装 redis5 环境 \033[0m"
+    echo -e ""
+    echo -e "\033[1;34m2. tomcat 安装 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat6\033[0m \033[0;34m安装 tomcat6 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat7\033[0m \033[0;34m安装 tomcat7 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat8\033[0m \033[0;34m安装 tomcat8 环境 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat9\033[0m \033[0;34m安装 tomcat9 环境 \033[0m"
+    echo -e ""
+    echo -e "\033[1;34m3. 数据库安装 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-mariadb\033[0m \033[0;34m安装 mariadb 数据库(包管理器方式) \033[0m"
 
 }
 
 case "$1" in
+    -mariadb)
+        Porxy_Switch
+        Base_Check
+        mariadb_Install
+        ;;
+    -redis3)
+        Porxy_Switch
+        Base_Check
+        redis3_Install
+        ;;
+    -redis4)
+        Porxy_Switch
+        Base_Check
+        redis4_Install
+        ;;
+    -redis5)
+        Porxy_Switch
+        Base_Check
+        redis5_Install
+        ;;
     -tomcat6)
         Porxy_Switch
         Base_Check
