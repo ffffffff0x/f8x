@@ -84,7 +84,7 @@ fzf_bin="fzf-0.27.2-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.8"
 subfinder_bin="subfinder_2.4.8_linux_amd64.tar.gz"
 httpx_Ver="v1.1.1"
-httpx_bin="httpx_1.1.1_linux_amd64.tar.gz"
+httpx_bin="httpx_1.1.1_linux_amd64.zip"
 mapcidr_Ver="v0.0.8"
 mapcidr_bin="mapcidr_0.0.8_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
@@ -1974,9 +1974,10 @@ Pentest_httpx_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -f $httpx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/httpx/releases/download/$httpx_Ver/$httpx_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $httpx_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$httpx_bin 失败,请查看日志 /tmp/f8x_error.log"
-        mv --force httpx /usr/local/bin/httpx && chmod +x /usr/local/bin/httpx && rm -f /tmp/$httpx_bin > /dev/null 2>&1
+        mkdir -p /tmp/httpx && cd /tmp/httpx && rm -f ${httpx_bin} && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/httpx/releases/download/$httpx_Ver/$httpx_bin > /dev/null 2>&1 || Echo_ERROR2
+        unzip $httpx_bin 1> /dev/null 2>> /tmp/f8x_error.log || Echo_ERROR "解压 /tmp/$httpx_bin 失败,请查看日志 /tmp/f8x_error.log"
+        mv --force httpx /usr/local/bin/httpx && chmod +x /usr/local/bin/httpx
+        rm -rf /tmp/httpx
         httpx -version > /dev/null 2>&1 && Echo_INFOR "已安装 $name $httpx_Ver 在 /usr/local/bin/ 目录下,直接输入 httpx 即可使用" || Echo_ERROR3
     fi
 
