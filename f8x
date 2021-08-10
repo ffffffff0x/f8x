@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.5 Dev"
+F8x_Version="1.5.5 Dev(Beta1)"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.2"
@@ -57,8 +57,8 @@ fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.4.2"
-Nuclei_Install="nuclei_2.4.2_linux_amd64.zip"
+Nuclei_Ver="v2.4.3"
+Nuclei_Install="nuclei_2.4.3_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
 Terraform_Ver="1.0.4"
@@ -83,8 +83,8 @@ fzf_Ver="0.27.2"
 fzf_bin="fzf-0.27.2-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.8"
 subfinder_bin="subfinder_2.4.8_linux_amd64.tar.gz"
-httpx_Ver="v1.1.0"
-httpx_bin="httpx_1.1.0_linux_amd64.tar.gz"
+httpx_Ver="v1.1.1"
+httpx_bin="httpx_1.1.1_linux_amd64.tar.gz"
 mapcidr_Ver="v0.0.8"
 mapcidr_bin="mapcidr_0.0.8_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
@@ -120,8 +120,8 @@ jq_ver="jq-1.6"
 gospider_Ver="v1.1.6"
 gospider_bin="gospider_v1.1.6_linux_x86_64.zip"
 gospider_dir="gospider_v1.1.6_linux_x86_64"
-interactsh_Ver="v0.0.3"
-interactsh_bin="interactsh_0.0.3_linux_amd64.tar.gz"
+interactsh_Ver="v0.0.4"
+interactsh_bin="interactsh_0.0.4_linux_amd64.tar.gz"
 gron_Ver="v0.6.1"
 gron_bin="gron-linux-amd64-0.6.1.tgz"
 unfurl_Ver="v0.2.0"
@@ -135,6 +135,8 @@ subjs_Ver="v1.0.1"
 subjs_bin="subjs_1.0.1_linux_amd64.tar.gz"
 assetfinder_Ver="v0.1.1"
 assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
+ttyd_Ver="1.6.3"
+ttyd_bin="ttyd.x86_64"
 
 # ===================== 基础文件夹 =====================
 Base_Dir(){
@@ -761,6 +763,15 @@ EOF
 
 }
 
+# 本地测试使用,默认不会修改为该配置
+Update_kali_Mirror2(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+EOF
+
+}
+
 # ===================== 修改 Ubuntu apt 源 =====================
 Update_Ubuntu2104_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak 1> /dev/null 2>> /tmp/f8x_error.log
@@ -919,7 +930,6 @@ deb http://mirrors.aliyun.com/ubuntu/ precise-backports main restricted universe
 EOF
 
 }
-
 
 # ===================== 修改 Debian11 apt 源 =====================
 Update_Debian11_Mirror(){
@@ -3771,6 +3781,24 @@ starship_Install(){
 
 }
 
+# ===================== 安装 ttyd =====================
+ttyd_Install(){
+
+    name="ttyd"
+
+    which ttyd 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        $Porxy_OK wget -O /usr/local/bin/ttyd ${GitPorxy}https://github.com/tsl0922/ttyd/releases/download/$ttyd_Ver/$ttyd_bin > /dev/null 2>&1 || Echo_ERROR2
+        chmod +x /usr/local/bin/ttyd
+        which ttyd 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 $name $ttyd_Ver 在 /usr/local/bin/ 目录下,直接输入 ttyd 即可使用" || Echo_ERROR3
+    fi
+
+}
+
 # -vol
 Volatility_Install(){
 
@@ -4297,6 +4325,7 @@ lua_Install(){
     fi
 
     echo -e "\033[1;33m\n>> 安装常用库\n\033[0m"
+    Rm_Lock
     Install_Switch "luarocks"
     luarocks install luafilesystem
 
@@ -5209,7 +5238,7 @@ jq_Install(){
         Echo_ALERT "$name 已安装"
     else
 
-        mkdir -p /tmp/jq && cd /tmp/jq && rm -rf ${jq_bin} && rm -rf ${jq_dir} && $Porxy_OK wget ${GitPorxy}https://github.com/stedolan/jq/releases/download/${jq_ver}/${jq_bin} > /dev/null 2>&1 || Echo_ERROR "${jq_bin} 下载失败"
+        mkdir -p /tmp/jq && cd /tmp/jq && rm -rf ${jq_bin} && rm -rf ${jq_dir} && $Porxy_OK wget -O ${jq_bin} ${GitPorxy}https://github.com/stedolan/jq/releases/download/${jq_ver}/${jq_bin} > /dev/null 2>&1 || Echo_ERROR "${jq_bin} 下载失败"
         unzip ${jq_bin} > /dev/null 2>&1
         cd ${jq_dir} && ./configure --prefix=/usr/local && make && make install
         ls -s /opt/jq/${jq_dir}/jq /usr/local/bin/jq
@@ -5285,6 +5314,8 @@ Fun_Tools(){
     # sharry_Install
     echo -e "\033[1;33m\n>> 正在安装 starship\n\033[0m"
     starship_Install
+    echo -e "\033[1;33m\n>> 正在安装 ttyd\n\033[0m"
+    ttyd_Install
 
 }
 
