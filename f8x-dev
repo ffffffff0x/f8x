@@ -32,33 +32,62 @@ redis4_dir="redis-4.0.11"
 redis5_bin="redis-5.0.12.tar.gz"
 redis5_dir="redis-5.0.12"
 
+sharry_Ver="v1.9.0"
+sharry_File="sharry-restserver-1.9.0.zip"
+
 Main
 Base_Dir
 Pentest_Base_Install > /dev/null 2>&1
 
+# ===================== 安装 sharry =====================
+sharry_Install(){
+
+    name="sharry"
+
+    if test -d $T_Dir/$name
+    then
+        Echo_ALERT "$name 已部署在 $T_Dir/$name ,运行以下命令开启服务:"
+    else
+        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget ${GitPorxy}https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $sharry_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
+    fi
+
+    Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver ,该服务需要 jdk 环境,若未安装可运行 -oraclejdk 选项进行安装"
+
+}
+
 # ===================== 部署 mariadb =====================
 mariadb_Install(){
 
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            Install_Switch "mariadb"
-            Install_Switch "mariadb-server"
-            ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            Install_Switch "mariadb-client"
-            Install_Switch "mariadb-server"
-            ;;
-        *) ;;
-    esac
+    name="mariadb"
+    which mysql 1> /dev/null 2>> /tmp/f8x_error.log
 
-    systemctl start mariadb
-    mysql_secure_installation
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已存在"
+        Echo_INFOR "systemctl start mariadb"
+    else
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                Install_Switch "mariadb"
+                Install_Switch "mariadb-server"
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                Install_Switch "mariadb-client"
+                Install_Switch "mariadb-server"
+                ;;
+            *) ;;
+        esac
 
-    mysqlcmd="select User, host from mysql.user;
-    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'toor' WITH GRANT OPTION;"
+        systemctl start mariadb
+        mysql_secure_installation
 
-    mysql -u root -p -e "${mysqlcmd}"
-    Echo_INFOR "默认 root/toor 只建议开发环境部署"
+        mysqlcmd="select User, host from mysql.user;
+        GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'toor' WITH GRANT OPTION;"
+
+        mysql -u root -p -e "${mysqlcmd}"
+        Echo_INFOR "默认 root/toor 只建议开发环境部署"
+    fi
 
 }
 
@@ -277,10 +306,18 @@ Help_Info(){
     echo -e ""
     echo -e "\033[1;34m3. 数据库安装 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-mariadb\033[0m \033[0;34m安装 mariadb 数据库(包管理器方式) \033[0m"
+    echo -e ""
+    echo -e "\033[1;34m4. 杂项安装 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-sharry\033[0m \033[0;34m安装 sharry\033[0m"
 
 }
 
 case "$1" in
+    -sharry)
+        Porxy_Switch
+        Base_Check
+        sharry_Install
+        ;;
     -mariadb)
         Porxy_Switch
         Base_Check
