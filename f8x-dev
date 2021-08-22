@@ -2,9 +2,6 @@
 
 # ===================== 基础变量设置 =====================
 
-export GitPorxy="https://github.ffffffff0x.com/"
-export GitPorxy2="https://cdn.ffffffff0x.com/?durl="
-
 if test -e /usr/local/bin/f8x
 then
     sleep 0.001
@@ -35,6 +32,9 @@ redis5_dir="redis-5.0.12"
 sharry_Ver="v1.9.0"
 sharry_File="sharry-restserver-1.9.0.zip"
 
+memcached160_bin="memcached-1.6.0.tar.gz"
+memcached160_dir="memcached-1.6.0"
+
 Main
 Base_Dir
 Pentest_Base_Install > /dev/null 2>&1
@@ -48,8 +48,8 @@ sharry_Install(){
     then
         Echo_ALERT "$name 已部署在 $T_Dir/$name ,运行以下命令开启服务:"
     else
-        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget ${GitPorxy}https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
-        unzip $sharry_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
+        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $sharry_File > /dev/null 2>&1 && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
     fi
 
     Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver ,该服务需要 jdk 环境,若未安装可运行 -oraclejdk 选项进行安装"
@@ -60,13 +60,14 @@ sharry_Install(){
 mariadb_Install(){
 
     name="mariadb"
-    which mysql 1> /dev/null 2>> /tmp/f8x_error.log
+    which mysql > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name 已存在"
         Echo_INFOR "systemctl start mariadb"
     else
+        Rm_Lock
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
                 Install_Switch "mariadb"
@@ -86,14 +87,93 @@ mariadb_Install(){
         GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'toor' WITH GRANT OPTION;"
 
         mysql -u root -p -e "${mysqlcmd}"
-        Echo_INFOR "默认 root/toor 只建议开发环境部署"
+        Echo_INFOR "默认 root/toor 为了安全性,请不要在公网环境部署"
     fi
+
+}
+
+# ===================== mongodb 服务 =====================
+mongodb_Install(){
+
+    docker search mongodb   # 从Docker Hub查找镜像
+    docker pull mongo       # 从镜像仓库中拉取或者更新指定镜像
+    docker images mongo     # 列出本地主机上的mongo镜像
+    docker run -d -p 27017:27017 --name mongodb mongo  # 创建一个新的容器并运行一个命令
+    docker ps  # 显示正在运行的容器
+
+    Echo_ALERT "注意此时已经监听 0.0.0.0:27017,为了安全性,请不要在公网环境部署"
+
+}
+
+# ===================== memcached =====================
+memcached_Install(){
+
+    Rm_Lock
+    Install_Switch "memcached"
+
+}
+
+# ===================== memcached 1.6.0 服务 =====================
+memcached160_Install(){
+
+    mkdir -p /tmp/memcached160 && cd /tmp/memcached160
+    ls -al /usr/local/libevent-2.1.12-stable/lib | grep libevent > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_INFOR "已安装 libevent 2.1.12"
+    else
+        $Porxy_OK wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf libevent-2.1.12-stable.tar.gz > /dev/null 2>&1
+        cd libevent-2.1.12-stable
+        ./configure --prefix=/usr/local/libevent-2.1.12-stable
+        make && make install && Echo_INFOR "已安装 libevent 2.1.12"
+    fi
+    cd /tmp/memcached160 && rm -rf $memcached160_bin && $Porxy_OK wget https://www.memcached.org/files/$memcached160_bin > /dev/null 2>&1 || Echo_ERROR2
+    tar -zxvf $memcached160_bin > /dev/null 2>&1
+    cd $memcached160_dir && ./configure --prefix=/usr/local/memcached --with-libevent=/usr/local/libevent-2.1.12-stable/
+    make && make test
+    make install && Echo_INFOR "已安装 memcached 1.6.0"
+    rm -rf /tmp/memcached160
+    # 写了一大堆编译还报错,干脆直接软件包安装得了 :)
+
+}
+
+# ===================== postgresql =====================
+postgresql_Install(){
+
+    Rm_Lock
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            Install_Switch "postgresql-server"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "postgresql"
+            Install_Switch "postgresql-contrib"
+            Install_Switch "sudo"
+            ;;
+        *) ;;
+    esac
+
+    sudo -u postgres psql -c "SELECT version();" 2>> /tmp/f8x_error.log
+
+    Echo_INFOR "如果要允许外连访问,请参考以下步骤"
+    Echo_INFOR "1. 配置监听所有端口,修改 /etc/postgresql/11/main/postgresql.conf ,添加 listen_addresses = '*'"
+    Echo_INFOR "2. 配置允许外部连接,修改 /etc/postgresql/11/main/pg_hba.conf ,添加 host    all all 0.0.0.0/0   md5"
+    Echo_INFOR "3. 记得开启防火墙端口和重启服务, service postgresql restart"
+
+    echo -e ""
+    Echo_INFOR "默认为 postgres 用户,无密码,外连需要设置密码"
+    Echo_INFOR "sudo -u postgres psql postgres"
+    Echo_INFOR "\password postgres"
+    Echo_INFOR "\q"
 
 }
 
 # ===================== 部署 redis3 =====================
 redis3_Install(){
 
+    Rm_Lock
     Install_Switch "tcl"
 
     case $Linux_Version in
@@ -108,8 +188,8 @@ redis3_Install(){
 
     name="redis3"
 
-    cd /tmp && rm -rf $redis3_bin && wget http://download.redis.io/releases/$redis3_bin
-    tar -zxf $redis3_bin
+    cd /tmp && rm -rf $redis3_bin && $Porxy_OK wget http://download.redis.io/releases/$redis3_bin > /dev/null 2>&1 || Echo_ERROR2
+    tar -zxf $redis3_bin > /dev/null 2>&1
     cd $redis3_dir
     make test
     make MALLOC=libc
@@ -139,8 +219,8 @@ redis4_Install(){
 
     name="redis4"
 
-    cd /tmp && rm -rf $redis4_bin && wget http://download.redis.io/releases/$redis4_bin
-    tar -zxf $redis4_bin
+    cd /tmp && rm -rf $redis4_bin && $Porxy_OK wget http://download.redis.io/releases/$redis4_bin > /dev/null 2>&1 || Echo_ERROR2
+    tar -zxf $redis4_bin > /dev/null 2>&1
     cd $redis4_dir
     make test
     make MALLOC=libc
@@ -156,6 +236,7 @@ redis4_Install(){
 # ===================== 部署 redis5 =====================
 redis5_Install(){
 
+    Rm_Lock
     Install_Switch "tcl"
 
     case $Linux_Version in
@@ -170,8 +251,8 @@ redis5_Install(){
 
     name="redis5"
 
-    cd /tmp && rm -rf $redis5_bin && wget http://download.redis.io/releases/$redis5_bin
-    tar -zxf $redis5_bin
+    cd /tmp && rm -rf $redis5_bin && $Porxy_OK wget http://download.redis.io/releases/$redis5_bin > /dev/null 2>&1 || Echo_ERROR2
+    tar -zxf $redis5_bin > /dev/null 2>&1
     cd $redis5_dir
     make test
     make MALLOC=libc
@@ -197,8 +278,8 @@ tomcat6_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $T_Dir && rm -rf $tomcat6_bin && wget https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/$tomcat6_bin
-        tar -zxf $tomcat6_bin -C /usr/local/ && rm -rf $tomcat6_bin
+        cd $T_Dir && rm -rf $tomcat6_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/$tomcat6_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxf $tomcat6_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat6_bin
 
     fi
 
@@ -224,8 +305,8 @@ tomcat7_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $T_Dir && rm -rf $tomcat7_bin && wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/$tomcat7_bin
-        tar -zxf $tomcat7_bin -C /usr/local/ && rm -rf $tomcat7_bin
+        cd $T_Dir && rm -rf $tomcat7_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/$tomcat7_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxf $tomcat7_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat7_bin
     fi
 
     rm -rf /usr/local/tomcat
@@ -250,8 +331,8 @@ tomcat8_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $T_Dir && rm -rf $tomcat8_bin && wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.68/bin/$tomcat8_bin
-        tar -zxf $tomcat8_bin -C /usr/local/ && rm -rf $tomcat8_bin
+        cd $T_Dir && rm -rf $tomcat8_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.68/bin/$tomcat8_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxf $tomcat8_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat8_bin
 
     fi
 
@@ -277,8 +358,8 @@ tomcat9_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $T_Dir && rm -rf $tomcat9_bin && wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.50/bin/
-        tar -zxf $tomcat9_bin -C /usr/local/ && rm -rf $tomcat9_bin
+        cd $T_Dir && rm -rf $tomcat9_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.50/bin/ > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxf $tomcat9_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat9_bin
 
     fi
 
@@ -294,9 +375,9 @@ tomcat9_Install(){
 Help_Info(){
 
     echo -e "\033[1;34m1. redis 安装 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis3\033[0m \033[0;34m安装 redis3 环境 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis4\033[0m \033[0;34m安装 redis4 环境 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis5\033[0m \033[0;34m安装 redis5 环境 \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis3\033[0m \033[0;34m安装 redis3 环境(编译安装) \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis4\033[0m \033[0;34m安装 redis4 环境(编译安装) \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis5\033[0m \033[0;34m安装 redis5 环境(编译安装) \033[0m"
     echo -e ""
     echo -e "\033[1;34m2. tomcat 安装 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat6\033[0m \033[0;34m安装 tomcat6 环境 \033[0m"
@@ -306,6 +387,9 @@ Help_Info(){
     echo -e ""
     echo -e "\033[1;34m3. 数据库安装 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-mariadb\033[0m \033[0;34m安装 mariadb 数据库(包管理器方式) \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-memcached\033[0m \033[0;34m安装 memcached 数据库(包管理器方式) \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-mongodb\033[0m \033[0;34m34m安装 mongodb 数据库(docker服务) \033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-postgresql\033[0m \033[0;34m34m安装 postgresql 数据库(包管理器方式) \033[0m"
     echo -e ""
     echo -e "\033[1;34m4. 杂项安装 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-sharry\033[0m \033[0;34m安装 sharry\033[0m"
@@ -322,6 +406,21 @@ case "$1" in
         Porxy_Switch
         Base_Check
         mariadb_Install
+        ;;
+    -mongodb)
+        Base_Check
+        Docker_Check
+        mongodb_Install
+        ;;
+    -memcached)
+        Porxy_Switch
+        Base_Check
+        memcached_Install
+        ;;
+    -postgresql)
+        Porxy_Switch
+        Base_Check
+        postgresql_Install
         ;;
     -redis3)
         Porxy_Switch
