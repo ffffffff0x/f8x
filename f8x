@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.5 Dev(Beta1)"
+F8x_Version="1.5.5 Dev(fix1)"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.2"
@@ -39,8 +39,6 @@ frp_File="frp_0.36.1_linux_amd64.tar.gz"
 frp_Dir="frp_0.36.1_linux_amd64"
 nps_Ver="v0.26.10"
 nps_Install="linux_amd64_server.tar.gz"
-sharry_Ver="v1.8.0"
-sharry_File="sharry-restserver-1.8.0.zip"
 Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
 Ruby_Install=ruby-3.0.0.tar.gz
@@ -51,8 +49,8 @@ ksubdomain_Install="ksubdomain_linux.zip"
 Go_Bin=go1.15.6.linux-amd64.tar.gz
 xray_Ver="1.7.1"
 xray_File="xray_linux_amd64.zip"
-goby_Ver="Beta1.8.279"
-goby_File="goby-linux-x64-1.8.293.zip"
+goby_Ver="Beta1.8.298"
+goby_File="goby-linux-x64-1.8.298.zip"
 fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
@@ -61,9 +59,9 @@ Nuclei_Ver="v2.4.3"
 Nuclei_Install="nuclei_2.4.3_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.0.4"
-Terraform_bin="terraform_1.0.4_linux_amd64.zip"
-CrossC2_Ver="v2.2.4"
+Terraform_Ver="1.0.5"
+Terraform_bin="terraform_1.0.5_linux_amd64.zip"
+CrossC2_Ver="v2.2.5"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
 node_Dir="node-v14.16.0-linux-x64"
@@ -101,8 +99,8 @@ rmg_Ver="v3.3.0"
 rmg_bin="rmg-3.3.0-jar-with-dependencies.jar"
 anew_Ver="1.0.0"
 anew_bin="anew_v1.0.0-snapshot_Linux_x86_64.tar.gz"
-nali_Ver="v0.2.4"
-nali_bin="nali-linux-amd64-v0.2.4.gz"
+nali_Ver="v0.3.1"
+nali_bin="nali-linux-amd64-v0.3.1.gz"
 dalfox_Ver="v2.4.8"
 dalfox_bin="dalfox_2.4.8_linux_amd64.tar.gz"
 DomainSplit_Ver="1.0"
@@ -320,6 +318,22 @@ GO_Check(){
     else
         Echo_ALERT "依赖项不通过,即将自动安装 go"
         Go_Install
+    fi
+
+}
+
+Docker_Check(){
+
+    Echo_INFOR "正在检测 Docker 可用性"
+    docker -v 1> /dev/null 2>> /tmp/f8x_error.log
+
+    if [ $? == 0 ]
+    then
+        Echo_INFOR "Docker 环境正常"
+        systemctl start docker > /dev/null 2>&1
+    else
+        Echo_ALERT "未检测到 Docker 环境,即将自动安装"
+        Docker_Install
     fi
 
 }
@@ -757,7 +771,7 @@ deb https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
 # deb-src https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
 deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
-deb http://http.kali.org/kali kali-rolling main non-free contrib
+# deb http://http.kali.org/kali kali-rolling main non-free contrib
 # deb-src http://http.kali.org/kali kali-rolling main non-free contrib
 EOF
 
@@ -1434,6 +1448,7 @@ Docker_Install(){
     if [ $? == 0 ]
     then
         Echo_ALERT "$name 环境已存在"
+        systemctl start docker > /dev/null 2>&1
     else
         Rm_Lock
         case $Linux_Version in
@@ -1496,14 +1511,6 @@ Docker_Install(){
     else
         pip3_Check
         Install_Switch4 "docker-compose"
-    fi
-
-    lazydocker -version 1> /dev/null 2>> /tmp/f8x_error.log
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "lazydocker 已安装"
-    else
-        ( cd /tmp && $Porxy_OK wget -O install_update_linux.sh https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh > /dev/null 2>&1 && $Porxy_OK bash install_update_linux.sh > /dev/null 2>&1 ) && Echo_INFOR "已安装 lazydocker,输入 lazydocker 即可使用" || Echo_ERROR "安装 lazydocker 失败"
     fi
 
 }
@@ -2560,6 +2567,22 @@ Pentest_redis-rogue-server_Install(){
 
 }
 
+# ===================== 安装 redis-rogue-server-win =====================
+Pentest_redis-rogue-server-win_Install(){
+
+    name="redis-rogue-server-win"
+    dir="$P_Dir/redis-rogue-server-win"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name 已下载在 $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/redis-rogue-server-win.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== 安装 redis-rce =====================
 Pentest_redis-rce_Install(){
 
@@ -2571,7 +2594,7 @@ Pentest_redis-rce_Install(){
         Echo_ALERT "$name 已下载在 $dir"
     else
         Install_Switch4 "six"
-        $Porxy_OK git clone ${GitPorxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
+        rm -rf $dir && $Porxy_OK git clone ${GitPorxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 && Echo_INFOR "已下载 $name" || Echo_ERROR2
         cd $dir && python3 redis-rce.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR3
         cp $P_Dir/redis-rogue-server/exp.so $dir && Echo_INFOR "已复制 exp.so 至 $dir 目录下"
     fi
@@ -3745,23 +3768,6 @@ filebrowser_Install(){
 
 }
 
-# ===================== 安装 sharry =====================
-sharry_Install(){
-
-    name="sharry"
-
-    if test -d $T_Dir/$name
-    then
-        Echo_ALERT "$name 已部署在 $T_Dir/$name ,运行以下命令开启服务:"
-    else
-        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget ${GitPorxy}https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
-        unzip $sharry_File 1> /dev/null 2>> /tmp/f8x_error.log && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
-    fi
-
-    Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver ,该服务需要 jdk 环境,若未安装可运行 -oraclejdk 选项进行安装"
-
-}
-
 # ===================== 安装 starship =====================
 starship_Install(){
 
@@ -3888,8 +3894,7 @@ volatility3_Install(){
 # -hfish
 hfish_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 hfish 环境\n\033[0m"
     docker pull imdevops/hfish && Echo_INFOR "已拉取最新版 hfish 镜像, 请通过下列命令运行:\ndocker run -d --name hfish -p 21:21 -p 2222:22 -p 23:23 -p 69:69 -p 3306:3306 -p 5900:5900 -p 6379:6379 -p 8080:8080 -p 8081:8081 -p 8989:8989 -p 9000:9000 -p 9001:9001 -p 9200:9200 -p 11211:11211 -e USERNAME=ffff1234SFG -e PASSWORD=ffff1234SFG --restart=always imdevops/hfish:latest\n\n-browser access：http://[IP_Address]:9001/\n-环境变量API_IP的值为 API 的 IP 地址加端口组成\n-默认帐号密码均为：ffff1234SFG 如需修改可以通过修改 -e USERNAME= -e PASSWORD= 环境变量进行修改\n-如需做数据持久化存储，可加参数 -v \$PWD:/opt 挂载数据卷到宿主机上，避免容器删除数据丢失" || Echo_ERROR "部署 hfish 环境失败,请查看日志 /tmp/f8x_error.log"
@@ -3899,8 +3904,7 @@ hfish_Install(){
 # -lt
 lt_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 LogonTracer 环境\n\033[0m"
     docker pull jpcertcc/docker-logontracer && Echo_INFOR "已拉取最新版 LogonTracer 镜像, 请通过下列命令运行:\ndocker run --name logontracer --detach -p 7474:7474 -p 7687:7687 -p 8080:8080 -e LTHOSTNAME=[IP_Address] jpcertcc/docker-logontracer\n\n-browser access：http://[IP_Address]:8080/" || Echo_ERROR "部署 LogonTracer 环境失败"
@@ -4377,8 +4381,7 @@ vulhub_Install(){
 # -vulfocus
 vulfocus_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 vulfocus 环境\n\033[0m"
     docker pull vulfocus/vulfocus:latest && Echo_INFOR "已拉取最新版 vulfocus 请通过下列命令运行:\ndocker run -d -p 80:80 -v /var/run/docker.sock:/var/run/docker.sock  -e VUL_IP=xxx.xxx.xxx.xxx vulfocus/vulfocus\n\n-v /var/run/docker.sock:/var/run/docker.sock 为 docker 交互连接。\n-e DOCKER_URL 为 Docker 连接方式，默认通过 unix://var/run/docker.sock 进行连接，也可以通过 tcp://xxx.xxx.xxx.xxx:2375 进行连接（必须开放 2375 端口）。\n-v /vulfocus-api/db.sqlite3:db.sqlite3 映射数据库为本地文件。\n-e VUL_IP=xxx.xxx.xxx.xxx 为 Docker 服务器 IP ，不能为 127.0.0.1。\n默认账户密码为 admin/admin。" || Echo_ERROR "部署 vulfocus 环境失败,请查看日志 /tmp/f8x_error.log"
@@ -4432,8 +4435,7 @@ Goby_Install(){
 # -awvs14
 awvs14_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 awvs14 环境\n\033[0m"
     docker pull secfa/docker-awvs && Echo_INFOR "已拉取最新版 awvs14 镜像, 请通过下列命令运行:\ndocker run -it -d -p 13443:3443 secfa/docker-awvs\n\n-awvs14 username: admin@admin.com\n-awvs14 password: Admin123\n-AWVS Version：14.2.210503151\n-browser access：https://127.0.0.1:13443/\n" || Echo_ERROR "部署 awvs14 环境失败"
@@ -4445,8 +4447,7 @@ awvs14_Install(){
 # -mobsf
 mobsf_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 MobSF 环境\n\033[0m"
     docker pull opensecurity/mobile-security-framework-mobsf && Echo_INFOR "已拉取最新版 MobSF 镜像, 请通过下列命令运行:\n$Porxy_OK docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest\n\n-browser access：http://127.0.0.1:8000/" || Echo_ERROR "部署 MobSF 环境失败"
@@ -4456,8 +4457,7 @@ mobsf_Install(){
 # -nodejsscan
 nodejsscan_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 nodejsscan 环境\n\033[0m"
     docker pull opensecurity/nodejsscan:latest && Echo_INFOR "已拉取最新版 nodejsscan 镜像, 请通过下列命令运行:\ndocker run -it -p 9090:9090 opensecurity/nodejsscan:latest\n\n-browser access：http://127.0.0.1:9090/" || Echo_ERROR "部署 nodejsscan 环境失败"
@@ -4467,8 +4467,7 @@ nodejsscan_Install(){
 # -viper
 viper_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 Viper 环境\033[0m"
 
@@ -4509,8 +4508,7 @@ EOF
 # -arl
 arl_Install(){
 
-    echo -e "\033[1;33m\n>> 正在检测 Docker 可用性\n\033[0m"
-    Docker_Install
+    Docker_Check
 
     echo -e "\033[1;33m\n>> 正在部署 ARL 环境\n\033[0m"
     docker pull tophant/arl && Echo_INFOR "已拉取最新版 ARL 镜像 " || Echo_ERROR "部署 ARL 环境失败"
@@ -5311,8 +5309,6 @@ Fun_Tools(){
     aria2_Install
     echo -e "\033[1;33m\n>> 正在安装 filebrowser\n\033[0m"
     filebrowser_Install
-    # echo -e "\033[1;33m\n>> 正在安装 sharry\n\033[0m"
-    # sharry_Install
     echo -e "\033[1;33m\n>> 正在安装 starship\n\033[0m"
     starship_Install
     echo -e "\033[1;33m\n>> 正在安装 ttyd\n\033[0m"
@@ -5454,6 +5450,8 @@ kali_Tools_TypeB(){
 
     # echo -e "\033[1;33m\n>> 正在安装 redis-rogue-server\n\033[0m"
     # Pentest_redis-rogue-server_Install
+    # echo -e "\033[1;33m\n>> 正在安装 redis-rogue-server-win\n\033[0m"
+    # Pentest_redis-rogue-server-win_Install
     # echo -e "\033[1;33m\n>> 正在安装 redis-rce\n\033[0m"
     # Pentest_redis-rce_Install
     # echo -e "\033[1;33m\n>> 正在安装 redis_lua_exploit\n\033[0m"
