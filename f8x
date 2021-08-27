@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.5 Dev(fix1)"
+F8x_Version="1.5.5 Dev(fix2)"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.2"
@@ -81,8 +81,8 @@ fzf_Ver="0.27.2"
 fzf_bin="fzf-0.27.2-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.8"
 subfinder_bin="subfinder_2.4.8_linux_amd64.tar.gz"
-httpx_Ver="v1.1.1"
-httpx_bin="httpx_1.1.1_linux_amd64.zip"
+httpx_Ver="v1.1.2"
+httpx_bin="httpx_1.1.2_linux_amd64.zip"
 mapcidr_Ver="v0.0.8"
 mapcidr_bin="mapcidr_0.0.8_linux_amd64.tar.gz"
 apktool_Ver="v2.5.0"
@@ -101,8 +101,8 @@ anew_Ver="1.0.0"
 anew_bin="anew_v1.0.0-snapshot_Linux_x86_64.tar.gz"
 nali_Ver="v0.3.1"
 nali_bin="nali-linux-amd64-v0.3.1.gz"
-dalfox_Ver="v2.4.8"
-dalfox_bin="dalfox_2.4.8_linux_amd64.tar.gz"
+dalfox_Ver="v2.4.9"
+dalfox_bin="dalfox_2.4.9_linux_amd64.tar.gz"
 DomainSplit_Ver="1.0"
 Platypus_Ver="v1.5.0"
 Platypus_bin="Platypus_linux_amd64"
@@ -1655,12 +1655,6 @@ Pentest_Misc_Install(){
             *"Kali"*)
                 Install_Switch "owasp-mantra-ff"
                 Install_Switch "powershell"
-
-                if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-                then
-                    $Porxy_OK gem install zsteg 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 zsteg" || Echo_ERROR "调用 gem 安装 zsteg 失败! 请运行 -ruby 选项安装 Ruby 环境"
-                fi
-
                 ;;
             *) ;;
         esac
@@ -5701,7 +5695,7 @@ Help(){
     echo -e "\033[1;37m|- 感谢 the-fog 在开发过程中对我的折磨 \033[0m"
     echo -e "\033[1;37m|- 感谢 xidaner 在开发过程给出的无用建议 \033[0m"
     echo -e "\033[1;37m|- 感谢 RyuZU 在旁边表演喷火 \033[0m"
-    echo -e "\033[1;37m|- ffffffff0x.com\033[0m"
+    echo -e "\033[1;37m|- create by ffffffff0x\033[0m"
     echo -e ""
 
 }
@@ -6041,12 +6035,12 @@ case "$1" in
         swap_setting
         ;;
     -update)
-
+        Porxy_Switch
         if test -e /usr/local/bin/f8x
         then
-            rm -f /usr/local/bin/f8x && curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+            rm -f /usr/local/bin/f8x && $Porxy_OK curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
         else
-            rm -f f8x && curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
+            rm -f f8x && $Porxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "更新成功" || Echo_ERROR "更新失败"
         fi
 
         ;;
