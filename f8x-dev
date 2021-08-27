@@ -286,9 +286,8 @@ tomcat6_Install(){
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat6_dir}/ /usr/local/tomcat
     Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
-
-    # catalina.sh version
-    # catalina.sh start
+    Echo_INFOR "catalina.sh version"
+    Echo_INFOR "catalina.sh start"
 
 }
 
@@ -312,9 +311,8 @@ tomcat7_Install(){
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat7_dir}/ /usr/local/tomcat
     Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
-
-    # catalina.sh version
-    # catalina.sh start
+    Echo_INFOR "catalina.sh version"
+    Echo_INFOR "catalina.sh start"
 
 }
 
@@ -339,9 +337,8 @@ tomcat8_Install(){
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat8_dir}/ /usr/local/tomcat
     Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
-
-    # catalina.sh version
-    # catalina.sh start
+    Echo_INFOR "catalina.sh version"
+    Echo_INFOR "catalina.sh start"
 
 }
 
@@ -358,7 +355,7 @@ tomcat9_Install(){
     then
         Echo_ALERT "$name 已下载在 $dir"
     else
-        cd $T_Dir && rm -rf $tomcat9_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.50/bin/ > /dev/null 2>&1 || Echo_ERROR2
+        cd $T_Dir && rm -rf $tomcat9_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.50/bin/$tomcat9_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat9_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat9_bin
 
     fi
@@ -366,9 +363,8 @@ tomcat9_Install(){
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat9_dir}/ /usr/local/tomcat
     Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
-
-    # catalina.sh version
-    # catalina.sh start
+    Echo_INFOR "catalina.sh version"
+    Echo_INFOR "catalina.sh start"
 
 }
 
