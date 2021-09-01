@@ -47,6 +47,14 @@ bash f8x -h
 
 f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种依赖而生的😁
 
+**f8x-ctf**
+
+该脚本用于部署CTF环境
+- wget : `wget -O f8x-dev https://f8x.io/ctf`
+  - `bash f8x-ctf -help`
+- curl : `curl -o f8x-dev https://f8x.io/ctf`
+  - `bash f8x-ctf -help`
+
 **f8x-dev**
 
 部分开发环境安装独立到该脚本
