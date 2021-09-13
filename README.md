@@ -41,7 +41,9 @@ bash f8x -h
 
 如果你希望方便点使用可以直接加到环境变量中
 - wget : `wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+  - `f8x -help`
 - curl : `curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+  - `f8x -help`
 
 **系统依赖**
 
@@ -49,7 +51,8 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **f8x-ctf**
 
-该脚本用于部署CTF环境
+该脚本用于部署 CTF 环境,目前着重与 MISC 的各类隐写、取证工具安装和配置
+
 - wget : `wget -O f8x-ctf https://f8x.io/ctf`
   - `bash f8x-ctf -help`
 - curl : `curl -o f8x-ctf https://f8x.io/ctf`
@@ -57,7 +60,8 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **f8x-dev**
 
-部分开发环境安装独立到该脚本
+部分开发环境安装独立到该脚本,如 tomcat、redis 不同版本的部署
+
 - wget : `wget -O f8x-dev https://f8x.io/dev`
   - `bash f8x-dev -help`
 - curl : `curl -o f8x-dev https://f8x.io/dev`
