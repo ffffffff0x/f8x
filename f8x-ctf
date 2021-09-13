@@ -11,7 +11,7 @@ fi
 
 . /usr/local/bin/f8x
 
-F8x_ctf_Version="0.0.1 Dev"
+F8x_ctf_Version="0.0.2 Dev"
 
 # ===================== 软件版本变量设置 =====================
 
@@ -21,7 +21,7 @@ Pentest_Base_Install > /dev/null 2>&1
 
 # ===================== CTF MISC 工具 =====================
 
-CTF_py3_module_install(){
+CTF_Misc_py3_module_install(){
 
     Install_Switch4 "base58"
     Install_Switch4 "uncompyle6"
@@ -32,12 +32,10 @@ CTF_py3_module_install(){
     Install_Switch4 "libnum"
     name="Pillow"
     python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "已安装 Pillow" || Echo_ERROR2
-    name="ciphey"
-    python3 -m pip install --upgrade ciphey > /dev/null 2>&1 && Echo_INFOR "已安装 ciphey" || Echo_ERROR "尝试使用 --ignore-installed 安装"
 
 }
 
-CTF_py2_module_install(){
+CTF_Misc_py2_module_install(){
 
     Install_Switch3 "pybase62"
     Install_Switch3 "base92"
@@ -55,6 +53,33 @@ CTF_stegoveritas_install(){
         pip3 install stegoveritas 1> /dev/null 2>> /tmp/f8x_error.log
         stegoveritas_install_deps > /dev/null 2>&1
         which stegoveritas > /dev/null 2>&1 && Echo_INFOR "已安装 stegoveritas" || Echo_ERROR2
+    fi
+
+}
+
+CTF_ImageMagick_install(){
+
+    name="ImageMagick"
+    which convert > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        Install_Switch "graphicsmagick-imagemagick-compat" && Echo_INFOR "已安装 graphicsmagick-imagemagick-compat" || Echo_ERROR2
+        Install_Switch "imagemagick" && Echo_INFOR "已安装 imagemagick" || Echo_ERROR2
+    fi
+
+}
+
+CTF_morse2ascii_install(){
+
+    name="morse2ascii"
+    which morse2ascii > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        Install_Switch "morse2ascii" && Echo_INFOR "已安装 imagemagick" || Echo_ERROR2
     fi
 
 }
@@ -228,7 +253,7 @@ CTF_cloacked-pixel_install(){
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Install_Switch "python-tk"
-                Install_Switch "python-backports.functools-lru-cache"
+                apt-get install -y python-backports.functools-lru-cache > /dev/null 2>&1
                 ;;
             *) ;;
         esac
@@ -252,6 +277,14 @@ CTF_crc32_install(){
         cd crc32
         python3 crc32.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR2
     fi
+
+}
+
+CTF_Crypto_py3_module_install(){
+
+    name="ciphey"
+    python3 -m pip install --upgrade ciphey > /dev/null 2>&1 && Echo_INFOR "已安装 ciphey" || Echo_ERROR "尝试使用 --ignore-installed 安装"
+    Install_Switch4 "xortool"
 
 }
 
@@ -283,13 +316,18 @@ CTF_firmware-mod-kit_Install(){
 
 CTF_MISC_tools(){
 
+    Rm_Lock
     echo -e "\033[1;33m\n>> 正在安装 hashcat、7z2hashcat\n\033[0m"
     Pentest_hashcat_Install
     echo -e "\033[1;33m\n>> 正在安装常见 py 模块\n\033[0m"
-    CTF_py3_module_install
-    CTF_py2_module_install
+    CTF_Misc_py3_module_install
+    CTF_Misc_py2_module_install
     echo -e "\033[1;33m\n>> 正在安装 stegoveritas\n\033[0m"
     CTF_stegoveritas_install
+    echo -e "\033[1;33m\n>> 正在安装 ImageMagick\n\033[0m"
+    CTF_ImageMagick_install
+    echo -e "\033[1;33m\n>> 正在安装 morse2ascii\n\033[0m"
+    CTF_morse2ascii_install
     echo -e "\033[1;33m\n>> 正在安装 exiftool\n\033[0m"
     CTF_exiftool_install
     echo -e "\033[1;33m\n>> 正在安装 steghide\n\033[0m"
@@ -321,8 +359,16 @@ CTF_MISC_tools(){
 
 }
 
+CTF_Crypto_tools(){
+
+    echo -e "\033[1;33m\n>> 正在安装常见 py 模块\n\033[0m"
+    CTF_Crypto_py3_module_install
+
+}
+
 CTF_IOT_tools(){
 
+    Rm_Lock
     binwalk_Install
     echo -e "\033[1;33m\n>> 正在安装 firmware-mod-kit\n\033[0m"
     CTF_firmware-mod-kit_Install
@@ -333,6 +379,7 @@ Help_Info(){
 
     echo -e "\033[1;34mCTF 安装 \033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-misc\033[0m \033[0;34m安装 MISC 环境\033[0m"
+    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-crypto\033[0m \033[0;34m安装 Crypto 环境\033[0m"
     echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-iot\033[0m \033[0;34m安装 IOT 环境\033[0m"
     echo -e ""
 
@@ -346,6 +393,14 @@ case "$1" in
         pip2_Check
         JDK_Check
         CTF_MISC_tools
+        ;;
+    -crypto)
+        Porxy_Switch
+        Base_Check
+        Py_Check
+        pip2_Check
+        JDK_Check
+        CTF_Crypto_tools
         ;;
     -iot)
         Porxy_Switch
