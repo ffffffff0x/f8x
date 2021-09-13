@@ -19,6 +19,10 @@ Main
 Base_Dir
 Pentest_Base_Install > /dev/null 2>&1
 
+bkcrack_Ver="v1.3.1"
+bkcrack_bin="bkcrack-1.3.1-Linux.tar.gz"
+bkcrack_dir="bkcrack-1.3.1-Linux"
+
 # ===================== CTF MISC 工具 =====================
 
 CTF_Misc_py3_module_install(){
@@ -171,6 +175,24 @@ CTF_outguess_install(){
         ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1
         which outguess > /dev/null 2>&1 && Echo_INFOR "已安装 outguess" || Echo_ERROR2
         rm -rf /tmp/outguess
+    fi
+
+}
+
+CTF_bkcrack_install(){
+
+    name="bkcrack"
+    which bkcrack > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name 已安装"
+    else
+        mkdir -p /tmp/bkcrack && cd /tmp/bkcrack
+        $Porxy_OK wget https://github.com/kimci86/bkcrack/releases/download/$bkcrack_Ver/$bkcrack_bin > /dev/null 2>&1
+        tar -zxvf $bkcrack_bin > /dev/null 2>&1
+        cp $bkcrack_dir/bkcrack /usr/sbin/bkcrack
+        which bkcrack > /dev/null 2>&1 && Echo_INFOR "已安装 bkcrack" || Echo_ERROR2
+        rm -rf /tmp/bkcrack
     fi
 
 }
@@ -340,10 +362,10 @@ CTF_MISC_tools(){
     CTF_zbarimg_install
     echo -e "\033[1;33m\n>> 正在安装 outguess\n\033[0m"
     CTF_outguess_install
+    echo -e "\033[1;33m\n>> 正在安装 bkcrack\n\033[0m"
+    CTF_bkcrack_install
     echo -e "\033[1;33m\n>> 正在安装 zsteg\n\033[0m"
     CTF_zsteg_install
-    echo -e "\033[1;33m\n>> 正在安装 outguess\n\033[0m"
-    CTF_outguess_install
     echo -e "\033[1;33m\n>> 正在安装 F5-steganography\n\033[0m"
     CTF_F5-steganography_install
     echo -e "\033[1;33m\n>> 正在安装 LSB-Steganography\n\033[0m"
