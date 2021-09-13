@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.5 Dev(fix6)"
+F8x_Version="1.5.6 Dev(Beta1)"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.4"
@@ -55,8 +55,8 @@ fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.5.0"
-Nuclei_Install="nuclei_2.5.0_linux_amd64.zip"
+Nuclei_Ver="v2.5.1"
+Nuclei_Install="nuclei_2.5.1_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_File="crawlergo_linux_amd64.zip"
 Terraform_Ver="1.0.6"
@@ -75,8 +75,8 @@ naabu_Ver="v2.0.4"
 naabu_bin="naabu_2.0.4_linux_amd64.zip"
 proxify_Ver="v0.0.4"
 proxify_bin="proxify_0.0.4_linux_amd64.tar.gz"
-clash_Ver="v1.5.0"
-clash_bin="clash-linux-amd64-v1.5.0.gz"
+clash_Ver="v1.7.0"
+clash_bin="clash-linux-amd64-v1.7.0.gz"
 fzf_Ver="0.27.2"
 fzf_bin="fzf-0.27.2-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.8"
