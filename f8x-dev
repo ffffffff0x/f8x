@@ -11,6 +11,8 @@ fi
 
 . /usr/local/bin/f8x
 
+F8x_dev_Version="0.0.1 Dev"
+
 # ===================== 软件版本变量设置 =====================
 
 tomcat6_bin="apache-tomcat-6.0.53.tar.gz"
