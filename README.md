@@ -183,25 +183,6 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 ---
 
-## TODO
-
-- [x] 将 xray 社区版集成到 -k 选项中
-- [x] 将 masscan 集成到 -k 选项中
-- [x] 生成错误日志
-- [x] vulfocus 安装选项
-- [x] 卸载国内vps云监控
-- [x] 参考 oneforall 丰富输出信息
-- [x] goby 安装选项
-- [x] awvs
-- [x] CS CrossC2 插件
-- [x] 增加虚拟内存
-- [x] tomcat 指定版本安装选项(使用 sdkman 进行安装)
-- [x] 完善 -info 选项内容
-
-> 完事了,摸鱼
-
----
-
 ## 开发日志
 
 [f8x 开发记录](https://r0fus0d.blog.ffffffff0x.com/post/f8x_development_record/)
