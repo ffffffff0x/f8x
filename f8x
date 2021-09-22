@@ -25,7 +25,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.6 Dev(Beta1)"
+F8x_Version="1.5.6 Dev(Beta2)"
 
 # ===================== 软件版本变量设置 =====================
 hashcat_Version="hashcat-6.2.4"
@@ -55,12 +55,13 @@ fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.5.1"
-Nuclei_Install="nuclei_2.5.1_linux_amd64.zip"
+Nuclei_Ver="v2.5.2"
+Nuclei_Install="nuclei_2.5.2_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
+crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.0.6"
-Terraform_bin="terraform_1.0.6_linux_amd64.zip"
+Terraform_Ver="1.0.7"
+Terraform_bin="terraform_1.0.7_linux_amd64.zip"
 CrossC2_Ver="v2.2.5"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
@@ -126,9 +127,9 @@ unfurl_Ver="v0.2.0"
 unfurl_Bin="unfurl-linux-amd64-0.2.0.tgz"
 qsreplace_Ver="v0.0.1"
 qsreplace_bin="qsreplace-linux-amd64-0.0.1.tgz"
-jaeles_Ver="beta-v0.16"
-jaeles_bin="jaeles-v0.16-linux-amd64.zip"
-jaeles_sbin="jaeles-v0.16-linux-amd64"
+jaeles_Ver="beta-v0.17"
+jaeles_bin="jaeles-v0.17-linux.zip"
+jaeles_sbin="jaeles-v0.17-linux"
 subjs_Ver="v1.0.1"
 subjs_bin="subjs_1.0.1_linux_amd64.tar.gz"
 assetfinder_Ver="v0.1.1"
@@ -1901,7 +1902,7 @@ Pentest_crawlergo_Install(){
     then
         Echo_ALERT "$name 已安装"
     else
-        cd /tmp && rm -f $crawlergo_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/0Kee-Team/crawlergo/releases/latest/download/$crawlergo_File > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $crawlergo_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/Qianlitp/crawlergo/releases/download/$crawlergo_Ver/$crawlergo_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $crawlergo_File > /dev/null 2>&1 || Echo_ERROR "解压 /tmp/$crawlergo_File 失败,请查看日志 /tmp/f8x_error.log"
         mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -f /tmp/$crawlergo_File > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 /usr/local/bin/ 目录下,直接输入 crawlergo 即可使用" || Echo_ERROR3
 
