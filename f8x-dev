@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-# ===================== 基础变量设置 =====================
+# ===================== Basic variable settings =====================
 
 if test -e /usr/local/bin/f8x
 then
     sleep 0.001
 else
-    curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 f8x 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x 安装失败\n\033[0m"
+    curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mInstalled f8x tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x installation failed\n\033[0m"
 fi
 
 . /usr/local/bin/f8x
 
-F8x_dev_Version="0.0.1 Dev"
+F8x_dev_Version="0.0.2 Dev"
 
-# ===================== 软件版本变量设置 =====================
+# ===================== Software version variable setting =====================
 
 tomcat6_bin="apache-tomcat-6.0.53.tar.gz"
 tomcat6_dir="apache-tomcat-6.0.53"
@@ -38,27 +38,26 @@ memcached160_bin="memcached-1.6.0.tar.gz"
 memcached160_dir="memcached-1.6.0"
 
 Main
-Base_Dir
 Pentest_Base_Install > /dev/null 2>&1
 
-# ===================== 安装 sharry =====================
+# ===================== Install sharry =====================
 sharry_Install(){
 
     name="sharry"
 
     if test -d $T_Dir/$name
     then
-        Echo_ALERT "$name 已部署在 $T_Dir/$name ,运行以下命令开启服务:"
+        Echo_ALERT "$name is already installed in $T_Dir/$name, run the following command to turn on the service:"
     else
-        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "正在下载 $name 安装包(70M),该步骤可能运行较长时间,请耐心等待" && $Porxy_OK wget https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
-        unzip $sharry_File > /dev/null 2>&1 && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "已安装 $name 服务,运行以下命令开启服务:" || Echo_ERROR "安装 $name 环境失败"
+        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "Downloading $name (~70M)" && $Porxy_OK wget https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $sharry_File > /dev/null 2>&1 && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "Successfully installed $name, run the following command to turn on the service:" || Echo_ERROR3
     fi
 
-    Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver ,该服务需要 jdk 环境,若未安装可运行 -oraclejdk 选项进行安装"
+    Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver , the service requires a jdk environment, if not installed you can run the -oraclejdk option to install it."
 
 }
 
-# ===================== 部署 mariadb =====================
+# ===================== Install mariadb =====================
 mariadb_Install(){
 
     name="mariadb"
@@ -66,7 +65,7 @@ mariadb_Install(){
 
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已存在"
+        Echo_ALERT "$name installed"
         Echo_INFOR "systemctl start mariadb"
     else
         Rm_Lock
@@ -89,12 +88,12 @@ mariadb_Install(){
         GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'toor' WITH GRANT OPTION;"
 
         mysql -u root -p -e "${mysqlcmd}"
-        Echo_INFOR "默认 root/toor 为了安全性,请不要在公网环境部署"
+        Echo_INFOR "Default root/toor For security reasons, please do not deploy in a public network environment."
     fi
 
 }
 
-# ===================== mongodb 服务 =====================
+# ===================== Install mongodb =====================
 mongodb_Install(){
 
     docker search mongodb   # 从Docker Hub查找镜像
@@ -103,11 +102,11 @@ mongodb_Install(){
     docker run -d -p 27017:27017 --name mongodb mongo  # 创建一个新的容器并运行一个命令
     docker ps  # 显示正在运行的容器
 
-    Echo_ALERT "注意此时已经监听 0.0.0.0:27017,为了安全性,请不要在公网环境部署"
+    Echo_ALERT "Already listening to 0.0.0.0:27017, please do not deploy in public network environment"
 
 }
 
-# ===================== memcached =====================
+# ===================== Install memcached =====================
 memcached_Install(){
 
     Rm_Lock
@@ -115,64 +114,64 @@ memcached_Install(){
 
 }
 
-# ===================== memcached 1.6.0 服务 =====================
+# ===================== Install memcached 1.6.0 =====================
 memcached160_Install(){
 
     mkdir -p /tmp/memcached160 && cd /tmp/memcached160
     ls -al /usr/local/libevent-2.1.12-stable/lib | grep libevent > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_INFOR "已安装 libevent 2.1.12"
+        Echo_INFOR "libevent 2.1.12 installed"
     else
         $Porxy_OK wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf libevent-2.1.12-stable.tar.gz > /dev/null 2>&1
         cd libevent-2.1.12-stable
         ./configure --prefix=/usr/local/libevent-2.1.12-stable
-        make && make install && Echo_INFOR "已安装 libevent 2.1.12"
+        make && make install && Echo_INFOR "Successfully installed libevent 2.1.12"
     fi
     cd /tmp/memcached160 && rm -rf $memcached160_bin && $Porxy_OK wget https://www.memcached.org/files/$memcached160_bin > /dev/null 2>&1 || Echo_ERROR2
     tar -zxvf $memcached160_bin > /dev/null 2>&1
     cd $memcached160_dir && ./configure --prefix=/usr/local/memcached --with-libevent=/usr/local/libevent-2.1.12-stable/
     make && make test
-    make install && Echo_INFOR "已安装 memcached 1.6.0"
+    make install && Echo_INFOR "Successfully installed memcached 1.6.0"
     rm -rf /tmp/memcached160
     # 写了一大堆编译还报错,干脆直接软件包安装得了 :)
 
 }
 
-# ===================== postgresql =====================
+# ===================== Install postgresql =====================
 postgresql_Install(){
 
-    Rm_Lock
+#    Rm_Lock
+#
+#    case $Linux_Version in
+#        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+#            Install_Switch "postgresql-server"
+#            ;;
+#        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+#            Install_Switch "postgresql"
+#            Install_Switch "postgresql-contrib"
+#            Install_Switch "sudo"
+#            ;;
+#        *) ;;
+#    esac
+#
+#    sudo -u postgres psql -c "SELECT version();" 2>> /tmp/f8x_error.log
 
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            Install_Switch "postgresql-server"
-            ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            Install_Switch "postgresql"
-            Install_Switch "postgresql-contrib"
-            Install_Switch "sudo"
-            ;;
-        *) ;;
-    esac
-
-    sudo -u postgres psql -c "SELECT version();" 2>> /tmp/f8x_error.log
-
-    Echo_INFOR "如果要允许外连访问,请参考以下步骤"
-    Echo_INFOR "1. 配置监听所有端口,修改 /etc/postgresql/11/main/postgresql.conf ,添加 listen_addresses = '*'"
-    Echo_INFOR "2. 配置允许外部连接,修改 /etc/postgresql/11/main/pg_hba.conf ,添加 host    all all 0.0.0.0/0   md5"
-    Echo_INFOR "3. 记得开启防火墙端口和重启服务, service postgresql restart"
+    Echo_INFOR "To allow external access, please refer to the following steps"
+    Echo_INFOR "1. Configure to listen on all ports, modify \033[1;33m/etc/postgresql/11/main/postgresql.conf\033[0m \033[1;32madd\033[0m \033[1;33mlisten_addresses = '*'\033[0m"
+    Echo_INFOR "2. Configure to allow external connections, modify \033[1;33m/etc/postgresql/11/main/pg_hba.conf\033[0m \033[1;32madd\033[0m \033[1;33mhost    all all 0.0.0.0/0   md5\033[0m"
+    Echo_INFOR "3. Open firewall ports and restart services : \033[1;33mservice postgresql restart\033[0m"
 
     echo -e ""
-    Echo_INFOR "默认为 postgres 用户,无密码,外连需要设置密码"
+    Echo_INFOR "Default is postgres user, no password, if external connection need to set password"
     Echo_INFOR "sudo -u postgres psql postgres"
     Echo_INFOR "\password postgres"
     Echo_INFOR "\q"
 
 }
 
-# ===================== 部署 redis3 =====================
+# ===================== Install redis3 =====================
 redis3_Install(){
 
     Rm_Lock
@@ -199,12 +198,12 @@ redis3_Install(){
     cd /tmp && rm -rf $redis3_bin
 
     mv --force /tmp/$redis3_dir/redis.conf /etc/redis.conf
-    Echo_INFOR "redis.conf 已复制到 /etc/redis.conf"
+    Echo_INFOR "redis.conf copied to /etc/redis.conf"
     rm -rf $redis3_dir
 
 }
 
-# ===================== 部署 redis4 =====================
+# ===================== Install redis4 =====================
 redis4_Install(){
 
     Install_Switch "tcl"
@@ -230,12 +229,12 @@ redis4_Install(){
     cd /tmp && rm -rf $redis4_bin
 
     mv --force /tmp/$redis4_dir/redis.conf /etc/redis.conf
-    Echo_INFOR "redis.conf 已复制到 /etc/redis.conf"
+    Echo_INFOR "redis.conf copied to /etc/redis.conf"
     rm -rf $redis4_dir
 
 }
 
-# ===================== 部署 redis5 =====================
+# ===================== Install redis5 =====================
 redis5_Install(){
 
     Rm_Lock
@@ -262,12 +261,12 @@ redis5_Install(){
     cd /tmp && rm -rf $redis5_bin
 
     mv --force /tmp/$redis5_dir/redis.conf /etc/redis.conf
-    Echo_INFOR "redis.conf 已复制到 /etc/redis.conf"
+    Echo_INFOR "redis.conf copied to /etc/redis.conf"
     rm -rf $redis5_dir
 
 }
 
-# ===================== 部署 tomcat6 =====================
+# ===================== Install tomcat6 =====================
 
 tomcat6_Install(){
 
@@ -278,7 +277,7 @@ tomcat6_Install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已下载在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         cd $T_Dir && rm -rf $tomcat6_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/$tomcat6_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat6_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat6_bin
@@ -287,13 +286,13 @@ tomcat6_Install(){
 
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat6_dir}/ /usr/local/tomcat
-    Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
+    Echo_INFOR "Manually run the following command:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
     Echo_INFOR "catalina.sh version"
     Echo_INFOR "catalina.sh start"
 
 }
 
-# ===================== 部署 tomcat7 =====================
+# ===================== Install tomcat7 =====================
 
 tomcat7_Install(){
 
@@ -304,7 +303,7 @@ tomcat7_Install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已下载在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         cd $T_Dir && rm -rf $tomcat7_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/$tomcat7_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat7_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat7_bin
@@ -312,13 +311,13 @@ tomcat7_Install(){
 
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat7_dir}/ /usr/local/tomcat
-    Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
+    Echo_INFOR "Manually run the following command:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
     Echo_INFOR "catalina.sh version"
     Echo_INFOR "catalina.sh start"
 
 }
 
-# ===================== 部署 tomcat8 =====================
+# ===================== Install tomcat8 =====================
 
 tomcat8_Install(){
 
@@ -329,7 +328,7 @@ tomcat8_Install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已下载在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         cd $T_Dir && rm -rf $tomcat8_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.68/bin/$tomcat8_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat8_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat8_bin
@@ -338,13 +337,13 @@ tomcat8_Install(){
 
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat8_dir}/ /usr/local/tomcat
-    Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
+    Echo_INFOR "Manually run the following command:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
     Echo_INFOR "catalina.sh version"
     Echo_INFOR "catalina.sh start"
 
 }
 
-# ===================== 部署 tomcat9 =====================
+# ===================== Install tomcat9 =====================
 
 tomcat9_Install(){
 
@@ -355,7 +354,7 @@ tomcat9_Install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已下载在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         cd $T_Dir && rm -rf $tomcat9_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.50/bin/$tomcat9_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat9_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat9_bin
@@ -364,7 +363,7 @@ tomcat9_Install(){
 
     rm -rf /usr/local/tomcat
     ln -s /usr/local/${tomcat9_dir}/ /usr/local/tomcat
-    Echo_INFOR "手动运行以下命令:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
+    Echo_INFOR "Manually run the following command:\nexport CATALINA_HOME=/usr/local/tomcat\nexport PATH=\$CATALINA_HOME/bin:\$PATH"
     Echo_INFOR "catalina.sh version"
     Echo_INFOR "catalina.sh start"
 
@@ -372,25 +371,24 @@ tomcat9_Install(){
 
 Help_Info(){
 
-    echo -e "\033[1;34m1. redis 安装 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis3\033[0m \033[0;34m安装 redis3 环境(编译安装) \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis4\033[0m \033[0;34m安装 redis4 环境(编译安装) \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-redis5\033[0m \033[0;34m安装 redis5 环境(编译安装) \033[0m"
     echo -e ""
-    echo -e "\033[1;34m2. tomcat 安装 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat6\033[0m \033[0;34m安装 tomcat6 环境 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat7\033[0m \033[0;34m安装 tomcat7 环境 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat8\033[0m \033[0;34m安装 tomcat8 环境 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-tomcat9\033[0m \033[0;34m安装 tomcat9 环境 \033[0m"
+    echo -e "\033[1;34mtomcat \033[0m"
+    echo -e "  \033[1;34m-tomcat6\033[0m \033[0;34m     : install tomcat6 \033[0m"
+    echo -e "  \033[1;34m-tomcat7\033[0m \033[0;34m     : install tomcat7 \033[0m"
+    echo -e "  \033[1;34m-tomcat8\033[0m \033[0;34m     : install tomcat8 \033[0m"
+    echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m     : install tomcat9 \033[0m"
     echo -e ""
-    echo -e "\033[1;34m3. 数据库安装 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-mariadb\033[0m \033[0;34m安装 mariadb 数据库(包管理器方式) \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-memcached\033[0m \033[0;34m安装 memcached 数据库(包管理器方式) \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-mongodb\033[0m \033[0;34m34m安装 mongodb 数据库(docker服务) \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-postgresql\033[0m \033[0;34m34m安装 postgresql 数据库(包管理器方式) \033[0m"
+    echo -e "\033[1;34mDatabase \033[0m"
+    echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m     : install mariadb   (Package Manager) \033[0m"
+    echo -e "  \033[1;34m-memcached\033[0m \033[0;34m   : install memcached (Package Manager) \033[0m"
+    echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m     : install mongodb   (docker) \033[0m"
+    echo -e "  \033[1;34m-postgresql\033[0m \033[0;34m  : install postgresql(Package Manager) \033[0m"
+    echo -e "  \033[1;34m-redis3\033[0m \033[0;34m      : install redis3 (Compile) \033[0m"
+    echo -e "  \033[1;34m-redis4\033[0m \033[0;34m      : install redis4 (Compile) \033[0m"
+    echo -e "  \033[1;34m-redis5\033[0m \033[0;34m      : install redis5 (Compile) \033[0m"
     echo -e ""
-    echo -e "\033[1;34m4. 杂项安装 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-sharry\033[0m \033[0;34m安装 sharry\033[0m"
+    echo -e "\033[1;34mOther \033[0m"
+    echo -e "  \033[1;34m-sharry\033[0m \033[0;34m      : install sharry\033[0m"
 
 }
 
