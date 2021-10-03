@@ -1,29 +1,28 @@
 #!/usr/bin/env bash
 
-# ===================== 基础变量设置 =====================
+# ===================== Basic variable settings =====================
 
 if test -e /usr/local/bin/f8x
 then
     sleep 0.001
 else
-    curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32m已安装 f8x 工具\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x 安装失败\n\033[0m"
+    curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mInstalled f8x tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x installation failed\n\033[0m"
 fi
 
 . /usr/local/bin/f8x
 
-F8x_ctf_Version="0.0.3 Dev"
+F8x_ctf_Version="0.0.4 Dev"
 
-# ===================== 软件版本变量设置 =====================
+# ===================== Software version variable setting =====================
 
 Main
-Base_Dir
 Pentest_Base_Install > /dev/null 2>&1
 
 bkcrack_Ver="v1.3.1"
 bkcrack_bin="bkcrack-1.3.1-Linux.tar.gz"
 bkcrack_dir="bkcrack-1.3.1-Linux"
 
-# ===================== CTF MISC 工具 =====================
+# ===================== CTF MISC Tool =====================
 
 CTF_Misc_install(){
 
@@ -40,7 +39,7 @@ CTF_Misc_py3_module_install(){
     Install_Switch4 "struct" > /dev/null 2>&1
     Install_Switch4 "libnum"
     name="Pillow"
-    python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "已安装 Pillow" || Echo_ERROR2
+    python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
 
 }
 
@@ -57,11 +56,11 @@ CTF_stegoveritas_install(){
     which stegoveritas > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
         pip3 install stegoveritas 1> /dev/null 2>> /tmp/f8x_error.log
         stegoveritas_install_deps > /dev/null 2>&1
-        which stegoveritas > /dev/null 2>&1 && Echo_INFOR "已安装 stegoveritas" || Echo_ERROR2
+        which stegoveritas > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
 }
@@ -72,10 +71,10 @@ CTF_ImageMagick_install(){
     which convert > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
-        Install_Switch "graphicsmagick-imagemagick-compat" && Echo_INFOR "已安装 graphicsmagick-imagemagick-compat" || Echo_ERROR2
-        Install_Switch "imagemagick" && Echo_INFOR "已安装 imagemagick" || Echo_ERROR2
+        Install_Switch "graphicsmagick-imagemagick-compat" && Echo_INFOR "Successfully installed graphicsmagick-imagemagick-compat" || Echo_ERROR2
+        Install_Switch "imagemagick" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
 }
@@ -86,9 +85,9 @@ CTF_morse2ascii_install(){
     which morse2ascii > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
-        Install_Switch "morse2ascii" && Echo_INFOR "已安装 imagemagick" || Echo_ERROR2
+        Install_Switch "morse2ascii" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
 }
@@ -99,9 +98,9 @@ CTF_exiftool_install(){
     which exiftool > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
-        Install_Switch "exiftool" && Echo_INFOR "已安装 exiftool" || Echo_ERROR2
+        Install_Switch "exiftool" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
 }
@@ -112,9 +111,9 @@ CTF_steghide_install(){
     which steghide > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
-        Install_Switch "steghide" && Echo_INFOR "已安装 steghide" || Echo_ERROR2
+        Install_Switch "steghide" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
 }
@@ -125,9 +124,9 @@ CTF_tshark_install(){
     which tshark > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
-        Install_Switch "tshark" && Echo_INFOR "已安装 tshark" || Echo_ERROR2
+        Install_Switch "tshark" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
 }
@@ -138,9 +137,9 @@ CTF_pdfinfo_install(){
     which pdfinfo > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
-        Install_Switch "poppler-utils" && Echo_INFOR "已安装 pdfinfo" || Echo_ERROR2
+        Install_Switch "poppler-utils" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
 }
@@ -151,14 +150,14 @@ CTF_zbarimg_install(){
     which zbarimg > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
-                Install_Switch "zbar" && Echo_INFOR "已安装 zbarimg" || Echo_ERROR2
+                Install_Switch "zbar" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                Install_Switch "zbar-tools" && Echo_INFOR "已安装 zbarimg" || Echo_ERROR2
+                Install_Switch "zbar-tools" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
                 ;;
             *) ;;
         esac
@@ -172,13 +171,13 @@ CTF_outguess_install(){
     which outguess > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/outguess && cd /tmp/outguess
         $Porxy_OK git clone https://github.com/crorvick/outguess > /dev/null 2>&1
         cd outguess
         ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1
-        which outguess > /dev/null 2>&1 && Echo_INFOR "已安装 outguess" || Echo_ERROR2
+        which outguess > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
         rm -rf /tmp/outguess
     fi
 
@@ -190,13 +189,13 @@ CTF_bkcrack_install(){
     which bkcrack > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/bkcrack && cd /tmp/bkcrack
         $Porxy_OK wget https://github.com/kimci86/bkcrack/releases/download/$bkcrack_Ver/$bkcrack_bin > /dev/null 2>&1
         tar -zxvf $bkcrack_bin > /dev/null 2>&1
         cp $bkcrack_dir/bkcrack /usr/sbin/bkcrack
-        which bkcrack > /dev/null 2>&1 && Echo_INFOR "已安装 bkcrack" || Echo_ERROR2
+        which bkcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
         rm -rf /tmp/bkcrack
     fi
 
@@ -208,9 +207,9 @@ CTF_zsteg_install(){
     which zsteg > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name 已安装"
+        Echo_ALERT "$name installed"
     else
-        $Porxy_OK gem install zsteg 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "已安装 zsteg" || Echo_ERROR "调用 gem 安装 zsteg 失败! 请运行 -ruby 选项安装 Ruby 环境"
+        $Porxy_OK gem install zsteg 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $name" || Echo_ERROR "Calling gem to install zsteg failed! Please run the -ruby option to install the Ruby environment"
     fi
 
 }
@@ -222,9 +221,9 @@ CTF_F5-steganography_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/matthewgao/F5-steganography.git > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone https://github.com/matthewgao/F5-steganography.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -236,12 +235,12 @@ CTF_LSB-Steganography_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Porxy_OK git clone https://github.com/RobinDavid/LSB-Steganography.git > /dev/null 2>&1
         cd LSB-Steganography
         pip3 install -r requirements.txt > /dev/null 2>&1
-        python3 LSBSteg.py --help > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR2
+        python3 LSBSteg.py --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -253,13 +252,13 @@ CTF_BlindWaterMark_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
 
         Install_Switch3 "opencv-python"
 
         cd $P_Dir && $Porxy_OK git clone https://github.com/chishaxie/BlindWaterMark.git > /dev/null 2>&1
-        cd $dir && python2 -m pip install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+        cd $dir && python2 -m pip install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -271,7 +270,7 @@ CTF_cloacked-pixel_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
 
         Install_Switch3 "numpy"
@@ -286,7 +285,7 @@ CTF_cloacked-pixel_install(){
         esac
 
         cd $P_Dir && $Porxy_OK git clone https://github.com/livz/cloacked-pixel.git > /dev/null 2>&1
-        cd $dir && python2 lsb.py -h && Echo_INFOR "已下载 $name 在 $dir 目录下" || Echo_ERROR2
+        cd $dir && python2 lsb.py -h && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -298,20 +297,21 @@ CTF_crc32_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Porxy_OK git clone https://github.com/theonlypwner/crc32.git > /dev/null 2>&1
         cd crc32
-        python3 crc32.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR2
+        python3 crc32.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
 
-# ===================== CTF CRYPTO 工具 =====================
+# ===================== CTF CRYPTO Tool =====================
 
 CTF_Crypto_install(){
 
     Install_Switch "python-gmpy2"
+    Install_Switch "python3-gmpy2"
 
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
@@ -340,6 +340,8 @@ CTF_Crypto_py3_module_install(){
     Install_Switch4 "owiener"
     Install_Switch4 "factordb-python"
     Install_Switch4 "sympy"
+    Install_Switch4 "Arithmetic"
+    Install_Switch4 "secret"
 
 }
 
@@ -347,6 +349,7 @@ CTF_Crypto_py2_module_install(){
 
     Install_Switch3 "libnum"
     Install_Switch3 "owiener"
+    Install_Switch3 "primefac"
 
 }
 
@@ -357,10 +360,10 @@ CTF_rsatool_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Porxy_OK git clone https://github.com/ius/rsatool.git > /dev/null 2>&1
-        cd rsatool && python3 rsatool.py -h > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR2
+        cd rsatool && python3 rsatool.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -372,7 +375,7 @@ CTF_RsaCtfTool_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         case $Linux_Version in
             *"Fedora"*)
@@ -389,12 +392,49 @@ CTF_RsaCtfTool_install(){
         cd $P_Dir && $Porxy_OK git clone https://github.com/Ganapati/RsaCtfTool.git > /dev/null 2>&1
         cd RsaCtfTool
         pip3 install -r "requirements.txt" > /dev/null 2>&1
-        pip3 install -r "optional-requirements.txt" > /dev/null 2>&1 && Echo_INFOR "已安装 $name 在 $dir 目录下" || Echo_ERROR2
+        pip3 install -r "optional-requirements.txt" > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
 
-# ===================== CTF IOT 工具 =====================
+CTF_CTF-RSA-tool_install(){
+
+    name="CTF-RSA-tool"
+    dir="$P_Dir/CTF-RSA-tool"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Porxy_OK git clone https://github.com/3summer/CTF-RSA-tool.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+    fi
+
+}
+
+CTF_rsa-wiener-attack_install(){
+
+    name="rsa-wiener-attack"
+    dir="$P_Dir/rsa-wiener-attack"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Porxy_OK git clone https://github.com/pablocelayes/rsa-wiener-attack.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+    fi
+
+}
+
+CTF_sagemath_install(){
+
+    name="sagemath"
+    dir="$P_Dir/sagemath"
+
+    # 这软件有点大,暂时留空
+
+}
+
+# ===================== CTF IOT Tool =====================
 
 CTF_firmware-mod-kit_Install(){
 
@@ -403,7 +443,7 @@ CTF_firmware-mod-kit_Install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name 已安装在 $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
 
         case $Linux_Version in
@@ -423,44 +463,44 @@ CTF_firmware-mod-kit_Install(){
 CTF_MISC_tools(){
 
     Rm_Lock
-    echo -e "\033[1;33m\n>> 正在安装一些杂项工具\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing some misc tools\n\033[0m"
     CTF_Misc_install
-    echo -e "\033[1;33m\n>> 正在安装常见 py 模块\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing common py modules\n\033[0m"
     CTF_Misc_py3_module_install
     CTF_Misc_py2_module_install
-    echo -e "\033[1;33m\n>> 正在安装 hashcat、7z2hashcat\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing hashcat、7z2hashcat\n\033[0m"
     Pentest_hashcat_Install
-    echo -e "\033[1;33m\n>> 正在安装 stegoveritas\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing stegoveritas\n\033[0m"
     CTF_stegoveritas_install
-    echo -e "\033[1;33m\n>> 正在安装 ImageMagick\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing ImageMagick\n\033[0m"
     CTF_ImageMagick_install
-    echo -e "\033[1;33m\n>> 正在安装 morse2ascii\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing morse2ascii\n\033[0m"
     CTF_morse2ascii_install
-    echo -e "\033[1;33m\n>> 正在安装 exiftool\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing exiftool\n\033[0m"
     CTF_exiftool_install
-    echo -e "\033[1;33m\n>> 正在安装 steghide\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing steghide\n\033[0m"
     CTF_steghide_install
-    echo -e "\033[1;33m\n>> 正在安装 tshark\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing tshark\n\033[0m"
     CTF_tshark_install
-    echo -e "\033[1;33m\n>> 正在安装 pdfinfo\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing pdfinfo\n\033[0m"
     CTF_pdfinfo_install
-    echo -e "\033[1;33m\n>> 正在安装 zbarimg\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing zbarimg\n\033[0m"
     CTF_zbarimg_install
-    echo -e "\033[1;33m\n>> 正在安装 outguess\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing outguess\n\033[0m"
     CTF_outguess_install
-    echo -e "\033[1;33m\n>> 正在安装 bkcrack\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing bkcrack\n\033[0m"
     CTF_bkcrack_install
-    echo -e "\033[1;33m\n>> 正在安装 zsteg\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing zsteg\n\033[0m"
     CTF_zsteg_install
-    echo -e "\033[1;33m\n>> 正在安装 F5-steganography\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing F5-steganography\n\033[0m"
     CTF_F5-steganography_install
-    echo -e "\033[1;33m\n>> 正在安装 LSB-Steganography\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing LSB-Steganography\n\033[0m"
     CTF_LSB-Steganography_install
-    echo -e "\033[1;33m\n>> 正在安装 BlindWaterMark\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing BlindWaterMark\n\033[0m"
     CTF_BlindWaterMark_install
-    echo -e "\033[1;33m\n>> 正在安装 crc32\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing crc32\n\033[0m"
     CTF_crc32_install
-    echo -e "\033[1;33m\n>> 正在安装 cloacked-pixel\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing cloacked-pixel\n\033[0m"
     CTF_cloacked-pixel_install
     Volatility_Install
     volatility3_Install
@@ -470,15 +510,19 @@ CTF_MISC_tools(){
 CTF_Crypto_tools(){
 
     Rm_Lock
-    echo -e "\033[1;33m\n>> 正在安装一些杂项工具\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing some misc tools\n\033[0m"
     CTF_Crypto_install
-    echo -e "\033[1;33m\n>> 正在安装常见 py 模块\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing common py modules\n\033[0m"
     CTF_Crypto_py3_module_install
     CTF_Crypto_py2_module_install
-    echo -e "\033[1;33m\n>> 正在安装 rsatool\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing rsatool\n\033[0m"
     CTF_rsatool_install
-    echo -e "\033[1;33m\n>> 正在安装 RsaCtfTool\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing RsaCtfTool\n\033[0m"
     CTF_RsaCtfTool_install
+    echo -e "\033[1;33m\n>> Installing CTF-RSA-tool\n\033[0m"
+    CTF_CTF-RSA-tool_install
+    echo -e "\033[1;33m\n>> Installing rsa-wiener-attack\n\033[0m"
+    CTF_rsa-wiener-attack_install
 
 }
 
@@ -486,18 +530,20 @@ CTF_IOT_tools(){
 
     Rm_Lock
     binwalk_Install
-    echo -e "\033[1;33m\n>> 正在安装 firmware-mod-kit\n\033[0m"
+    echo -e "\033[1;33m\n>> Installing firmware-mod-kit\n\033[0m"
     CTF_firmware-mod-kit_Install
 
 }
 
 Help_Info(){
 
-    echo -e "\033[1;34mCTF 安装 \033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-misc\033[0m \033[0;34m安装 MISC 环境\033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-crypto\033[0m \033[0;34m安装 Crypto 环境\033[0m"
-    echo -e "\033[0;34m|- 使用\033[0m \033[1;34m-iot\033[0m \033[0;34m安装 IOT 环境\033[0m"
+    echo -e "\033[1;34mInstall by category \033[0m"
+    echo -e "  \033[1;34m-misc\033[0m \033[0;34m  : install MISC environment\033[0m"
+    echo -e "  \033[1;34m-crypto\033[0m \033[0;34m: install Crypto environment\033[0m"
+    echo -e "  \033[1;34m-iot\033[0m \033[0;34m   : install IOT environment\033[0m"
     echo -e ""
+    echo -e "\033[1;34mLarge software install \033[0m"
+    echo -e "  \033[1;34m-sage\033[0m \033[0;34m  : install sage environment (Size ~3000 MB)\033[0m"
 
 }
 
@@ -525,6 +571,10 @@ case "$1" in
         pip2_Check
         JDK_Check
         CTF_IOT_tools
+        ;;
+    -sage)
+        echo -e "\033[1;33m\n>> Installing sagemath\n\033[0m"
+        CTF_sagemath_install
         ;;
     -help | help)
         printf "\033c"
