@@ -2,6 +2,17 @@
 
 ## Details
 
+### [1.5.6] - 2021-10-3
+
+**功能修改**
+
+* 更新 crawlergo 的下载链接
+* 更改显示语言 [#10](https://github.com/ffffffff0x/f8x/issues/10) [#11](https://github.com/ffffffff0x/f8x/issues/11)
+* 在安装 volatility3 时默认不会下载 Symbol Tables
+* 优化对已安装软件的检测,尽量避免重复安装
+* 修改一个重命名的bug
+* 移除 sharry 的安装选项
+
 ### [1.5.5] - 2021-8-6
 
 **功能添加**
