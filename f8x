@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.6 Dev(Beta3)"
+F8x_Version="1.5.7 Dev(Beta1)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -143,6 +143,10 @@ ttyd_bin="ttyd.x86_64"
 code_server_Ver="v3.12.0"
 code_server_bin1="code-server-3.12.0-amd64.rpm"
 code_server_bin2="code-server_3.12.0_amd64.deb"
+dismap_Ver="v0.2"
+dismap_bin="dismap-linux-amd64"
+gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
+gojwtcrack_Ver="0.1"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -1407,7 +1411,7 @@ Python3_Install(){
 Go_Install(){
 
     name="go"
-    go version > /dev/null 2>&1
+    which go > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1448,7 +1452,7 @@ Go_Install(){
 Docker_Install(){
 
     name="Docker"
-    docker -v > /dev/null 2>&1
+    which docker > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1549,7 +1553,8 @@ Terraform_Install(){
         Echo_ALERT "Downloading $name"
         cd /tmp && $Porxy_OK wget https://releases.hashicorp.com/terraform/$Terraform_Ver/$Terraform_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from hashicorp.com" || Echo_ERROR2
         unzip $Terraform_bin > /dev/null 2>&1
-        mv --force terraform /usr/local/bin/terraform > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Terraform_Ver" || Echo_ERROR3
+        mv --force terraform /usr/local/bin/terraform > /dev/null 2>&1 && chmod +x /usr/local/bin/terraform && Echo_INFOR "Successfully installed $name $Terraform_Ver" || Echo_ERROR3
+        rm -rf $Terraform_bin
     fi
 
 }
@@ -1714,7 +1719,7 @@ Pentest_nmap_Install(){
 
     name="nmap"
 
-    nmap -V > /dev/null 2>&1
+    which nmap > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1731,7 +1736,7 @@ Pentest_ffuf_Install(){
 
     name="ffuf"
 
-    ffuf -V > /dev/null 2>&1
+    which ffuf > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1802,7 +1807,7 @@ Pentest_ksubdomain_Install(){
 
     name="ksubdomain"
 
-    ksubdomain > /dev/null 2>&1
+    which ksubdomain > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1863,7 +1868,7 @@ Pentest_fscan_Install(){
 
     name="fscan"
 
-    fscan > /dev/null 2>&1
+    which fscan > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1881,7 +1886,7 @@ Pentest_rad_Install(){
 
     name="rad"
 
-    rad -h > /dev/null 2>&1
+    which rad > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1902,7 +1907,7 @@ Pentest_crawlergo_Install(){
 
     name="crawlergo"
 
-    crawlergo -v > /dev/null 2>&1
+    which crawlergo > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1958,7 +1963,7 @@ Pentest_naabu_Install(){
 
     name="naabu"
 
-    naabu -version > /dev/null 2>&1
+    which naabu > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1977,7 +1982,7 @@ Pentest_httpx_Install(){
 
     name="httpx"
 
-    httpx -version > /dev/null 2>&1
+    which httpx > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -1998,7 +2003,7 @@ Pentest_httpx_old_Install(){
 
     name="httpx1.0.5"
 
-    httpx1.0.5 -version > /dev/null 2>&1
+    which httpx1.0.5 > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2017,7 +2022,7 @@ Pentest_subfinder_Install(){
 
     name="subfinder"
 
-    subfinder -version > /dev/null 2>&1
+    which subfinder > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2036,7 +2041,7 @@ Pentest_gau_Install(){
 
     name="gau"
 
-    gau -version > /dev/null 2>&1
+    which gau > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2076,7 +2081,7 @@ Pentest_apktool_Install(){
 Pentest_apkleaks_Install(){
 
     name="apkleaks"
-    apkleaks -h > /dev/null 2>&1
+    which apkleaks > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2188,6 +2193,24 @@ Pentest_dirsearch_Install(){
 
 }
 
+# ===================== Install dismap =====================
+Pentest_dismap_Install(){
+
+    name="dismap"
+
+    which dismap > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        cd /tmp && rm -f ${dismap_bin} && $Porxy_OK wget ${GitPorxy}https://github.com/zhzyker/dismap/releases/download/$dismap_Ver/$dismap_bin > /dev/null 2>&1 || Echo_ERROR2
+        mv --force $dismap_bin /usr/local/bin/dismap && chmod +x /usr/local/bin/dismap
+        which dismap > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $dismap_Ver in the /usr/local/bin/" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== Install Metasploit =====================
 Pentest_Metasploit_Install(){
 
@@ -2232,7 +2255,7 @@ Pentest_xray_Install(){
 
     name="xray"
 
-    xray version > /dev/null 2>&1
+    which xray > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2261,7 +2284,7 @@ Pentest_pocsuite3_Install(){
 
     name="pocsuite3"
 
-    pocsuite --version > /dev/null 2>&1
+    which pocsuite > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2277,7 +2300,7 @@ Pentest_Nuclei_Install(){
 
     name="Nuclei"
 
-    nuclei -version > /dev/null 2>&1
+    which nuclei > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2286,7 +2309,7 @@ Pentest_Nuclei_Install(){
         cd /tmp && rm -f $Nuclei_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || Echo_ERROR2
         unzip $Nuclei_Install > /dev/null 2>&1
         mv --force nuclei /usr/local/bin/nuclei && chmod +x /usr/local/bin/nuclei && rm -f /tmp/$Nuclei_Install > /dev/null 2>&1
-        nuclei -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Nuclei_Ver in the /usr/local/bin/" || Echo_ERROR3
+        which nuclei > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Nuclei_Ver in the /usr/local/bin/" || Echo_ERROR3
 
         if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
         then
@@ -2491,6 +2514,7 @@ Pentest_dalfox_Install(){
 
     name="dalfox"
     which dalfox > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -2528,8 +2552,8 @@ Pentest_JNDI-Injection-Exploit_Install(){
 Pentest_Gopherus_Install(){
 
     name="Gopherus"
-
     which gopherus > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -2733,7 +2757,6 @@ Pentest_krbrelayx_Install(){
 Pentest_bettercap_Install(){
 
     name="bettercap"
-
     which bettercap > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2764,7 +2787,6 @@ Pentest_bettercap_Install(){
 Pentest_mitmproxy_Install(){
 
     name="mitmproxy"
-
     which mitmproxy > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2787,7 +2809,6 @@ Pentest_mitmproxy_Install(){
 Pentest_pypykatz_Install(){
 
     name="pypykatz"
-
     which pypykatz > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2803,7 +2824,6 @@ Pentest_pypykatz_Install(){
 Pentest_CrackMapExec_Install(){
 
     name="CrackMapExec"
-
     which crackmapexec > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2868,7 +2888,7 @@ Pentest_hashcat_Install(){
 Pentest_ZoomEye_Install(){
 
     name="ZoomEye-python"
-    zoomeye -h > /dev/null 2>&1
+    which zoomeye > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2883,7 +2903,7 @@ Pentest_ZoomEye_Install(){
 Pentest_jadx_Install(){
 
     name="jadx"
-    jadx --version > /dev/null 2>&1
+    which jadx > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2931,6 +2951,7 @@ Pentest_Platypus_Install(){
 
     name="Platypus"
     which Platypus > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -2947,8 +2968,7 @@ Pentest_Platypus_Install(){
 Pentest_mapcidr_Install(){
 
     name="mapcidr"
-
-    mapcidr -version > /dev/null 2>&1
+    which mapcidr > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2967,6 +2987,7 @@ Pentest_nali_Install(){
 
     name="nali"
     which nali > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -2984,6 +3005,7 @@ Pentest_anew_Install(){
 
     name="anew"
     which anew  > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3001,6 +3023,7 @@ Pentest_gron_Install(){
 
     name="gron"
     which gron > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3019,6 +3042,7 @@ Pentest_unfurl_Install(){
 
     name="unfurl"
     which unfurl > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3037,6 +3061,7 @@ Pentest_qsreplace_Install(){
 
     name="qsreplace"
     which qsreplace > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3055,6 +3080,7 @@ Pentest_Interlace_Install(){
 
     name="Interlace"
     which interlace > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3073,6 +3099,7 @@ Pentest_interactsh_Install(){
 
     name="interactsh"
     which interactsh-client > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3107,11 +3134,9 @@ Pentest_jwtcat_Install(){
 # ===================== Install gojwtcrack =====================
 Pentest_gojwtcrack_Install(){
 
-gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
-gojwtcrack_Ver="0.1"
-
     name="gojwtcrack"
     which gojwtcrack > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3151,8 +3176,7 @@ Pentest_DomainSplit_Install(){
 Pentest_proxify_Install(){
 
     name="proxify"
-
-    proxify -version > /dev/null 2>&1
+    which proxify > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3186,6 +3210,7 @@ Pentest_jaeles_Install(){
 
     name="jaeles"
     which jaeles > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3204,8 +3229,7 @@ Pentest_jaeles_Install(){
 Pentest_Girsh_Install(){
 
     name="Girsh"
-
-    Girsh -h > /dev/null 2>&1
+    which Girsh > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3239,6 +3263,7 @@ Pentest_subjs_Install(){
 
     name="subjs"
     which subjs > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3258,6 +3283,7 @@ Pentest_assetfinder_Install(){
 
     name="assetfinder"
     which assetfinder > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3278,7 +3304,6 @@ Pentest_hakrawler_Install(){
     GO_Check
 
     name="hakrawler"
-
     which hakrawler > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -3346,8 +3371,7 @@ Pentest_exploitdb_Install(){
 Pentest_RustScan_Install(){
 
     name="RustScan"
-
-    rustscan -V > /dev/null 2>&1
+    which rustscan > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3380,7 +3404,7 @@ Pentest_WAFW00F_Install(){
     name="WAFW00F"
     dir="$P_Dir/wafw00f"
 
-    wafw00f -V > /dev/null 2>&1
+    which wafw00f > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3476,7 +3500,7 @@ Secure_chkrootkit_Install(){
 Secure_rkhunter_Install(){
 
     name="rkhunter"
-    rkhunter --version > /dev/null 2>&1
+    which rkhunter > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3606,7 +3630,6 @@ AdguardTeam_Install(){
 trash-cli_Install(){
 
     name="trash-cli"
-
     trash-list --version > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -3622,8 +3645,7 @@ trash-cli_Install(){
 thefuck_Install(){
 
     name="thefuck"
-
-    thefuck -v > /dev/null 2>&1
+    which thefuck > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3638,8 +3660,7 @@ thefuck_Install(){
 fzf_Install(){
 
     name="fzf"
-
-    fzf --version > /dev/null 2>&1
+    which fzf > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3656,8 +3677,7 @@ fzf_Install(){
 annie_Install(){
 
     name="annie"
-
-    annie -v > /dev/null 2>&1
+    which annie > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3675,8 +3695,7 @@ annie_Install(){
 you-get_Install(){
 
     name="you-get"
-
-    you-get --version > /dev/null 2>&1
+    which you-get > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3691,8 +3710,7 @@ you-get_Install(){
 ffmpeg_Install(){
 
     name="ffmpeg"
-
-    ffmpeg -h > /dev/null 2>&1
+    which ffmpeg > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3716,8 +3734,7 @@ ffmpeg_Install(){
 aria2_Install(){
 
     name="aria2"
-
-    aria2c --version > /dev/null 2>&1
+    which aria2c > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3736,8 +3753,7 @@ aria2_Install(){
 filebrowser_Install(){
 
     name="filebrowser"
-
-    filebrowser version > /dev/null 2>&1
+    which filebrowser > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -3754,7 +3770,6 @@ filebrowser_Install(){
 starship_Install(){
 
     name="starship"
-
     starship --version > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -3774,7 +3789,6 @@ starship_Install(){
 ttyd_Install(){
 
     name="ttyd"
-
     which ttyd > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -3792,7 +3806,6 @@ ttyd_Install(){
 code-server_Install(){
 
     name="code-server"
-
     which code-server > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -3803,12 +3816,14 @@ code-server_Install(){
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
                 cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1
                 sudo rpm -i $code_server_bin1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                rm -rf $code_server_bin1
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2
                 sudo dpkg -i $code_server_bin2 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                rm -rf $code_server_bin2
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
                 ;;
@@ -3828,7 +3843,7 @@ Volatility_Install(){
     case $Linux_Version in
         *"Ubuntu"*|*"Debian"*)
 
-            volatility --info > /dev/null 2>&1
+            which volatility > /dev/null 2>&1
 
             if [ $? == 0 ]
             then
@@ -3928,8 +3943,8 @@ lt_Install(){
 binwalk_Install(){
 
     name="binwalk"
-
     which binwalk > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -3957,8 +3972,8 @@ binwalk_Install(){
 binwalk_force_Install(){
 
     name="binwalk"
-
     which binwalk > /dev/null 2>&1
+
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
@@ -5184,10 +5199,11 @@ asciinema_Install(){
         Echo_ALERT "$name installed"
     else
         Install_Switch4 "asciinema"
+        asciinema --version > /dev/null 2>&1
 
         if [ $? == 0 ]
         then
-            Echo_INFOR "Successfully installed $name"
+            Echo_INFOR "pip is very useful, isn't it :)"
         else
             Echo_ERROR "pip3 failed to install $name, about to switch to package manager to install"
             Rm_Lock
@@ -5427,6 +5443,8 @@ kali_Tools_TypeA(){
     Pentest_gobuster_Install
     echo -e "\033[1;33m\n>> Installing dirsearch\n\033[0m"
     Pentest_dirsearch_Install
+    echo -e "\033[1;33m\n>> Installing dismap\n\033[0m"
+    Pentest_dismap_Install
 
 }
 
