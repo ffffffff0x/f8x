@@ -38,6 +38,7 @@ CTF_Misc_py3_module_install(){
     Install_Switch4 "zlib" > /dev/null 2>&1
     Install_Switch4 "struct" > /dev/null 2>&1
     Install_Switch4 "libnum"
+    Install_Switch4 "Plaso"
     name="Pillow"
     python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
 
@@ -255,8 +256,7 @@ CTF_BlindWaterMark_install(){
         Echo_ALERT "$name is already installed in $dir"
     else
 
-        Install_Switch3 "opencv-python"
-
+        Install_Switch3 "opencv-python==4.2.0.32"
         cd $P_Dir && $Porxy_OK git clone https://github.com/chishaxie/BlindWaterMark.git > /dev/null 2>&1
         cd $dir && python2 -m pip install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
@@ -425,15 +425,6 @@ CTF_rsa-wiener-attack_install(){
 
 }
 
-CTF_sagemath_install(){
-
-    name="sagemath"
-    dir="$P_Dir/sagemath"
-
-    # 这软件有点大,暂时留空
-
-}
-
 # ===================== CTF IOT Tool =====================
 
 CTF_firmware-mod-kit_Install(){
@@ -542,8 +533,8 @@ Help_Info(){
     echo -e "  \033[1;34m-crypto\033[0m \033[0;34m: install Crypto environment\033[0m"
     echo -e "  \033[1;34m-iot\033[0m \033[0;34m   : install IOT environment\033[0m"
     echo -e ""
-    echo -e "\033[1;34mLarge software install \033[0m"
-    echo -e "  \033[1;34m-sage\033[0m \033[0;34m  : install sage environment (Size ~3000 MB)\033[0m"
+    # echo -e "\033[1;34mLarge software install \033[0m"
+    # echo -e "  \033[1;34m-sage\033[0m \033[0;34m  : install sage environment (Size ~3000 MB)\033[0m"
 
 }
 
