@@ -174,13 +174,13 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **-all 全自动化部署**
 
-以 vultr vps 为例,$10/mo 的配置,结果分别如下
+以 vultr vps 为例,结果分别如下
 
 | <br><b><p align="center">CentOS 7(完全兼容)</p> | <br><b><p align="center">Debian 10(完全兼容)</p> |
 | - | - |
-| <p align="center"><a href="https://asciinema.org/a/405335"><img src="https://asciinema.org/a/405335.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/405338"><img src="https://asciinema.org/a/405338.svg" /></p></a> |
-| <br><b><p align="center">Fedora 33(完全兼容)</p> | <br><b><p align="center">Ubuntu 20.10(完全兼容)</p> |
-| <p align="center"><a href="https://asciinema.org/a/405339"><img src="https://asciinema.org/a/405339.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/405333"><img src="https://asciinema.org/a/405333.svg" /></p></a> |
+| <p align="center"><a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY"><img src="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt"><img src="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt.svg" /></p></a> |
+| <br><b><p align="center">Fedora 33</p> | <br><b><p align="center">Ubuntu 20.10</p> |
+| <p align="center"><a href="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf"><img src="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct"><img src="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct.svg" /></p></a> |
 
 ---
 
