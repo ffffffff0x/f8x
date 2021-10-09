@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.7 Dev(Beta1)"
+F8x_Version="1.5.7 Dev(Beta2)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -113,7 +113,7 @@ Platypus_Ver="v1.5.0"
 Platypus_bin="Platypus_linux_amd64"
 lua_bin="lua-5.4.3.tar.gz"
 lua_dir="lua-5.4.3"
-Amass_Ver="v3.14.0"
+Amass_Ver="v3.14.1"
 Amass_bin="amass_linux_amd64.zip"
 gobuster_bin="gobuster-linux-amd64.7z"
 gobuster_Ver="v3.1.0"
@@ -123,8 +123,8 @@ jq_ver="jq-1.6"
 gospider_Ver="v1.1.6"
 gospider_bin="gospider_v1.1.6_linux_x86_64.zip"
 gospider_dir="gospider_v1.1.6_linux_x86_64"
-interactsh_Ver="v0.0.5"
-interactsh_bin="interactsh_0.0.5_linux_amd64.zip"
+interactsh_Ver="v0.0.6"
+interactsh_bin="interactsh_0.0.6_linux_amd64.zip"
 gron_Ver="v0.6.1"
 gron_bin="gron-linux-amd64-0.6.1.tgz"
 unfurl_Ver="v0.2.0"
@@ -147,6 +147,8 @@ dismap_Ver="v0.2"
 dismap_bin="dismap-linux-amd64"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
+fapro_Ver="v0.39"
+fapro_bin="fapro_linux_x86_64_0.39.tar.gz"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -776,7 +778,6 @@ Update_APT_Mirror(){
 Update_kali_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-# The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
 # deb-src https://mirrors.aliyun.com/kali kali-rolling main non-free contrib
 deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
@@ -800,7 +801,6 @@ EOF
 Update_Ubuntu2104_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy main restricted universe multiverse
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy main restricted universe multiverse
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-updates main restricted universe multiverse
@@ -816,7 +816,6 @@ EOF
 Update_Ubuntu2010_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
 # deb-src http://mirrors.aliyun.com/ubuntu/ groovy main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ groovy-security main restricted universe multiverse
@@ -832,7 +831,6 @@ EOF
 Update_Ubuntu2004_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
 # deb-src http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse
@@ -850,7 +848,6 @@ EOF
 Update_Ubuntu1910_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan main restricted universe multiverse
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan main restricted universe multiverse
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ eoan-updates main restricted universe multiverse
@@ -866,7 +863,6 @@ EOF
 Update_Ubuntu1804_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
@@ -884,7 +880,6 @@ EOF
 Update_Ubuntu1604_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/ubuntu/ xenial main
 # deb-src http://mirrors.aliyun.com/ubuntu/ xenial main
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main
@@ -904,7 +899,6 @@ EOF
 Update_Ubuntu1504_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/ubuntu/ vivid main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ vivid-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ vivid-updates main restricted universe multiverse
@@ -922,7 +916,6 @@ EOF
 Update_Ubuntu1404_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
@@ -940,7 +933,6 @@ EOF
 Update_Ubuntu1204_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/ubuntu/ precise main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ precise-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ precise-updates main restricted universe multiverse
@@ -959,7 +951,6 @@ EOF
 Update_Debian11_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib
 # deb-src http://mirrors.aliyun.com/debian/ bullseye main non-free contrib
 deb http://mirrors.aliyun.com/debian-security bullseye/updates main
@@ -975,7 +966,6 @@ EOF
 Update_Debian10_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
 # deb-src http://mirrors.aliyun.com/debian/ buster main non-free contrib
 deb http://mirrors.aliyun.com/debian-security buster/updates main
@@ -991,7 +981,6 @@ EOF
 Update_Debian9_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
 # deb-src http://mirrors.aliyun.com/debian/ stretch main non-free contrib
 deb http://mirrors.aliyun.com/debian-security stretch/updates main
@@ -1007,7 +996,6 @@ EOF
 Update_Debian8_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib
 deb http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
 # deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib
@@ -1019,7 +1007,6 @@ EOF
 Update_Debian7_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-The source mirrors is commented by default to improve the speed of apt update, you can uncomment it if needed
 deb http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
 deb http://mirrors.aliyun.com/debian/ wheezy-proposed-updates main non-free contrib
 # deb-src http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
@@ -1659,19 +1646,6 @@ Pentest_Misc_Install(){
             *) ;;
         esac
 
-        if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-        then
-            Install_Switch "gdb"
-        fi
-
-        case $Linux_Version in
-            *"Kali"*)
-                Install_Switch "owasp-mantra-ff"
-                Install_Switch "powershell"
-                ;;
-            *) ;;
-        esac
-
         touch /tmp/f8x_misc.txt > /dev/null 2>&1
     fi
 
@@ -2220,7 +2194,7 @@ Pentest_Metasploit_Install(){
 
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name installed"
+        Echo_ALERT "$name installed , consider running 'msfupdate' to update to the latest version."
     else
         if [ $GitPorxy ==  ]
         then
@@ -2498,13 +2472,23 @@ Pentest_SSRFmap_Install(){
 Pentest_testssl_Install(){
 
     name="testssl"
-    dir="$P_Dir/"
+    dir="$P_Dir/testssl.sh/"
 
     if test -e $P_Dir/testssl.sh
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && curl -o testssl.sh https://cdn.jsdelivr.net/gh/drwetter/testssl.sh/testssl.sh > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        Rm_Lock
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                Install_Switch "bind-utils"
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                Install_Switch "dnsutils"
+                ;;
+            *) ;;
+        esac
+        cd $P_Dir && git clone --depth 1 https://github.com/drwetter/testssl.sh.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3451,6 +3435,28 @@ Pentest_MassBleed_Install(){
 
 }
 
+# 实际使用较少默认不安装
+# ===================== Install jmet =====================
+Pentest_jmet_Install(){
+
+    name="jmet"
+    dir="$P_Dir/jmet"
+
+    if test -e $dir/jmet.jar
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -f ysoserial.jar > /dev/null 2>&1 && $Porxy_OK wget -O jmet.jar ${GitPorxy2}https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar > /dev/null 2>&1 || Echo_ERROR2
+        if test -e $dir/jmet.jar
+        then
+            Echo_INFOR "Successfully installed $name in the $dir"
+        else
+            Echo_ERROR3
+        fi
+    fi
+
+}
+
 # ===================== Install unyaffs =====================
 unyaffs_Install(){
 
@@ -3564,6 +3570,23 @@ Secure_BruteShark_Install(){
         esac
         mkdir -p $T_Dir/BruteShark && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/odedshimon/BruteShark/releases/latest/download/BruteSharkCli > /dev/null 2>&1 && chmod +x BruteSharkCli && Echo_INFOR "Downloaded $name in the $dir " || Echo_ERROR2
         find /usr/lib/x86_64-linux-gnu -type f | grep libpcap | head -1 | xargs -i sudo ln -s {} /usr/lib/x86_64-linux-gnu/libpcap.so > /dev/null 2>&1
+    fi
+
+}
+
+# ===================== Install fapro =====================
+Secure_fapro_Install(){
+
+    name="fapro"
+    which fapro > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        cd /tmp && rm -f $fapro_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fofapro/fapro/releases/download/$fapro_Ver/$fapro_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf $fapro_bin > /dev/null 2>&1
+        mv --force fapro /usr/local/bin/ && chmod +x /usr/local/bin/fapro && rm -f /tmp/$fapro_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fapro_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -5605,6 +5628,8 @@ Secure(){
     Secure_anti_portscan_Install
     echo -e "\033[1;33m\n>> Installing BruteShark\n\033[0m"
     Secure_BruteShark_Install
+    echo -e "\033[1;33m\n>> Installing fapro\n\033[0m"
+    Secure_fapro_Install
 
 }
 
@@ -6064,7 +6089,6 @@ case "$1" in
         else
             rm -f f8x && $Porxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
         fi
-
         ;;
     -debug)
         Base_Check
