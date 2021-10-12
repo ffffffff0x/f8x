@@ -5,13 +5,14 @@
 if test -e /usr/local/bin/f8x
 then
     sleep 0.001
+    # f8x -update
 else
     curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mInstalled f8x tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x installation failed\n\033[0m"
 fi
 
 . /usr/local/bin/f8x
 
-F8x_ctf_Version="0.0.4 Dev"
+F8x_ctf_Version="0.0.5 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -27,6 +28,7 @@ bkcrack_dir="bkcrack-1.3.1-Linux"
 CTF_Misc_install(){
 
     Install_Switch "strace"
+    Install_Switch "unrar"
 
 }
 
@@ -39,6 +41,8 @@ CTF_Misc_py3_module_install(){
     Install_Switch4 "struct" > /dev/null 2>&1
     Install_Switch4 "libnum"
     Install_Switch4 "Plaso"
+    Install_Switch4 "matplotlib"
+    Install_Switch4 "tqdm"
     name="Pillow"
     python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
 
@@ -451,6 +455,20 @@ CTF_firmware-mod-kit_Install(){
 
 }
 
+# ===================== CTF PWN Tool =====================
+
+CTF_PWN_install(){
+
+    Install_Switch "gdb"
+
+}
+
+CTF_PWN_py3_module_install(){
+
+    Install_Switch4 "capstone"
+
+}
+
 CTF_MISC_tools(){
 
     Rm_Lock
@@ -526,6 +544,16 @@ CTF_IOT_tools(){
 
 }
 
+CTF_PWN_tools(){
+
+    Rm_Lock
+    echo -e "\033[1;33m\n>> Installing some misc tools\n\033[0m"
+    CTF_PWN_install
+    echo -e "\033[1;33m\n>> Installing common py modules\n\033[0m"
+    CTF_PWN_py3_module_install
+
+}
+
 Help_Info(){
 
     echo -e "\033[1;34mInstall by category \033[0m"
@@ -533,8 +561,6 @@ Help_Info(){
     echo -e "  \033[1;34m-crypto\033[0m \033[0;34m: install Crypto environment\033[0m"
     echo -e "  \033[1;34m-iot\033[0m \033[0;34m   : install IOT environment\033[0m"
     echo -e ""
-    # echo -e "\033[1;34mLarge software install \033[0m"
-    # echo -e "  \033[1;34m-sage\033[0m \033[0;34m  : install sage environment (Size ~3000 MB)\033[0m"
 
 }
 
@@ -565,9 +591,10 @@ do
             JDK_Check
             CTF_IOT_tools
             ;;
-        -sage)
-            echo -e "\033[1;33m\n>> Installing sagemath\n\033[0m"
-            CTF_sagemath_install
+        -pwn)
+            Porxy_Switch
+            Base_Check
+            CTF_PWN_tools
             ;;
         -help | help)
             printf "\033c"
