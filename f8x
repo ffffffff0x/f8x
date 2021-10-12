@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.7 Dev(Beta2)"
+F8x_Version="1.5.7 Dev(Beta3)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -3837,15 +3837,15 @@ code-server_Install(){
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
-                cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1
-                sudo rpm -i $code_server_bin1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                sudo rpm -i $code_server_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf $code_server_bin1
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2
-                sudo dpkg -i $code_server_bin2 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                sudo dpkg -i $code_server_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf $code_server_bin2
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
@@ -5680,7 +5680,7 @@ Help(){
     echo -e "  \033[1;34m-b\033[0m \033[0;34m           : install Basic Environment\033[0m          \033[1;32m(gcc、make、git、vim、telnet、jq、unzip and other basic tools)\033[0m"
     echo -e "  \033[1;34m-p\033[0m \033[0;34m           : install Proxy Environment\033[0m          \033[1;31m(Warning : Use only when needed)\033[0m"
     echo -e "  \033[1;34m-d\033[0m \033[0;34m           : install Development Environment\033[0m    \033[1;32m(python3、pip3、Go、Docker、Docker-Compose、SDKMAN)\033[0m"
-    echo -e "  \033[1;34m-k (a/b/c/d/e)\033[0m\033[0;34m: install Pentest environment\033[0m        \033[1;32m(hashcat、ffuf、OneForAll、ksubdomain、impacket and other Pentest tools)\033[0m"
+    echo -e "  \033[1;34m-k(a/b/c/d/e)\033[0m\033[0;34m : install Pentest environment\033[0m        \033[1;32m(hashcat、ffuf、OneForAll、ksubdomain、impacket and other Pentest tools)\033[0m"
     echo -e "  \033[1;34m-s\033[0m \033[0;34m           : install Blue Team Environment\033[0m      \033[1;32m(Fail2Ban、chkrootkit、rkhunter、shellpub)\033[0m"
     echo -e "  \033[1;34m-f\033[0m \033[0;34m           : install Other Tools\033[0m                \033[1;32m(AdguardTeam、trash-cli、fzf)\033[0m"
     echo -e "  \033[1;34m-cloud\033[0m \033[0;34m       : install Cloud Applications\033[0m         \033[1;32m(Terraform、Serverless Framework、wrangler)\033[0m"
@@ -5757,10 +5757,15 @@ Proxy(){
     echo -e "\033[1;33m\n>> Do you want to update DNS settings? [Y/n,Default Y]\033[0m"
     Change_DNS_IP
     Mirror
-    echo -e "\033[1;33m\n>> Installing resolvconf\n\033[0m"
-    DNS_T00ls
-    echo -e "\033[1;33m\n>> Configuring the base compilation environment\n\033[0m"
-    Proxychains_Install
+
+    if [ $Docker_OK ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "\033[1;33m\n>> Installing resolvconf\n\033[0m"
+        DNS_T00ls
+        echo -e "\033[1;33m\n>> Configuring the base compilation environment\n\033[0m"
+        Proxychains_Install
+    fi
+
     echo -e "\033[1;33m\n>> Configuring the pip proxy\n\033[0m"
     pip_Proxy > /dev/null
 
@@ -5832,7 +5837,6 @@ then
     Docker_run_Check
 fi
 
-# 遍历输入参数，批量安装，⚠️这里不太兼容kali_Tools的安装
 for cmd in $@
 do
     case $cmd in
@@ -5851,7 +5855,37 @@ do
             Porxy_Switch
             Base_Check
             Py_Check
-            kali_Tools "$2"
+            kali_Tools
+            ;;
+        -ka | ka)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            kali_Tools "a"
+            ;;
+        -kb | kb)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            kali_Tools "b"
+            ;;
+        -kc | kc)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            kali_Tools "c"
+            ;;
+        -kd | kd)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            kali_Tools "d"
+            ;;
+        -ke | ke)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            kali_Tools "e"
             ;;
         -s | s)
             Porxy_Switch
@@ -6098,12 +6132,6 @@ do
             Pentest_Base_Install
             Porxy_Switch
             Debug_Fun
-            ;;
-        -mock)
-            Base_Check
-            Pentest_Base_Install
-            Porxy_Switch
-            Mock_Test "$2"
             ;;
         *)
             if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
