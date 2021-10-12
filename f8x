@@ -5832,286 +5832,290 @@ then
     Docker_run_Check
 fi
 
-case "$1" in
-    -b | b)
-        Base_Install
-        ;;
-    -p | p)
-        Proxy
-        ;;
-    -d | d)
-        Porxy_Switch
-        Base_Check
-        Dev_Tools
-        ;;
-    -k | k)
-        Porxy_Switch
-        Base_Check
-        Py_Check
-        kali_Tools "$2"
-        ;;
-    -s | s)
-        Porxy_Switch
-        Base_Check
-        Secure
-        ;;
-    -f | f)
-        Porxy_Switch
-        Base_Check
-        pip3_Check
-        Fun_Tools
-        ;;
-    -h | h)
-        printf "\033c"
-        Help
-        ;;
-    -cloud)
-        Porxy_Switch
-        Base_Check
-        cloud
-        ;;
-    -all)
-        all_Install
-        ;;
-    -lua)
-        Porxy_Switch
-        Base_Check
-        lua_Install
-        ;;
-    -nn)
-        Porxy_Switch
-        Base_Check
-        nn_Install
-        ;;
-    -openjdk)
-        Porxy_Switch
-        Base_Check
-        Openjdk_Install
-        ;;
-    -oraclejdk)
-        Porxy_Switch
-        Base_Check
-        Oraclejdk_Install
-        ;;
-    -python3)
-        Python3_Install
-        ;;
-    -python2)
-        Python2_Install
-        ;;
-    -pip2-f)
-        Porxy_Switch
-        Base_Check
-        pip2_Install
-        ;;
-    -perl)
-        Porxy_Switch
-        Base_Check
-        Perl_Install
-        ;;
-    -ruby)
-        Porxy_Switch
-        Base_Check
-        Ruby_Install
-        ;;
-    -rust)
-        Porxy_Switch
-        Base_Check
-        Rust_Install
-        ;;
-    -chromium)
-        Porxy_Switch
-        Base_Check
-        chromium_Install
-        ;;
-    -binwalk)
-        Porxy_Switch
-        Base_Check
-        binwalk_Install
-        ;;
-    -binwalk-f)
-        Porxy_Switch
-        Base_Check
-        binwalk_force_Install
-        ;;
-    -clamav)
-        Porxy_Switch
-        Base_Check
-        clamav_Install
-        ;;
-    -vol)
-        Porxy_Switch
-        Base_Check
-        pip2_Check
-        Volatility_Install
-        ;;
-    -vol3)
-        Porxy_Switch
-        Base_Check
-        pip3_Check
-        volatility3_Install
-        ;;
-    -lt)
-        Porxy_Switch
-        lt_Install
-        ;;
-    -aircrack)
-        Porxy_Switch
-        Base_Check
-        aircrack_Install
-        ;;
-    -bypass)
-        Porxy_Switch
-        Base_Check
-        Py_Check
-        bypass_Install
-        ;;
-    -cs)
-        Porxy_Switch
-        Base_Check
-        cs_Install
-        ;;
-    -frp)
-        Porxy_Switch
-        Base_Check
-        frp_Install
-        ;;
-    -goby)
-        Porxy_Switch
-        Base_Check
-        Goby_Install
-        ;;
-    -nps)
-        Porxy_Switch
-        Base_Check
-        nps_Install
-        ;;
-    -suricata)
-        Porxy_Switch
-        Base_Check
-        suricata_Install
-        ;;
-    -arl)
-        Porxy_Switch
-        Pentest_Base_Install
-        arl_Install
-        ;;
-    -awvs14)
-        Porxy_Switch
-        awvs14_Install
-        ;;
-    -mobsf)
-        Porxy_Switch
-        mobsf_Install
-        ;;
-    -nodejsscan)
-        Porxy_Switch
-        nodejsscan_Install
-        ;;
-    -viper)
-        Porxy_Switch
-        viper_Install
-        ;;
-    -vulhub)
-        Porxy_Switch
-        vulhub_Install
-        ;;
-    -vulfocus)
-        Porxy_Switch
-        vulfocus_Install
-        ;;
-    -asciinema)
-        asciinema_Install
-        ;;
-    -bt)
-        Base_Check
-        bt_Install
-        ;;
-    -clash)
-        Base_Check
-        clash_Install
-        ;;
-    -music)
-        Porxy_Switch
-        Base_Check
-        music_Install
-        ;;
-    -nginx)
-        Porxy_Switch
-        Base_Check
-        nginx_Install
-        ;;
-    -ssh)
-        SSH
-        ;;
-    -ssr)
-        Base_Check
-        ssr_Install
-        ;;
-    -zsh)
-        Porxy_Switch
-        Base_Check
-        pip3_Check
-        zsh_Install
-        ;;
-    -clear)
-        clear_log
-        ;;
-    -info)
-        Base_Check
-        System_info
-        ;;
-    -optimize)
-        optimize_setting
-        ;;
-    -remove)
-        remove_watcher
-        ;;
-    -rmlock)
-        Rm_Lock
+# 遍历输入参数，批量安装，⚠️这里不太兼容kali_Tools的安装
+for cmd in $@
+do
+    case $cmd in
+        -b | b)
+            Base_Install
+            ;;
+        -p | p)
+            Proxy
+            ;;
+        -d | d)
+            Porxy_Switch
+            Base_Check
+            Dev_Tools
+            ;;
+        -k | k)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            kali_Tools "$2"
+            ;;
+        -s | s)
+            Porxy_Switch
+            Base_Check
+            Secure
+            ;;
+        -f | f)
+            Porxy_Switch
+            Base_Check
+            pip3_Check
+            Fun_Tools
+            ;;
+        -h | h)
+            printf "\033c"
+            Help
+            ;;
+        -cloud)
+            Porxy_Switch
+            Base_Check
+            cloud
+            ;;
+        -all)
+            all_Install
+            ;;
+        -lua)
+            Porxy_Switch
+            Base_Check
+            lua_Install
+            ;;
+        -nn)
+            Porxy_Switch
+            Base_Check
+            nn_Install
+            ;;
+        -openjdk)
+            Porxy_Switch
+            Base_Check
+            Openjdk_Install
+            ;;
+        -oraclejdk)
+            Porxy_Switch
+            Base_Check
+            Oraclejdk_Install
+            ;;
+        -python3)
+            Python3_Install
+            ;;
+        -python2)
+            Python2_Install
+            ;;
+        -pip2-f)
+            Porxy_Switch
+            Base_Check
+            pip2_Install
+            ;;
+        -perl)
+            Porxy_Switch
+            Base_Check
+            Perl_Install
+            ;;
+        -ruby)
+            Porxy_Switch
+            Base_Check
+            Ruby_Install
+            ;;
+        -rust)
+            Porxy_Switch
+            Base_Check
+            Rust_Install
+            ;;
+        -chromium)
+            Porxy_Switch
+            Base_Check
+            chromium_Install
+            ;;
+        -binwalk)
+            Porxy_Switch
+            Base_Check
+            binwalk_Install
+            ;;
+        -binwalk-f)
+            Porxy_Switch
+            Base_Check
+            binwalk_force_Install
+            ;;
+        -clamav)
+            Porxy_Switch
+            Base_Check
+            clamav_Install
+            ;;
+        -vol)
+            Porxy_Switch
+            Base_Check
+            pip2_Check
+            Volatility_Install
+            ;;
+        -vol3)
+            Porxy_Switch
+            Base_Check
+            pip3_Check
+            volatility3_Install
+            ;;
+        -lt)
+            Porxy_Switch
+            lt_Install
+            ;;
+        -aircrack)
+            Porxy_Switch
+            Base_Check
+            aircrack_Install
+            ;;
+        -bypass)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            bypass_Install
+            ;;
+        -cs)
+            Porxy_Switch
+            Base_Check
+            cs_Install
+            ;;
+        -frp)
+            Porxy_Switch
+            Base_Check
+            frp_Install
+            ;;
+        -goby)
+            Porxy_Switch
+            Base_Check
+            Goby_Install
+            ;;
+        -nps)
+            Porxy_Switch
+            Base_Check
+            nps_Install
+            ;;
+        -suricata)
+            Porxy_Switch
+            Base_Check
+            suricata_Install
+            ;;
+        -arl)
+            Porxy_Switch
+            Pentest_Base_Install
+            arl_Install
+            ;;
+        -awvs14)
+            Porxy_Switch
+            awvs14_Install
+            ;;
+        -mobsf)
+            Porxy_Switch
+            mobsf_Install
+            ;;
+        -nodejsscan)
+            Porxy_Switch
+            nodejsscan_Install
+            ;;
+        -viper)
+            Porxy_Switch
+            viper_Install
+            ;;
+        -vulhub)
+            Porxy_Switch
+            vulhub_Install
+            ;;
+        -vulfocus)
+            Porxy_Switch
+            vulfocus_Install
+            ;;
+        -asciinema)
+            asciinema_Install
+            ;;
+        -bt)
+            Base_Check
+            bt_Install
+            ;;
+        -clash)
+            Base_Check
+            clash_Install
+            ;;
+        -music)
+            Porxy_Switch
+            Base_Check
+            music_Install
+            ;;
+        -nginx)
+            Porxy_Switch
+            Base_Check
+            nginx_Install
+            ;;
+        -ssh)
+            SSH
+            ;;
+        -ssr)
+            Base_Check
+            ssr_Install
+            ;;
+        -zsh)
+            Porxy_Switch
+            Base_Check
+            pip3_Check
+            zsh_Install
+            ;;
+        -clear)
+            clear_log
+            ;;
+        -info)
+            Base_Check
+            System_info
+            ;;
+        -optimize)
+            optimize_setting
+            ;;
+        -remove)
+            remove_watcher
+            ;;
+        -rmlock)
+            Rm_Lock
 
-        case $Linux_Version in
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                dpkg --configure -a > /dev/null 2>&1
-                ;;
-            *) ;;
-        esac
+            case $Linux_Version in
+                *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                    dpkg --configure -a > /dev/null 2>&1
+                    ;;
+                *) ;;
+            esac
 
-        ;;
-    -swap)
-        swap_setting
-        ;;
-    -update)
-        Porxy_Switch
-        if test -e /usr/local/bin/f8x
-        then
-            rm -f /usr/local/bin/f8x && $Porxy_OK curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
-        else
-            rm -f f8x && $Porxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
-        fi
-        ;;
-    -debug)
-        Base_Check
-        Pentest_Base_Install
-        Porxy_Switch
-        Debug_Fun
-        ;;
-    -mock)
-        Base_Check
-        Pentest_Base_Install
-        Porxy_Switch
-        Mock_Test "$2"
-        ;;
-    *)
-        if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-        then
-            echo -e ""
-            echo -e "\033[1;34mUse the -h option to view the help documentation\033[0m"
-        fi
-        ;;
-esac
+            ;;
+        -swap)
+            swap_setting
+            ;;
+        -update)
+            Porxy_Switch
+            if test -e /usr/local/bin/f8x
+            then
+                rm -f /usr/local/bin/f8x && $Porxy_OK curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
+            else
+                rm -f f8x && $Porxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
+            fi
+            ;;
+        -debug)
+            Base_Check
+            Pentest_Base_Install
+            Porxy_Switch
+            Debug_Fun
+            ;;
+        -mock)
+            Base_Check
+            Pentest_Base_Install
+            Porxy_Switch
+            Mock_Test "$2"
+            ;;
+        *)
+            if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+            then
+                echo -e ""
+                echo -e "\033[1;34mUse the -h option to view the help documentation\033[0m"
+            fi
+            ;;
+    esac
 
-if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-then
-    echo -e "\033[1;36m \n-----End of execution-----\n \033[0m"
-fi
+    if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "\033[1;36m \n-----End of execution-----\n \033[0m"
+    fi
+done

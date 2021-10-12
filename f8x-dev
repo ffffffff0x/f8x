@@ -392,72 +392,75 @@ Help_Info(){
 
 }
 
-case "$1" in
-    -sharry)
-        Porxy_Switch
-        Base_Check
-        sharry_Install
-        ;;
-    -mariadb)
-        Porxy_Switch
-        Base_Check
-        mariadb_Install
-        ;;
-    -mongodb)
-        Base_Check
-        Docker_Check
-        mongodb_Install
-        ;;
-    -memcached)
-        Porxy_Switch
-        Base_Check
-        memcached_Install
-        ;;
-    -postgresql)
-        Porxy_Switch
-        Base_Check
-        postgresql_Install
-        ;;
-    -redis3)
-        Porxy_Switch
-        Base_Check
-        redis3_Install
-        ;;
-    -redis4)
-        Porxy_Switch
-        Base_Check
-        redis4_Install
-        ;;
-    -redis5)
-        Porxy_Switch
-        Base_Check
-        redis5_Install
-        ;;
-    -tomcat6)
-        Porxy_Switch
-        Base_Check
-        tomcat6_Install
-        ;;
-    -tomcat7)
-        Porxy_Switch
-        Base_Check
-        tomcat7_Install
-        ;;
-    -tomcat8)
-        Porxy_Switch
-        Base_Check
-        tomcat8_Install
-        ;;
-    -tomcat9)
-        Porxy_Switch
-        Base_Check
-        tomcat9_Install
-        ;;
-    -help | help)
-        printf "\033c"
-        Help_Info
-        exit 1
-        ;;
-esac
+for cmd in $@
+do
+    case $cmd in
+        -sharry)
+            Porxy_Switch
+            Base_Check
+            sharry_Install
+            ;;
+        -mariadb)
+            Porxy_Switch
+            Base_Check
+            mariadb_Install
+            ;;
+        -mongodb)
+            Base_Check
+            Docker_Check
+            mongodb_Install
+            ;;
+        -memcached)
+            Porxy_Switch
+            Base_Check
+            memcached_Install
+            ;;
+        -postgresql)
+            Porxy_Switch
+            Base_Check
+            postgresql_Install
+            ;;
+        -redis3)
+            Porxy_Switch
+            Base_Check
+            redis3_Install
+            ;;
+        -redis4)
+            Porxy_Switch
+            Base_Check
+            redis4_Install
+            ;;
+        -redis5)
+            Porxy_Switch
+            Base_Check
+            redis5_Install
+            ;;
+        -tomcat6)
+            Porxy_Switch
+            Base_Check
+            tomcat6_Install
+            ;;
+        -tomcat7)
+            Porxy_Switch
+            Base_Check
+            tomcat7_Install
+            ;;
+        -tomcat8)
+            Porxy_Switch
+            Base_Check
+            tomcat8_Install
+            ;;
+        -tomcat9)
+            Porxy_Switch
+            Base_Check
+            tomcat9_Install
+            ;;
+        -help | help)
+            printf "\033c"
+            Help_Info
+            exit 1
+            ;;
+    esac
+done
 
 echo -e "\033[1;36m \n-----OVER-----\n \033[0m"
