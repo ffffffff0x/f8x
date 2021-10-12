@@ -8,13 +8,14 @@
 <p align="center">
   <a href="#开始">开始</a> •
   <a href="#支持选项">支持选项</a> •
-  <a href="#faq">FAQ</a> •
   <a href="#实际效果">实际效果</a> •
+  <a href="#faq">FAQ</a> •
   <a href="#license">License</a>
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/Category-automation-red.svg">
+    <img src="https://img.shields.io/badge/platform-linux-important?color=%23942000">
+    <img src="https://img.shields.io/badge/Category-automation-yellow.svg">
     <img src="https://img.shields.io/github/release/ffffffff0x/f8x"></a>
     <img src="https://github.com/ffffffff0x/f8x/workflows/dev/badge.svg">
 </p>
@@ -151,19 +152,6 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 ---
 
-## FAQ
-
-**-p 选项会执行什么**
-
-1. 替换你的 DNS(默认为 223.5.5.5), 如果判断是 debian 系还会帮你安装 resolvconf, 长期修改 DNS
-2. 检查基础的编译环境是否安装, 并通过默认的包管理器安装 gcc,make,unzip 这些基本软件
-3. 可选的从 https://github.com/rofl0r/proxychains-ng 或 ffffffff0x.com 下载 Proxychains-ng 的源码, 编译安装
-4. 要求你修改 /etc/proxychains.conf 文件
-5. 修改 pip 代理为 https://mirrors.aliyun.com/pypi/simple/
-6. 修改 docker 代理为 https://docker.mirrors.ustc.edu.cn , 并重启 docker 服务
-
----
-
 ## 实际效果
 
 **-h 查看帮助**
@@ -181,6 +169,19 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 | <p align="center"><a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY"><img src="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt"><img src="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt.svg" /></p></a> |
 | <br><b><p align="center">Fedora 33</p> | <br><b><p align="center">Ubuntu 20.10</p> |
 | <p align="center"><a href="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf"><img src="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct"><img src="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct.svg" /></p></a> |
+
+---
+
+## FAQ
+
+**-p 选项会执行什么**
+
+1. 替换你的 DNS(默认为 223.5.5.5), 如果判断是 debian 系还会帮你安装 resolvconf, 长期修改 DNS
+2. 检查基础的编译环境是否安装, 并通过默认的包管理器安装 gcc,make,unzip 这些基本软件
+3. 可选的从 https://github.com/rofl0r/proxychains-ng 或 ffffffff0x.com 下载 Proxychains-ng 的源码, 编译安装
+4. 要求你修改 /etc/proxychains.conf 文件
+5. 修改 pip 代理为 https://mirrors.aliyun.com/pypi/simple/
+6. 修改 docker 代理为 https://docker.mirrors.ustc.edu.cn , 并重启 docker 服务
 
 ---
 

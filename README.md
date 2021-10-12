@@ -8,13 +8,14 @@
 <p align="center">
   <a href="#start">Start</a> •
   <a href="#options">Options</a> •
+  <a href="#example">Example</a> •
   <a href="#faq">FAQ</a> •
-  <a href="#effect">Effect</a> •
   <a href="#license">License</a>
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/Category-automation-red.svg">
+    <img src="https://img.shields.io/badge/platform-linux-important?color=%23942000">
+    <img src="https://img.shields.io/badge/Category-automation-yellow.svg">
     <img src="https://img.shields.io/github/release/ffffffff0x/f8x"></a>
     <img src="https://github.com/ffffffff0x/f8x/workflows/dev/badge.svg">
 </p>
@@ -143,20 +144,7 @@ The following options are currently supported by f8x
 
 ---
 
-## FAQ
-
-**What does the -p option do?**
-
-1. Replace your DNS (default is 223.5.5.5)
-2. Check the base compilation environment
-3. Download Proxychains-ng, compile and install
-4. Modify the /etc/proxychains.conf file
-5. Modify the pip proxy to https://mirrors.aliyun.com/pypi/simple/
-6. Change the docker proxy to https://docker.mirrors.ustc.edu.cn , and restart the docker service
-
----
-
-## Effect
+## Example
 
 **-h View Help**
 
@@ -173,6 +161,19 @@ Take vultr vps as an example
 | <p align="center"><a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY"><img src="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt"><img src="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt.svg" /></p></a> |
 | <br><b><p align="center">Fedora 33</p> | <br><b><p align="center">Ubuntu 20.10</p> |
 | <p align="center"><a href="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf"><img src="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf.svg" /></p></a> | <p align="center"><a href="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct"><img src="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct.svg" /></p></a> |
+
+---
+
+## FAQ
+
+**What does the -p option do?**
+
+1. Replace your DNS (default is 223.5.5.5)
+2. Check the base compilation environment
+3. Download Proxychains-ng, compile and install
+4. Modify the /etc/proxychains.conf file
+5. Modify the pip proxy to https://mirrors.aliyun.com/pypi/simple/
+6. Change the docker proxy to https://docker.mirrors.ustc.edu.cn , and restart the docker service
 
 ---
 
