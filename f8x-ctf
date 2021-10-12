@@ -538,40 +538,43 @@ Help_Info(){
 
 }
 
-case "$1" in
-    -misc)
-        Porxy_Switch
-        Base_Check
-        Py_Check
-        pip2_Check
-        JDK_Check
-        CTF_MISC_tools
-        ;;
-    -crypto)
-        Porxy_Switch
-        Base_Check
-        Py_Check
-        pip2_Check
-        JDK_Check
-        CTF_Crypto_tools
-        ;;
-    -iot)
-        Porxy_Switch
-        Base_Check
-        Py_Check
-        pip2_Check
-        JDK_Check
-        CTF_IOT_tools
-        ;;
-    -sage)
-        echo -e "\033[1;33m\n>> Installing sagemath\n\033[0m"
-        CTF_sagemath_install
-        ;;
-    -help | help)
-        printf "\033c"
-        Help_Info
-        exit 1
-        ;;
-esac
+for cmd in $@
+do
+    case $cmd in
+        -misc)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            pip2_Check
+            JDK_Check
+            CTF_MISC_tools
+            ;;
+        -crypto)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            pip2_Check
+            JDK_Check
+            CTF_Crypto_tools
+            ;;
+        -iot)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            pip2_Check
+            JDK_Check
+            CTF_IOT_tools
+            ;;
+        -sage)
+            echo -e "\033[1;33m\n>> Installing sagemath\n\033[0m"
+            CTF_sagemath_install
+            ;;
+        -help | help)
+            printf "\033c"
+            Help_Info
+            exit 1
+            ;;
+    esac
+done
 
 echo -e "\033[1;36m \n-----OVER-----\n \033[0m"
