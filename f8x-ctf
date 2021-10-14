@@ -23,6 +23,38 @@ bkcrack_Ver="v1.3.1"
 bkcrack_bin="bkcrack-1.3.1-Linux.tar.gz"
 bkcrack_dir="bkcrack-1.3.1-Linux"
 
+# ===================== CTF WEB Tool =====================
+
+CTF_GitHack_install(){
+
+
+    name="GitHack"
+    dir="$P_Dir/GitHack"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/lijiejie/GitHack.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+    fi
+
+}
+
+CTF_Git_Extract_install(){
+
+
+    name="GitHack"
+    dir="$P_Dir/Git_Extract"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/gakki429/Git_Extract.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== CTF MISC Tool =====================
 
 CTF_Misc_install(){
@@ -267,6 +299,22 @@ CTF_BlindWaterMark_install(){
 
 }
 
+CTF_crc32_install(){
+
+    name="crc32"
+    dir="$P_Dir/crc32"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Porxy_OK git clone https://github.com/theonlypwner/crc32.git > /dev/null 2>&1
+        cd crc32
+        python3 crc32.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+    fi
+
+}
+
 CTF_cloacked-pixel_install(){
 
     name="cloacked-pixel"
@@ -294,18 +342,16 @@ CTF_cloacked-pixel_install(){
 
 }
 
-CTF_crc32_install(){
+CTF_stegosaurus_install(){
 
-    name="crc32"
-    dir="$P_Dir/crc32"
+    name="stegosaurus"
+    dir="$P_Dir/stegosaurus"
 
     if test -d $dir
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/theonlypwner/crc32.git > /dev/null 2>&1
-        cd crc32
-        python3 crc32.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone https://github.com/AngelKitty/stegosaurus.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -469,6 +515,22 @@ CTF_PWN_py3_module_install(){
 
 }
 
+# -web
+
+CTF_WEB_tools(){
+
+    Rm_Lock
+    echo -e "\033[1;33m\n>> Installing Sqlmap\n\033[0m"
+    Pentest_Sqlmap_Install
+    echo -e "\033[1;33m\n>> Installing GitHack\n\033[0m"
+    CTF_GitHack_install
+    echo -e "\033[1;33m\n>> Installing Git_Extract\n\033[0m"
+    CTF_Git_Extract_install
+
+}
+
+# -misc
+
 CTF_MISC_tools(){
 
     Rm_Lock
@@ -511,10 +573,14 @@ CTF_MISC_tools(){
     CTF_crc32_install
     echo -e "\033[1;33m\n>> Installing cloacked-pixel\n\033[0m"
     CTF_cloacked-pixel_install
+    echo -e "\033[1;33m\n>> Installing stegosaurus\n\033[0m"
+    CTF_stegosaurus_install
     Volatility_Install
     volatility3_Install
 
 }
+
+# -crypto
 
 CTF_Crypto_tools(){
 
@@ -535,6 +601,8 @@ CTF_Crypto_tools(){
 
 }
 
+# -iot
+
 CTF_IOT_tools(){
 
     Rm_Lock
@@ -543,6 +611,8 @@ CTF_IOT_tools(){
     CTF_firmware-mod-kit_Install
 
 }
+
+# -pwn
 
 CTF_PWN_tools(){
 
@@ -554,12 +624,16 @@ CTF_PWN_tools(){
 
 }
 
+# -help
+
 Help_Info(){
 
     echo -e "\033[1;34mInstall by category \033[0m"
+    echo -e "  \033[1;34m-web\033[0m \033[0;34m   : install WEB environment\033[0m"
     echo -e "  \033[1;34m-misc\033[0m \033[0;34m  : install MISC environment\033[0m"
     echo -e "  \033[1;34m-crypto\033[0m \033[0;34m: install Crypto environment\033[0m"
     echo -e "  \033[1;34m-iot\033[0m \033[0;34m   : install IOT environment\033[0m"
+    echo -e "  \033[1;34m-pwn\033[0m \033[0;34m   : install PWN environment\033[0m"
     echo -e ""
 
 }
@@ -567,6 +641,14 @@ Help_Info(){
 for cmd in $@
 do
     case $cmd in
+        -web)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            pip2_Check
+            JDK_Check
+            CTF_WEB_tools
+            ;;
         -misc)
             Porxy_Switch
             Base_Check
@@ -594,6 +676,9 @@ do
         -pwn)
             Porxy_Switch
             Base_Check
+            Py_Check
+            pip2_Check
+            JDK_Check
             CTF_PWN_tools
             ;;
         -help | help)
