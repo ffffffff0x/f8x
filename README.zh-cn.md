@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="./assets/img/banner.png" width="300px" alt="f8x">
+  <img src="./assets/img/banner2.png" width="300px" alt="f8x">
 </h1>
 
 <h4 align="center">一款红/蓝队环境自动化部署工具,支持多种场景,渗透,开发,代理环境,服务可选项等.</h4>
