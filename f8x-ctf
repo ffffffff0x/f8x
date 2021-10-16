@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x
 
-F8x_ctf_Version="0.0.6 Dev"
+F8x_ctf_Version="0.0.7 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -531,6 +531,7 @@ CTF_PWN_install(){
 CTF_PWN_py3_module_install(){
 
     pip3 install --upgrade pip > /dev/null 2>&1
+    Install_Switch4 "setuptools"
     Install_Switch4 "capstone"
     Install_Switch4 "filebytes"
     Install_Switch4 "keystone-engine"
@@ -542,6 +543,7 @@ CTF_PWN_py3_module_install(){
 
 CTF_PWN_py2_module_install(){
 
+    python2 -m pip install --upgrade pip > /dev/null 2>&1
     Install_Switch3 "pathlib2"
     Install_Switch3 "psutil"
 
@@ -549,8 +551,48 @@ CTF_PWN_py2_module_install(){
 
 CTF_PWN-pwntools_install(){
 
+    name="pwntools"
     Install_Switch3 "pwntools"
     Install_Switch4 "pwntools"
+
+}
+
+CTF_PWN-pwndbg_install(){
+
+    name="pwndbg"
+    dir="$P_Dir/pwndbg"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Porxy_OK git clone https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir && echo "source ~/pwndbg/gdbinit.py" >> ~/.gdbinit
+    fi
+
+}
+
+CTF_PWN-one_gadget_install(){
+
+    name="one_gadget"
+    gem install one_gadget > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || one_gadget_install2
+
+}
+
+one_gadget_install2(){
+
+    Echo_ERROR "one_gadget installation failed, try to reinstall one_gadget"
+
+    case $Linux_Version in
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            add-apt-repository ppa:brightbox/ruby-ng
+            apt-get update
+            apt-get purge --auto-remove ruby
+            apt-get install -y ruby2.6 ruby2.6-dev
+            gem install one_gadget
+            ;;
+        *) ;;
+    esac
 
 }
 
@@ -665,6 +707,10 @@ CTF_PWN_tools(){
     CTF_PWN_py2_module_install
     echo -e "\033[1;33m\n>> Installing pwntools\n\033[0m"
     CTF_PWN-pwntools_install
+    echo -e "\033[1;33m\n>> Installing pwndbg\n\033[0m"
+    CTF_PWN-pwndbg_install
+    echo -e "\033[1;33m\n>> Installing one_gadget\n\033[0m"
+    CTF_PWN-one_gadget_install
 
 }
 
