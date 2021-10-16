@@ -82,8 +82,8 @@ proxify_Ver="v0.0.4"
 proxify_bin="proxify_0.0.4_linux_amd64.tar.gz"
 clash_Ver="v1.7.0"
 clash_bin="clash-linux-amd64-v1.7.0.gz"
-fzf_Ver="0.27.2"
-fzf_bin="fzf-0.27.2-linux_amd64.tar.gz"
+fzf_Ver="0.27.3"
+fzf_bin="fzf-0.27.3-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.9"
 subfinder_bin="subfinder_2.4.9_linux_amd64.zip"
 httpx_Ver="v1.1.3"
@@ -147,8 +147,8 @@ dismap_Ver="v0.2"
 dismap_bin="dismap-linux-amd64"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
-fapro_Ver="v0.39"
-fapro_bin="fapro_linux_x86_64_0.39.tar.gz"
+fapro_Ver="v0.40"
+fapro_bin="fapro_linux_x86_64.tar.gz"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -402,19 +402,19 @@ Install_Switch2(){
 
 Install_Switch3(){
 
-    python2 -m pip install $1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $1 " || Echo_ERROR "$1 module installation failed, please try changing the pip proxy or check if python2 is installed!"
+    python2 -m pip install $1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $1 (python2)" || Echo_ERROR "$1 module installation failed, please try changing the pip proxy or check if python2 is installed!"
 
 }
 
 Install_Switch4(){
 
-    pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 " || Echo_ERROR "$1 module installation failed, please check the log /tmp/f8x_error.log"
+    pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" || Echo_ERROR "$1 module installation failed, please check the log /tmp/f8x_error.log"
 
 }
 
 Install_Switch5(){
 
-    python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 " || Echo_ERROR "$1 module installation failed, please check the log /tmp/f8x_error.log"
+    python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" || Echo_ERROR "$1 module installation failed, please check the log /tmp/f8x_error.log"
 
 }
 
