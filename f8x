@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.7 Dev(Beta4)"
+F8x_Version="1.5.7 Dev(Beta5)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -1380,12 +1380,26 @@ Python3_Install(){
             Install_Switch4 "setuptools"
             Install_Switch4 "virtualenv"
             ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+        *"Kali"*|*"Debian"*)
             apt-get update > /dev/null 2>&1
             Install_Switch "python3-dev"
             Install_Switch "python3-pip"
             Install_Switch "python3-venv"
             Install_Switch "python3-distutils"
+            python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "Update python3-pip failed"
+            ;;
+        *"Ubuntu"*)
+            apt-get update > /dev/null 2>&1
+            Install_Switch "python3-dev"
+            Install_Switch "python3-pip"
+            Install_Switch "python3-venv"
+            Install_Switch "python3-distutils"
+            case $Linux_Version_Num in
+                "16.04")
+                    cd /tmp && rm -rf get-pip.py && $Porxy_OK wget https://bootstrap.pypa.io/pip/3.5/get-pip.py > /dev/null 2>&1
+                    $Porxy_OK python3 get-pip.py > /dev/null 2>&1 && rm -rf get-pip.py
+                    ;;
+            esac
             python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "Update python3-pip failed"
             ;;
         *)
@@ -1586,12 +1600,24 @@ SSH_Tools(){
         *"CentOS"*|*"RedHat"*|*"Fedora"*)
             Echo_INFOR "RedHat is available by default, this item Pass"
             ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+        *"Kali"*|*"Debian"*)
             Rm_Lock
             Install_Switch "ssh"
             echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
             yes|ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key > /dev/null 2>&1
             yes|ssh-keygen -t dsa -f /etc/ssh/ssh_host_rsa_key > /dev/null 2>&1
+            systemctl start ssh > /dev/null 2>&1 && Echo_INFOR "SSH initialization completed" || Echo_ERROR "SSH initialization failed"
+            systemctl enable ssh > /dev/null 2>&1 && Echo_INFOR "SSH configuration boot-up" || Echo_ERROR "SSH configuration boot failure"
+            ;;
+        *"Ubuntu"*)
+            Rm_Lock
+            echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+            yes|ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key > /dev/null 2>&1
+            yes|ssh-keygen -t dsa -f /etc/ssh/ssh_host_rsa_key > /dev/null 2>&1
+            apt remove -y openssh-server > /dev/null 2>&1
+            apt remove -y ssh > /dev/null 2>&1
+            Install_Switch "openssh-server"
+            Install_Switch "ssh"
             systemctl start ssh > /dev/null 2>&1 && Echo_INFOR "SSH initialization completed" || Echo_ERROR "SSH initialization failed"
             systemctl enable ssh > /dev/null 2>&1 && Echo_INFOR "SSH configuration boot-up" || Echo_ERROR "SSH configuration boot failure"
             ;;
@@ -4149,12 +4175,23 @@ Python2_Install(){
             yum install -y python2-devel > /dev/null 2>&1
             ( yum install -y python2-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" ) || ( Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option" && pip2_Install )
             ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+        *"Kali"*|*"Debian"*)
             Install_Switch "python"
             Install_Switch "python-dev"
             ( apt-get install -y python-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" ) || ( Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option" && pip2_Install )
-
             Install_Switch3 "setuptools"
+            ;;
+        *"Ubuntu"*)
+            Install_Switch "python"
+            Install_Switch "python-dev"
+            ( apt-get install -y python-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" ) || ( Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option" && pip2_Install )
+            Install_Switch3 "setuptools"
+            case $Linux_Version_Num in
+                "16.04")
+                    cd /tmp && rm -rf get-pip.py && $Porxy_OK wget https://bootstrap.pypa.io/pip/2.7/get-pip.py > /dev/null 2>&1
+                    $Porxy_OK python2 get-pip.py > /dev/null 2>&1 && rm -rf get-pip.py
+                    ;;
+            esac
             ;;
         *) ;;
     esac
