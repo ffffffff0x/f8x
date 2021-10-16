@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x
 
-F8x_ctf_Version="0.0.5 Dev"
+F8x_ctf_Version="0.0.6 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -25,8 +25,13 @@ bkcrack_dir="bkcrack-1.3.1-Linux"
 
 # ===================== CTF WEB Tool =====================
 
-CTF_GitHack_install(){
+CTF_WEB_py3_module_install(){
 
+    Install_Switch4 "itsdangerous"
+
+}
+
+CTF_GitHack_install(){
 
     name="GitHack"
     dir="$P_Dir/GitHack"
@@ -42,7 +47,6 @@ CTF_GitHack_install(){
 
 CTF_Git_Extract_install(){
 
-
     name="GitHack"
     dir="$P_Dir/Git_Extract"
 
@@ -51,6 +55,21 @@ CTF_Git_Extract_install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Porxy_OK git clone ${GitPorxy}https://github.com/gakki429/Git_Extract.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+    fi
+
+}
+
+CTF_flask-session-cookie-manager_install(){
+
+    name="flask-session-cookie-manager"
+    dir="$P_Dir/flask-session-cookie-manager"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/noraj/flask-session-cookie-manager.git $dir > /dev/null 2>&1
+        cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -75,8 +94,7 @@ CTF_Misc_py3_module_install(){
     Install_Switch4 "Plaso"
     Install_Switch4 "matplotlib"
     Install_Switch4 "tqdm"
-    name="Pillow"
-    python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
+    python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name"
 
 }
 
@@ -84,6 +102,7 @@ CTF_Misc_py2_module_install(){
 
     Install_Switch3 "pybase62"
     Install_Switch3 "base92"
+    python2 -m pip install Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name"
 
 }
 
@@ -155,19 +174,6 @@ CTF_steghide_install(){
 
 }
 
-CTF_tshark_install(){
-
-    name="tshark"
-    which tshark > /dev/null 2>&1
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        Install_Switch "tshark" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
-    fi
-
-}
-
 CTF_pdfinfo_install(){
 
     name="pdfinfo"
@@ -211,10 +217,10 @@ CTF_outguess_install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/outguess && cd /tmp/outguess
-        $Porxy_OK git clone https://github.com/crorvick/outguess > /dev/null 2>&1
+        $Porxy_OK git clone https://github.com/crorvick/outguess > /dev/null 2>&1 || Echo_ERROR2
         cd outguess
         ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1
-        which outguess > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
+        which outguess > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
         rm -rf /tmp/outguess
     fi
 
@@ -229,10 +235,10 @@ CTF_bkcrack_install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/bkcrack && cd /tmp/bkcrack
-        $Porxy_OK wget https://github.com/kimci86/bkcrack/releases/download/$bkcrack_Ver/$bkcrack_bin > /dev/null 2>&1
+        $Porxy_OK wget https://github.com/kimci86/bkcrack/releases/download/$bkcrack_Ver/$bkcrack_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $bkcrack_bin > /dev/null 2>&1
         cp $bkcrack_dir/bkcrack /usr/sbin/bkcrack
-        which bkcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
+        which bkcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
         rm -rf /tmp/bkcrack
     fi
 
@@ -260,7 +266,7 @@ CTF_F5-steganography_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/matthewgao/F5-steganography.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone https://github.com/matthewgao/F5-steganography.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -274,10 +280,10 @@ CTF_LSB-Steganography_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/RobinDavid/LSB-Steganography.git > /dev/null 2>&1
+        cd $P_Dir && $Porxy_OK git clone https://github.com/RobinDavid/LSB-Steganography.git > /dev/null 2>&1 || Echo_ERROR2
         cd LSB-Steganography
         pip3 install -r requirements.txt > /dev/null 2>&1
-        python3 LSBSteg.py --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        python3 LSBSteg.py --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -293,8 +299,9 @@ CTF_BlindWaterMark_install(){
     else
 
         Install_Switch3 "opencv-python==4.2.0.32"
-        cd $P_Dir && $Porxy_OK git clone https://github.com/chishaxie/BlindWaterMark.git > /dev/null 2>&1
-        cd $dir && python2 -m pip install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone https://github.com/chishaxie/BlindWaterMark.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $dir && python2 -m pip install -r requirements.txt > /dev/null
+        cd $dir && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -308,9 +315,9 @@ CTF_crc32_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/theonlypwner/crc32.git > /dev/null 2>&1
+        cd $P_Dir && $Porxy_OK git clone https://github.com/theonlypwner/crc32.git > /dev/null 2>&1 || Echo_ERROR2
         cd crc32
-        python3 crc32.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        python3 crc32.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -336,8 +343,8 @@ CTF_cloacked-pixel_install(){
             *) ;;
         esac
 
-        cd $P_Dir && $Porxy_OK git clone https://github.com/livz/cloacked-pixel.git > /dev/null 2>&1
-        cd $dir && python2 lsb.py -h && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone https://github.com/livz/cloacked-pixel.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $dir && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -412,8 +419,8 @@ CTF_rsatool_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/ius/rsatool.git > /dev/null 2>&1
-        cd rsatool && python3 rsatool.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone https://github.com/ius/rsatool.git > /dev/null 2>&1 || Echo_ERROR2
+        cd rsatool && python3 rsatool.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -439,10 +446,10 @@ CTF_RsaCtfTool_install(){
             *) ;;
         esac
 
-        cd $P_Dir && $Porxy_OK git clone https://github.com/Ganapati/RsaCtfTool.git > /dev/null 2>&1
+        cd $P_Dir && $Porxy_OK git clone https://github.com/Ganapati/RsaCtfTool.git > /dev/null 2>&1 || Echo_ERROR2
         cd RsaCtfTool
         pip3 install -r "requirements.txt" > /dev/null 2>&1
-        pip3 install -r "optional-requirements.txt" > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        pip3 install -r "optional-requirements.txt" > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -507,11 +514,43 @@ CTF_PWN_install(){
 
     Install_Switch "gdb"
 
+    case $Linux_Version in
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "libssl-dev"
+            Install_Switch "libffi-dev"
+            Install_Switch "build-essential"
+            Install_Switch "gcc-multilib"
+            Install_Switch "python-dev"
+            Install_Switch "python3-dev"
+            ;;
+        *) ;;
+    esac
+
 }
 
 CTF_PWN_py3_module_install(){
 
+    pip3 install --upgrade pip > /dev/null 2>&1
     Install_Switch4 "capstone"
+    Install_Switch4 "filebytes"
+    Install_Switch4 "keystone-engine"
+    Install_Switch4 "ropper"
+    Install_Switch4 "pathlib2"
+    Install_Switch4 "psutil"
+
+}
+
+CTF_PWN_py2_module_install(){
+
+    Install_Switch3 "pathlib2"
+    Install_Switch3 "psutil"
+
+}
+
+CTF_PWN-pwntools_install(){
+
+    Install_Switch3 "pwntools"
+    Install_Switch4 "pwntools"
 
 }
 
@@ -520,12 +559,16 @@ CTF_PWN_py3_module_install(){
 CTF_WEB_tools(){
 
     Rm_Lock
+    echo -e "\033[1;33m\n>> Installing common py modules\n\033[0m"
+    CTF_WEB_py3_module_install
     echo -e "\033[1;33m\n>> Installing Sqlmap\n\033[0m"
     Pentest_Sqlmap_Install
     echo -e "\033[1;33m\n>> Installing GitHack\n\033[0m"
     CTF_GitHack_install
     echo -e "\033[1;33m\n>> Installing Git_Extract\n\033[0m"
     CTF_Git_Extract_install
+    echo -e "\033[1;33m\n>> Installing flask-session-cookie-manager\n\033[0m"
+    CTF_flask-session-cookie-manager_install
 
 }
 
@@ -551,8 +594,6 @@ CTF_MISC_tools(){
     CTF_exiftool_install
     echo -e "\033[1;33m\n>> Installing steghide\n\033[0m"
     CTF_steghide_install
-    echo -e "\033[1;33m\n>> Installing tshark\n\033[0m"
-    CTF_tshark_install
     echo -e "\033[1;33m\n>> Installing pdfinfo\n\033[0m"
     CTF_pdfinfo_install
     echo -e "\033[1;33m\n>> Installing zbarimg\n\033[0m"
@@ -621,6 +662,9 @@ CTF_PWN_tools(){
     CTF_PWN_install
     echo -e "\033[1;33m\n>> Installing common py modules\n\033[0m"
     CTF_PWN_py3_module_install
+    CTF_PWN_py2_module_install
+    echo -e "\033[1;33m\n>> Installing pwntools\n\033[0m"
+    CTF_PWN-pwntools_install
 
 }
 
