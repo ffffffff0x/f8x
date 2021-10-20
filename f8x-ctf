@@ -59,6 +59,19 @@ CTF_Git_Extract_install(){
 
 }
 
+CTF_dumpall_install(){
+
+    name="dumpall"
+    which dumpall > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch4 "dumpall"
+    fi
+
+}
+
 CTF_flask-session-cookie-manager_install(){
 
     name="flask-session-cookie-manager"
@@ -567,7 +580,7 @@ CTF_PWN-pwndbg_install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Porxy_OK git clone https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
-        cd $dir && echo "source ~/pwndbg/gdbinit.py" >> ~/.gdbinit
+        cd $dir && echo "source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
     fi
 
 }
