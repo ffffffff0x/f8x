@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.7 Dev(Beta5)"
+F8x_Version="1.5.7 Dev(Beta6)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -59,8 +59,8 @@ fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.5.2"
-Nuclei_Install="nuclei_2.5.2_linux_amd64.zip"
+Nuclei_Ver="v2.5.3"
+Nuclei_Install="nuclei_2.5.3_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
@@ -2673,6 +2673,27 @@ Pentest_shiro-exploit_Install(){
         $Porxy_OK git clone ${GitPorxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         Install_Switch4 "pycryptodome"
         cd $dir && python3 shiro-exploit.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install marshalsec =====================
+Pentest_marshalsec_Install(){
+
+    name="marshalsec"
+    dir="$P_Dir/marshalsec"
+
+    if test -e $dir/marshalsec-0.0.3-SNAPSHOT-all.jar
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -f marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1 && $Porxy_OK wget -O marshalsec-0.0.3-SNAPSHOT-all.jar ${GitPorxy}https://github.com/No-Github/marshalsec/releases/download/v0.0.3/marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1 || Echo_ERROR2
+        if test -e $dir/marshalsec-0.0.3-SNAPSHOT-all.jar
+        then
+            Echo_INFOR "Successfully installed $name in the $dir"
+        else
+            Echo_ERROR3
+        fi
     fi
 
 }
@@ -5548,6 +5569,8 @@ kali_Tools_TypeB(){
     Pentest_JNDI-Injection-Exploit_Install
     echo -e "\033[1;33m\n>> Installing Gopherus\n\033[0m"
     Pentest_Gopherus_Install
+    echo -e "\033[1;33m\n>> Installing marshalsec\n\033[0m"
+    Pentest_marshalsec_Install
 
     # Pentest_redis-rogue-server_Install
     # Pentest_redis-rogue-server-win_Install
