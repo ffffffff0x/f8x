@@ -51,7 +51,7 @@ f8x basically doesn't need any dependencies, it is made to help you install vari
 
 **f8x-ctf**
 
-This script is used to deploy CTF environments
+This script is used to deploy CTF environments (Web、Misc、Crypto、Pwn、Iot)
 
 - wget : `wget -O f8x-ctf https://f8x.io/ctf`
   - `bash f8x-ctf -help`

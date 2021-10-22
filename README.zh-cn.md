@@ -53,7 +53,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **f8x-ctf**
 
-该脚本用于部署 CTF 环境,目前着重与 MISC 的各类隐写、取证工具安装和配置
+该脚本用于部署 CTF 环境,支持 (Web、Misc、Crypto、Pwn、Iot) 分类
 
 - wget : `wget -O f8x-ctf https://f8x.io/ctf`
   - `bash f8x-ctf -help`
