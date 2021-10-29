@@ -99,7 +99,6 @@ CTF_Misc_install(){
 CTF_Misc_py3_module_install(){
 
     Install_Switch4 "base58"
-    Install_Switch4 "uncompyle6"
     Install_Switch4 "requests"
     Install_Switch4 "zlib" > /dev/null 2>&1
     Install_Switch4 "struct" > /dev/null 2>&1
@@ -142,7 +141,7 @@ CTF_ImageMagick_install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch "graphicsmagick-imagemagick-compat" && Echo_INFOR "Successfully installed graphicsmagick-imagemagick-compat" || Echo_ERROR2
+        Install_Switch "graphicsmagick-imagemagick-compat" || Echo_ERROR2
         Install_Switch "imagemagick" && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
     fi
 
@@ -294,9 +293,7 @@ CTF_LSB-Steganography_install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Porxy_OK git clone https://github.com/RobinDavid/LSB-Steganography.git > /dev/null 2>&1 || Echo_ERROR2
-        cd LSB-Steganography
-        pip3 install -r requirements.txt > /dev/null 2>&1
-        python3 LSBSteg.py --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd LSB-Steganography && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -497,7 +494,7 @@ CTF_rsa-wiener-attack_install(){
 
 # ===================== CTF IOT Tool =====================
 
-CTF_firmware-mod-kit_Install(){
+CTF_firmware_mod_kit_Install(){
 
     name="firmware-mod-kit"
     dir="/opt/firmware-mod-kit/trunk"
@@ -517,6 +514,28 @@ CTF_firmware-mod-kit_Install(){
             *) ;;
         esac
 
+    fi
+
+}
+
+# ===================== CTF RE Tool =====================
+
+CTF_RE_py3_module_install(){
+
+    Install_Switch4 "uncompyle6"
+
+}
+
+CTF_RE_pyinstxtractor_install(){
+
+    name="pyinstxtractor"
+    dir="$P_Dir/pyinstxtractor"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Porxy_OK git clone https://github.com/extremecoders-re/pyinstxtractor.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -562,7 +581,7 @@ CTF_PWN_py2_module_install(){
 
 }
 
-CTF_PWN-pwntools_install(){
+CTF_PWN_pwntools_install(){
 
     name="pwntools"
     Install_Switch3 "pwntools"
@@ -570,7 +589,7 @@ CTF_PWN-pwntools_install(){
 
 }
 
-CTF_PWN-pwndbg_install(){
+CTF_PWN_pwndbg_install(){
 
     name="pwndbg"
     dir="$P_Dir/pwndbg"
@@ -585,7 +604,7 @@ CTF_PWN-pwndbg_install(){
 
 }
 
-CTF_PWN-one_gadget_install(){
+CTF_PWN_one_gadget_install(){
 
     name="one_gadget"
     gem install one_gadget > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || one_gadget_install2
@@ -704,7 +723,22 @@ CTF_IOT_tools(){
     Rm_Lock
     binwalk_Install
     echo -e "\033[1;33m\n>> Installing firmware-mod-kit\n\033[0m"
-    CTF_firmware-mod-kit_Install
+    CTF_firmware_mod_kit_Install
+
+}
+
+# -re
+
+CTF_RE_tools(){
+
+    Rm_Lock
+    #echo -e "\033[1;33m\n>> Installing some misc tools\n\033[0m"
+    #CTF_RE_install
+    echo -e "\033[1;33m\n>> Installing common py modules\n\033[0m"
+    CTF_RE_py3_module_install
+    #CTF_RE_py2_module_install
+    echo -e "\033[1;33m\n>> Installing pyinstxtractor\n\033[0m"
+    CTF_RE_pyinstxtractor_install
 
 }
 
@@ -719,11 +753,11 @@ CTF_PWN_tools(){
     CTF_PWN_py3_module_install
     CTF_PWN_py2_module_install
     echo -e "\033[1;33m\n>> Installing pwntools\n\033[0m"
-    CTF_PWN-pwntools_install
+    CTF_PWN_pwntools_install
     echo -e "\033[1;33m\n>> Installing pwndbg\n\033[0m"
-    CTF_PWN-pwndbg_install
+    CTF_PWN_pwndbg_install
     echo -e "\033[1;33m\n>> Installing one_gadget\n\033[0m"
-    CTF_PWN-one_gadget_install
+    CTF_PWN_one_gadget_install
 
 }
 
@@ -736,6 +770,7 @@ Help_Info(){
     echo -e "  \033[1;34m-misc\033[0m \033[0;34m  : install MISC environment\033[0m"
     echo -e "  \033[1;34m-crypto\033[0m \033[0;34m: install Crypto environment\033[0m"
     echo -e "  \033[1;34m-iot\033[0m \033[0;34m   : install IOT environment\033[0m"
+    echo -e "  \033[1;34m-re\033[0m \033[0;34m   : install Reverse environment\033[0m"
     echo -e "  \033[1;34m-pwn\033[0m \033[0;34m   : install PWN environment\033[0m"
     echo -e ""
 
@@ -775,6 +810,14 @@ do
             pip2_Check
             JDK_Check
             CTF_IOT_tools
+            ;;
+        -re)
+            Porxy_Switch
+            Base_Check
+            Py_Check
+            pip2_Check
+            JDK_Check
+            CTF_RE_tools
             ;;
         -pwn)
             Porxy_Switch
