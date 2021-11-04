@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.8 Dev(Beta1)"
+F8x_Version="1.5.8 Dev(Beta2)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -82,8 +82,8 @@ proxify_Ver="v0.0.4"
 proxify_bin="proxify_0.0.4_linux_amd64.tar.gz"
 clash_Ver="v1.7.0"
 clash_bin="clash-linux-amd64-v1.7.0.gz"
-fzf_Ver="0.27.3"
-fzf_bin="fzf-0.27.3-linux_amd64.tar.gz"
+fzf_Ver="0.28.0"
+fzf_bin="fzf-0.28.0-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.9"
 subfinder_bin="subfinder_2.4.9_linux_amd64.zip"
 httpx_Ver="v1.1.3"
@@ -102,8 +102,8 @@ jadx_Ver="v1.2.0"
 jadx_bin="jadx-1.2.0.zip"
 rmg_Ver="v3.3.0"
 rmg_bin="rmg-3.3.0-jar-with-dependencies.jar"
-anew_Ver="1.0.1"
-anew_bin="anew_v1.0.1-snapshot_Linux_x86_64.tar.gz"
+anew_Ver="v1.0.2"
+anew_bin="anew_1.0.2_linux_amd64.tar.gz"
 nali_Ver="v0.3.2"
 nali_bin="nali-linux-amd64-v0.3.2.gz"
 dalfox_Ver="v2.5.4"
@@ -2588,7 +2588,7 @@ Pentest_redis-rogue-server_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/n0b0dyCN/redis-rogue-server.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Porxy_OK git clone ${GitPorxy}https://github.com/n0b0dyCN/redis-rogue-server.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -2604,7 +2604,7 @@ Pentest_redis-rogue-server-win_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/redis-rogue-server-win.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/redis-rogue-server-win.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -2621,7 +2621,7 @@ Pentest_redis-rce_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "six"
-        rm -rf $dir && $Porxy_OK git clone ${GitPorxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        rm -rf $dir && $Porxy_OK git clone ${GitPorxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rce.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cp $P_Dir/redis-rogue-server/exp.so $dir && Echo_INFOR "Copied exp.so to $dir"
     fi
@@ -2654,8 +2654,8 @@ Pentest_shiro_rce_tool_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && rm -f shiro_tool.zip && $Porxy_OK wget -O shiro_tool.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/shiro/shiro_tool.zip > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
-        unzip shiro_tool.zip > /dev/null 2>&1 && rm -f shiro_tool.zip
+        cd $P_Dir && rm -f shiro_tool.zip && $Porxy_OK wget -O shiro_tool.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/shiro/shiro_tool.zip > /dev/null 2>&1 || Echo_ERROR2
+        unzip shiro_tool.zip > /dev/null 2>&1 && rm -f shiro_tool.zip && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -2670,7 +2670,7 @@ Pentest_shiro-exploit_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Porxy_OK git clone ${GitPorxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 || Echo_ERROR2
         Install_Switch4 "pycryptodome"
         cd $dir && python3 shiro-exploit.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -2687,7 +2687,8 @@ Pentest_marshalsec_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        mkdir -p $dir && cd $_ && rm -f marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1 && $Porxy_OK wget -O marshalsec-0.0.3-SNAPSHOT-all.jar ${GitPorxy}https://github.com/No-Github/marshalsec/releases/download/v0.0.3/marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p $dir && cd $_ && rm -f marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1
+        $Porxy_OK wget -O marshalsec-0.0.3-SNAPSHOT-all.jar ${GitPorxy}https://github.com/No-Github/marshalsec/releases/download/v0.0.3/marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1 || rm marshalsec-0.0.3-SNAPSHOT-all.jar
         if test -e $dir/marshalsec-0.0.3-SNAPSHOT-all.jar
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -3041,9 +3042,10 @@ Pentest_anew_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $anew_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/No-Github/anew/releases/download/$anew_Ver/$anew_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -xzvf $anew_bin > /dev/null 2>&1 && rm -f $anew_bin > /dev/null 2>&1
-        mv anew /usr/local/bin/anew && chmod +x /usr/local/bin/anew && rm -f $anew_bin > /dev/null 2>&1
+        mkdir -p /tmp/anew && cd /tmp/anew && rm -f ${anew_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/No-Github/anew/releases/download/$anew_Ver/$anew_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -xzvf ${anew_bin} > /dev/null
+        mv anew /usr/local/bin/anew && chmod +x /usr/local/bin/anew
+        rm -rf /tmp/anew
         which anew > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $anew_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
@@ -3155,7 +3157,7 @@ Pentest_jwtcat_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
+        $Porxy_OK git clone ${GitPorxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 -m pip install -r requirements.txt > /dev/null 2>&1
         python3 jwtcat.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -3884,14 +3886,14 @@ code-server_Install(){
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*)
-                cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp && rm -rf $code_server_bin1 && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
                 sudo rpm -i $code_server_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf $code_server_bin1
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                cd /tmp && $Porxy_OK curl -fOL https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp && rm -rf $code_server_bin2 && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
                 sudo dpkg -i $code_server_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf $code_server_bin2
                 # sudo systemctl enable --now code-server@$USER
@@ -5803,7 +5805,6 @@ Help(){
     echo -e "  \033[1;34m-rmlock\033[0m \033[0;34m      : Run the Unlock module\033[0m"
     echo -e "  \033[1;34m-swap\033[0m \033[0;34m        : Configuring swap partitions\033[0m"
     echo -e "  \033[1;34m-update\033[0m \033[0;34m      : Update f8x\033[0m"
-    echo -e "  \033[1;34m-mock\033[0m \033[0;34m        : Individual calls to a module\033[0m"
     echo -e ""
     echo -e "\033[1;37mAuthor r0fus0d , feel free to submit an issue if you need to add tool support or run into problems\033[0m"
     echo -e "\033[1;37m|- create by ffffffff0x\033[0m"
