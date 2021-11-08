@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.8 Dev(Beta2)"
+F8x_Version="1.5.8 Dev(Beta3)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -45,13 +45,13 @@ nps_Ver="v0.26.10"
 nps_Install="linux_amd64_server.tar.gz"
 Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
-Ruby_Install=ruby-3.0.0.tar.gz
+Ruby_bin="ruby-3.0.0.tar.gz"
 RustScan_Version="2.0.1"
 RustScan_Install="rustscan_2.0.1_amd64.deb"
 ksubdomain_Ver="v0.7"
 ksubdomain_Install="ksubdomain_linux.zip"
 Go_Bin="go1.17.2.linux-amd64.tar.gz"
-xray_Ver="1.8.1"
+xray_Ver="1.8.2"
 xray_File="xray_linux_amd64.zip"
 goby_Ver="Beta1.8.302"
 goby_File="goby-linux-x64-1.8.302.zip"
@@ -113,7 +113,7 @@ Platypus_Ver="v1.5.0"
 Platypus_bin="Platypus_linux_amd64"
 lua_bin="lua-5.4.3.tar.gz"
 lua_dir="lua-5.4.3"
-Amass_Ver="v3.14.2"
+Amass_Ver="v3.14.3"
 Amass_bin="amass_linux_amd64.zip"
 gobuster_bin="gobuster-linux-amd64.7z"
 gobuster_Ver="v3.1.0"
@@ -147,7 +147,7 @@ dismap_Ver="v0.2"
 dismap_bin="dismap-linux-amd64"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
-fapro_Ver="v0.42"
+fapro_Ver="v0.43"
 fapro_bin="fapro_linux_x86_64.tar.gz"
 
 # ===================== Base Folder =====================
@@ -483,6 +483,10 @@ Info(){
         *"Ubuntu"*|*"ubuntu"*)
             Linux_Version="Ubuntu"
             case $(cat /etc/*-release | head -n 4) in
+                *"impish"*)
+                    Linux_Version_Num="21.10"
+                    Linux_Version_Name="impish"
+                    ;;
                 *"hirsute"*)
                     Linux_Version_Num="21.04"
                     Linux_Version_Name="hirsute"
@@ -607,7 +611,7 @@ Info(){
                     Linux_Version="Kali" ;;
                 [uU])
                     Linux_Version="Ubuntu"
-                    echo -e "\033[1;33m\nPlease enter the system version number [21.04] [20.10] [20.04] [19.10] [18.04] [16.04] [15.04] [14.04] [12.04]\033[0m" && read -r input
+                    echo -e "\033[1;33m\nPlease enter the system version number [21.10] [21.04] [20.10] [20.04] [19.10] [18.04] [16.04] [15.04] [14.04] [12.04]\033[0m" && read -r input
                     Linux_Version_Name=$input
                     ;;
                 [dD])
@@ -663,7 +667,7 @@ Info2(){
             if test -e /var/log/auth.log
             then
                 echo -e "\033[1;32mLast login IP :\033[0m"
-                echo -e "\033[1;35m$(grep "Accepted " /var/log/auth.log | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m"
+                echo -e "\033[1;35m$(grep --text "Accepted " /var/log/auth.log | awk '{print $11}' | sort | uniq -c | sort -nr) \033[0m"
             fi
             ;;
 
@@ -684,6 +688,11 @@ Update_APT_Mirror(){
             ;;
         *"Ubuntu"*)
             case $Linux_Version_Num in
+                "21.10")
+                    Echo_INFOR "Ubuntu21.10"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu2110_Mirror > /dev/null
+                    ;;
                 "21.04")
                     Echo_INFOR "Ubuntu21.04"
                     Echo_INFOR "Backed up apt source"
@@ -798,17 +807,32 @@ EOF
 }
 
 # ===================== Modify Ubuntu apt sources =====================
+Update_Ubuntu2110_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ impish-security main restricted universe multiverse
+EOF
+
+}
+
 Update_Ubuntu2104_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-updates main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-updates main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-backports main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-backports main restricted universe multiverse
-deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-security main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ groovy-security main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ hirsute-security main restricted universe multiverse
 EOF
 
 }
@@ -2383,8 +2407,7 @@ Pentest_OpenRedireX_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "aiohttp"
-        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/OpenRedireX.git > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        python3 openredirex.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/OpenRedireX.git > /dev/null 2>&1 && cd $dir && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -4242,8 +4265,19 @@ Ruby_Install(){
     name="ruby"
 
     echo -e "\033[1;33m\n>> Installing Ruby\n\033[0m"
-    cd $T_Dir && rm -f $Ruby_Install > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/ruby-3.0.0.tar.gz > /dev/null 2>&1 || Echo_ERROR2
-    tar xvfvz $Ruby_Install > /dev/null 2>&1
+    Rm_Lock
+    Install_Switch "ruby"
+
+}
+
+# -ruby-f
+Ruby_Install_f(){
+
+    name="ruby"
+
+    echo -e "\033[1;33m\n>> Installing Ruby\n\033[0m"
+    cd $T_Dir && rm -f $Ruby_bin > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/ruby-3.0.0.tar.gz > /dev/null 2>&1 || Echo_ERROR2
+    tar xvfvz $Ruby_bin > /dev/null 2>&1
     cd $Ruby_Dir && ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $(ruby -v) in the /usr/local/bin/" || Echo_ERROR3
 
 }
@@ -5757,7 +5791,7 @@ Help(){
     echo -e "  \033[1;34m-python2\033[0m \033[0;34m     : install python2\033[0m"
     echo -e "  \033[1;34m-pip2-f\033[0m \033[0;34m      : force install pip2\033[0m                 \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
     echo -e "  \033[1;34m-perl\033[0m \033[0;34m        : install perl\033[0m"
-    echo -e "  \033[1;34m-ruby\033[0m \033[0;34m        : install ruby\033[0m"
+    echo -e "  \033[1;34m-ruby\033[0m \033[0;34m        : install ruby\033[0m                       \033[1;33m(If that fails, try -ruby-f)\033[0m"
     echo -e "  \033[1;34m-rust\033[0m \033[0;34m        : install rust\033[0m"
     echo -e "  \033[1;34m-chromium\033[0m \033[0;34m    : install Chromium\033[0m                   \033[1;33m(Used with rad, crawlergo in the -k option) \033[0m"
     echo -e ""
@@ -6011,6 +6045,11 @@ do
             Porxy_Switch
             Base_Check
             Ruby_Install
+            ;;
+        -ruby-f)
+            Porxy_Switch
+            Base_Check
+            Ruby_Install_f
             ;;
         -rust)
             Porxy_Switch
