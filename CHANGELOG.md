@@ -2,6 +2,17 @@
 
 ## Details
 
+### 暂存 [1.5.8 Dev5] - 暂未 release
+
+**功能修改与优化**
+
+* 兼容 Ubuntu 21.10 impish
+* 兼容 AlmaLinux
+* 兼容 Fedora 35
+* 兼容 CentOS 8 Stream
+* 兼容 VzLinux
+* 兼容 Rocky
+
 ### [1.5.7] - 2021-10-22
 
 **功能添加**
