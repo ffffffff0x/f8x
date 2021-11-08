@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.8 Dev(Beta3)"
+F8x_Version="1.5.8 Dev(Beta4)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -115,8 +115,8 @@ lua_bin="lua-5.4.3.tar.gz"
 lua_dir="lua-5.4.3"
 Amass_Ver="v3.14.3"
 Amass_bin="amass_linux_amd64.zip"
-gobuster_bin="gobuster-linux-amd64.7z"
 gobuster_Ver="v3.1.0"
+gobuster_bin="gobuster-linux-amd64.7z"
 jq_bin="jq-1.6.zip"
 jq_dir="jq-1.6"
 jq_ver="jq-1.6"
@@ -170,7 +170,7 @@ Base_Dir(){
 Rm_Lock(){
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             rm -f /var/run/yum.pid 1> /dev/null 2>> /tmp/f8x_error.log
             rm -f /var/cache/dnf/metadata_lock.pid 1> /dev/null 2>> /tmp/f8x_error.log
             ;;
@@ -383,7 +383,7 @@ Echo_ERROR3(){
 Install_Switch(){
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             yum install -y $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 " || Echo_ERROR "$1 installation failed, please check the log /tmp/f8x_error.log"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -524,7 +524,7 @@ Info(){
                     Linux_Version_Name="precise"
                     ;;
                 *)
-                    Echo_ERROR "Unknown version"
+                    Echo_ERROR "Unknown Ubuntu Codename"
                     exit 1
                     ;;
             esac
@@ -553,7 +553,7 @@ Info(){
                     Linux_Version_Name="wheezy"
                     ;;
                 *)
-                    Echo_ERROR "Unknown version"
+                    Echo_ERROR "Unknown Debian Codename"
                     exit 1
                     ;;
             esac
@@ -575,13 +575,14 @@ Info(){
                     Linux_Version_Name=""
                     ;;
                 *)
-                    Echo_ERROR "Unknown version"
+                    Echo_ERROR "Unknown CentOS Codename"
                     exit 1
                     ;;
             esac
             ;;
         *"RedHat"*|*"redhat"*)
-            Linux_Version="RedHat" ;;
+            Linux_Version="RedHat"
+            ;;
         *"Fedora"*|*"fedora"*)
             Linux_Version="Fedora"
             case $(cat /etc/*-release | head -n 1) in
@@ -598,17 +599,21 @@ Info(){
                     Linux_Version_Name=""
                     ;;
                 *)
-                    Echo_ERROR "Unknown version"
+                    Echo_ERROR "Unknown Fedora Codename"
                     exit 1
                     ;;
             esac
             ;;
+        *"AlmaLinux"*)
+            Linux_Version="AlmaLinux"
+            ;;
         *)
             Echo_ERROR "Unknown version"
-            echo -e "\033[1;33m\nPlease enter distribution Kali[k] Ubuntu[u] Debian[d] Centos[c] RedHat[r] Fedora[f]\033[0m" && read -r input
+            echo -e "\033[1;33m\nPlease enter distribution Kali[k] Ubuntu[u] Debian[d] Centos[c] RedHat[r] Fedora[f] AlmaLinux[a]\033[0m" && read -r input
             case $input in
                 [kK])
-                    Linux_Version="Kali" ;;
+                    Linux_Version="Kali"
+                    ;;
                 [uU])
                     Linux_Version="Ubuntu"
                     echo -e "\033[1;33m\nPlease enter the system version number [21.10] [21.04] [20.10] [20.04] [19.10] [18.04] [16.04] [15.04] [14.04] [12.04]\033[0m" && read -r input
@@ -625,7 +630,11 @@ Info(){
                     Linux_Version_Name=$input
                     ;;
                 [rR])
-                    Linux_Version="RedHat" ;;
+                    Linux_Version="RedHat"
+                    ;;
+                [aA])
+                    Linux_Version="AlmaLinux"
+                    ;;
                 [fF])
                     Linux_Version="Fedora"
                     echo -e "\033[1;33m\nPlease enter the system version number [34] [33] [32]\033[0m" && read -r input
@@ -653,7 +662,7 @@ Info2(){
     echo -e "\033[1;32mf8x Version   :\033[0m \033[1;35m$F8x_Version \033[0m"
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             if test -e /var/log/secure
             then
                 echo -e "\033[1;32mLast login IP :\033[0m"
@@ -1052,6 +1061,9 @@ Update_YUM_Mirror(){
         *"RedHat"*)
             Echo_INFOR "RedHat Pass~"
             ;;
+        *"AlmaLinux"*)
+            Echo_INFOR "AlmaLinux Pass~"
+            ;;
         *"Fedora"*)
             Echo_INFOR "Fedora"
             rm -f /etc/yum.repos.d/fedora.repo.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora.repo.bak > /dev/null 2>&1 && Echo_INFOR "Backed up Yum sources"
@@ -1131,7 +1143,7 @@ Update_CentOS_Mirror(){
 Mirror(){
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             echo -e "\033[1;33m\n>> Check if the system is RedHat, and if you need to update the yum source? [Y/n,Default Y]\033[0m" && read -r input
             case $input in
                 [nN][oO]|[nN])
@@ -1205,7 +1217,7 @@ Change_DNS(){
 DNS_T00ls(){
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Echo_INFOR "RedHat system does not have resolvconf, this item Pass"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -1230,7 +1242,7 @@ Proxychains_Install(){
     Install_Switch "zip"
     Install_Switch "unzip"
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Install_Switch "gcc-c++"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -1307,14 +1319,19 @@ Base_Tools(){
 
     case $Linux_Version in
         *"CentOS"*)
-            Update_EPEL_Mirror;;
+            Update_EPEL_Mirror
+            ;;
+        *"AlmaLinux"*)
+            Rm_Lock
+            Install_Switch "epel-release"
+            ;;
         *) ;;
     esac
 
     Rm_Lock
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Install_Switch "yum-utils"
             Install_Switch "gcc-c++"
             Install_Switch "openssl-devel"
@@ -1333,6 +1350,13 @@ Base_Tools(){
             Install_Switch "aptitude"
             Install_Switch "libcurl4-openssl-dev"
             Install_Switch "apt-file"
+            ;;
+        *) ;;
+    esac
+
+    case $Linux_Version in
+        *"AlmaLinux"*)
+            Install_Switch "p7zip"
             ;;
         *) ;;
     esac
@@ -1369,7 +1393,7 @@ Dev_Base_Install(){
         Install_Switch "tree"
         Install_Switch "tcpdump"
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 yum groupinstall -y "Development Tools" > /dev/null 2>&1 && Echo_INFOR "Successfully installed Development Tools" || Echo_ERROR "Failed to install Development Tools"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -1396,7 +1420,7 @@ Python3_Install(){
     Rm_Lock
     Install_Switch "python3"
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Install_Switch "python3-devel"
             Install_Switch "python3-pip"
             python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "Update python3-pip failed"
@@ -1445,7 +1469,7 @@ Go_Install(){
         Echo_ALERT "Downloading Go (~120M)" && $Porxy_OK wget -O $T_Dir/$Go_Bin ${GitPorxy2}https://golang.org/dl/$Go_Bin > /dev/null 2>&1 && tar -C /usr/local -xzf $T_Dir/$Go_Bin && Echo_INFOR "Downloaded from golang.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
 
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 #export PATH=\$PATH:/usr/local/go/bin
                 #export GOROOT=/usr/local/go
                 #export GOPATH=\$HOME/Applications/Go
@@ -1492,7 +1516,7 @@ Docker_Install(){
 
                 Echo_ALERT "Installing docker" && $Porxy_OK yum install -y docker > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
                 ;;
-            *"CentOS"*|*"RedHat"*)
+            *"CentOS"*|*"RedHat"*|*"AlmaLinux"*)
                 Install_Switch "device-mapper-persistent-data"
                 Install_Switch "lvm2"
 
@@ -1621,7 +1645,7 @@ wrangler_Install(){
 SSH_Tools(){
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Echo_INFOR "RedHat is available by default, this item Pass"
             ;;
         *"Kali"*|*"Debian"*)
@@ -1839,7 +1863,7 @@ Pentest_ksubdomain_Install(){
     else
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Install_Switch "libpcap"
                 Install_Switch "libpcap-devel"
                 ;;
@@ -1854,7 +1878,7 @@ Pentest_ksubdomain_Install(){
         mv --force ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain && rm -f ${T_Dir:?}/${ksubdomain_Install} > /dev/null 2>&1
 
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                     if test -e /usr/lib64/libpcap.so.0.8
                     then
                         Echo_INFOR "libpcap.so.0.8 file already exists"
@@ -1973,7 +1997,7 @@ Pentest_gospider_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/gospider && cd /tmp/gospider && rm -f ${gospider_bin} && rm -rf gobuster-linux-amd64 && $Porxy_OK wget ${GitPorxy}https://github.com/jaeles-project/gospider/releases/download/$gospider_Ver/$gospider_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/gospider && cd /tmp/gospider && rm -f ${gospider_bin} && rm -rf ${gospider_dir} && $Porxy_OK wget ${GitPorxy}https://github.com/jaeles-project/gospider/releases/download/$gospider_Ver/$gospider_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip ${gospider_bin} > /dev/null 2>&1
         mv --force ${gospider_dir}/gospider /usr/local/bin/gospider && chmod +x /usr/local/bin/gospider
         rm -rf /tmp/gospider
@@ -2193,9 +2217,10 @@ Pentest_gobuster_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f ${gobuster_bin} && rm -rf gobuster-linux-amd64 && $Porxy_OK wget ${GitPorxy}https://github.com/OJ/gobuster/releases/download/$gobuster_Ver/$gobuster_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/gobuster && cd /tmp/gobuster && rm -f ${gobuster_bin} && rm -rf gobuster-linux-amd64 && $Porxy_OK wget ${GitPorxy}https://github.com/OJ/gobuster/releases/download/$gobuster_Ver/$gobuster_bin > /dev/null 2>&1 || Echo_ERROR2
         7za x ${gobuster_bin} > /dev/null 2>&1
-        mv --force gobuster-linux-amd64/gobuster /usr/local/bin/gobuster && chmod +x /usr/local/bin/gobuster && rm -f /tmp/${gobuster_bin} && rm -rf gobuster-linux-amd64
+        mv --force gobuster-linux-amd64/gobuster /usr/local/bin/gobuster && chmod +x /usr/local/bin/gobuster
+        rm -rf /tmp/gobuster
         which gobuster > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $gobuster_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
@@ -2529,7 +2554,7 @@ Pentest_testssl_Install(){
     else
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Install_Switch "bind-utils"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -2925,7 +2950,7 @@ Pentest_hashcat_Install(){
         rm -f $P_Dir/${hashcat_Version}.7z > /dev/null 2>&1
         cd $P_Dir/hashcat* > /dev/null 2>&1 && chmod +x hashcat.bin && cp hashcat.bin hashcat
         ln -s /pentest/${hashcat_Version}/hashcat /usr/sbin/hashcat > /dev/null 2>&1
-        hashcat --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        which hashcat > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
     if test -e $P_Dir/7z2hashcat.pl
@@ -2979,7 +3004,7 @@ Pentest_ncat_Install(){
     name="ncat"
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Echo_INFOR "Installed when nmap was installed $name"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -3434,7 +3459,7 @@ Pentest_RustScan_Install(){
         Echo_ALERT "$name installed"
     else
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 if [ $GitPorxy ==  ]
                 then
                     rm -f /var/cache/dnf/metadata_lock.pid > /dev/null 2>&1
@@ -3631,7 +3656,7 @@ Secure_BruteShark_Install(){
     else
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Install_Switch "libpcap"
                 Install_Switch "libpcap-devel"
                 ;;
@@ -3677,7 +3702,7 @@ Bash_Insulter(){
         chmod 777 /etc/bash.command-not-found && Echo_INFOR ":)"
 
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 echo ". /etc/bash.command-not-found" >> /etc/bashrc
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -3813,7 +3838,7 @@ ffmpeg_Install(){
     else
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Echo_INFOR "The current script does not support RedHat system, this item Pass\n"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -3908,7 +3933,7 @@ code-server_Install(){
         Echo_ALERT "$name installed"
     else
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 cd /tmp && rm -rf $code_server_bin1 && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
                 sudo rpm -i $code_server_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf $code_server_bin1
@@ -3959,7 +3984,7 @@ Volatility_Install(){
             else
                 Rm_Lock
                 case $Linux_Version in
-                    *"CentOS"*|*"RedHat"*|*"Fedora"*)
+                    *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                         Install_Switch "pcre-devel"
                         Install_Switch "libpcre++-devel"
                         Install_Switch "python-devel"
@@ -4046,7 +4071,7 @@ binwalk_Install(){
     else
         echo -e "\033[1;33m\n>> Installing binwalk\n\033[0m"
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Echo_INFOR "RedHat system is not recommended to install, this item Pass\n"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -4076,7 +4101,7 @@ binwalk_force_Install(){
 
         echo -e "\033[1;33m\n>> Installing binwalk\n\033[0m"
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Echo_INFOR "RedHat system is not recommended to install, this item Pass\n"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -4183,7 +4208,7 @@ clamav_Install(){
     else
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Install_Switch "clamav"
                 Install_Switch "clamav-update"
                 $Porxy_OK freshclam
@@ -4207,7 +4232,7 @@ Python2_Install(){
 
     Rm_Lock
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*)
+        *"CentOS"*|*"RedHat"*|*"AlmaLinux"*)
 
             ( (python -h > /dev/null 2>&1 || python2 -h > /dev/null 2>&1) && Echo_INFOR "Successfully installed python2" ) || ( ( (yum install -y python > /dev/null 2>&1 || yum install -y python2 > /dev/null 2>&1) && Echo_INFOR "Successfully installed python2") || Echo_ERROR "python installation failed")
 
@@ -4301,7 +4326,7 @@ chromium_Install(){
 
     Rm_Lock
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Install_Switch "pango.x86_64"
             Install_Switch "libXcomposite.x86_64"
             Install_Switch "libXcursor.x86_64"
@@ -4383,7 +4408,7 @@ Openjdk_Install(){
         echo -e "\033[1;33m\n>> Installing Java environment(openjdk)\n\033[0m"
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Install_Switch "java-1.8.0-openjdk"
                 Install_Switch "java-1.8.0-openjdk-devel"
                 java -version && Echo_INFOR "Successfully installed Java environment(openjdk)" || Echo_ERROR3
@@ -4411,7 +4436,7 @@ Oraclejdk_Install(){
     else
         echo -e "\033[1;33m\n>> Installing Java environment(oraclejdk)\n\033[0m"
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 cd $T_Dir && rm -f targz.z* > /dev/null 2>&1 && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "targz.z01 download failed"
                 $Porxy_OK wget -O targz.z02 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || Echo_ERROR "targz.z02 download failed"
                 $Porxy_OK wget -O targz.z03 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || Echo_ERROR "targz.z03 download failed"
@@ -4560,7 +4585,7 @@ Goby_Install(){
 
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Install_Switch "libXScrnSaver*"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -4710,7 +4735,7 @@ nginx_Install(){
 
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*)
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
                 Install_Switch "pcre-devel"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -4745,7 +4770,7 @@ aircrack_Install(){
 
         Rm_Lock
         case $Linux_Version in
-            *"CentOS"*|*"RedHat"*)
+            *"CentOS"*|*"RedHat"*|*"AlmaLinux"*)
                 Update_EPEL_Mirror
                 case $Linux_Version_Num in
                     8)
@@ -4932,7 +4957,7 @@ suricata_Install(){
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             Echo_ERROR "The script currently supports only Debian installations of suricata,bye bye~\n"
             exit 1
             ;;
@@ -5181,7 +5206,7 @@ System_info(){
     env >> /tmp/f8x_info.log && echo -e "Output to /tmp/f8x_info.log"
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             echo -e "" && Echo_INFOR "Check all rpm packages to see which commands have been replaced:"
             rpm -Va
             ;;
@@ -5339,7 +5364,7 @@ bt_Install(){
     echo -e "\033[1;33m\n>> Installing 宝塔 Linux 面板\n\033[0m"
 
     case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*)
             cd /tmp && curl -o install.sh http://download.bt.cn/install/install_6.0.sh && sh install.sh
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
