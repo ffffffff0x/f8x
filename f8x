@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.8 Dev(Beta5)"
+F8x_Version="1.5.8 Dev(Beta6)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -149,6 +149,15 @@ gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
 fapro_Ver="v0.43"
 fapro_bin="fapro_linux_x86_64.tar.gz"
+py37_ver="3.7.12"
+py37_bin="Python-3.7.12.tar.xz"
+py37_dir="Python-3.7.12"
+py38_ver="3.8.12"
+py38_bin="Python-3.8.12.tar.xz"
+py38_dir="Python-3.8.12"
+py39_ver="3.9.8"
+py39_bin="Python-3.9.8.tar.xz"
+py39_dir="Python-3.9.8"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -237,7 +246,7 @@ Py_Check(){
     if [ $error == 1 ]
     then
         Echo_ALERT "Python environment check does not pass and starts installing Python environment automatically"
-        Python3_Install
+        Python3_def_Install
         Python2_Install
         error=0
     else
@@ -268,7 +277,7 @@ pip3_Check(){
         Echo_INFOR "pip3 dependencies are normal"
     else
         Echo_ALERT "Dependencies not passed, start automatic installation of pip3"
-        Python3_Install
+        Python3_def_Install
     fi
 }
 
@@ -1445,6 +1454,43 @@ Dev_Base_Install(){
 # ===================== Install Python and pip =====================
 Python3_Install(){
 
+    name="Python3"
+    which python3 > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_INFOR "py3 output: $(python3 -V)"
+        echo -e "\033[1;33m\n>> $name is installed, do you want to continue? [y/N,Default N] \033[0m" && read -r input
+        case $input in
+        [yY][eE][sS]|[Yy])
+            Echo_INFOR "continue"
+            ;;
+        *)
+            Echo_INFOR "exit"
+            exit 1
+            ;;
+        esac
+    fi
+
+    case "$1" in
+        -py37 | py37)
+            Python37_Install
+            ;;
+        -py38 | py38)
+            Python38_Install
+            ;;
+        -py39 | py39)
+            Python39_Install
+            ;;
+        *)
+            Python3_def_Install
+            ;;
+    esac
+
+}
+
+Python3_def_Install(){
+
     Rm_Lock
     Install_Switch "python3"
     case $Linux_Version in
@@ -1481,6 +1527,67 @@ Python3_Install(){
         *)
             ;;
     esac
+
+}
+
+Python37_Install(){
+
+    name="Python3.7"
+    mkdir -p /tmp/py37 && cd $_ && rm -f $py37_bin && $Porxy_OK wget https://www.python.org/ftp/python/$py37_ver/$py37_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    tar -xvJf $py37_bin > /dev/null 2>&1 && cd $py37_dir
+    Echo_INFOR "configure"
+    ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
+    Echo_INFOR "make"
+    make > /dev/null 2>&1
+    Echo_INFOR "make install"
+    make install > /dev/null 2>&1
+
+    rm -f /usr/bin/python3
+    ln -s /usr/local/python3/bin/python3 /usr/bin/python3
+    python3 -V > /dev/null 2>&1 && Echo_INFOR "Installation Location : /usr/local/python3" || Echo_ERROR3
+    Echo_INFOR "py3 output: $(python3 -V)"
+    rm -rf /tmp/py37
+
+}
+
+Python38_Install(){
+
+    name="Python3.8"
+    mkdir -p /tmp/py38 && cd $_ && rm -f $py38_bin && $Porxy_OK wget https://www.python.org/ftp/python/$py38_ver/$py38_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    tar -xvJf $py38_bin > /dev/null 2>&1 && cd $py38_dir
+    Echo_INFOR "configure"
+    ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
+    Echo_INFOR "make"
+    make > /dev/null 2>&1
+    Echo_INFOR "make install"
+    make install > /dev/null 2>&1
+
+    rm -f /usr/bin/python3
+    ln -s /usr/local/python3/bin/python3 /usr/bin/python3
+    python3 -V > /dev/null 2>&1 && Echo_INFOR "Installation Location : /usr/local/python3" || Echo_ERROR3
+    Echo_INFOR "py3 output: $(python3 -V)"
+    rm -rf /tmp/py38
+
+}
+
+Python39_Install(){
+
+    name="Python3.9"
+    mkdir -p /tmp/py39 && cd $_ && rm -f $py39_bin && $Porxy_OK wget https://www.python.org/ftp/python/$py39_ver/$py39_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    tar -xvJf $py39_bin > /dev/null 2>&1 && cd $py39_dir
+    Echo_INFOR "configure"
+    ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
+    Echo_INFOR "make"
+    make > /dev/null 2>&1
+    Echo_INFOR "make install"
+    make install > /dev/null 2>&1
+
+    rm -f /usr/bin/python3
+    ln -s /usr/local/python3/bin/python3 /usr/bin/python3
+    python3 -V > /dev/null 2>&1 && Echo_INFOR "Installation Location : /usr/local/python3" || Echo_ERROR3
+    Echo_INFOR "py3 output: $(python3 -V)"
+    rm -rf /tmp/py39
+
 
 }
 
@@ -4335,9 +4442,10 @@ Ruby_Install_f(){
     name="ruby"
 
     echo -e "\033[1;33m\n>> Installing Ruby\n\033[0m"
-    cd $T_Dir && rm -f $Ruby_bin > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/ruby-3.0.0.tar.gz > /dev/null 2>&1 || Echo_ERROR2
+    cd $T_Dir && rm -f $Ruby_bin > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/$Ruby_bin > /dev/null 2>&1 || Echo_ERROR2
     tar xvfvz $Ruby_bin > /dev/null 2>&1
     cd $Ruby_Dir && ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $(ruby -v) in the /usr/local/bin/" || Echo_ERROR3
+    rm -f $T_Dir/Ruby_bin
 
 }
 
@@ -4579,6 +4687,17 @@ nn_Install(){
         mkdir /usr/local/nodejs/ && tar -C /usr/local/nodejs -xvJf $node_bin > /dev/null 2>&1 && rm $node_bin
         ln -s /usr/local/nodejs/$node_Dir/bin/node /usr/local/bin/node && Echo_INFOR "Successfully installed nodejs" || Echo_ERROR "nodejs installation failed"
         ln -s /usr/local/nodejs/$node_Dir/bin/npm /usr/local/bin/npm && Echo_INFOR "Successfully installed npm" || Echo_ERROR "npm installation failed"
+
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                echo "PATH=$PATH:/usr/local/nodejs/$node_Dir/bin/" >> /etc/bashrc
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                echo "PATH=$PATH:/usr/local/nodejs/$node_Dir/bin/" >> /etc/bash.bashrc
+                ;;
+            *) ;;
+        esac
+
     fi
 
 }
@@ -5286,17 +5405,22 @@ remove_watcher(){
 
     if ps aux | grep -i '[a]liyun'
     then
+        # 卸载阿里云盾和监控服务
+        /etc/init.d/aegis uninstall
         wget http://update.aegis.aliyun.com/download/uninstall.sh && chmod +x uninstall.sh && ./uninstall.sh
         wget http://update.aegis.aliyun.com/download/quartz_uninstall.sh && chmod +x quartz_uninstall.sh && ./quartz_uninstall.sh
 
-        # 删除残留
         sudo pkill aliyun-service
+        killall -9 aliyun-service
+        sudo pkill AliYunDun
+        killall -9 AliYunDun
         sudo rm -fr /etc/init.d/agentwatch /usr/sbin/aliyun-service
         sudo rm -rf /usr/local/aegis*
         systemctl stop aliyun.service
         systemctl disable aliyun.service
 
         # 屏蔽云盾 IP，用包过滤屏蔽如下 IP
+        iptables -I INPUT -s 100.100.30.1/28 -j DROP
         iptables -I INPUT -s 140.205.201.0/28 -j DROP
         iptables -I INPUT -s 140.205.201.16/29 -j DROP
         iptables -I INPUT -s 140.205.201.32/28 -j DROP
@@ -5306,8 +5430,18 @@ remove_watcher(){
         iptables -I INPUT -s 140.205.225.183/32 -j DROP
         iptables -I INPUT -s 140.205.225.206/32 -j DROP
         iptables -I INPUT -s 140.205.225.205/32 -j DROP
+        iptables -I INPUT -s 140.205.225.195/32 -j DROP
+        iptables -I INPUT -s 140.205.225.204/32 -j DROP
         service iptables save
         service iptables restart
+
+        rm -rf /etc/init.d/agentwatch /usr/sbin/aliyun-service
+        rm -rf /usr/local/aegis*
+        systemctl stop aliyun.service
+        systemctl disable aliyun.service
+        service bcm-agent stop
+        yum remove bcm-agent -y
+        apt-get remove bcm-agent -y
 
         # 卸载云监控 Java 版本插件
         sudo /usr/local/cloudmonitor/wrapper/bin/cloudmonitor.sh stop
@@ -5315,14 +5449,28 @@ remove_watcher(){
         sudo rm -rf /usr/local/cloudmonitor
     elif ps aux | grep -i '[y]unjing'
     then
+        # 卸载腾讯云镜
+        process=(sap100 secu-tcs-agent sgagent64 barad_agent agent agentPlugInD pvdriver )
+        for i in ${process[@]}
+        do
+            for A in $(ps aux | grep $i | grep -v grep | awk '{print $2}')
+            do
+                kill -9 $A
+            done
+        done
+        chkconfig --level 35 postfix off
+        service postfix stop
+        /usr/local/qcloud/stargate/admin/stop.sh
         /usr/local/qcloud/stargate/admin/uninstall.sh
         /usr/local/qcloud/YunJing/uninst.sh
+        /usr/local/qcloud/monitor/barad/admin/stop.sh
         /usr/local/qcloud/monitor/barad/admin/uninstall.sh
-    fi
 
-    rm -rf /usr/local/qcloud/
-    rm -rf /usr/local/sa/
-    rm -rf /usr/local/agenttools
+        rm -rf /usr/local/qcloud/
+        rm -rf /usr/local/sa/
+        rm -rf /usr/local/agenttools
+        rm -f /etc/cron.d/sgagenttask
+    fi
 
     Echo_INFOR "Uninstallation completed"
 
@@ -5490,7 +5638,7 @@ Dev_Tools(){
 
     Dev_Base_Install
     echo -e "\033[1;33m\n>> Installing python3 and pip3\n\033[0m"
-    Python3_Install
+    Python3_def_Install
     Python2_Install
     echo -e "\033[1;33m\n>> Installing Go\n\033[0m"
     Go_Install
@@ -5846,8 +5994,8 @@ Help(){
     echo -e "  \033[1;34m-nn\033[0m \033[0;34m          : install npm & NodeJs\033[0m"
     echo -e "  \033[1;34m-oraclejdk\033[0m \033[0;34m   : install oraclejdk\033[0m"
     echo -e "  \033[1;34m-openjdk\033[0m \033[0;34m     : install openjdk\033[0m"
-    echo -e "  \033[1;34m-python3\033[0m \033[0;34m     : install python3\033[0m"
-    echo -e "  \033[1;34m-python2\033[0m \033[0;34m     : install python2\033[0m"
+    echo -e "  \033[1;34m-py3(7/8/9)\033[0m \033[0;34m  : install python3\033[0m                    \033[1;33m(Based on package manager)\033[0m"
+    echo -e "  \033[1;34m-py2\033[0m \033[0;34m         : install python2\033[0m                    \033[1;33m(Based on package manager)\033[0m"
     echo -e "  \033[1;34m-pip2-f\033[0m \033[0;34m      : force install pip2\033[0m                 \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
     echo -e "  \033[1;34m-perl\033[0m \033[0;34m        : install perl\033[0m"
     echo -e "  \033[1;34m-ruby\033[0m \033[0;34m        : install ruby\033[0m                       \033[1;33m(If that fails, try -ruby-f)\033[0m"
@@ -6084,10 +6232,25 @@ do
             Base_Check
             Oraclejdk_Install
             ;;
-        -python3)
+        -py3 | py3)
             Python3_Install
             ;;
-        -python2)
+        -py37 | py37)
+            Porxy_Switch
+            Base_Check
+            Python3_Install "py37"
+            ;;
+        -py38 | py38)
+            Porxy_Switch
+            Base_Check
+            Python3_Install "py38"
+            ;;
+        -py39 | py39)
+            Porxy_Switch
+            Base_Check
+            Python3_Install "py39"
+            ;;
+        -py2 | py2)
             Python2_Install
             ;;
         -pip2-f)
