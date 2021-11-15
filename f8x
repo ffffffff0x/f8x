@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.8 Dev(Beta6)"
+F8x_Version="1.5.9 Dev(Beta1)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.4"
@@ -64,8 +64,8 @@ Nuclei_Install="nuclei_2.5.3_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.0.10"
-Terraform_bin="terraform_1.0.10_linux_amd64.zip"
+Terraform_Ver="1.0.11"
+Terraform_bin="terraform_1.0.11_linux_amd64.zip"
 CrossC2_Ver="v2.2.5"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
@@ -92,8 +92,8 @@ mapcidr_Ver="v0.0.8"
 mapcidr_bin="mapcidr_0.0.8_linux_amd64.tar.gz"
 apktool_Ver="v2.6.0"
 apktool_bin="apktool_2.6.0.jar"
-gau_Ver="v1.2.0"
-gau_bin="gau_1.2.0_linux_amd64.tar.gz"
+gau_Ver="v2.0.4"
+gau_bin="gau_2.0.4_linux_amd64.tar.gz"
 annie_Ver="v0.11.0"
 annie_bin="annie_0.11.0_Linux_64-bit.tar.gz"
 nginx_Ver="1.18.0"
@@ -113,7 +113,7 @@ Platypus_Ver="v1.5.0"
 Platypus_bin="Platypus_linux_amd64"
 lua_bin="lua-5.4.3.tar.gz"
 lua_dir="lua-5.4.3"
-Amass_Ver="v3.14.3"
+Amass_Ver="v3.15.0"
 Amass_bin="amass_linux_amd64.zip"
 gobuster_Ver="v3.1.0"
 gobuster_bin="gobuster-linux-amd64.7z"
@@ -147,7 +147,7 @@ dismap_Ver="v0.2"
 dismap_bin="dismap-linux-amd64"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
-fapro_Ver="v0.43"
+fapro_Ver="v0.44"
 fapro_bin="fapro_linux_x86_64.tar.gz"
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -1546,6 +1546,12 @@ Python37_Install(){
     ln -s /usr/local/python3/bin/python3 /usr/bin/python3
     python3 -V > /dev/null 2>&1 && Echo_INFOR "Installation Location : /usr/local/python3" || Echo_ERROR3
     Echo_INFOR "py3 output: $(python3 -V)"
+
+    rm -f /usr/bin/lsb_release > /dev/null 2>&1
+    python3 -m ensurepip > /dev/null 2>&1
+    python3 -m pip install --upgrade pip > /dev/null 2>&1
+
+    Echo_INFOR "pip3 output: $(pip3 -V)"
     rm -rf /tmp/py37
 
 }
@@ -1566,6 +1572,12 @@ Python38_Install(){
     ln -s /usr/local/python3/bin/python3 /usr/bin/python3
     python3 -V > /dev/null 2>&1 && Echo_INFOR "Installation Location : /usr/local/python3" || Echo_ERROR3
     Echo_INFOR "py3 output: $(python3 -V)"
+
+    rm -f /usr/bin/lsb_release > /dev/null 2>&1
+    python3 -m ensurepip > /dev/null 2>&1
+    python3 -m pip install --upgrade pip > /dev/null 2>&1
+
+    Echo_INFOR "pip3 output: $(pip3 -V)"
     rm -rf /tmp/py38
 
 }
@@ -1586,8 +1598,13 @@ Python39_Install(){
     ln -s /usr/local/python3/bin/python3 /usr/bin/python3
     python3 -V > /dev/null 2>&1 && Echo_INFOR "Installation Location : /usr/local/python3" || Echo_ERROR3
     Echo_INFOR "py3 output: $(python3 -V)"
-    rm -rf /tmp/py39
 
+    rm -f /usr/bin/lsb_release > /dev/null 2>&1
+    python3 -m ensurepip > /dev/null 2>&1
+    python3 -m pip install --upgrade pip > /dev/null 2>&1
+
+    Echo_INFOR "pip3 output: $(pip3 -V)"
+    rm -rf /tmp/py39
 
 }
 
