@@ -19,9 +19,9 @@ F8x_ctf_Version="0.0.7 Dev"
 Main
 Pentest_Base_Install > /dev/null 2>&1
 
-bkcrack_Ver="v1.3.1"
-bkcrack_bin="bkcrack-1.3.1-Linux.tar.gz"
-bkcrack_dir="bkcrack-1.3.1-Linux"
+bkcrack_Ver="v1.3.3"
+bkcrack_bin="bkcrack-1.3.3-Linux.tar.gz"
+bkcrack_dir="bkcrack-1.3.3-Linux"
 
 # ===================== CTF WEB Tool =====================
 
@@ -93,6 +93,7 @@ CTF_Misc_install(){
 
     Install_Switch "strace"
     Install_Switch "unrar"
+    Install_Switch "python3-tk"
 
 }
 
