@@ -2450,6 +2450,22 @@ Pentest_WebCrack_Install(){
 
 }
 
+Pentest_WebCrack_fork_Install(){
+
+    name="WebCrack"
+    dir="$P_Dir/WebCrack"
+
+    if test -e $dir/fork.txt
+    then
+        Echo_ALERT "$name installed"
+    else
+        rm -rf /pentest/WebCrack
+        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/WebCrack.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== Install Metasploit =====================
 Pentest_Metasploit_Install(){
 
