@@ -1460,6 +1460,8 @@ Python3_Install(){
     if [ $? == 0 ]
     then
         Echo_INFOR "py3 output: $(python3 -V)"
+        Echo_ALERT "警告 : 覆盖安装可能会导致无法预期的问题, 请明白自己在做什么"
+        Echo_ALERT "Warning : Overwrite installation may cause unpredictable problems, please understand what you are doing"
         echo -e "\033[1;33m\n>> $name is installed, do you want to continue? [y/N,Default N] \033[0m" && read -r input
         case $input in
         [yY][eE][sS]|[Yy])
