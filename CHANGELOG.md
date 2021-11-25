@@ -2,6 +2,11 @@
 
 ## Details
 
+### 暂存 [1.5.9 - Dev(Beta3)] - 还未 releases
+
+**功能添加**
+* k 选项添加 htpwdScan,WebCrack
+
 ### [1.5.8] - 2021-11-12
 
 **功能修改与优化**
