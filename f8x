@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.5.9 Dev(Beta3)"
+F8x_Version="1.5.9 Dev(Beta4)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -158,6 +158,13 @@ py38_dir="Python-3.8.12"
 py39_ver="3.9.8"
 py39_bin="Python-3.9.8.tar.xz"
 py39_dir="Python-3.9.8"
+ysomap_Ver="v0.1.2"
+ysomap_bin="ysomap.jar"
+JNDIExploit_Ver="v1.2"
+JNDIExploit_bin="JNDIExploit.v1.2.zip"
+JNDIExploit_dir="JNDIExploit.v1.2"
+sttr_Ver="v0.2.6"
+sttr_bin="sttr_0.2.6_linux_amd64.tar.gz"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -513,6 +520,14 @@ Info(){
                     Linux_Version_Num="19.10"
                     Linux_Version_Name="eoan"
                     ;;
+                *"disco"*)
+                    Linux_Version_Num="19.04"
+                    Linux_Version_Name="disco"
+                    ;;
+                *"cosmic"*)
+                    Linux_Version_Num="18.10"
+                    Linux_Version_Name="cosmic"
+                    ;;
                 *"bionic"*)
                     Linux_Version_Num="18.04"
                     Linux_Version_Name="bionic"
@@ -640,7 +655,7 @@ Info(){
                     ;;
                 [uU])
                     Linux_Version="Ubuntu"
-                    echo -e "\033[1;33m\nPlease enter the system version number [21.10] [21.04] [20.10] [20.04] [19.10] [18.04] [16.04] [15.04] [14.04] [12.04]\033[0m" && read -r input
+                    echo -e "\033[1;33m\nPlease enter the system version number [21.10] [21.04] [20.10] [20.04] [19.10] [19.04] [18.10] [18.04] [16.04] [15.04] [14.04] [12.04]\033[0m" && read -r input
                     Linux_Version_Name=$input
                     ;;
                 [dD])
@@ -751,6 +766,16 @@ Update_APT_Mirror(){
                     Echo_INFOR "Ubuntu19.10"
                     Echo_INFOR "Backed up apt source"
                     Update_Ubuntu1910_Mirror > /dev/null
+                    ;;
+                "19.04")
+                    Echo_INFOR "Ubuntu19.04"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu1804_Mirror > /dev/null
+                    ;;
+                "18.10")
+                    Echo_INFOR "Ubuntu18.10"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu1804_Mirror > /dev/null
                     ;;
                 "18.04")
                     Echo_INFOR "Ubuntu18.04"
@@ -2962,6 +2987,52 @@ Pentest_marshalsec_Install(){
 
 }
 
+# ===================== Install ysomap =====================
+Pentest_ysomap_Install(){
+
+    name="ysomap"
+    dir="$P_Dir/ysomap"
+
+    if test -e $dir/$ysomap_bin
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -f $ysomap_bin > /dev/null 2>&1
+        $Porxy_OK wget -O $ysomap_bin ${GitPorxy}https://github.com/wh1t3p1g/ysomap/releases/download/$ysomap_Ver/$ysomap_bin > /dev/null 2>&1 || rm $ysomap_bin
+        if test -e $dir/$ysomap_bin
+        then
+            Echo_INFOR "Successfully installed $name in the $dir"
+        else
+            Echo_ERROR3
+        fi
+    fi
+
+}
+
+# ===================== Install JNDIExploit =====================
+# 与上面3个利用工具功能重复,默认不安装
+Pentest_JNDIExploit_Install(){
+
+    name="JNDIExploit"
+    dir="$P_Dir/JNDIExploit"
+
+    if test -e $dir/JNDIExploit-1.2-SNAPSHOT.jar
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        mkdir -p $dir && cd $_ && rm -rf $JNDIExploit_dir > /dev/null 2>&1
+        $Porxy_OK wget -O $JNDIExploit_bin ${GitPorxy}https://github.com/feihong-cs/JNDIExploit/releases/download/$JNDIExploit_Ver/$JNDIExploit_bin > /dev/null 2>&1 || rm $JNDIExploit_bin
+        unzip $JNDIExploit_bin > /dev/null 2>&1 && rm -f $JNDIExploit_bin
+        if test -e $dir/JNDIExploit-1.2-SNAPSHOT.jar
+        then
+            Echo_INFOR "Successfully installed $name in the $dir"
+        else
+            Echo_ERROR3
+        fi
+    fi
+
+}
+
 # ===================== Install Impacket =====================
 Pentest_Impacket_Install(){
 
@@ -3386,6 +3457,24 @@ Pentest_Interlace_Install(){
         cd Interlace && $Porxy_OK python3 setup.py install > /dev/null 2>&1
         which interlace > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
         rm -rf /tmp/Interlace
+    fi
+
+}
+
+# ===================== Install sttr =====================
+Pentest_sttr_Install(){
+
+    name="sttr"
+    which sttr > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        cd /tmp && rm -f $sttr_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/abhimanyu003/sttr/releases/download/$sttr_Ver/$sttr_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf $sttr_bin > /dev/null 2>&1
+        mv --force sttr /usr/local/bin/ && chmod +x /usr/local/bin/sttr && rm -f /tmp/$sttr_bin > /dev/null 2>&1
+        which sttr > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $sttr_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -4169,6 +4258,19 @@ code-server_Install(){
 
 }
 
+# ===================== Install wait-for =====================
+wait-for_Install(){
+
+    name="wait-for"
+    if test -e $T_Dir/wait-for
+    then
+        Echo_ALERT "$name is already installed in $T_Dir"
+    else
+        $Porxy_OK curl -o $T_Dir/wait-for ${GitPorxy}https://raw.githubusercontent.com/eficode/wait-for/master/wait-for > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $T_Dir" || Echo_ERROR2
+    fi
+
+}
+
 # -vol
 Volatility_Install(){
 
@@ -4519,7 +4621,7 @@ Ruby_Install_f(){
     cd $T_Dir && rm -f $Ruby_bin > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/$Ruby_bin > /dev/null 2>&1 || Echo_ERROR2
     tar xvfvz $Ruby_bin > /dev/null 2>&1
     cd $Ruby_Dir && ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $(ruby -v) in the /usr/local/bin/" || Echo_ERROR3
-    rm -f $T_Dir/Ruby_bin
+    rm -f $T_Dir/$Ruby_bin
 
 }
 
@@ -5892,6 +5994,8 @@ kali_Tools_TypeB(){
     Pentest_Gopherus_Install
     echo -e "\033[1;33m\n>> Installing marshalsec\n\033[0m"
     Pentest_marshalsec_Install
+    echo -e "\033[1;33m\n>> Installing ysomap\n\033[0m"
+    Pentest_ysomap_Install
 
     # Pentest_redis-rogue-server_Install
     # Pentest_redis-rogue-server-win_Install
@@ -5899,6 +6003,7 @@ kali_Tools_TypeB(){
     # Pentest_redis_lua_exploit_Install
     # Pentest_shiro_rce_tool_Install
     # Pentest_shiro-exploit_Install
+    # Pentest_JNDIExploit_Install
 
 }
 
@@ -5951,6 +6056,8 @@ kali_Tools_TypeD(){
     Pentest_qsreplace_Install
     echo -e "\033[1;33m\n>> Installing Interlace\n\033[0m"
     Pentest_Interlace_Install
+    echo -e "\033[1;33m\n>> Installing sttr\n\033[0m"
+    Pentest_sttr_Install
 
     # Pentest_interactsh_Install
     # Pentest_jwtcat_Install
