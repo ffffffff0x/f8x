@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x
 
-F8x_ctf_Version="0.0.7 Dev"
+F8x_ctf_Version="0.0.8 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -22,6 +22,9 @@ Pentest_Base_Install > /dev/null 2>&1
 bkcrack_Ver="v1.3.3"
 bkcrack_bin="bkcrack-1.3.3-Linux.tar.gz"
 bkcrack_dir="bkcrack-1.3.3-Linux"
+upx_Ver="v3.96"
+upx_bin="upx-3.96-amd64_linux.tar.xz"
+upx_dir="upx-3.96-amd64_linux"
 
 # ===================== CTF WEB Tool =====================
 
@@ -81,7 +84,7 @@ CTF_flask-session-cookie-manager_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/noraj/flask-session-cookie-manager.git $dir > /dev/null 2>&1
+        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/noraj/flask-session-cookie-manager.git $dir > /dev/null 2>&1
         cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -230,7 +233,7 @@ CTF_outguess_install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/outguess && cd /tmp/outguess
-        $Porxy_OK git clone https://github.com/crorvick/outguess > /dev/null 2>&1 || Echo_ERROR2
+        $Porxy_OK git clone --depth 1 https://github.com/crorvick/outguess > /dev/null 2>&1 || Echo_ERROR2
         cd outguess
         ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1
         which outguess > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
@@ -279,7 +282,7 @@ CTF_F5-steganography_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/matthewgao/F5-steganography.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Porxy_OK git clone --depth 1 https://github.com/matthewgao/F5-steganography.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -410,6 +413,7 @@ CTF_Crypto_py3_module_install(){
     Install_Switch4 "sympy"
     Install_Switch4 "Arithmetic"
     Install_Switch4 "secret"
+    Install_Switch4 "gmssl"
 
 }
 
@@ -430,7 +434,7 @@ CTF_rsatool_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/ius/rsatool.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone --depth 1 https://github.com/ius/rsatool.git > /dev/null 2>&1 || Echo_ERROR2
         cd rsatool && python3 rsatool.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -457,7 +461,7 @@ CTF_RsaCtfTool_install(){
             *) ;;
         esac
 
-        cd $P_Dir && $Porxy_OK git clone https://github.com/Ganapati/RsaCtfTool.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone --depth 1 https://github.com/Ganapati/RsaCtfTool.git > /dev/null 2>&1 || Echo_ERROR2
         cd RsaCtfTool
         pip3 install -r "requirements.txt" > /dev/null 2>&1
         pip3 install -r "optional-requirements.txt" > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
@@ -474,7 +478,7 @@ CTF_CTF-RSA-tool_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/3summer/CTF-RSA-tool.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+        cd $P_Dir && $Porxy_OK git clone --depth 1 https://github.com/3summer/CTF-RSA-tool.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -489,6 +493,23 @@ CTF_rsa-wiener-attack_install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Porxy_OK git clone https://github.com/pablocelayes/rsa-wiener-attack.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+    fi
+
+}
+
+CTF_basecrack_install(){
+
+    name="basecrack"
+    dir="$P_Dir/basecrack"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Porxy_OK git clone --depth 1 https://github.com/mufeedvh/basecrack.git > /dev/null 2>&1 || Echo_ERROR2
+        cd basecrack
+        pip3 install -r "requirements.txt" > /dev/null 2>&1
+        python3 basecrack.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -537,6 +558,23 @@ CTF_RE_pyinstxtractor_install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Porxy_OK git clone https://github.com/extremecoders-re/pyinstxtractor.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR2
+    fi
+
+}
+
+CTF_RE_upx_install(){
+
+    name="upx"
+    which upx > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/upx && cd $_ && rm -f $upx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/upx/upx/releases/download/$upx_Ver/$upx_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -xvJf $upx_bin > /dev/null 2>&1 && cd $upx_dir
+        mv --force upx /usr/local/bin/upx && chmod +x /usr/local/bin/upx && rm -rf /tmp/upx > /dev/null 2>&1
+        which upx > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $upx_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -599,7 +637,7 @@ CTF_PWN_pwndbg_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Porxy_OK git clone --depth 1 https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir && echo "source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
     fi
 
@@ -644,6 +682,8 @@ CTF_WEB_tools(){
     CTF_Git_Extract_install
     echo -e "\033[1;33m\n>> Installing flask-session-cookie-manager\n\033[0m"
     CTF_flask-session-cookie-manager_install
+    echo -e "\033[1;33m\n>> Installing Gopherus\n\033[0m"
+    Pentest_Gopherus_Install
 
 }
 
@@ -714,6 +754,8 @@ CTF_Crypto_tools(){
     CTF_CTF-RSA-tool_install
     echo -e "\033[1;33m\n>> Installing rsa-wiener-attack\n\033[0m"
     CTF_rsa-wiener-attack_install
+    echo -e "\033[1;33m\n>> Installing basecrack\n\033[0m"
+    CTF_basecrack_install
 
 }
 
@@ -740,6 +782,8 @@ CTF_RE_tools(){
     #CTF_RE_py2_module_install
     echo -e "\033[1;33m\n>> Installing pyinstxtractor\n\033[0m"
     CTF_RE_pyinstxtractor_install
+    echo -e "\033[1;33m\n>> Installing upx\n\033[0m"
+    CTF_RE_upx_install
 
 }
 
