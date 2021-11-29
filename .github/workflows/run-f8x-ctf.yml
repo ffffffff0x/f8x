@@ -1,0 +1,64 @@
+name: f8x-ctf
+on:
+  push:
+    paths:
+    - 'f8x-ctf'
+
+jobs:
+  ubuntu-2004-build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+
+      - name: init
+        run:
+          touch /tmp/IS_CI
+
+      - name: Run
+        run:
+          sudo bash f8x
+
+      - name: Run -h
+        run:
+          sudo bash f8x -h
+
+      - name: Run -clear
+        run:
+          sudo bash f8x -clear
+
+      - name: Run -b
+        run:
+          sudo bash f8x -b
+
+      - name: Run -d
+        run:
+          sudo bash f8x -d
+
+      - name: Run -web
+        run:
+          sudo bash f8x-ctf -web
+
+      - name: Run -crypto
+        run:
+          sudo bash f8x-ctf -crypto
+
+      - name: Run -misc
+        run:
+          sudo bash f8x-ctf -misc
+
+      - name: Run -re
+        run:
+          sudo bash f8x-ctf -re
+
+      - name: Run -pwn
+        run:
+          sudo bash f8x-ctf -pwn
+
+      - name: Run -info
+        run:
+          sudo bash f8x -info
+
+      - name: log
+        run:
+          cat /tmp/f8x_error.log

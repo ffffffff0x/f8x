@@ -1,4 +1,4 @@
-name: dev
+name: f8x
 on:
   push:
     paths:
