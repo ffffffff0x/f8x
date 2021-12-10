@@ -2,10 +2,13 @@
 
 ## Details
 
-### 暂存 [1.5.9 - Dev(Beta3)] - 还未 releases
+### [1.5.9] - 2021-12-10
 
 **功能添加**
 * k 选项添加 htpwdScan,WebCrack,ysomap,sttr
+
+**功能修改与优化**
+* git clone 加入 --depth 1
 
 ### [1.5.8] - 2021-11-12
 
