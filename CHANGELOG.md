@@ -2,6 +2,11 @@
 
 ## Details
 
+### 暂存更新 [1.6.0 Beta1]
+
+**功能添加**
+* k 选项添加 [JNDIExploit](https://github.com/0x727/JNDIExploit)
+
 ### [1.5.9] - 2021-12-10
 
 **功能添加**
