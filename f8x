@@ -59,8 +59,8 @@ fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.5.4"
-Nuclei_Install="nuclei_2.5.4_linux_amd64.zip"
+Nuclei_Ver="v2.5.5"
+Nuclei_Install="nuclei_2.5.5_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
@@ -3033,8 +3033,7 @@ Pentest_JNDIExploit_0x727_Install(){
 
 }
 
-# ===================== Install JNDIExploit =====================
-# 原作者已删除项目,后续我会将 jar 包备份一份到 Archive
+# 原项目删除,已将 jar 包备份一份到 Archive
 Pentest_JNDIExploit_Install(){
 
     name="JNDIExploit"
