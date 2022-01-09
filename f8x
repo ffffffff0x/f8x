@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.6.0 Dev(Beta4)"
+F8x_Version="1.6.0 Dev(Beta5)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -64,8 +64,8 @@ Nuclei_Install="nuclei_2.5.7_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.1.2"
-Terraform_bin="terraform_1.1.2_linux_amd64.zip"
+Terraform_Ver="1.1.3"
+Terraform_bin="terraform_1.1.3_linux_amd64.zip"
 CrossC2_Ver="v2.2.5"
 node_Ver="v14.16.0"
 node_bin="node-v14.16.0-linux-x64.tar.xz"
@@ -100,12 +100,12 @@ nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
 jadx_Ver="v1.3.1"
 jadx_bin="jadx-1.3.1.zip"
-rmg_Ver="v4.2.0"
-rmg_bin="rmg-4.2.0-jar-with-dependencies.jar"
+rmg_Ver="v4.2.1"
+rmg_bin="rmg-4.2.1-jar-with-dependencies.jar"
 anew_Ver="v1.0.2"
 anew_bin="anew_1.0.2_linux_amd64.tar.gz"
-nali_Ver="v0.3.5"
-nali_bin="nali-linux-amd64-v0.3.5.gz"
+nali_Ver="0.3.5"
+nali_bin="nali-linux-amd64-0.3.5.gz"
 dalfox_Ver="v2.7.0"
 dalfox_bin="dalfox_2.7.0_linux_amd64.tar.gz"
 DomainSplit_Ver="1.0"
@@ -140,14 +140,14 @@ assetfinder_Ver="v0.1.1"
 assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.6.3"
 ttyd_bin="ttyd.x86_64"
-code_server_Ver="v3.12.0"
-code_server_bin1="code-server-3.12.0-amd64.rpm"
-code_server_bin2="code-server_3.12.0_amd64.deb"
+code_server_Ver="v4.0.1"
+code_server_bin1="code-server-4.0.1-amd64.rpm"
+code_server_bin2="code-server_4.0.1_amd64.deb"
 dismap_Ver="v0.2"
 dismap_bin="dismap-linux-amd64"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
-fapro_Ver="v0.52"
+fapro_Ver="v0.53"
 fapro_bin="fapro_linux_x86_64.tar.gz"
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -166,6 +166,8 @@ sttr_Ver="v0.2.12"
 sttr_bin="sttr_0.2.12_linux_amd64.tar.gz"
 zscan_Ver="1.2.3"
 zscan_bin="zscan_linux_x64"
+netspy_bin="netspy_linux_amd64.zip"
+netspy_Ver="v0.0.3"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -324,7 +326,7 @@ Rust_Check(){
 JDK_Check(){
 
     Echo_INFOR "Checking JDK environment availability"
-    java -version > /dev/null 2>&1
+    which java > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -2517,6 +2519,25 @@ Pentest_WebCrack_Install(){
 
 }
 
+# ===================== Install netspy =====================
+Pentest_netspy_Install(){
+
+    name="netspy"
+
+    which netspy > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir /tmp/netspy && cd /tmp/netspy && $Porxy_OK wget ${GitPorxy}https://github.com/shmilylty/netspy/releases/download/$netspy_Ver/$netspy_bin > /dev/null 2>&1 || Echo_ERROR2
+        unzip $netspy_bin > /dev/null 2>&1
+        mv --force $netspy_bin /usr/local/bin/netspy && chmod +x /usr/local/bin/netspy && rm -rf /tmp/netspy
+        which netspy > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $netspy_Ver in the /usr/local/bin/" || Echo_ERROR3
+    fi
+
+}
+
 Pentest_zscan_Install(){
 
     name="zscan"
@@ -2544,7 +2565,7 @@ Pentest_Metasploit_Install(){
     then
         Echo_ALERT "$name installed , consider running 'msfupdate' to update to the latest version."
     else
-        if [ $GitPorxy ==  ]
+        if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
         then
             Rm_Lock
             cd /tmp && rm -f msfinstall > /dev/null 2>&1 && $Porxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /dev/null 2>&1 && chmod 777 msfinstall
@@ -6017,6 +6038,8 @@ kali_Tools_TypeA(){
     Pentest_htpwdScan_Install
     echo -e "\033[1;33m\n>> Installing WebCrack\n\033[0m"
     Pentest_WebCrack_Install
+    echo -e "\033[1;33m\n>> Installing netspy\n\033[0m"
+    Pentest_netspy_Install
 
     # Pentest_zscan_Install
 
