@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.6.0 Dev(Beta5)"
+F8x_Version="1.6.0 Dev(Beta6)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -59,8 +59,8 @@ fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
-Nuclei_Ver="v2.5.7"
-Nuclei_Install="nuclei_2.5.7_linux_amd64.zip"
+Nuclei_Ver="v2.5.8"
+Nuclei_Install="nuclei_2.5.8_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
@@ -86,8 +86,8 @@ fzf_Ver="0.29.0"
 fzf_bin="fzf-0.29.0-linux_amd64.tar.gz"
 subfinder_Ver="v2.4.9"
 subfinder_bin="subfinder_2.4.9_linux_amd64.zip"
-httpx_Ver="v1.1.4"
-httpx_bin="httpx_1.1.4_linux_amd64.zip"
+httpx_Ver="v1.1.5"
+httpx_bin="httpx_1.1.5_linux_amd64.zip"
 mapcidr_Ver="v0.0.8"
 mapcidr_bin="mapcidr_0.0.8_linux_amd64.tar.gz"
 apktool_Ver="v2.6.0"
@@ -100,8 +100,8 @@ nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
 jadx_Ver="v1.3.1"
 jadx_bin="jadx-1.3.1.zip"
-rmg_Ver="v4.2.1"
-rmg_bin="rmg-4.2.1-jar-with-dependencies.jar"
+rmg_Ver="v4.2.2"
+rmg_bin="rmg-4.2.2-jar-with-dependencies.jar"
 anew_Ver="v1.0.2"
 anew_bin="anew_1.0.2_linux_amd64.tar.gz"
 nali_Ver="0.3.5"
@@ -164,10 +164,13 @@ JNDIExploit_Ver="1.1"
 JNDIExploit_bin="JNDIExploit.zip"
 sttr_Ver="v0.2.12"
 sttr_bin="sttr_0.2.12_linux_amd64.tar.gz"
-zscan_Ver="1.2.3"
+zscan_Ver="1.4.1"
 zscan_bin="zscan_linux_x64"
 netspy_bin="netspy_linux_amd64.zip"
 netspy_Ver="v0.0.3"
+# https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media
+# https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?prefix=Linux_x64/958422/
+chromium_Ver="958422"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -4775,13 +4778,14 @@ chromium_Install(){
             Install_Switch2 "libxss1"
             Install_Switch2 "libxtst6"
             Install_Switch2 "libnss3"
+            Install_Switch2 "libgbm-dev"
             ;;
         *) ;;
     esac
 
     echo -e "\033[1;33m\n>> Installing chromium (~120M)\n\033[0m"
 
-    cd $T_Dir && rm -rf chrome-linux* > /dev/null 2>&1 && $Porxy_OK wget https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/706915/chrome-linux.zip > /dev/null 2>&1
+    cd $T_Dir && rm -rf chrome-linux* > /dev/null 2>&1 && $Porxy_OK wget https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/$chromium_Ver/chrome-linux.zip > /dev/null 2>&1
 
     unzip chrome-linux.zip > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $T_Dir/chrome-linux " || Echo_ERROR3
     rm -f chrome-linux.zip > /dev/null 2>&1
