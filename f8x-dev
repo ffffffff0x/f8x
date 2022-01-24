@@ -5,6 +5,7 @@
 if test -e /usr/local/bin/f8x
 then
     sleep 0.001
+    # f8x -update
 else
     curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mInstalled f8x tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x installation failed\n\033[0m"
 fi
@@ -369,8 +370,49 @@ tomcat9_Install(){
 
 }
 
+# ===================== Install nginx (pkg) =====================
+nginx_Install_pkg(){
+
+    name="nginx"
+
+    Install_Switch "nginx"
+
+    Echo_INFOR "systemctl status nginx"
+    systemctl status nginx
+
+}
+
+# ===================== Install apache (pkg) =====================
+apache_Install_pkg(){
+
+    name="apache2"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+            Install_Switch "httpd"
+            Echo_INFOR "systemctl status httpd"
+            systemctl status httpd
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "apache2"
+            Echo_INFOR "systemctl status apache2"
+            systemctl status apache2
+            ;;
+        *)
+            ;;
+    esac
+
+}
+
+# -help
 Help_Info(){
 
+    echo -e "\033[1;34mapache \033[0m"
+    echo -e "  \033[1;34m-apache-pkg\033[0m \033[0;34m  : install apache (use apt/yum) \033[0m"
+    echo -e ""
+    echo -e "\033[1;34mnginx \033[0m"
+    echo -e "  \033[1;34m-nginx-pkg\033[0m \033[0;34m   : install nginx (use apt/yum) \033[0m"
+    echo -e "  \033[1;34m-nginx-src\033[0m \033[0;34m   : install nginx (use Source Code) \033[0m"
     echo -e ""
     echo -e "\033[1;34mtomcat \033[0m"
     echo -e "  \033[1;34m-tomcat6\033[0m \033[0;34m     : install tomcat6 \033[0m"
@@ -454,6 +496,15 @@ do
             Porxy_Switch
             Base_Check
             tomcat9_Install
+            ;;
+        -nginx-src)
+            nginx_Install
+            ;;
+        -nginx-pkg)
+            nginx_Install_pkg
+            ;;
+        -apache-pkg)
+            apache_Install_pkg
             ;;
         -help | help)
             printf "\033c"
