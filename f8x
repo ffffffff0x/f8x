@@ -29,18 +29,18 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.6.0 Dev(Beta7)"
+F8x_Version="1.6.0 Dev(Beta8)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
 jdk_Version="jdk1.8.0_271"
 CS_File="CobaltStrike4.3.zip"
 CS_Version="CobaltStrike4.3"
-AdGuardHome_Version="v0.107.0"
+AdGuardHome_Version="v0.107.3"
 AdguardTeam_File="AdGuardHome_linux_amd64.tar.gz"
-frp_Version="v0.36.1"
-frp_File="frp_0.36.1_linux_amd64.tar.gz"
-frp_Dir="frp_0.36.1_linux_amd64"
+frp_Ver="v0.39.0"
+frp_File="frp_0.39.0_linux_amd64.tar.gz"
+frp_Dir="frp_0.39.0_linux_amd64"
 nps_Ver="v0.26.10"
 nps_Install="linux_amd64_server.tar.gz"
 Ruby_Ver="3.0"
@@ -51,7 +51,7 @@ RustScan_Install="rustscan_2.0.1_amd64.deb"
 ksubdomain_Ver="v0.7"
 ksubdomain_Install="ksubdomain_linux.zip"
 Go_Bin="go1.17.2.linux-amd64.tar.gz"
-xray_Ver="1.8.2"
+xray_Ver="1.8.4"
 xray_File="xray_linux_amd64.zip"
 goby_Ver="Beta1.9.320"
 goby_File="goby-linux-x64-1.9.320.zip"
@@ -123,8 +123,8 @@ jq_ver="jq-1.6"
 gospider_Ver="v1.1.6"
 gospider_bin="gospider_v1.1.6_linux_x86_64.zip"
 gospider_dir="gospider_v1.1.6_linux_x86_64"
-interactsh_Ver="v0.0.7"
-interactsh_bin="interactsh_0.0.7_linux_amd64.zip"
+#interactsh-client_Ver="v1.0.1"
+#interactsh-client_bin="interactsh-client_1.0.1_Linux_arm64.zip"
 gron_Ver="v0.6.1"
 gron_bin="gron-linux-amd64-0.6.1.tgz"
 unfurl_Ver="v0.2.0"
@@ -141,13 +141,13 @@ assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.6.3"
 ttyd_bin="ttyd.x86_64"
 code_server_Ver="v4.0.1"
-code_server_bin1="code-server-4.0.1-amd64.rpm"
-code_server_bin2="code-server_4.0.1_amd64.deb"
+code_server_bin1="code-server-4.0.2-amd64.rpm"
+code_server_bin2="code-server_4.0.2_amd64.deb"
 dismap_Ver="v0.2"
 dismap_bin="dismap-linux-amd64"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
-fapro_Ver="v0.55"
+fapro_Ver="v0.56"
 fapro_bin="fapro_linux_x86_64.tar.gz"
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -171,6 +171,15 @@ netspy_Ver="v0.0.4"
 # https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media
 # https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?prefix=Linux_x64/958422/
 chromium_Ver="958422"
+bat_Ver="v0.19.0"
+bat_bin="bat_0.19.0_amd64.deb"
+duf_Ver="v0.7.0"
+duf_bin1="duf_0.7.0_linux_amd64.rpm"
+duf_bin2="duf_0.7.0_linux_amd64.deb"
+procs_Ver="v0.12.1"
+procs_bin="procs-v0.12.1-x86_64-lnx.zip"
+fd_Ver="v8.3.2"
+fd_bin="fd_8.3.2_amd64.deb"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -4305,6 +4314,134 @@ ttyd_Install(){
 
 }
 
+# ===================== Install duf =====================
+duf_Install(){
+
+    name="duf"
+    which duf > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                rpm -i $duf_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                rm -rf /tmp/dufinstall
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                dpkg -i $duf_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                rm -rf /tmp/dufinstall
+                ;;
+            *) ;;
+        esac
+    fi
+
+}
+
+# ===================== Install procs =====================
+procs_Install(){
+
+    name="procs"
+    which procs > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/procsinstall && cd $_
+        $Porxy_OK wget ${GitPorxy}https://github.com/dalance/procs/releases/download/$procs_Ver/$procs_bin > /dev/null 2>&1 || Echo_ERROR2
+        unzip $procs_bin > /dev/null 2>&1
+        mv --force procs /usr/local/bin/procs && chmod +x /usr/local/bin/procs
+        which procs > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $procs_Ver in the /usr/local/bin/" || Echo_ERROR3
+        rm -rf /tmp/procsinstall
+    fi
+
+}
+
+# ===================== Install ncdu =====================
+ncdu_Install(){
+
+    name="ncdu"
+    which ncdu > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch "ncdu"
+    fi
+
+}
+
+# ===================== Install exa =====================
+exa_Install(){
+
+    name="exa"
+    which exa > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch "exa"
+    fi
+
+}
+
+# ===================== Install htop =====================
+htop_Install(){
+
+    name="htop"
+    which htop > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch "htop"
+    fi
+
+}
+
+# ===================== Install bat =====================
+bat_Install(){
+
+    name="bat"
+    which bat > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/batinstall && cd $_
+        $Porxy_OK wget ${GitPorxy}https://github.com/sharkdp/bat/releases/download/$bat_Ver/$bat_bin > /dev/null 2>&1 || Echo_ERROR2
+        dpkg -i $bat_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $bat_Ver" || Echo_ERROR3
+        rm -rf /tmp/batinstall
+    fi
+
+}
+
+# ===================== Install fd =====================
+fd_Install(){
+
+    name="fd"
+    which fd > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/fdinstall && cd $_
+        $Porxy_OK wget ${GitPorxy}https://github.com/sharkdp/fd/releases/download/$fd_Ver/$fd_bin > /dev/null 2>&1 || Echo_ERROR2
+        dpkg -i $fd_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fd_Ver" || Echo_ERROR3
+        rm -rf /tmp/fdinstall
+    fi
+
+}
+
 # ===================== Install code-server =====================
 code-server_Install(){
 
@@ -4317,22 +4454,21 @@ code-server_Install(){
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                cd /tmp && rm -rf $code_server_bin1 && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
-                sudo rpm -i $code_server_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
-                rm -rf $code_server_bin1
+                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                rpm -i $code_server_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                rm -rf /tmp/code-serverinstall
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                cd /tmp && rm -rf $code_server_bin2 && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
-                sudo dpkg -i $code_server_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
-                rm -rf $code_server_bin2
+                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                dpkg -i $code_server_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
+                rm -rf /tmp/code-serverinstall
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
                 ;;
             *) ;;
         esac
-
     fi
 
 }
@@ -5334,7 +5470,7 @@ frp_Install(){
     name="frp"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    cd $T_Dir && rm -rf frp* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fatedier/frp/releases/download/$frp_Version/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File download failed"
+    cd $T_Dir && rm -rf frp* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fatedier/frp/releases/download/$frp_Ver/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File download failed"
     tar -zxvf $frp_File > /dev/null 2>&1 && rm -f $frp_File > /dev/null 2>&1
     cd $frp_Dir && Echo_INFOR "frp is already installed in $T_Dir/$frp_Dir" || Echo_ERROR3
 
@@ -5895,10 +6031,6 @@ all_Install(){
 
     kali_Tools
 
-    frp_Install
-
-    nps_Install
-
 }
 
 # -d
@@ -5942,6 +6074,26 @@ Fun_Tools(){
     starship_Install
     echo -e "\033[1;33m\n>> Installing ttyd\n\033[0m"
     ttyd_Install
+    echo -e "\033[1;33m\n>> Installing duf\n\033[0m"
+    duf_Install
+    echo -e "\033[1;33m\n>> Installing procs\n\033[0m"
+    procs_Install
+
+    case $Linux_Version in
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            echo -e "\033[1;33m\n>> Installing ncdu\n\033[0m"
+            ncdu_Install
+            echo -e "\033[1;33m\n>> Installing exa\n\033[0m"
+            exa_Install
+            echo -e "\033[1;33m\n>> Installing htop\n\033[0m"
+            htop_Install
+            echo -e "\033[1;33m\n>> Installing bat\n\033[0m"
+            bat_Install
+            echo -e "\033[1;33m\n>> Installing fd\n\033[0m"
+            fd_Install
+            ;;
+        *) ;;
+    esac
 
     # Bash_Insulter
     # vlmcsd_Install
