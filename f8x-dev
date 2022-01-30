@@ -375,6 +375,7 @@ nginx_Install_pkg(){
 
     name="nginx"
 
+    Rm_Lock
     Install_Switch "nginx"
 
     Echo_INFOR "systemctl status nginx"
@@ -387,6 +388,7 @@ apache_Install_pkg(){
 
     name="apache2"
 
+    Rm_Lock
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
             Install_Switch "httpd"
