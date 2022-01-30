@@ -19,9 +19,9 @@ F8x_ctf_Version="0.0.8 Dev"
 Main
 Pentest_Base_Install > /dev/null 2>&1
 
-bkcrack_Ver="v1.3.3"
-bkcrack_bin="bkcrack-1.3.3-Linux.tar.gz"
-bkcrack_dir="bkcrack-1.3.3-Linux"
+bkcrack_Ver="v1.3.4"
+bkcrack_bin="bkcrack-1.3.4-Linux.tar.gz"
+bkcrack_dir="bkcrack-1.3.4-Linux"
 upx_Ver="v3.96"
 upx_bin="upx-3.96-amd64_linux.tar.xz"
 upx_dir="upx-3.96-amd64_linux"
@@ -97,6 +97,7 @@ CTF_Misc_install(){
     Install_Switch "strace"
     Install_Switch "unrar"
     Install_Switch "python3-tk"
+    Install_Switch "android-tools-adb"
 
 }
 
