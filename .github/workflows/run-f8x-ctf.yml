@@ -43,10 +43,6 @@ jobs:
         run:
           sudo bash f8x-ctf -crypto
 
-      - name: Run -misc
-        run:
-          sudo bash f8x-ctf -misc
-
       - name: Run -re
         run:
           sudo bash f8x-ctf -re
