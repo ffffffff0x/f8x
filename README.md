@@ -175,6 +175,15 @@ Take vultr vps as an example
 5. Modify the pip proxy to https://mirrors.aliyun.com/pypi/simple/
 6. Change the docker proxy to https://docker.mirrors.ustc.edu.cn , and restart the docker service
 
+**Want f8x to run in CI/CD, but not interactive?**
+
+Just create an empty file `IS_CI` in `/tmp`
+```bash
+touch /tmp/IS_CI
+wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x
+f8x -k
+```
+
 ---
 
 ## License

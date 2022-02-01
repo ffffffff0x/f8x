@@ -183,6 +183,15 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 5. 修改 pip 代理为 https://mirrors.aliyun.com/pypi/simple/
 6. 修改 docker 代理为 https://docker.mirrors.ustc.edu.cn , 并重启 docker 服务
 
+**我想跑在 CI/CD 里,不想要交互行不行?**
+
+当然没有问题, f8x 的 GitHub action 就是自动运行每个选项部署环境的。只需要在 /tmp 创建一个名为 IS_CI 的空文件即可
+```bash
+touch /tmp/IS_CI
+wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x
+f8x -k
+```
+
 ---
 
 ## 开发日志
