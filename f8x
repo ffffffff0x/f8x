@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.6.0 Dev(Beta8)"
+F8x_Version="1.6.0 Dev(Beta9)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -64,12 +64,13 @@ Nuclei_Install="nuclei_2.5.9_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.1.4"
-Terraform_bin="terraform_1.1.4_linux_amd64.zip"
+Terraform_Ver="1.1.5"
+Terraform_bin="terraform_1.1.5_linux_amd64.zip"
 CrossC2_Ver="v2.2.5"
-node_Ver="v14.16.0"
-node_bin="node-v14.16.0-linux-x64.tar.xz"
-node_Dir="node-v14.16.0-linux-x64"
+# https://nodejs.org/dist/
+node_Ver="v17.4.0"
+node_bin="node-v17.4.0-linux-x64.tar.xz"
+node_Dir="node-v17.4.0-linux-x64"
 Girsh_Ver="v0.40"
 Girsh_bin="Girsh_0.40_linux_amd64.tar.gz"
 bettercap_Ver="v2.31.1"
@@ -174,8 +175,8 @@ chromium_Ver="958422"
 bat_Ver="v0.19.0"
 bat_bin="bat_0.19.0_amd64.deb"
 duf_Ver="v0.7.0"
-duf_bin1="duf_0.7.0_linux_amd64.rpm"
-duf_bin2="duf_0.7.0_linux_amd64.deb"
+duf_bin1="duf_0.8.0_linux_amd64.rpm"
+duf_bin2="duf_0.8.0_linux_amd64.deb"
 procs_Ver="v0.12.1"
 procs_bin="procs-v0.12.1-x86_64-lnx.zip"
 fd_Ver="v8.3.2"
@@ -5082,10 +5083,10 @@ nn_Install(){
 
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                echo "PATH=$PATH:/usr/local/nodejs/$node_Dir/bin/" >> /etc/bashrc
+                echo "PATH=\$PATH:/usr/local/nodejs/$node_Dir/bin/" >> /etc/bashrc
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                echo "PATH=$PATH:/usr/local/nodejs/$node_Dir/bin/" >> /etc/bash.bashrc
+                echo "PATH=\$PATH:/usr/local/nodejs/$node_Dir/bin/" >> /etc/bash.bashrc
                 ;;
             *) ;;
         esac
