@@ -41,9 +41,9 @@ bash f8x -h
 
 Recommended to add to environment variables
 - wget : `wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
-  - `f8x -help`
+  - `f8x -h`
 - curl : `curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
-  - `f8x -help`
+  - `f8x -h`
 
 **System Dependency**
 
