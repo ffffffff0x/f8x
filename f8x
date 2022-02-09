@@ -141,7 +141,7 @@ assetfinder_Ver="v0.1.1"
 assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.6.3"
 ttyd_bin="ttyd.x86_64"
-code_server_Ver="v4.0.1"
+code_server_Ver="v4.0.2"
 code_server_bin1="code-server-4.0.2-amd64.rpm"
 code_server_bin2="code-server_4.0.2_amd64.deb"
 dismap_Ver="v0.2"
@@ -4327,12 +4327,12 @@ duf_Install(){
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin1 > /dev/null 2>&1 || Echo_ERROR2
                 rpm -i $duf_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/dufinstall
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin2 > /dev/null 2>&1 || Echo_ERROR2
                 dpkg -i $duf_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/dufinstall
                 ;;
@@ -4455,14 +4455,14 @@ code-server_Install(){
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
                 rpm -i $code_server_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/code-serverinstall
                 # sudo systemctl enable --now code-server@$USER
                 # Now visit http://127.0.0.1:8080. Your password is in ~/.config/code-server/config.yaml
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
                 dpkg -i $code_server_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/code-serverinstall
                 # sudo systemctl enable --now code-server@$USER
