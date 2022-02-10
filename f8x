@@ -48,8 +48,8 @@ Ruby_Dir="ruby-3.0.0"
 Ruby_bin="ruby-3.0.0.tar.gz"
 RustScan_Version="2.0.1"
 RustScan_Install="rustscan_2.0.1_amd64.deb"
-ksubdomain_Ver="v0.7"
-ksubdomain_Install="ksubdomain_linux.zip"
+ksubdomain_Ver="v1.6.2"
+ksubdomain_Install="Ksubdomain-v1.6.2-Linux.tar"
 Go_Bin="go1.17.2.linux-amd64.tar.gz"
 xray_Ver="1.8.4"
 xray_File="xray_linux_amd64.zip"
@@ -2107,8 +2107,8 @@ Pentest_ksubdomain_Install(){
             *) ;;
         esac
 
-        cd $T_Dir && rm -f ${ksubdomain_Install} > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/knownsec/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR2
-        unzip ${ksubdomain_Install} > /dev/null 2>&1
+        cd $T_Dir && rm -f ${ksubdomain_Install} > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/boy-hack/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR2
+        tar -xvf ${ksubdomain_Install} > /dev/null 2>&1
         mv --force ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain && rm -f ${T_Dir:?}/${ksubdomain_Install} > /dev/null 2>&1
 
         case $Linux_Version in
