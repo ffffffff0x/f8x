@@ -29,7 +29,7 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.6.0 Dev(Beta9)"
+F8x_Version="1.6.0 Dev(Beta10)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -48,8 +48,8 @@ Ruby_Dir="ruby-3.0.0"
 Ruby_bin="ruby-3.0.0.tar.gz"
 RustScan_Version="2.0.1"
 RustScan_Install="rustscan_2.0.1_amd64.deb"
-ksubdomain_Ver="v1.8.1"
-ksubdomain_Install="Ksubdomain-v1.8.1-Linux.tar"
+ksubdomain_Ver="v1.8.2"
+ksubdomain_Install="Ksubdomain-v1.8.2-Linux.tar"
 Go_Bin="go1.17.2.linux-amd64.tar.gz"
 xray_Ver="1.8.4"
 xray_File="xray_linux_amd64.zip"
@@ -2095,33 +2095,33 @@ Pentest_ksubdomain_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Rm_Lock
-        case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                Install_Switch "libpcap"
-                Install_Switch "libpcap-devel"
-                ;;
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                Install_Switch "libpcap-dev"
-                ;;
-            *) ;;
-        esac
+        # Rm_Lock
+        # case $Linux_Version in
+        #     *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+        #         Install_Switch "libpcap"
+        #         Install_Switch "libpcap-devel"
+        #         ;;
+        #     *"Kali"*|*"Ubuntu"*|*"Debian"*)
+        #         Install_Switch "libpcap-dev"
+        #         ;;
+        #     *) ;;
+        # esac
 
         cd $T_Dir && rm -f ${ksubdomain_Install} > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/boy-hack/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR2
         tar -xvf ${ksubdomain_Install} > /dev/null 2>&1
         mv --force ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain && rm -f ${T_Dir:?}/${ksubdomain_Install} > /dev/null 2>&1
 
-        case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                    if test -e /usr/lib64/libpcap.so.0.8
-                    then
-                        Echo_INFOR "libpcap.so.0.8 file already exists"
-                    else
-                        cd /usr/lib64/ && ln -s libpcap.so.1 libpcap.so.0.8 > /dev/null 2>&1 && Echo_INFOR "Configured libpcap.so.0.8"
-                    fi
-                ;;
-            *) ;;
-        esac
+        # case $Linux_Version in
+        #     *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+        #             if test -e /usr/lib64/libpcap.so.0.8
+        #             then
+        #                 Echo_INFOR "libpcap.so.0.8 file already exists"
+        #             else
+        #                 cd /usr/lib64/ && ln -s libpcap.so.1 libpcap.so.0.8 > /dev/null 2>&1 && Echo_INFOR "Configured libpcap.so.0.8"
+        #             fi
+        #         ;;
+        #     *) ;;
+        # esac
 
         ksubdomain > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $ksubdomain_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
