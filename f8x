@@ -64,8 +64,8 @@ Nuclei_Install="nuclei_2.6.0_linux_amd64.zip"
 rad_File="rad_linux_amd64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File="crawlergo_linux_amd64.zip"
-Terraform_Ver="1.1.5"
-Terraform_bin="terraform_1.1.5_linux_amd64.zip"
+Terraform_Ver="1.1.6"
+Terraform_bin="terraform_1.1.6_linux_amd64.zip"
 CrossC2_Ver="v2.2.5"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
@@ -499,6 +499,10 @@ Info(){
         *"Kali"*|*"kali"*)
             Linux_Version="Kali"
             case $(cat /etc/*-release | head -n 4) in
+                *"2022"*)
+                    Linux_Version_Num="kali-rolling"
+                    Linux_Version_Name="buster"
+                    ;;
                 *"2021"*)
                     Linux_Version_Num="kali-rolling"
                     Linux_Version_Name="buster"
