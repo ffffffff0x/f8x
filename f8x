@@ -29,7 +29,8 @@ Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/p
 Porxy_OK=
 Docker_OK=
 error=0
-F8x_Version="1.6.0 Dev(Beta10)"
+Linux_architecture_Name=
+F8x_Version="1.6.0 Dev(Beta11)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -382,6 +383,17 @@ Docker_Check(){
 
 }
 
+mac_Check(){
+
+    case $Running_Mode in
+        *"Darwin"*)
+            Echo_ALERT "Not supported on mac platform"
+            exit 1
+            ;;
+    esac
+
+}
+
 # ===================== Abbreviations =====================
 Echo_INFOR(){
 
@@ -493,7 +505,7 @@ Banner(){
 }
 
 # ===================== Default =====================
-Info(){
+Sys_Version(){
 
     case $(cat /etc/*-release | head -n 1) in
         *"Kali"*|*"kali"*)
@@ -715,7 +727,28 @@ Info(){
 
 }
 
-Info2(){
+Sys_Version_Mac(){
+
+    Linux_Version="$(sw_vers -ProductName)"
+
+    case "$(uname -a)" in
+        *"arm64"*)
+            Linux_architecture_Name="arm64"
+            Linux_Version_Num="$(sw_vers -productVersion)"
+            Linux_Version_Name="$(sw_vers -BuildVersion)"
+
+            P_Dir="~/pentest"
+            T_Dir="~/ffffffff0x"
+            ;;
+        *)
+            echo "Not supported on current architecture"
+            exit 1
+            ;;
+    esac
+
+}
+
+Sys_Info(){
 
     echo -e "\033[1;32mUID           :\033[0m \033[1;35m$UID \033[0m"
     echo -e "\033[1;32mUser          :\033[0m \033[1;35m$(whoami) \033[0m"
@@ -723,7 +756,7 @@ Info2(){
     echo -e "\033[1;32mTime          :\033[0m \033[1;35m$(date +"%H:%M:%S") \033[0m"
     echo -e "\033[1;32mRuntime       :\033[0m \033[1;35m$(uptime | awk '{print $3 $4}' | sed 's/\,.*$//g') \033[0m"
     echo -e "\033[1;32mHostname      :\033[0m \033[1;35m$(hostname) \033[0m"
-    echo -e "\033[1;32mDistribution  :\033[0m \033[1;35m$Linux_Version $Linux_Version_Num $Linux_Version_Name \033[0m"
+    echo -e "\033[1;32mDistribution  :\033[0m \033[1;35m$Linux_Version $Linux_Version_Num $Linux_Version_Name $Linux_architecture_Name\033[0m"
     echo -e "\033[1;32mf8x Version   :\033[0m \033[1;35m$F8x_Version \033[0m"
 
     case $Linux_Version in
@@ -5641,14 +5674,21 @@ System_info(){
 
     echo -e "" && Echo_INFOR "Last logins:"
     last
-##############################
+
     echo -e "\033[1;33m\n>> Hardware Info\n\033[0m"
 
     Echo_INFOR "Current Kernel Version:"
     uname -r
 
     echo -e "" && Echo_INFOR "Current CPU info:"
-    cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq
+    case $Running_Mode in
+        *"Darwin"*)
+            sysctl -n machdep.cpu.brand_string
+            ;;
+        *"Linux"*)
+            cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq
+            ;;
+    esac
 
     echo -e "" && Echo_INFOR "Current CPU Usage:"
     uptime
@@ -5660,18 +5700,46 @@ System_info(){
     done
 
     echo -e "" && Echo_INFOR "Current CPU cores:"
-    cat /proc/cpuinfo | grep 'processor' | sort | uniq | wc -l
-##############################
+    case $Running_Mode in
+        *"Darwin"*)
+            sysctl -n machdep.cpu.core_count
+            ;;
+        *"Linux"*)
+            cat /proc/cpuinfo | grep 'processor' | sort | uniq | wc -l
+            ;;
+    esac
+
     echo -e "\033[1;33m\n>> Resource Usage\n\033[0m"
 
     Echo_INFOR "Current Memory Usage:"
-    free -h
+    case $Running_Mode in
+        *"Darwin"*)
+            top -l 1 | head -n 10 | grep PhysMem
+            ;;
+        *"Linux"*)
+            free -h
+            ;;
+    esac
 
     echo -e "" && Echo_INFOR "The 10 processes that use the most CPU resources:"
-    ps auxf |sort -nr -k 3 |head -10
+    case $Running_Mode in
+        *"Darwin"*)
+            ps aux | sort -nr -k 3 | head -10
+            ;;
+        *"Linux"*)
+            ps auxf |sort -nr -k 3 |head -10
+            ;;
+    esac
 
     echo -e "" && Echo_INFOR "The 10 processes that use the most memory resources:"
-    ps auxf |sort -nr -k 4 |head -10
+    case $Running_Mode in
+        *"Darwin"*)
+            ps aux | sort -nr -k 4 | head -10
+            ;;
+        *"Linux"*)
+            ps auxf |sort -nr -k 4 |head -10
+            ;;
+    esac
 
     echo -e "" && Echo_INFOR "Disk space utilization:"
     df -h
@@ -5692,36 +5760,71 @@ System_info(){
     if [ $df_a4 -gt 69 ];then Echo_ERROR "$DAY $df_b4 over 70% usage !!!!!"; fi
 
     echo -e "" && Echo_INFOR "Available Device Info:"
-    lsblk
+    case $Running_Mode in
+        *"Darwin"*)
+            diskutil list
+            ;;
+        *"Linux"*)
+            lsblk
+            ;;
+    esac
 
-    echo -e "" && Echo_INFOR "Current swap partition usage: (empty means no swap partition is configured)"
-    swapon -s 2>> /tmp/f8x_error.log
+    case $Running_Mode in
+        *"Linux"*)
+            echo -e "" && Echo_INFOR "Current swap partition usage: (empty means no swap partition is configured)"
+            swapon -s 2>> /tmp/f8x_error.log
+            echo -e "" && Echo_INFOR "Mount Status:"
+            more /etc/fstab  | grep -v "^#" | grep -v "^$"
+            ;;
+    esac
 
-    echo -e "" && Echo_INFOR "Mount Status:"
-    more /etc/fstab  | grep -v "^#" | grep -v "^$"
-##############################
     echo -e "\033[1;33m\n>> Network Status\n\033[0m"
 
     Echo_INFOR "Current IP address:"
-    ip addr | grep inet | grep -v "inet6" | grep -v "127.0.0.1" | awk '{ print $2; }' | tr '\n' '\t'
+    case $Running_Mode in
+        *"Darwin"*)
+            ifconfig | grep inet | grep -v "inet6" | grep -v "127.0.0.1" | awk '{ print $2; }' | tr '\n' '\t'
+            ;;
+        *"Linux"*)
+            ip addr | grep inet | grep -v "inet6" | grep -v "127.0.0.1" | awk '{ print $2; }' | tr '\n' '\t'
+            ;;
+    esac
 
-    echo -e "\n" && Echo_INFOR "Current TCP connection:"
-    cat  /proc/net/tcp | wc -l
+    case $Running_Mode in
+        *"Linux"*)
+            echo -e "" && Echo_INFOR "Current TCP connection:"
+            cat  /proc/net/tcp | wc -l
+            echo -e "" && Echo_INFOR "Routing forward status:"
+            ip_forward=$(more /proc/sys/net/ipv4/ip_forward | awk -F: '{if ($1==1) print "1"}')
+            if [ -n "$ip_forward" ]; then
+                echo "Route forward is enabled"
+            else
+                echo "Route forward is not enabled"
+            fi
+            ;;
+    esac
 
-    echo -e "" && Echo_INFOR "Current routing table:"
-    ip route 2>> /tmp/f8x_error.log || route -n 2>> /tmp/f8x_error.log
+    echo -e "\n" && Echo_INFOR "Current routing table:"
+    case $Running_Mode in
+        *"Darwin"*)
+            netstat -nr
+            ;;
+        *"Linux"*)
+            ip route 2>> /tmp/f8x_error.log || route -n 2>> /tmp/f8x_error.log
+            ;;
+    esac
 
     echo -e "" && Echo_INFOR "Listening port:"
-    netstat -tunlp 2>> /tmp/f8x_error.log || ss -tnlp 2>> /tmp/f8x_error.log
+    case $Running_Mode in
+        *"Darwin"*)
+            netstat -anvp tcp
+            netstat -anvp udp
+            ;;
+        *"Linux"*)
+            netstat -tunlp 2>> /tmp/f8x_error.log || ss -tnlp 2>> /tmp/f8x_error.log
+            ;;
+    esac
 
-    echo -e "" && Echo_INFOR "Routing forward status:"
-    ip_forward=$(more /proc/sys/net/ipv4/ip_forward | awk -F: '{if ($1==1) print "1"}')
-    if [ -n "$ip_forward" ]; then
-        echo "Route forward is enabled"
-    else
-        echo "Route forward is not enabled"
-    fi
-##############################
     echo -e "\033[1;33m\n>> Identity Information\n\033[0m"
 
     Echo_INFOR "All system users:"
@@ -5731,16 +5834,19 @@ System_info(){
     echo -e "" && Echo_INFOR "System Super User:"
     grep -v -E "^#" /etc/passwd | awk -F: '$3 == 0 { print $1}'
 
-    echo -e "" && Echo_INFOR "Account information for remote login:"
-    awk '/\$1|\$6/{print $1}' /etc/shadow
+    case $Running_Mode in
+        *"Linux"*)
+            echo -e "" && Echo_INFOR "Account information for remote login:"
+            awk '/\$1|\$6/{print $1}' /etc/shadow
+            echo -e "" && Echo_INFOR "Startup service:"
+            echo -e "\n\n\n>> Startup service: " >> /tmp/f8x_info.log
+            systemctl list-unit-files | grep enabled >> /tmp/f8x_info.log && echo -e "Due to more echoes, it has been output to /tmp/f8x_info.log"
+            ;;
+    esac
 
     echo -e "" && Echo_INFOR "All groups in the system:"
     echo -e "\n\n\n>> All groups in the system: " >> /tmp/f8x_info.log
     cut -d: -f1,2,3 /etc/group >> /tmp/f8x_info.log && echo -e "Due to more echoes, it has been output to /tmp/f8x_info.log"
-
-    echo -e "" && Echo_INFOR "Startup service:"
-    echo -e "\n\n\n>> Startup service: " >> /tmp/f8x_info.log
-    systemctl list-unit-files | grep enabled >> /tmp/f8x_info.log && echo -e "Due to more echoes, it has been output to /tmp/f8x_info.log"
 
     echo -e "" && Echo_INFOR "Scheduled tasks for the current user:"
     crontab -l
@@ -5748,7 +5854,6 @@ System_info(){
     echo -e "" && Echo_INFOR "Resource limits for currently logged-in users:"
     ulimit -a
 
-##############################
     echo -e "\033[1;33m\n>> Security Information\033[0m"
 
     echo -e "" && Echo_INFOR "Environment Variables:"
@@ -6538,102 +6643,117 @@ Mock_Test(){
 # Main
 Main(){
 
-case "$(uname)" in
-    *"Darwin"*)
-	    echo "Not supported on mac platform"
-	    exit 1
-        ;;
-    *"MINGW64_NT"*)
-        echo "Not supported on windows platform"
+    case "$(uname)" in
+        *"Darwin"*)
+            Running_Mode="Darwin"
+            ;;
+        *"MINGW64_NT"*)
+            echo "Not supported on windows platform"
+            exit 1
+            ;;
+        *)
+            Running_Mode="Linux"
+            setenforce 0 > /dev/null 2>&1
+            ;;
+    esac
+
+    if [[ $UID != 0 ]]; then
+        Echo_ERROR "Please run with sudo or root privileged account!"
         exit 1
-        ;;
-esac
+    fi
 
-if [[ $UID != 0 ]]; then
-    Echo_ERROR "Please run with sudo or root privileged account!"
-    exit 1
-fi
-
-setenforce 0 > /dev/null 2>&1
-
-printf "\033c"
+    printf "\033c"
 
 }
 
 Main
+Banner
 
-if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-then
-    Banner
-fi
+case $Running_Mode in
+    *"Darwin"*)
+        Sys_Version_Mac
+        ;;
+    *"Linux"*)
+        Sys_Version
+        ;;
+    *)
+        exit 1
+        ;;
+esac
 
-Info
-
-if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-then
-    Info2
-    echo -e "\033[1;36m \n-----Start execution----- \033[0m"
-    echo -e "\033[1;33m\n>> Initializing\n\033[0m"
-    Base_Dir
-    Docker_run_Check
-fi
+Sys_Info
+echo -e "\033[1;36m \n-----Start execution----- \033[0m"
+echo -e "\033[1;33m\n>> Initializing\n\033[0m"
+Base_Dir
+Docker_run_Check
 
 for cmd in $@
 do
     case $cmd in
         -b | b)
+            mac_Check || exit 1
             Base_Install
             ;;
         -p | p)
+            mac_Check || exit 1
             Proxy
             ;;
         -d | d)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Dev_Tools
             ;;
         -k | k)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Py_Check
             kali_Tools
             ;;
         -ka | ka)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Py_Check
             kali_Tools "a"
             ;;
         -kb | kb)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Py_Check
             kali_Tools "b"
             ;;
         -kc | kc)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Py_Check
             kali_Tools "c"
             ;;
         -kd | kd)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Py_Check
             kali_Tools "d"
             ;;
         -ke | ke)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Py_Check
             kali_Tools "e"
             ;;
         -s | s)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Secure
             ;;
         -f | f)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             pip3_Check
@@ -6644,215 +6764,261 @@ do
             Help
             ;;
         -cloud)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             cloud
             ;;
         -all)
+            mac_Check || exit 1
             all_Install
             ;;
         -lua)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             lua_Install
             ;;
         -nn)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             nn_Install
             ;;
         -openjdk)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Openjdk_Install
             ;;
         -oraclejdk)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Oraclejdk_Install
             ;;
         -py3 | py3)
+            mac_Check || exit 1
             Python3_Install
             ;;
         -py37 | py37)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Python3_Install "py37"
             ;;
         -py38 | py38)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Python3_Install "py38"
             ;;
         -py39 | py39)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Python3_Install "py39"
             ;;
         -py2 | py2)
+            mac_Check || exit 1
             Python2_Install
             ;;
         -pip2-f)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             pip2_Install
             ;;
         -perl)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Perl_Install
             ;;
         -ruby)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Ruby_Install
             ;;
         -ruby-f)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Ruby_Install_f
             ;;
         -rust)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Rust_Install
             ;;
         -chromium)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             chromium_Install
             ;;
         -binwalk)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             binwalk_Install
             ;;
         -binwalk-f)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             binwalk_force_Install
             ;;
         -clamav)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             clamav_Install
             ;;
         -vol)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             pip2_Check
             Volatility_Install
             ;;
         -vol3)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             pip3_Check
             volatility3_Install
             ;;
         -lt)
+            mac_Check || exit 1
             Porxy_Switch
             lt_Install
             ;;
         -aircrack)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             aircrack_Install
             ;;
         -bypass)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Py_Check
             bypass_Install
             ;;
         -cs)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             cs_Install
             ;;
         -frp)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             frp_Install
             ;;
         -goby)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             Goby_Install
             ;;
         -nps)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             nps_Install
             ;;
         -suricata)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             suricata_Install
             ;;
         -arl)
+            mac_Check || exit 1
             Porxy_Switch
             Pentest_Base_Install
             arl_Install
             ;;
         -awvs14)
+            mac_Check || exit 1
             Porxy_Switch
             awvs14_Install
             ;;
         -mobsf)
+            mac_Check || exit 1
             Porxy_Switch
             mobsf_Install
             ;;
         -nodejsscan)
+            mac_Check || exit 1
             Porxy_Switch
             nodejsscan_Install
             ;;
         -viper)
+            mac_Check || exit 1
             Porxy_Switch
             viper_Install
             ;;
         -vulhub)
+            mac_Check || exit 1
             Porxy_Switch
             vulhub_Install
             ;;
         -vulfocus)
+            mac_Check || exit 1
             Porxy_Switch
             vulfocus_Install
             ;;
         -asciinema)
+            mac_Check || exit 1
             asciinema_Install
             ;;
         -bt)
+            mac_Check || exit 1
             Base_Check
             bt_Install
             ;;
         -clash)
+            mac_Check || exit 1
             Base_Check
             clash_Install
             ;;
         -music)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             music_Install
             ;;
         -nginx)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             nginx_Install
             ;;
         -ssh)
+            mac_Check || exit 1
             SSH
             ;;
         -ssr)
+            mac_Check || exit 1
             Base_Check
             ssr_Install
             ;;
         -zsh)
+            mac_Check || exit 1
             Porxy_Switch
             Base_Check
             pip3_Check
             zsh_Install
             ;;
         -clear)
+            mac_Check || exit 1
             clear_log
             ;;
         -info)
@@ -6860,12 +7026,15 @@ do
             System_info
             ;;
         -optimize)
+            mac_Check || exit 1
             optimize_setting
             ;;
         -remove)
+            mac_Check || exit 1
             remove_watcher
             ;;
         -rmlock)
+            mac_Check || exit 1
             Rm_Lock
 
             case $Linux_Version in
@@ -6877,9 +7046,11 @@ do
 
             ;;
         -swap)
+            mac_Check || exit 1
             swap_setting
             ;;
         -update)
+            mac_Check || exit 1
             Porxy_Switch
             if test -e /usr/local/bin/f8x
             then
@@ -6889,6 +7060,7 @@ do
             fi
             ;;
         -debug)
+            mac_Check || exit 1
             Base_Check
             Pentest_Base_Install
             Porxy_Switch
