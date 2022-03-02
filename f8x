@@ -30,20 +30,27 @@ Porxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.0 Dev(Beta11)"
+F8x_Version="1.6.0 Dev(Beta12)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
-jdk_Version="jdk1.8.0_271"
+jdk_Version="jdk1.8.0_321"
+orclejdk_tmp_ver="1.0.5"
+orclejdk_bin_amd64="jdk-8u321-linux-x64.tar.gz"
+orclejdk_bin_arm64="jdk-8u321-linux-aarch64.tar.gz"
 CS_File="CobaltStrike4.3.zip"
 CS_Version="CobaltStrike4.3"
-AdGuardHome_Version="v0.107.3"
-AdguardTeam_File="AdGuardHome_linux_amd64.tar.gz"
+AdGuardHome_Version="v0.107.4"
+AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
+AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 frp_Ver="v0.39.1"
-frp_File="frp_0.39.1_linux_amd64.tar.gz"
-frp_Dir="frp_0.39.1_linux_amd64"
+frp_File_amd64="frp_0.39.1_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.39.1_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.39.1_linux_amd64"
+frp_Dir_arm64="frp_0.39.1_linux_arm64"
 nps_Ver="v0.26.10"
-nps_Install="linux_amd64_server.tar.gz"
+nps_File_amd64="linux_amd64_server.tar.gz"
+nps_File_arm64="linux_arm64_server.tar.gz"
 Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
 Ruby_bin="ruby-3.0.0.tar.gz"
@@ -51,53 +58,73 @@ RustScan_Version="2.0.1"
 RustScan_Install="rustscan_2.0.1_amd64.deb"
 ksubdomain_Ver="v1.8.3"
 ksubdomain_Install="Ksubdomain-v1.8.3-Linux.tar"
-Go_Bin="go1.17.2.linux-amd64.tar.gz"
+Go_Bin_amd64="go1.17.7.linux-amd64.tar.gz"
+Go_Bin_arm64="go1.17.7.linux-arm64.tar.gz"
 xray_Ver="1.8.4"
-xray_File="xray_linux_amd64.zip"
+xray_File_amd64="xray_linux_amd64.zip"
+xray_bin_amd64="xray_linux_amd64"
+xray_File_arm64="xray_linux_arm64.zip"
+xray_bin_arm64="xray_linux_arm64"
 goby_Ver="Beta1.9.325"
 goby_File="goby-linux-x64-1.9.325.zip"
 fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
-ffuf_Install="ffuf_1.3.1_linux_amd64.tar.gz"
+ffuf_Install_amd64="ffuf_1.3.1_linux_amd64.tar.gz"
+ffuf_Install_arm64="ffuf_1.3.1_linux_arm64.tar.gz"
 Nuclei_Ver="v2.6.2"
-Nuclei_Install="nuclei_2.6.2_linux_amd64.zip"
-rad_File="rad_linux_amd64.zip"
+Nuclei_Install_amd64="nuclei_2.6.2_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.6.2_linux_arm64.zip"
+rad_Ver="0.4"
+rad_File_amd64="rad_linux_amd64.zip"
+rad_File_arm64="rad_linux_arm64.zip"
 crawlergo_Ver="v0.4.1"
-crawlergo_File="crawlergo_linux_amd64.zip"
+crawlergo_File_amd64="crawlergo_linux_amd64.zip"
+crawlergo_File_arm64="crawlergo_linux_arm64.zip"
 Terraform_Ver="1.1.6"
-Terraform_bin="terraform_1.1.6_linux_amd64.zip"
+Terraform_bin_amd64="terraform_1.1.6_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.1.6_linux_arm64.zip"
 CrossC2_Ver="v2.2.5"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
-node_bin="node-v17.4.0-linux-x64.tar.xz"
-node_Dir="node-v17.4.0-linux-x64"
+node_bin_amd64="node-v17.4.0-linux-x64.tar.xz"
+node_bin_arm64="node-v17.4.0-linux-arm64.tar.xz"
+node_Dir_amd64="node-v17.4.0-linux-x64"
+node_Dir_arm64="node-v17.4.0-linux-arm64"
 Girsh_Ver="v0.40"
-Girsh_bin="Girsh_0.40_linux_amd64.tar.gz"
+Girsh_bin_amd64="Girsh_0.40_linux_amd64.tar.gz"
+Girsh_bin_arm64="Girsh_0.40_linux_arm64.tar.gz"
 bettercap_Ver="v2.31.1"
-bettercap_bin="bettercap_linux_amd64_v2.31.1.zip"
-mitmproxy_Ver="6.0.2"
-mitmproxy_bin="mitmproxy-6.0.2-linux.tar.gz"
+bettercap_bin_amd64="bettercap_linux_amd64_v2.31.1.zip"
+bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
+mitmproxy_Ver="7.0.4"
+mitmproxy_bin="mitmproxy-7.0.4-linux.tar.gz"
 naabu_Ver="v2.0.5"
 naabu_bin="naabu_2.0.5_linux_amd64.zip"
 proxify_Ver="v0.0.6"
-proxify_bin="proxify_0.0.6_linux_amd64.zip"
+proxify_bin_amd64="proxify_0.0.6_linux_amd64.zip"
+proxify_bin_arm64="proxify_0.0.6_linux_arm64.zip"
 clash_Ver="v1.7.0"
 clash_bin="clash-linux-amd64-v1.7.0.gz"
 fzf_Ver="0.29.0"
-fzf_bin="fzf-0.29.0-linux_amd64.tar.gz"
+fzf_bin_amd64="fzf-0.29.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.29.0-linux_arm64.tar.gz"
 subfinder_Ver="v2.4.9"
-subfinder_bin="subfinder_2.4.9_linux_amd64.zip"
-httpx_Ver="v1.1.5"
-httpx_bin="httpx_1.1.5_linux_amd64.zip"
+subfinder_bin_amd64="subfinder_2.4.9_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.4.9_linux_arm64.zip"
+httpx_Ver="v1.2.0"
+httpx_bin_amd64="httpx_1.2.0_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.2.0_linux_arm64.zip"
 mapcidr_Ver="v0.0.8"
-mapcidr_bin="mapcidr_0.0.8_linux_amd64.tar.gz"
+mapcidr_bin_amd64="mapcidr_0.0.8_linux_amd64.tar.gz"
+mapcidr_bin_arm64="mapcidr_0.0.8_linux_arm64.tar.gz"
 apktool_Ver="v2.6.1"
 apktool_bin="apktool_2.6.1.jar"
 gau_Ver="v2.0.8"
 gau_bin="gau_2.0.8_linux_amd64.tar.gz"
-annie_Ver="v0.11.0"
-annie_bin="annie_0.11.0_Linux_64-bit.tar.gz"
+lux_Ver="v0.13.0"
+lux_bin_amd64="lux_0.13.0_Linux_64-bit.tar.gz"
+lux_bin_arm64="lux_0.13.0_Linux_ARM64.tar.gz"
 nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
 jadx_Ver="v1.3.3"
@@ -105,30 +132,39 @@ jadx_bin="jadx-1.3.3.zip"
 rmg_Ver="v4.2.2"
 rmg_bin="rmg-4.2.2-jar-with-dependencies.jar"
 anew_Ver="v1.0.2"
-anew_bin="anew_1.0.2_linux_amd64.tar.gz"
-nali_Ver="0.3.6"
-nali_bin="nali-linux-amd64-0.3.6.gz"
+anew_bin_amd64="anew_1.0.2_linux_amd64.tar.gz"
+anew_bin_arm64="anew_1.0.2_linux_arm64.tar.gz"
+nali_Ver="0.3.7"
+nali_bin="nali-linux-amd64-0.3.7.gz"
 dalfox_Ver="v2.7.1"
-dalfox_bin="dalfox_2.7.1_linux_amd64.tar.gz"
+dalfox_bin_amd64="dalfox_2.7.1_linux_amd64.tar.gz"
+dalfox_bin_arm64="dalfox_2.7.1_linux_arm64.tar.gz"
 DomainSplit_Ver="1.0"
 Platypus_Ver="v1.5.0"
 Platypus_bin="Platypus_linux_amd64"
 lua_bin="lua-5.4.3.tar.gz"
 lua_dir="lua-5.4.3"
-Amass_Ver="v3.16.0"
-Amass_bin="amass_linux_amd64.zip"
+Amass_Ver="v3.17.0"
+Amass_bin_amd64="amass_linux_amd64.zip"
+Amass_bin_arm64="amass_linux_arm64.zip"
 gobuster_Ver="v3.1.0"
 gobuster_bin="gobuster-linux-amd64.7z"
 jq_bin="jq-1.6.zip"
 jq_dir="jq-1.6"
 jq_ver="jq-1.6"
 gospider_Ver="v1.1.6"
-gospider_bin="gospider_v1.1.6_linux_x86_64.zip"
-gospider_dir="gospider_v1.1.6_linux_x86_64"
-#interactsh-client_Ver="v1.0.1"
-#interactsh-client_bin="interactsh-client_1.0.1_Linux_arm64.zip"
+gospider_bin_amd64="gospider_v1.1.6_linux_x86_64.zip"
+gospider_dir_amd64="gospider_v1.1.6_linux_x86_64"
+gospider_bin_arm64="gospider_v1.1.6_linux_arm64.zip"
+gospider_dir_arm64="gospider_v1.1.6_linux_arm64"
+interactsh_Ver="v1.0.1"
+interactsh-client_bin_amd64="interactsh-client_1.0.1_Linux_x86_64.zip"
+interactsh-server_bin_amd64="interactsh-server_1.0.1_Linux_amd64.zip"
+interactsh-client_bin_arm64="interactsh-client_1.0.1_Linux_x86_64.zip"
+interactsh-server_bin_arm64="interactsh-server_1.0.1_Linux_amd64.zip"
 gron_Ver="v0.6.1"
-gron_bin="gron-linux-amd64-0.6.1.tgz"
+gron_bin_amd64="gron-linux-amd64-0.6.1.tgz"
+gron_bin_arm64="gron-linux-arm64-0.6.1.tgz"
 unfurl_Ver="v0.2.0"
 unfurl_Bin="unfurl-linux-amd64-0.2.0.tgz"
 qsreplace_Ver="v0.0.1"
@@ -141,16 +177,19 @@ subjs_bin="subjs_1.0.1_linux_amd64.tar.gz"
 assetfinder_Ver="v0.1.1"
 assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.6.3"
-ttyd_bin="ttyd.x86_64"
+ttyd_bin_amd64="ttyd.x86_64"
+ttyd_bin_arm64="ttyd.arm"
 code_server_Ver="v4.0.2"
 code_server_bin1="code-server-4.0.2-amd64.rpm"
 code_server_bin2="code-server_4.0.2_amd64.deb"
-dismap_Ver="v0.2"
-dismap_bin="dismap-linux-amd64"
+dismap_Ver="v0.3"
+dismap_bin_amd64="dismap-0.3-linux-amd64"
+dismap_bin_arm64="dismap-0.3-linux-arm64"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
 gojwtcrack_Ver="0.1"
 fapro_Ver="v0.59"
-fapro_bin="fapro_linux_x86_64.tar.gz"
+fapro_bin_amd64="fapro_linux_x86_64.tar.gz"
+fapro_bin_arm64="fapro_linux_arm64.tar.gz"
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
 py37_dir="Python-3.7.12"
@@ -165,23 +204,29 @@ ysomap_bin="ysomap.jar"
 JNDIExploit_Ver="1.1"
 JNDIExploit_bin="JNDIExploit.zip"
 sttr_Ver="v0.2.12"
-sttr_bin="sttr_0.2.12_linux_amd64.tar.gz"
+sttr_bin_amd64="sttr_0.2.12_linux_amd64.tar.gz"
+sttr_bin_arm64="sttr_0.2.12_linux_arm64.tar.gz"
 zscan_Ver="1.3.1"
 zscan_bin="zscan_linux_x64"
 netspy_Ver="v0.0.5"
-netspy_bin="netspy_linux_amd64.zip"
+netspy_bin_amd64="netspy_linux_amd64.zip"
+netspy_bin_arm64="netspy_linux_arm64.zip"
 # https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media
 # https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?prefix=Linux_x64/958422/
 chromium_Ver="958422"
 bat_Ver="v0.20.0"
-bat_bin="bat_0.20.0_amd64.deb"
+bat_bin_amd64="bat_0.20.0_amd64.deb"
+bat_bin_arm64="bat_0.20.0_arm64.deb"
 duf_Ver="v0.8.1"
-duf_bin1="duf_0.8.1_linux_amd64.rpm"
-duf_bin2="duf_0.8.1_linux_amd64.deb"
+duf_bin1_amd64="duf_0.8.1_linux_amd64.rpm"
+duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
+duf_bin1_arm64="duf_0.8.1_linux_arm64.rpm"
+duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
 procs_Ver="v0.12.1"
 procs_bin="procs-v0.12.1-x86_64-lnx.zip"
 fd_Ver="v8.3.2"
-fd_bin="fd_8.3.2_amd64.deb"
+fd_bin_amd64="fd_8.3.2_amd64.deb"
+fd_bin_arm64="fd_8.3.2_arm64.deb"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -394,6 +439,17 @@ mac_Check(){
 
 }
 
+linux_arm64_Check(){
+
+    case $Linux_architecture_Name in
+        *"linux-arm64"*)
+            Echo_ALERT "Not supported on current architecture"
+            exit 1
+            ;;
+    esac
+
+}
+
 # ===================== Abbreviations =====================
 Echo_INFOR(){
 
@@ -506,6 +562,19 @@ Banner(){
 
 # ===================== Default =====================
 Sys_Version(){
+
+    case "$(uname -m)" in
+        *"arm64"*|*"aarch64"*)
+            Linux_architecture_Name="linux-arm64"
+            ;;
+        *"x86_64"*)
+            Linux_architecture_Name="linux-x86_64"
+            ;;
+        *)
+            echo "Not supported on current architecture"
+            exit 1
+            ;;
+    esac
 
     case $(cat /etc/*-release | head -n 1) in
         *"Kali"*|*"kali"*)
@@ -731,9 +800,9 @@ Sys_Version_Mac(){
 
     Linux_Version="$(sw_vers -ProductName)"
 
-    case "$(uname -a)" in
+    case "$(uname -m)" in
         *"arm64"*)
-            Linux_architecture_Name="arm64"
+            Linux_architecture_Name="mac-arm64"
             Linux_Version_Num="$(sw_vers -productVersion)"
             Linux_Version_Name="$(sw_vers -BuildVersion)"
 
@@ -1728,6 +1797,15 @@ Python39_Install(){
 # ===================== Install Go =====================
 Go_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            Go_Bin=$Go_Bin_amd64
+            ;;
+        *"linux-arm64"*)
+            Go_Bin=$Go_Bin_arm64
+            ;;
+    esac
+
     name="go"
     which go > /dev/null 2>&1
 
@@ -1856,6 +1934,8 @@ SDKMAN_Install(){
         cd /tmp && $Porxy_OK curl -o sdkman.sh "https://get.sdkman.io" > /dev/null 2>&1 && $Porxy_OK bash sdkman.sh > /dev/null 2>&1
         source "/root/.sdkman/bin/sdkman-init.sh"
         sdk version && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+
+        rm -f /tmp/sdkman.sh > /dev/null 2>&1
     fi
 
 }
@@ -1863,8 +1943,16 @@ SDKMAN_Install(){
 # ===================== Install Terraform =====================
 Terraform_Install(){
 
-    name="terraform"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            Terraform_bin=$Terraform_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            Terraform_bin=$Terraform_bin_arm64
+            ;;
+    esac
 
+    name="terraform"
     which terraform > /dev/null 2>&1
     if [ $? == 0 ]
     then
@@ -2001,7 +2089,7 @@ Pentest_pip_Install(){
 
     if test -e /tmp/f8x_pip.txt
     then
-        Echo_ALERT "Pip module record detected, skip this step"
+        Echo_ALERT "pip module record detected, skip this step"
     else
         python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "python3-pip update failed"
         Install_Switch4 "PyJWT"
@@ -2053,8 +2141,16 @@ Pentest_nmap_Install(){
 # ===================== Install ffuf =====================
 Pentest_ffuf_Install(){
 
-    name="ffuf"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            ffuf_Install=$ffuf_Install_amd64
+            ;;
+        *"linux-arm64"*)
+            ffuf_Install=$ffuf_Install_arm64
+            ;;
+    esac
 
+    name="ffuf"
     which ffuf > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2203,19 +2299,28 @@ Pentest_fscan_Install(){
 # ===================== Install rad =====================
 Pentest_rad_Install(){
 
-    name="rad"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            rad_File=$rad_File_amd64
+            ;;
+        *"linux-arm64"*)
+            rad_File=$rad_File_arm64
+            ;;
+    esac
 
+    name="rad"
     which rad > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $rad_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/rad/releases/latest/download/$rad_File > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/rad && cd /tmp/rad && rm -f ${rad_File} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/rad/releases/download/$rad_Ver/$rad_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $rad_File > /dev/null 2>&1
-        mv rad_linux_amd64 rad
-        mv --force rad /usr/local/bin/ && chmod +x /usr/local/bin/rad && rm -f /tmp/$rad_File > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
-
+        mv $rad_File rad
+        mv --force rad /usr/local/bin/ && chmod +x /usr/local/bin/rad
+        rm -rf /tmp/rad
+        which rad > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $rad_Ver in the /usr/local/bin/" || Echo_ERROR3
         Echo_INFOR "$name needs to be used with chromium, you can install chromium with the -chromium option"
     fi
 
@@ -2224,8 +2329,16 @@ Pentest_rad_Install(){
 # ===================== Install crawlergo =====================
 Pentest_crawlergo_Install(){
 
-    name="crawlergo"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            crawlergo_File=$crawlergo_File_amd64
+            ;;
+        *"linux-arm64"*)
+            crawlergo_File=$crawlergo_File_arm64
+            ;;
+    esac
 
+    name="crawlergo"
     which crawlergo > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2234,7 +2347,7 @@ Pentest_crawlergo_Install(){
     else
         cd /tmp && rm -f $crawlergo_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/Qianlitp/crawlergo/releases/download/$crawlergo_Ver/$crawlergo_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $crawlergo_File > /dev/null 2>&1
-        mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -f /tmp/$crawlergo_File > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+        mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -f /tmp/$crawlergo_File > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $crawlergo_Ver in the /usr/local/bin/" || Echo_ERROR3
 
         Echo_INFOR "$name needs to be used with chromium, you can install chromium with the -chromium option"
     fi
@@ -2260,8 +2373,18 @@ Pentest_Arjun_Install(){
 # ===================== Install gospider =====================
 Pentest_gospider_Install(){
 
-    name="gospider"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            gospider_bin=$gospider_bin_amd64
+            gospider_dir=$gospider_dir_amd64
+            ;;
+        *"linux-arm64"*)
+            gospider_bin=$gospider_bin_arm64
+            gospider_dir=$gospider_dir_arm64
+            ;;
+    esac
 
+    name="gospider"
     which gospider > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2299,8 +2422,16 @@ Pentest_naabu_Install(){
 # ===================== Install httpx =====================
 Pentest_httpx_Install(){
 
-    name="httpx"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            httpx_bin=$httpx_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            httpx_bin=$httpx_bin_arm64
+            ;;
+    esac
 
+    name="httpx"
     which httpx > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2339,8 +2470,16 @@ Pentest_httpx_old_Install(){
 # ===================== Install subfinder =====================
 Pentest_subfinder_Install(){
 
-    name="subfinder"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            subfinder_bin=$subfinder_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            subfinder_bin=$subfinder_bin_arm64
+            ;;
+    esac
 
+    name="subfinder"
     which subfinder > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2461,17 +2600,26 @@ Pentest_AppInfoScanner_Install(){
 # ===================== Install Amass =====================
 Pentest_Amass_Install(){
 
-    name="Amass"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            Amass_bin=$Amass_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            Amass_bin=$Amass_bin_arm64
+            ;;
+    esac
 
+    name="Amass"
     which amass > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -rf ${Amass_bin} && rm -rf amass_linux_amd64 && $Porxy_OK wget ${GitPorxy}https://github.com/OWASP/Amass/releases/download/$Amass_Ver/$Amass_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/Amass && cd /tmp/Amass && rm -rf ${Amass_bin} && rm -rf amass_linux_amd64 && $Porxy_OK wget ${GitPorxy}https://github.com/OWASP/Amass/releases/download/$Amass_Ver/$Amass_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip ${Amass_bin} > /dev/null 2>&1
-        mv --force amass_linux_amd64/amass /usr/local/bin/amass && chmod +x /usr/local/bin/amass && rm -rf /tmp/$Amass_bin && rm -rf amass_linux_amd64
+        mv --force amass_linux_*/amass /usr/local/bin/amass && chmod +x /usr/local/bin/amass
+        rm -rf /tmp/Amass
         which amass > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Amass_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
@@ -2522,8 +2670,16 @@ Pentest_dirsearch_Install(){
 # ===================== Install dismap =====================
 Pentest_dismap_Install(){
 
-    name="dismap"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            dismap_bin=$dismap_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            dismap_bin=$dismap_bin_arm64
+            ;;
+    esac
 
+    name="dismap"
     which dismap > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2572,8 +2728,16 @@ Pentest_WebCrack_Install(){
 # ===================== Install netspy =====================
 Pentest_netspy_Install(){
 
-    name="netspy"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            netspy_bin=$netspy_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            netspy_bin=$netspy_bin_arm64
+            ;;
+    esac
 
+    name="netspy"
     which netspy > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2621,7 +2785,6 @@ Pentest_Metasploit_Install(){
             cd /tmp && rm -f msfinstall > /dev/null 2>&1 && $Porxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /dev/null 2>&1 && chmod 777 msfinstall
             Echo_ALERT "Downloading Metasploit" && $Porxy_OK ./msfinstall > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
             rm -f msfinstall > /dev/null 2>&1
-
         fi
     fi
 
@@ -2646,16 +2809,27 @@ Pentest_Sqlmap_Install(){
 # ===================== Install xray =====================
 Pentest_xray_Install(){
 
-    name="xray"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            xray_File=$xray_File_amd64
+            xray_bin=$xray_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            xray_File=$xray_File_arm64
+            xray_bin=$xray_bin_arm64
+            ;;
+    esac
 
+    name="xray"
     which xray > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $xray_File && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR2
-        unzip $xray_File > /dev/null 2>&1 && rm -f $xray_File && mv --force xray_linux_amd64 xray && mv --force xray /usr/local/bin/ && chmod +x /usr/local/bin/xray
+        mkdir -p /tmp/xray && cd /tmp/xray && rm -f $xray_File && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $xray_File > /dev/null 2>&1 && rm -f $xray_File && mv --force $xray_bin /usr/local/bin/xray && chmod +x /usr/local/bin/xray
+        rm -rf /tmp/xray
         xray version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $xray_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
@@ -2691,8 +2865,16 @@ Pentest_pocsuite3_Install(){
 # ===================== Install Nuclei =====================
 Pentest_Nuclei_Install(){
 
-    name="Nuclei"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            Nuclei_Install=$Nuclei_Install_amd64
+            ;;
+        *"linux-arm64"*)
+            Nuclei_Install=$Nuclei_Install_arm64
+            ;;
+    esac
 
+    name="Nuclei"
     which nuclei > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -2913,6 +3095,15 @@ Pentest_testssl_Install(){
 
 # ===================== Install dalfox =====================
 Pentest_dalfox_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            dalfox_bin=$dalfox_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            dalfox_bin=$dalfox_bin_arm64
+            ;;
+    esac
 
     name="dalfox"
     which dalfox > /dev/null 2>&1
@@ -3192,7 +3383,7 @@ Pentest_CobaltStrike_Install(){
         cd $P_Dir/$CS_Version && chmod +x teamserver > /dev/null 2>&1
         rm -f cobaltstrike.store > /dev/null 2>&1
 
-        /usr/local/java/$jdk_Version/bin/keytool -keystore ./cobaltstrike.store -storepass sUp3r@dm1n -keypass sUp3r@dm1n -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  > /dev/null 2>&1 || keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  > /dev/null 2>&1
+        keytool -keystore ./cobaltstrike.store -storepass sUp3r@dm1n -keypass sUp3r@dm1n -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  > /dev/null 2>&1 || keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias aliyun -dname "CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun"  > /dev/null 2>&1
         Echo_INFOR "Successfully installed $CS_Version in the $P_Dir/$CS_Version" || Echo_ERROR3
     fi
 
@@ -3210,7 +3401,7 @@ Pentest_CobaltStrike_Install(){
     then
         Echo_ALERT "cobaltstrike.store file has been generated, Default keypass is sUp3r@dm1n, suggest to replace it!!!"
     else
-        Echo_ERROR "Run keytool failed, this step requires jdk environment, please use the -oraclejdk option to install the jdk environment, and then run the following command\n/usr/local/java/$jdk_Version/bin/keytool -keystore $P_Dir/$CS_Version/cobaltstrike.store -storepass sUp3r@dm1n -keypass sUp3r@dm1n -genkey -keyalg RSA -alias aliyun -dname \"CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun\"\nGenerate the cobaltstrike.store file"
+        Echo_ERROR "Run keytool failed, this step requires jdk environment, please use the -oraclejdk option to install the jdk environment, and then run the following command\nkeytool -keystore $P_Dir/$CS_Version/cobaltstrike.store -storepass sUp3r@dm1n -keypass sUp3r@dm1n -genkey -keyalg RSA -alias aliyun -dname \"CN=aliyun, OU=aliyun, O=aliyun, L=aliyun, S=aliyun, C=aliyun\"\nGenerate the cobaltstrike.store file"
     fi
 
 }
@@ -3225,6 +3416,7 @@ Pentest_Responder_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
+        Install_Switch4 "netifaces"
         $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/lgandx/Responder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         python3 Responder.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -3247,6 +3439,15 @@ Pentest_krbrelayx_Install(){
 
 # ===================== Install bettercap =====================
 Pentest_bettercap_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            bettercap_bin=$bettercap_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            bettercap_bin=$bettercap_bin_arm64
+            ;;
+    esac
 
     name="bettercap"
     which bettercap > /dev/null 2>&1
@@ -3356,12 +3557,12 @@ Pentest_hashcat_Install(){
     else
         name="hashcat"
         rm -rf /usr/sbin/hashcat
-        rm -rf /pentest/hashcat-6.2.*
+        rm -rf $P_Dir/hashcat-6.2.*
         $Porxy_OK wget -O $P_Dir/${hashcat_Version}.7z ${GitPorxy2}https://hashcat.net/files/${hashcat_Version}.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "Downloaded ${hashcat_Version}" || Echo_ERROR2
         7za x $P_Dir/${hashcat_Version}.7z -o$P_Dir > /dev/null 2>&1
         rm -f $P_Dir/${hashcat_Version}.7z > /dev/null 2>&1
         cd $P_Dir/hashcat* > /dev/null 2>&1 && chmod +x hashcat.bin && cp hashcat.bin hashcat
-        ln -s /pentest/${hashcat_Version}/hashcat /usr/sbin/hashcat > /dev/null 2>&1
+        ln -s $P_Dir/${hashcat_Version}/hashcat /usr/sbin/hashcat > /dev/null 2>&1
         which hashcat > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3404,7 +3605,7 @@ Pentest_jadx_Install(){
         mkdir -p /usr/local/jadx && cd /usr/local/jadx && rm -f $jadx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/skylot/jadx/releases/download/$jadx_Ver/$jadx_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $jadx_bin > /dev/null 2>&1
         chmod +x /usr/local/jadx/bin/jadx && ln -s /usr/local/jadx/bin/jadx /usr/local/bin/jadx && rm -f /usr/local/$jadx_bin > /dev/null 2>&1
-        jadx --version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $jadx_Ver in the /usr/local/jadx/" || Echo_ERROR3
+        which jadx > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $jadx_Ver in the /usr/local/jadx/" || Echo_ERROR3
 
     fi
 
@@ -3459,6 +3660,15 @@ Pentest_Platypus_Install(){
 # ===================== Install mapcidr =====================
 Pentest_mapcidr_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            mapcidr_bin=$mapcidr_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            mapcidr_bin=$mapcidr_bin_arm64
+            ;;
+    esac
+
     name="mapcidr"
     which mapcidr > /dev/null 2>&1
 
@@ -3495,6 +3705,15 @@ Pentest_nali_Install(){
 # ===================== Install anew =====================
 Pentest_anew_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            anew_bin=$anew_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            anew_bin=$anew_bin_arm64
+            ;;
+    esac
+
     name="anew"
     which anew  > /dev/null 2>&1
 
@@ -3513,6 +3732,15 @@ Pentest_anew_Install(){
 
 # ===================== Install gron =====================
 Pentest_gron_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            gron_bin=$gron_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            gron_bin=$gron_bin_arm64
+            ;;
+    esac
 
     name="gron"
     which gron > /dev/null 2>&1
@@ -3590,6 +3818,15 @@ Pentest_Interlace_Install(){
 # ===================== Install sttr =====================
 Pentest_sttr_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            sttr_bin=$sttr_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            sttr_bin=$sttr_bin_arm64
+            ;;
+    esac
+
     name="sttr"
     which sttr > /dev/null 2>&1
 
@@ -3608,6 +3845,17 @@ Pentest_sttr_Install(){
 # ===================== Install interactsh =====================
 Pentest_interactsh_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            interactsh-client_bin=$interactsh-client_bin_amd64
+            interactsh-server_bin=$interactsh-client_bin_arm64
+            ;;
+        *"linux-arm64"*)
+            interactsh-client_bin=$interactsh-client_bin_arm64
+            interactsh-server_bin=$interactsh-server_bin_arm64
+            ;;
+    esac
+
     name="interactsh"
     which interactsh-client > /dev/null 2>&1
 
@@ -3615,8 +3863,10 @@ Pentest_interactsh_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/interactsh && cd /tmp/interactsh && rm -f ${interactsh_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/interactsh/releases/download/${interactsh_Ver}/${interactsh_bin} > /dev/null 2>&1 || Echo_ERROR2
-        unzip ${interactsh_bin} > /dev/null 2>&1
+        mkdir -p /tmp/interactsh && cd /tmp/interactsh && rm -f ${interactsh_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/interactsh/releases/download/${interactsh_Ver}/${interactsh-client_bin} > /dev/null 2>&1 || Echo_ERROR2
+        $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/interactsh/releases/download/${interactsh_Ver}/${interactsh-server_bin} > /dev/null 2>&1 || Echo_ERROR2
+        unzip ${interactsh-client_bin} > /dev/null 2>&1
+        unzip ${interactsh-server_bin} > /dev/null 2>&1
         mv /tmp/interactsh/interactsh-server /usr/local/bin/interactsh-server && chmod +x /usr/local/bin/interactsh-server
         mv /tmp/interactsh/interactsh-client /usr/local/bin/interactsh-client && chmod +x /usr/local/bin/interactsh-client
         rm -rf /tmp/interactsh
@@ -3686,6 +3936,15 @@ Pentest_DomainSplit_Install(){
 # ===================== Install proxify =====================
 Pentest_proxify_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            proxify_bin=$proxify_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            proxify_bin=$proxify_bin_arm64
+            ;;
+    esac
+
     name="proxify"
     which proxify > /dev/null 2>&1
 
@@ -3738,6 +3997,15 @@ Pentest_jaeles_Install(){
 
 # ===================== Install Girsh =====================
 Pentest_Girsh_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            Girsh_bin=$Girsh_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            Girsh_bin=$Girsh_bin_arm64
+            ;;
+    esac
 
     name="Girsh"
     which Girsh > /dev/null 2>&1
@@ -4104,6 +4372,15 @@ Secure_BruteShark_Install(){
 # ===================== Install fapro =====================
 Secure_fapro_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            fapro_bin=$fapro_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            fapro_bin=$fapro_bin_arm64
+            ;;
+    esac
+
     name="fapro"
     which fapro > /dev/null 2>&1
 
@@ -4160,18 +4437,27 @@ vlmcsd_Install(){
 
 }
 
-# ===================== Install AdguardTeam =====================
-AdguardTeam_Install(){
+# ===================== Install AdGuardHome =====================
+AdGuardHome_Install(){
 
-    name="AdguardTeam"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            AdGuardHome_File=$AdGuardHome_File_amd64
+            ;;
+        *"linux-arm64"*)
+            AdGuardHome_File=$AdGuardHome_File_arm64
+            ;;
+    esac
+
+    name="AdGuardHome"
 
     if test -d $T_Dir/AdGuardHome
     then
-        Echo_ALERT "AdguardTeam is already installed in $T_Dir/AdGuardHome"
+        Echo_ALERT "AdGuardHome is already installed in $T_Dir/AdGuardHome"
     else
-        cd $T_Dir && rm -f $AdguardTeam_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/AdguardTeam/AdGuardHome/releases/download/$AdGuardHome_Version/$AdguardTeam_File > /dev/null 2>&1 || Echo_ERROR2
-        tar -xzvf $AdguardTeam_File > /dev/null 2>&1 && rm -f $AdguardTeam_File > /dev/null 2>&1
-        cd AdGuardHome && Echo_INFOR "Successfully installed $name $AdGuardHome_Version , run the following command to enable the AdguardTeam service\n\033[0m\033[1;32mcd $T_Dir/AdGuardHome && ./AdGuardHome -s install" || Echo_ERROR3
+        cd $T_Dir && rm -f $AdGuardHome_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/AdguardTeam/AdGuardHome/releases/download/$AdGuardHome_Version/$AdGuardHome_File > /dev/null 2>&1 || Echo_ERROR2
+        tar -xzvf $AdGuardHome_File > /dev/null 2>&1 && rm -f $AdGuardHome_File > /dev/null 2>&1
+        cd AdGuardHome && Echo_INFOR "Successfully installed $name $AdGuardHome_Version , run the following command to enable the AdGuardHome service\n\033[0m\033[1;32mcd $T_Dir/AdGuardHome && ./AdGuardHome -s install" || Echo_ERROR3
     fi
 
 }
@@ -4209,6 +4495,15 @@ thefuck_Install(){
 # ===================== Install fzf =====================
 fzf_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            fzf_bin=$fzf_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            fzf_bin=$fzf_bin_arm64
+            ;;
+    esac
+
     name="fzf"
     which fzf > /dev/null 2>&1
 
@@ -4223,20 +4518,29 @@ fzf_Install(){
 
 }
 
-# ===================== Install annie =====================
-annie_Install(){
+# ===================== Install lux =====================
+lux_Install(){
 
-    name="annie"
-    which annie > /dev/null 2>&1
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            lux_bin=$lux_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            lux_bin=$lux_bin_arm64
+            ;;
+    esac
+
+    name="lux"
+    which lux > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $annie_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/iawia002/annie/releases/download/$annie_Ver/$annie_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $annie_bin > /dev/null 2>&1
-        mv --force annie /usr/local/bin/annie && chmod +x /usr/local/bin/annie && rm -f $annie_bin > /dev/null 2>&1
-        annie -v > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $annie_Ver in the /usr/local/bin/" || Echo_ERROR3
+        cd /tmp && rm -f $lux_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/iawia002/lux/releases/download/$lux_Ver/$lux_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf $lux_bin > /dev/null 2>&1
+        mv --force lux /usr/local/bin/lux && chmod +x /usr/local/bin/lux && rm -f $lux_bin > /dev/null 2>&1
+        lux -v > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $lux_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -4327,6 +4631,7 @@ starship_Install(){
         Echo_ALERT "$name installed"
     else
         cd /tmp && rm -f install.sh > /dev/null 2>&1 && $Porxy_OK curl -o install.sh https://starship.rs/install.sh > /dev/null 2>&1 && $Porxy_OK bash install.sh && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
+        rm -f /tmp/install.sh > /dev/null 2>&1
     fi
 
     Echo_INFOR "Bash :  echo \"eval \\\"\\\$(starship init bash)\\\"\" >> ~/.bashrc"
@@ -4337,6 +4642,15 @@ starship_Install(){
 
 # ===================== Install ttyd =====================
 ttyd_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            ttyd_bin=$ttyd_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            ttyd_bin=$ttyd_bin_arm64
+            ;;
+    esac
 
     name="ttyd"
     which ttyd > /dev/null 2>&1
@@ -4364,11 +4678,31 @@ duf_Install(){
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+
+                case $Linux_architecture_Name in
+                    *"linux-x86_64"*)
+                        duf_bin1=$duf_bin1_amd64
+                        ;;
+                    *"linux-arm64"*)
+                        duf_bin1=$duf_bin1_arm64
+                        ;;
+                esac
+
                 mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin1 > /dev/null 2>&1 || Echo_ERROR2
                 rpm -i $duf_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/dufinstall
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
+
+                case $Linux_architecture_Name in
+                    *"linux-x86_64"*)
+                        duf_bin2=$duf_bin2_amd64
+                        ;;
+                    *"linux-arm64"*)
+                        duf_bin2=$duf_bin2_arm64
+                        ;;
+                esac
+
                 mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin2 > /dev/null 2>&1 || Echo_ERROR2
                 dpkg -i $duf_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/dufinstall
@@ -4447,6 +4781,15 @@ htop_Install(){
 # ===================== Install bat =====================
 bat_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            bat_bin=$bat_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            bat_bin=$bat_bin_arm64
+            ;;
+    esac
+
     name="bat"
     which bat > /dev/null 2>&1
 
@@ -4464,6 +4807,15 @@ bat_Install(){
 
 # ===================== Install fd =====================
 fd_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            fd_bin=$fd_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            fd_bin=$fd_bin_arm64
+            ;;
+    esac
 
     name="fd"
     which fd > /dev/null 2>&1
@@ -4998,8 +5350,16 @@ Openjdk_Install(){
 # -oraclejdk
 Oraclejdk_Install(){
 
-    name="oraclejdk"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            orclejdk_bin=$orclejdk_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            orclejdk_bin=$orclejdk_bin_arm64
+            ;;
+    esac
 
+    name="oraclejdk"
     java -version > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -5007,17 +5367,22 @@ Oraclejdk_Install(){
         Echo_INFOR "java installed"
     else
         echo -e "\033[1;33m\n>> Installing Java environment(oraclejdk)\n\033[0m"
+
+        # cd $T_Dir && rm -f targz.z* > /dev/null 2>&1 && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "targz.z01 download failed"
+        # $Porxy_OK wget -O targz.z02 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || Echo_ERROR "targz.z02 download failed"
+        # $Porxy_OK wget -O targz.z03 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || Echo_ERROR "targz.z03 download failed"
+        # $Porxy_OK wget -O targz.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.zip > /dev/null 2>&1 || Echo_ERROR "targz.zip download failed"
+        # rm -rf jdk* > /dev/null 2>&1 && rm -f myzip.zip > /dev/null 2>&1
+        # cat targz.z* > myzip.zip && unzip myzip.zip > /dev/null 2>&1
+
+        cd $T_Dir && rm -f $orclejdk_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy2}https://github.com/No-Github/Archive/releases/download/$orclejdk_tmp_ver/$orclejdk_bin > /dev/null 2>&1 || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+
+        tar -xzvf $orclejdk_bin > /dev/null 2>&1
+        rm -rf /usr/local/java/ > /dev/null 2>&1 && mkdir /usr/local/java/
+        mv --force $jdk_Version/ /usr/local/java
+
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                cd $T_Dir && rm -f targz.z* > /dev/null 2>&1 && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "targz.z01 download failed"
-                $Porxy_OK wget -O targz.z02 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || Echo_ERROR "targz.z02 download failed"
-                $Porxy_OK wget -O targz.z03 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || Echo_ERROR "targz.z03 download failed"
-                $Porxy_OK wget -O targz.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.zip > /dev/null 2>&1 || Echo_ERROR "targz.zip download failed"
-                rm -rf jdk* > /dev/null 2>&1 && rm -f myzip.zip > /dev/null 2>&1
-                cat targz.z* > myzip.zip && unzip myzip.zip > /dev/null 2>&1
-                tar -xzvf jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
-                rm -rf /usr/local/java/ > /dev/null 2>&1 && mkdir /usr/local/java/
-                mv --force $jdk_Version/ /usr/local/java
                 echo "JAVA_HOME=/usr/local/java/$jdk_Version" >> /etc/bashrc
                 echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bashrc
                 echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bashrc
@@ -5025,32 +5390,23 @@ Oraclejdk_Install(){
                 ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java > /dev/null 2>&1
                 ln -s /usr/local/java/$jdk_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
                 /usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect" || Echo_ERROR "java installation failed (Maybe a false positive, execute the following command and re-enter bash\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH)"
-                rm -f targz.z* > /dev/null 2>&1
-                rm -f jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
-                rm -f myzip.zip > /dev/null 2>&1
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                cd $T_Dir && rm -f targz.z* > /dev/null 2>&1 && $Porxy_OK wget -O targz.z01 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z01 > /dev/null 2>&1 || Echo_ERROR "targz.z01 download failed"
-                $Porxy_OK wget -O targz.z02 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z02 > /dev/null 2>&1 || Echo_ERROR "targz.z02 download failed"
-                $Porxy_OK wget -O targz.z03 ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.z03 > /dev/null 2>&1 || Echo_ERROR "targz.z03 download failed"
-                $Porxy_OK wget -O targz.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/JDK/targz/targz.zip > /dev/null 2>&1 || Echo_ERROR "targz.zip download failed"
-                rm -rf jdk* > /dev/null 2>&1 && rm -f myzip.zip > /dev/null 2>&1
-                cat targz.z* > myzip.zip && unzip myzip.zip > /dev/null 2>&1
-                tar -xzvf jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
-                rm -rf /usr/local/java/ > /dev/null 2>&1 && mkdir /usr/local/java/
-                mv --force $jdk_Version/ /usr/local/java
                 echo "JAVA_HOME=/usr/local/java/$jdk_Version " >> /etc/bash.bashrc
                 echo "JRE_HOME=\$JAVA_HOME/jre " >> /etc/bash.bashrc
                 echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib " >> /etc/bash.bashrc
                 echo "PATH=\$JAVA_HOME/bin:\$PATH " >> /etc/bash.bashrc
                 ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java > /dev/null 2>&1
+                ln -s /usr/local/java/$jdk_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
                 /usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH" || Echo_ERROR3
-                rm -f targz.z* > /dev/null 2>&1
-                rm -f jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
-                rm -f myzip.zip > /dev/null 2>&1
                 ;;
             *) ;;
         esac
+
+        rm -f $orclejdk_bin > /dev/null 2>&1
+        # rm -f targz.z* > /dev/null 2>&1
+        # rm -f jdk-8u271-linux-x64.tar.gz > /dev/null 2>&1
+        # rm -f myzip.zip > /dev/null 2>&1
     fi
 
 }
@@ -5090,7 +5446,7 @@ lua_Install(){
     echo -e "\033[1;33m\n>> Installing common libraries\n\033[0m"
     Rm_Lock
     Install_Switch "luarocks"
-    luarocks install luafilesystem
+    cd /tmp && luarocks install luafilesystem
 
 }
 
@@ -5105,6 +5461,17 @@ Perl_Install(){
 
 # -nn
 nn_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            node_bin=$node_bin_amd64
+            node_Dir=$node_Dir_amd64
+            ;;
+        *"linux-arm64"*)
+            node_bin=$node_bin_arm64
+            node_Dir=$node_Dir_arm64
+            ;;
+    esac
 
     name="nodejs && npm"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
@@ -5127,7 +5494,6 @@ nn_Install(){
                 ;;
             *) ;;
         esac
-
     fi
 
 }
@@ -5505,17 +5871,38 @@ cs_Install(){
 # -frp
 frp_Install(){
 
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            frp_File=$frp_File_amd64
+            frp_Dir=$frp_Dir_amd64
+            ;;
+        *"linux-arm64"*)
+            frp_File=$frp_File_arm64
+            frp_Dir=$frp_Dir_arm64
+            ;;
+    esac
+
     name="frp"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    cd $T_Dir && rm -rf frp* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fatedier/frp/releases/download/$frp_Ver/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File download failed"
-    tar -zxvf $frp_File > /dev/null 2>&1 && rm -f $frp_File > /dev/null 2>&1
+    mkdir -p /tmp/frp && cd /tmp/frp && rm -rf frp* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fatedier/frp/releases/download/$frp_Ver/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File download failed"
+    tar -zxvf $frp_File > /dev/null 2>&1
     cd $frp_Dir && Echo_INFOR "frp is already installed in $T_Dir/$frp_Dir" || Echo_ERROR3
+    rm -rf /tmp/frp > /dev/null 2>&1
 
 }
 
 # -nps
 nps_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            nps_File=$nps_File_amd64
+            ;;
+        *"linux-arm64"*)
+            nps_File=$nps_File_arm64
+            ;;
+    esac
 
     name="nps"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
@@ -5524,11 +5911,11 @@ nps_Install(){
     then
         Echo_INFOR "nps is already installed in $T_Dir/nps"
     else
-        mkdir -p $T_Dir/nps
-        cd $T_Dir/nps && $Porxy_OK wget ${GitPorxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_Install > /dev/null 2>&1 || Echo_ERROR "$nps_Install download failed"
-        tar -zxvf $nps_Install > /dev/null 2>&1
-        rm -f $T_Dir/nps/$nps_Install > /dev/null 2>&1 && chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
+        mkdir -p $T_Dir/nps && cd $T_Dir/nps && $Porxy_OK wget ${GitPorxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_File > /dev/null 2>&1 || Echo_ERROR "$nps_File download failed"
+        tar -zxvf $nps_File > /dev/null 2>&1
+        rm -f $T_Dir/nps/$nps_File > /dev/null 2>&1 && chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
         $T_Dir/nps/nps -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $nps_Ver in the $T_Dir/nps" || Echo_ERROR3
+        rm -rf /tmp/nps
     fi
 
 }
@@ -6162,32 +6549,37 @@ Dev_Tools(){
 # -f
 Fun_Tools(){
 
-    echo -e "\033[1;33m\n>> Installing AdguardTeam DNS\n\033[0m"
-    AdguardTeam_Install
+    echo -e "\033[1;33m\n>> Installing AdGuardHome DNS\n\033[0m"
+    AdGuardHome_Install
     echo -e "\033[1;33m\n>> Installing trash-cli\n\033[0m"
     trash-cli_Install
     echo -e "\033[1;33m\n>> Installing thefuck\n\033[0m"
     thefuck_Install
     echo -e "\033[1;33m\n>> Installing fzf\n\033[0m"
     fzf_Install
-    echo -e "\033[1;33m\n>> Installing annie\n\033[0m"
-    annie_Install
+    echo -e "\033[1;33m\n>> Installing lux\n\033[0m"
+    lux_Install
     echo -e "\033[1;33m\n>> Installing you-get\n\033[0m"
     you-get_Install
     echo -e "\033[1;33m\n>> Installing ffmpeg\n\033[0m"
     ffmpeg_Install
     echo -e "\033[1;33m\n>> Installing aria2\n\033[0m"
     aria2_Install
-    echo -e "\033[1;33m\n>> Installing filebrowser\n\033[0m"
-    filebrowser_Install
-    echo -e "\033[1;33m\n>> Installing starship\n\033[0m"
-    starship_Install
+    # echo -e "\033[1;33m\n>> Installing filebrowser\n\033[0m"
+    # filebrowser_Install
     echo -e "\033[1;33m\n>> Installing ttyd\n\033[0m"
     ttyd_Install
     echo -e "\033[1;33m\n>> Installing duf\n\033[0m"
     duf_Install
-    echo -e "\033[1;33m\n>> Installing procs\n\033[0m"
-    procs_Install
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            echo -e "\033[1;33m\n>> Installing starship\n\033[0m"
+            starship_Install
+            echo -e "\033[1;33m\n>> Installing procs\n\033[0m"
+            procs_Install
+            ;;
+    esac
 
     case $Linux_Version in
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -6260,12 +6652,8 @@ kali_Tools_TypeA(){
     Pentest_SecretFinder_Install
     echo -e "\033[1;33m\n>> Installing OneForAll\n\033[0m"
     Pentest_OneForAll_Install
-    echo -e "\033[1;33m\n>> Installing ksubdomain\n\033[0m"
-    Pentest_ksubdomain_Install
     echo -e "\033[1;33m\n>> Installing masscan\n\033[0m"
     Pentest_masscan_Install
-    echo -e "\033[1;33m\n>> Installing fscan\n\033[0m"
-    Pentest_fscan_Install
     echo -e "\033[1;33m\n>> Installing rad\n\033[0m"
     Pentest_rad_Install
     echo -e "\033[1;33m\n>> Installing crawlergo\n\033[0m"
@@ -6274,14 +6662,10 @@ kali_Tools_TypeA(){
     Pentest_Arjun_Install
     echo -e "\033[1;33m\n>> Installing gospider\n\033[0m"
     Pentest_gospider_Install
-    echo -e "\033[1;33m\n>> Installing naabu\n\033[0m"
-    Pentest_naabu_Install
     echo -e "\033[1;33m\n>> Installing httpx\n\033[0m"
     Pentest_httpx_Install
     echo -e "\033[1;33m\n>> Installing subfinder\n\033[0m"
     Pentest_subfinder_Install
-    echo -e "\033[1;33m\n>> Installing gau\n\033[0m"
-    Pentest_gau_Install
     echo -e "\033[1;33m\n>> Installing apktool\n\033[0m"
     Pentest_apktool_Install
     echo -e "\033[1;33m\n>> Installing ApkAnalyser\n\033[0m"
@@ -6294,8 +6678,6 @@ kali_Tools_TypeA(){
     Pentest_AppInfoScanner_Install
     echo -e "\033[1;33m\n>> Installing Amass\n\033[0m"
     Pentest_Amass_Install
-    echo -e "\033[1;33m\n>> Installing gobuster\n\033[0m"
-    Pentest_gobuster_Install
     echo -e "\033[1;33m\n>> Installing dirsearch\n\033[0m"
     Pentest_dirsearch_Install
     echo -e "\033[1;33m\n>> Installing dismap\n\033[0m"
@@ -6306,6 +6688,21 @@ kali_Tools_TypeA(){
     Pentest_WebCrack_Install
     echo -e "\033[1;33m\n>> Installing netspy\n\033[0m"
     Pentest_netspy_Install
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            echo -e "\033[1;33m\n>> Installing ksubdomain\n\033[0m"
+            Pentest_ksubdomain_Install
+            echo -e "\033[1;33m\n>> Installing fscan\n\033[0m"
+            Pentest_fscan_Install
+            echo -e "\033[1;33m\n>> Installing naabu\n\033[0m"
+            Pentest_naabu_Install
+            echo -e "\033[1;33m\n>> Installing gau\n\033[0m"
+            Pentest_gau_Install
+            echo -e "\033[1;33m\n>> Installing gobuster\n\033[0m"
+            Pentest_gobuster_Install
+            ;;
+    esac
 
     # Pentest_zscan_Install
 
@@ -6399,8 +6796,6 @@ kali_Tools_TypeD(){
     Pentest_jadx_Install
     echo -e "\033[1;33m\n>> Installing ncat\n\033[0m"
     Pentest_ncat_Install
-    echo -e "\033[1;33m\n>> Installing Platypus\n\033[0m"
-    Pentest_Platypus_Install
     echo -e "\033[1;33m\n>> Installing mapcidr\n\033[0m"
     Pentest_mapcidr_Install
     echo -e "\033[1;33m\n>> Installing nali\n\033[0m"
@@ -6409,14 +6804,21 @@ kali_Tools_TypeD(){
     Pentest_anew_Install
     echo -e "\033[1;33m\n>> Installing gron\n\033[0m"
     Pentest_gron_Install
-    echo -e "\033[1;33m\n>> Installing unfurl\n\033[0m"
-    Pentest_unfurl_Install
-    echo -e "\033[1;33m\n>> Installing qsreplace\n\033[0m"
-    Pentest_qsreplace_Install
     echo -e "\033[1;33m\n>> Installing Interlace\n\033[0m"
     Pentest_Interlace_Install
     echo -e "\033[1;33m\n>> Installing sttr\n\033[0m"
     Pentest_sttr_Install
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            echo -e "\033[1;33m\n>> Installing Platypus\n\033[0m"
+            Pentest_Platypus_Install
+            echo -e "\033[1;33m\n>> Installing unfurl\n\033[0m"
+            Pentest_unfurl_Install
+            echo -e "\033[1;33m\n>> Installing qsreplace\n\033[0m"
+            Pentest_qsreplace_Install
+            ;;
+    esac
 
     # Pentest_interactsh_Install
     # Pentest_jwtcat_Install
@@ -6430,18 +6832,23 @@ kali_Tools_TypeE(){
 
     echo -e "\033[1;33m\n>> Installing SecLists(~500M),longer time, wait patiently\n\033[0m"
     Pentest_SecLists_Install
-    echo -e "\033[1;33m\n>> Installing jaeles\n\033[0m"
-    Pentest_jaeles_Install
     echo -e "\033[1;33m\n>> Installing Girsh\n\033[0m"
     Pentest_Girsh_Install
     echo -e "\033[1;33m\n>> Installing See-SURF\n\033[0m"
     Pentest_See-SURF_Install
-    echo -e "\033[1;33m\n>> Installing subjs\n\033[0m"
-    Pentest_subjs_Install
-    echo -e "\033[1;33m\n>> Installing assetfinder\n\033[0m"
-    Pentest_assetfinder_Install
     echo -e "\033[1;33m\n>> Installing hakrawler\n\033[0m"
     Pentest_hakrawler_Install
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            echo -e "\033[1;33m\n>> Installing jaeles\n\033[0m"
+            Pentest_jaeles_Install
+            echo -e "\033[1;33m\n>> Installing subjs\n\033[0m"
+            Pentest_subjs_Install
+            echo -e "\033[1;33m\n>> Installing assetfinder\n\033[0m"
+            Pentest_assetfinder_Install
+            ;;
+    esac
 
     # Pentest_routersploit_Install
     # Pentest_exploitdb_Install
@@ -6465,18 +6872,23 @@ Secure(){
 
     echo -e "\033[1;33m\n>> Installing Fail2Ban\n\033[0m"
     Secure_Fail2Ban_Install
-    echo -e "\033[1;33m\n>> Installing chkrootkit\n\033[0m"
-    Secure_chkrootkit_Install
     echo -e "\033[1;33m\n>> Installing rkhunter\n\033[0m"
     Secure_rkhunter_Install
-    echo -e "\033[1;33m\n>> Installing shellpub\n\033[0m"
-    Secure_shellpub_Install
     echo -e "\033[1;33m\n>> Installing anti-portscan\n\033[0m"
     Secure_anti_portscan_Install
-    echo -e "\033[1;33m\n>> Installing BruteShark\n\033[0m"
-    Secure_BruteShark_Install
     echo -e "\033[1;33m\n>> Installing fapro\n\033[0m"
     Secure_fapro_Install
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            echo -e "\033[1;33m\n>> Installing chkrootkit\n\033[0m"
+            Secure_chkrootkit_Install
+            echo -e "\033[1;33m\n>> Installing shellpub\n\033[0m"
+            Secure_shellpub_Install
+            echo -e "\033[1;33m\n>> Installing BruteShark\n\033[0m"
+            Secure_BruteShark_Install
+            ;;
+    esac
 
 }
 
@@ -6855,6 +7267,7 @@ do
             ;;
         -chromium)
             mac_Check || exit 1
+            linux_arm64_Check || exit 1
             Porxy_Switch
             Base_Check
             chromium_Install
@@ -6923,6 +7336,7 @@ do
             ;;
         -goby)
             mac_Check || exit 1
+            linux_arm64_Check || exit 1
             Porxy_Switch
             Base_Check
             Goby_Install
@@ -6986,6 +7400,7 @@ do
             ;;
         -clash)
             mac_Check || exit 1
+            linux_arm64_Check || exit 1
             Base_Check
             clash_Install
             ;;
@@ -7007,6 +7422,7 @@ do
             ;;
         -ssr)
             mac_Check || exit 1
+            linux_arm64_Check || exit 1
             Base_Check
             ssr_Install
             ;;
@@ -7067,16 +7483,10 @@ do
             Debug_Fun
             ;;
         *)
-            if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-            then
-                echo -e ""
-                echo -e "\033[1;34mUse the -h option to view the help documentation\033[0m"
-            fi
+            echo -e ""
+            echo -e "\033[1;34mUse the -h option to view the help documentation\033[0m"
             ;;
     esac
 
-    if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
-    then
-        echo -e "\033[1;36m \n-----End of execution-----\n \033[0m"
-    fi
+    echo -e "\033[1;36m \n-----End of execution-----\n \033[0m"
 done
