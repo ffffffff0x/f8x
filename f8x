@@ -13,11 +13,13 @@
 # 注: 该脚本适用于 debian、kali、Ubuntu、Centos、RedHat、Fedora 等系列系统下
 # 注: 完全适配 debian 系列系统
 # 注: 基本适配 RedHat 系列系统
+# 注: 完全适配 x86 和 arm 架构
 # 注: 适配 Centos8 和 Fedora 系统时有些小bug,但不影响使用,可以忽略
 # 注: 走代理时,请确认配置好 Proxychains-ng 代理
 # Note: This script is available for debian, kali, Ubuntu, Centos, RedHat, Fedora, etc.
 # Note: Fully compatible with debian series systems
 # Note: Partially adapted to RedHat series systems
+# Note: Fully compatible with x86 and arm architectures
 # Note: There are some small bugs when adapting to Centos8 and Fedora systems, but it does not affect the use, can be ignored
 # Note: When using a proxy, please make sure the Proxychains-ng proxy is configured.
 
@@ -72,9 +74,9 @@ fscan_Install="fscan_amd64"
 ffuf_Ver="v1.3.1"
 ffuf_Install_amd64="ffuf_1.3.1_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_1.3.1_linux_arm64.tar.gz"
-Nuclei_Ver="v2.6.2"
-Nuclei_Install_amd64="nuclei_2.6.2_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.6.2_linux_arm64.zip"
+Nuclei_Ver="v2.6.3"
+Nuclei_Install_amd64="nuclei_2.6.3_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.6.3_linux_arm64.zip"
 rad_Ver="0.4"
 rad_File_amd64="rad_linux_amd64.zip"
 rad_File_arm64="rad_linux_arm64.zip"
@@ -180,11 +182,11 @@ assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.6.3"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
-code_server_Ver="v4.0.2"
-code_server_bin1_amd64="code-server-4.0.2-amd64.rpm"
-code_server_bin2_amd64="code-server_4.0.2_amd64.deb"
-code_server_bin1_arm64="code-server-4.0.2-arm64.rpm"
-code_server_bin2_arm64="code-server_4.0.2_arm64.deb"
+code_server_Ver="v4.1.0"
+code_server_bin1_amd64="code-server-4.1.0-amd64.rpm"
+code_server_bin2_amd64="code-server_4.1.0_amd64.deb"
+code_server_bin1_arm64="code-server-4.1.0-arm64.rpm"
+code_server_bin2_arm64="code-server_4.1.0_arm64.deb"
 dismap_Ver="v0.3"
 dismap_bin_amd64="dismap-0.3-linux-amd64"
 dismap_bin_arm64="dismap-0.3-linux-arm64"
@@ -2114,7 +2116,6 @@ Pentest_pip_Install(){
         Install_Switch3 "Crypto"
         Install_Switch3 "pycryptodome"
         Install_Switch3 "pytz"
-        python2 -m pip install Pillow > /dev/null 2>&1
         python2 -m pip install pefile > /dev/null 2>&1
         touch /tmp/f8x_pip.txt > /dev/null 2>&1
     fi
@@ -2212,8 +2213,21 @@ Pentest_OneForAll_Install(){
         Install_Switch5 "wheel"
         $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/shmilylty/OneForAll.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name download failed, please check if the network is reachable, proxychains4 configuration is correct, or download using gitee git clone https://gitee.com/shmilylty/OneForAll.git "
         Echo_ALERT "Installing dependency modules\033[0m" && pip3 install -r requirements.txt > /dev/null 2>&1 || ( Echo_ERROR "Failed to install dependency module" && rm -rf $P_Dir/OneForAll > /dev/null 2>&1 )
-        python3 oneforall.py version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        python3 oneforall.py version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" && aarch64_massdns_Install || Echo_ERROR3
     fi
+
+}
+
+aarch64_massdns_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-arm64"*)
+            mkdir -p /tmp/massdns && cd $_
+            $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/blechschmidt/massdns.git > /dev/null 2>&1
+            cd /tmp/massdns/massdns && make > /dev/null 2>&1
+            mv /tmp/massdns/massdns/bin/massdns $P_Dir/OneForAll/thirdparty/massdns/massdns_linux_aarch64 && Echo_INFOR "Successfully installed massdns in the $P_Dir/OneForAll/thirdparty/massdns/" && rm -rf /tmp/massdns
+            ;;
+    esac
 
 }
 
@@ -3975,7 +3989,7 @@ Pentest_gojwtcrack_Install(){
                 ;;
             *"linux-arm64"*)
                 export GO111MODULE=on && export GOPROXY=https://goproxy.io && export GOPATH=$HOME/go
-                go install github.com/x1sec/gojwtcrack
+                go install github.com/x1sec/gojwtcrack@latest
                 mv $GOPATH/bin/gojwtcrack /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack
                 which gojwtcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
