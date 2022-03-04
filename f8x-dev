@@ -10,7 +10,7 @@ else
     curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mInstalled f8x tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x installation failed\n\033[0m"
 fi
 
-. /usr/local/bin/f8x
+. /usr/local/bin/f8x > /dev/null 2>&1
 
 F8x_dev_Version="0.0.2 Dev"
 
@@ -86,10 +86,19 @@ mariadb_Install(){
         mysql_secure_installation
 
         mysqlcmd="select User, host from mysql.user;
-        GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'toor' WITH GRANT OPTION;"
+        GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'toor' WITH GRANT OPTION;
+        FLUSH PRIVILEGES;"
 
         mysql -u root -p -e "${mysqlcmd}"
         Echo_INFOR "Default root/toor For security reasons, please do not deploy in a public network environment."
+
+        systemctl restart mariadb
+
+        # If you can't connect, you need to modify the configuration file
+        # vim /etc/mysql/mariadb.conf.d/50-server.cnf
+        # bind-address = 0.0.0.0
+        # :wq
+        # systemctl restart mariadb
     fi
 
 }
@@ -440,6 +449,7 @@ for cmd in $@
 do
     case $cmd in
         -sharry)
+            linux_arm64_Check || exit 1
             Porxy_Switch
             Base_Check
             sharry_Install
