@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.0.2 Dev"
+F8x_dev_Version="0.0.3 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -103,16 +103,36 @@ mariadb_Install(){
 
 }
 
+mariadb_docker_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your mariadb listening port\033[0m" && read -r input
+    mariadb_port=$input
+    echo -e "\033[5;33m\nPlease enter your mariadb password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
+    mariadb_pass=$input
+
+    docker search mariadb
+    docker pull mariadb
+    docker images mariadb
+    docker run -d -p $mariadb_port:3306 --name f8x-mariadb1 -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$mariadb_port, please do not deploy in public network environment"
+
+}
+
 # ===================== Install mongodb =====================
 mongodb_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your mongodb listening port\033[0m" && read -r input
+    mongodb_port=$input
 
     docker search mongodb   # 从Docker Hub查找镜像
     docker pull mongo       # 从镜像仓库中拉取或者更新指定镜像
     docker images mongo     # 列出本地主机上的mongo镜像
-    docker run -d -p 27017:27017 --name mongodb mongo  # 创建一个新的容器并运行一个命令
+    docker run -d -p $mongodb_port:27017 --name mongodb mongo  # 创建一个新的容器并运行一个命令
     docker ps  # 显示正在运行的容器
 
-    Echo_ALERT "Already listening to 0.0.0.0:27017, please do not deploy in public network environment"
+    Echo_ALERT "Already listening to 0.0.0.0:$mongodb_port, please do not deploy in public network environment"
 
 }
 
@@ -145,7 +165,7 @@ memcached160_Install(){
     make && make test
     make install && Echo_INFOR "Successfully installed memcached 1.6.0"
     rm -rf /tmp/memcached160
-    # 写了一大堆编译还报错,干脆直接软件包安装得了 :)
+    # 写了一大堆,编译还报错,干脆直接软件包安装得了 :)
 
 }
 
@@ -419,29 +439,33 @@ apache_Install_pkg(){
 Help_Info(){
 
     echo -e "\033[1;34mapache \033[0m"
-    echo -e "  \033[1;34m-apache-pkg\033[0m \033[0;34m  : install apache (use apt/yum) \033[0m"
+    echo -e "  \033[1;34m-apache-pkg\033[0m \033[0;34m      : install apache (use apt/yum) \033[0m"
     echo -e ""
     echo -e "\033[1;34mnginx \033[0m"
-    echo -e "  \033[1;34m-nginx-pkg\033[0m \033[0;34m   : install nginx (use apt/yum) \033[0m"
-    echo -e "  \033[1;34m-nginx-src\033[0m \033[0;34m   : install nginx (use Source Code) \033[0m"
+    echo -e "  \033[1;34m-nginx-pkg\033[0m \033[0;34m       : install nginx (use apt/yum) \033[0m"
+    echo -e "  \033[1;34m-nginx-src\033[0m \033[0;34m       : install nginx (use Source Code) \033[0m"
     echo -e ""
     echo -e "\033[1;34mtomcat \033[0m"
-    echo -e "  \033[1;34m-tomcat6\033[0m \033[0;34m     : install tomcat6 \033[0m"
-    echo -e "  \033[1;34m-tomcat7\033[0m \033[0;34m     : install tomcat7 \033[0m"
-    echo -e "  \033[1;34m-tomcat8\033[0m \033[0;34m     : install tomcat8 \033[0m"
-    echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m     : install tomcat9 \033[0m"
+    echo -e "  \033[1;34m-tomcat6\033[0m \033[0;34m         : install tomcat6 \033[0m"
+    echo -e "  \033[1;34m-tomcat7\033[0m \033[0;34m         : install tomcat7 \033[0m"
+    echo -e "  \033[1;34m-tomcat8\033[0m \033[0;34m         : install tomcat8 \033[0m"
+    echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m         : install tomcat9 \033[0m"
     echo -e ""
     echo -e "\033[1;34mDatabase \033[0m"
-    echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m     : install mariadb   (Package Manager) \033[0m"
-    echo -e "  \033[1;34m-memcached\033[0m \033[0;34m   : install memcached (Package Manager) \033[0m"
-    echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m     : install mongodb   (docker) \033[0m"
-    echo -e "  \033[1;34m-postgresql\033[0m \033[0;34m  : install postgresql(Package Manager) \033[0m"
-    echo -e "  \033[1;34m-redis3\033[0m \033[0;34m      : install redis3 (Compile) \033[0m"
-    echo -e "  \033[1;34m-redis4\033[0m \033[0;34m      : install redis4 (Compile) \033[0m"
-    echo -e "  \033[1;34m-redis5\033[0m \033[0;34m      : install redis5 (Compile) \033[0m"
+    echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m         : install mariadb   (Package Manager) \033[0m"
+    echo -e "  \033[1;34m-mariadb-docker\033[0m \033[0;34m  : install mariadb   (docker) \033[0m"
+    echo -e "  \033[1;34m-memcached\033[0m \033[0;34m       : install memcached (Package Manager) \033[0m"
+    echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m         : install mongodb   (docker) \033[0m"
+    #echo -e "  \033[1;34m-postgresql\033[0m \033[0;34m      : install postgresql(Package Manager) \033[0m"
+    echo -e "  \033[1;34m-redis3\033[0m \033[0;34m          : install redis3 (Compile) \033[0m"
+    echo -e "  \033[1;34m-redis4\033[0m \033[0;34m          : install redis4 (Compile) \033[0m"
+    echo -e "  \033[1;34m-redis5\033[0m \033[0;34m          : install redis5 (Compile) \033[0m"
+    #echo -e ""
+    #echo -e "\033[1;34mOther \033[0m"
+    #echo -e "  \033[1;34m-sharry\033[0m \033[0;34m          : install sharry\033[0m"
     echo -e ""
-    echo -e "\033[1;34mOther \033[0m"
-    echo -e "  \033[1;34m-sharry\033[0m \033[0;34m      : install sharry\033[0m"
+    echo -e "\033[1;37mcreate by ffffffff0x\033[0m"
+    echo -e ""
 
 }
 
@@ -458,6 +482,11 @@ do
             Porxy_Switch
             Base_Check
             mariadb_Install
+            ;;
+        -mariadb-docker)
+            Base_Check
+            Docker_Check
+            mariadb_docker_Install
             ;;
         -mongodb)
             Base_Check
