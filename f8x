@@ -32,7 +32,7 @@ Porxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.0 Dev(Beta13)"
+F8x_Version="1.6.1 Dev(Beta1)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -192,7 +192,7 @@ dismap_bin_amd64="dismap-0.3-linux-amd64"
 dismap_bin_arm64="dismap-0.3-linux-arm64"
 gojwtcrack_Ver="0.1"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
-fapro_Ver="v0.60"
+fapro_Ver="v0.61"
 fapro_bin_amd64="fapro_linux_x86_64.tar.gz"
 fapro_bin_arm64="fapro_linux_arm64.tar.gz"
 py37_ver="3.7.12"
@@ -2810,9 +2810,9 @@ Pentest_zscan_Install(){
         Echo_ALERT "$name installed"
     else
         export GO111MODULE=on && export GOPROXY=https://goproxy.io && export GOPATH=$HOME/go
-        go install github.com/zyylhn/zscan
-        mv $GOPATH/bin/gojwtcrack /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack
-        which gojwtcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+        go install github.com/zyylhn/zscan@latest
+        mv $GOPATH/bin/zscan /usr/local/bin/zscan && chmod +x /usr/local/bin/zscan
+        which zscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
