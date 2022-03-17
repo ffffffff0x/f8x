@@ -1,0 +1,45 @@
+# ======================== !! NOTE !! ========================
+#  ________ ________ ________ ________ ________ ________ ________ ________ ________     ___    ___
+# |\  _____\\  _____\\  _____\\  _____\\  _____\\  _____\\  _____\\  _____\\   __  \   |\  \  /  /|
+# \ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \__/\ \  \|\  \  \ \  \/  / /
+#  \ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \   __\\ \  \\\  \  \ \    / /
+#   \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \_| \ \  \\\  \  /     \/
+#    \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \_______\/  /\   \
+#     \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|_______/__/ /\ __\
+#                                                                                      |__|/ \|__|
+# 注: 该脚本适用于 windows2008 系统下
+# 注: 该脚本仅用于安装 chrome
+# Note: This script is available for windows2008.
+# Note: This script is only for installing chrome
+# To execute this script:
+# 1) Open powershell window as administrator
+# 2) Allow script execution by running command "set-ExecutionPolicy Unrestricted"
+# 3) Unblock the install script by running "Unblock-File .\f8x.ps1"
+# 4) Execute the script by running ".\f8x.ps1"
+
+param (
+  [string]$chrome_link = "http://dl.google.com/chrome/install/375.126/chrome_installer.exe"
+)
+
+function Banner {
+
+Write-Host "  _______   ___   ___   ___ "
+Write-Host " |   ____| / _ \  \  \ /  / "
+Write-Host " |  |__   | (_) |  \  V  / "
+Write-Host " |   __|   > _ <    >   < "
+Write-Host " |  |     | (_) |  /  .  \ "
+Write-Host " |__|      \___/  /__/ \__\ "
+
+}
+
+function chrome-install {
+    Write-Host "正在安装 chrome"
+    $Path = $env:TEMP; $Installer = "chrome_installer.exe";
+    Invoke-WebRequest $chrome_link -OutFile $Path\$Installer;
+    Start-Process -FilePath $Path\$Installer -Args "/silent /install" -Verb RunAs -Wait;
+    Remove-Item $Path\$Installer
+    Write-Host "chrome 安装完毕"
+}
+
+Banner
+chrome-install
