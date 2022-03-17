@@ -8,9 +8,9 @@
 #     \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|_______/__/ /\ __\
 #                                                                                      |__|/ \|__|
 # 注: 该脚本适用于 windows2008 系统下
-# 注: 该脚本仅用于安装 chrome
+# 注: 该脚本仅用于安装基础软件
 # Note: This script is available for windows2008.
-# Note: This script is only for installing chrome
+# Note: This script is only used to install the base software
 # To execute this script:
 # 1) Open powershell window as administrator
 # 2) Allow script execution by running command "set-ExecutionPolicy Unrestricted"
@@ -32,14 +32,27 @@ Write-Host " |__|      \___/  /__/ \__\ "
 
 }
 
+function chocolatey-install {
+
+  Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+
+}
+
 function chrome-install {
-    Write-Host "正在安装 chrome"
+    Write-Host "Installing chrome"
     $Path = $env:TEMP; $Installer = "chrome_installer.exe";
     Invoke-WebRequest $chrome_link -OutFile $Path\$Installer;
     Start-Process -FilePath $Path\$Installer -Args "/silent /install" -Verb RunAs -Wait;
     Remove-Item $Path\$Installer
-    Write-Host "chrome 安装完毕"
+    Write-Host "Successfully installed chrome"
 }
 
 Banner
 chrome-install
+
+chocolatey-install
+choco install git
+choco install notepadplusplus.install
+choco install python3
+choco install jdk8
+choco install 7zip
