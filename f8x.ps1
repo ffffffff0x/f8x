@@ -7,9 +7,7 @@
 #    \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \__\   \ \_______\/  /\   \
 #     \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|__|    \|_______/__/ /\ __\
 #                                                                                      |__|/ \|__|
-# 注: 该脚本适用于 windows2008 系统下
 # 注: 该脚本仅用于安装基础软件
-# Note: This script is available for windows2008.
 # Note: This script is only used to install the base software
 # To execute this script:
 # 1) Open powershell window as administrator
@@ -52,7 +50,7 @@ chrome-install
 
 chocolatey-install
 choco install notepadplusplus.install
-choco install python3
-choco install jdk8
 choco install 7zip
+choco install jdk8
+choco install python3
 # choco install git
