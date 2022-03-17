@@ -51,8 +51,8 @@ Banner
 chrome-install
 
 chocolatey-install
-choco install git
 choco install notepadplusplus.install
 choco install python3
 choco install jdk8
 choco install 7zip
+# choco install git
