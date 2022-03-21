@@ -95,8 +95,8 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -nn 选项安装 npm & NodeJs 环境
 - 使用 -oraclejdk 选项安装 oraclejdk 环境
 - 使用 -openjdk 选项安装 openjdk 环境
-- 使用 -python3 选项安装 python3 环境
-- 使用 -python2 选项安装 python2 环境
+- 使用 -py3(7/8/9) 选项安装 python3 环境
+- 使用 -py2 选项安装 python2 环境
 - 使用 -pip2-f 选项强制安装 pip2 环境          (建议在 -python2 选项失败的情况下运行)
 - 使用 -perl 选项安装 perl 环境
 - 使用 -ruby 选项安装 ruby 环境
@@ -107,7 +107,6 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -binwalk 选项安装 binwalk 环境
 - 使用 -binwalk-f 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
 - 使用 -clamav 选项安装 ClamAV 工具
-- 使用 -hfish 选项安装 HFish 蜜罐
 - 使用 -lt 选项部署 LogonTracer 环境           (非超高配置机器不要部署,这个应用太吃配置了)
 - 使用 -suricata 选项部署 Suricata 环境
 - 使用 -vol 选项安装 volatility 取证工具
@@ -148,7 +147,6 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -rmlock 选项运行除锁模块
 - 使用 -swap 选项配置 swap 分区
 - 使用 -update 选项更新 f8x 工具
-- 使用 -mock 选项单独调用某个模块
 
 ---
 

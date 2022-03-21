@@ -88,8 +88,8 @@ The following options are currently supported by f8x
 - `-nn`           : install npm & NodeJs
 - `-oraclejdk`    : install oraclejdk
 - `-openjdk`      : install openjdk
-- `-python3`      : install python3
-- `-python2`      : install python2
+- `-py3(7/8/9)`   : install python3
+- `-py2`          : install python2
 - `-pip2-f`       : force install pip2                 (It is recommended to run with the -python2 option failing)
 - `-perl`         : install perl
 - `-ruby`         : install ruby
@@ -140,7 +140,6 @@ The following options are currently supported by f8x
 - `-rmlock`       : Run the Unlock module
 - `-swap`         : Configuring swap partitions
 - `-update`       : Update f8x
-- `-mock`         : Individual calls to a module
 
 ---
 
