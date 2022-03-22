@@ -19,9 +19,9 @@ F8x_ctf_Version="0.0.9 Dev"
 Main
 Pentest_Base_Install > /dev/null 2>&1
 
-bkcrack_Ver="v1.3.4"
-bkcrack_bin="bkcrack-1.3.4-Linux.tar.gz"
-bkcrack_dir="bkcrack-1.3.4-Linux"
+bkcrack_Ver="v1.3.5"
+bkcrack_bin="bkcrack-1.3.5-Linux.tar.gz"
+bkcrack_dir="bkcrack-1.3.5-Linux"
 upx_Ver="v3.96"
 upx_bin_amd64="upx-3.96-amd64_linux.tar.xz"
 upx_dir_amd64="upx-3.96-amd64_linux"
@@ -834,6 +834,8 @@ Help_Info(){
     echo -e "  \033[1;34m-iot\033[0m \033[0;34m   : install IOT environment\033[0m"
     echo -e "  \033[1;34m-re\033[0m \033[0;34m   : install Reverse environment\033[0m"
     echo -e "  \033[1;34m-pwn\033[0m \033[0;34m   : install PWN environment\033[0m"
+    echo -e ""
+    echo -e "\033[1;37mcreate by ffffffff0x\033[0m"
     echo -e ""
 
 }
