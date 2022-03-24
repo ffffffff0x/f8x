@@ -47,10 +47,17 @@ function chrome-install {
 
 Banner
 chrome-install
-
 chocolatey-install
+
+# proxy
+# choco config set proxy <locationandport>
+
+# update
+choco outdated
+
+# base_install
 choco install notepadplusplus.install
-choco install 7zip
+choco install 7zip.install
 choco install jdk8
 choco install python3
-# choco install git
+choco install git
