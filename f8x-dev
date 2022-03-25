@@ -435,6 +435,42 @@ apache_Install_pkg(){
 
 }
 
+# ===================== Install php7.2 (pkg) =====================
+php72_Install(){
+
+    name="php7.2"
+
+    Rm_Lock
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+            Echo_INFOR "RedHat 系暂未适配,后续补充"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch "software-properties-common"
+            Install_Switch "gnupg"
+
+            # 安装php7.2和扩展
+            curl -fsSL https://packages.sury.org/php/apt.gpg | sudo apt-key add -
+            sudo add-apt-repository "deb https://packages.sury.org/php/ $(lsb_release -cs) main"
+            apt-get update > /dev/null 2>&1
+
+            Install_Switch "php7.2"
+            Install_Switch "php7.2-fpm"
+            Install_Switch "php7.2-mysql"
+            Install_Switch "php7.2-curl"
+            Install_Switch "php7.2-json"
+            Install_Switch "php7.2-mbstring"
+            Install_Switch "php7.2-xml"
+            Install_Switch "php7.2-intl"
+            Install_Switch "php7.2-odbc"
+            Install_Switch "php7.2-cgi"
+            Install_Switch "php7.2-zip"
+            ;;
+        *) ;;
+    esac
+
+}
+
 # -help
 Help_Info(){
 
@@ -460,6 +496,9 @@ Help_Info(){
     echo -e "  \033[1;34m-redis3\033[0m \033[0;34m          : install redis3 (Compile) \033[0m"
     echo -e "  \033[1;34m-redis4\033[0m \033[0;34m          : install redis4 (Compile) \033[0m"
     echo -e "  \033[1;34m-redis5\033[0m \033[0;34m          : install redis5 (Compile) \033[0m"
+    echo -e ""
+    echo -e "\033[1;34mphp \033[0m"
+    echo -e "  \033[1;34m-php72\033[0m \033[0;34m           : install php7.2 \033[0m"
     #echo -e ""
     #echo -e "\033[1;34mOther \033[0m"
     #echo -e "  \033[1;34m-sharry\033[0m \033[0;34m          : install sharry\033[0m"
@@ -479,7 +518,6 @@ do
             sharry_Install
             ;;
         -mariadb)
-            Porxy_Switch
             Base_Check
             mariadb_Install
             ;;
@@ -494,14 +532,12 @@ do
             mongodb_Install
             ;;
         -memcached)
-            Porxy_Switch
             Base_Check
             memcached_Install
             ;;
         -postgresql)
-            Porxy_Switch
             Base_Check
-            postgresql_Install
+            # postgresql_Install
             ;;
         -redis3)
             Porxy_Switch
@@ -539,6 +575,8 @@ do
             tomcat9_Install
             ;;
         -nginx-src)
+            Porxy_Switch
+            Base_Check
             nginx_Install
             ;;
         -nginx-pkg)
@@ -546,6 +584,10 @@ do
             ;;
         -apache-pkg)
             apache_Install_pkg
+            ;;
+        -php72)
+            Base_Check
+            php72_Install
             ;;
         -help | help)
             printf "\033c"
