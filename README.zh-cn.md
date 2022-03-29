@@ -80,11 +80,11 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -p 选项安装代理环境        (警告:国外云服务器上不要用,会降速)
 - 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
 - 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
-  - -k -a 信息收集、扫描、爆破、抓取
-  - -k -b 漏洞利用
-  - -k -c 后渗透、C2
-  - -k -d 其他
-  - -k -e 功能重叠或长期不维护
+  - -ka 信息收集、扫描、爆破、抓取
+  - -kb 漏洞利用
+  - -kc 后渗透、C2
+  - -kd 其他
+  - -ke 功能重叠或长期不维护
 - 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
 - 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli 等辅助工具)
 - 使用 -cloud 选项安装云应用      (Terraform、Serverless Framework、wrangler)
@@ -102,6 +102,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -ruby 选项安装 ruby 环境
 - 使用 -rust 选项安装 rust 环境
 - 使用 -chromium 选项安装 Chromium 环境        (用于配合 -k 选项中的 rad、crawlergo)
+- 使用 -phantomjs 选项安装 PhantomJS
 
 **3. 蓝队服务**
 - 使用 -binwalk 选项安装 binwalk 环境

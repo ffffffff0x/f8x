@@ -95,6 +95,7 @@ The following options are currently supported by f8x
 - `-ruby`         : install ruby
 - `-rust`         : install rust
 - `-chromium`     : install Chromium                   (Used with rad, crawlergo in the -k option)
+- `-phantomjs`    : install PhantomJS
 
 **Blue Team Service**
 - `-binwalk`      : install binwalk
