@@ -32,7 +32,7 @@ Porxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.1 Dev(Beta3)"
+F8x_Version="1.6.1 Dev(Beta4)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -58,8 +58,8 @@ Ruby_Dir="ruby-3.0.0"
 Ruby_bin="ruby-3.0.0.tar.gz"
 RustScan_Version="2.0.1"
 RustScan_Install="rustscan_2.0.1_amd64.deb"
-ksubdomain_Ver="v1.9.3"
-ksubdomain_Install="KSubdomain-v1.9.3-linux.tar"
+ksubdomain_Ver="v1.9.4"
+ksubdomain_Install="KSubdomain-v1.9.4-linux.tar"
 Go_Bin_amd64="go1.17.7.linux-amd64.tar.gz"
 Go_Bin_arm64="go1.17.7.linux-arm64.tar.gz"
 xray_Ver="1.8.4"
@@ -71,9 +71,9 @@ goby_Ver="Beta1.9.325"
 goby_File="goby-linux-x64-1.9.325.zip"
 fscan_Ver="1.6.3"
 fscan_Install="fscan_amd64"
-ffuf_Ver="v1.3.1"
-ffuf_Install_amd64="ffuf_1.3.1_linux_amd64.tar.gz"
-ffuf_Install_arm64="ffuf_1.3.1_linux_arm64.tar.gz"
+ffuf_Ver="v1.4.0"
+ffuf_Install_amd64="ffuf_1.4.0_linux_amd64.tar.gz"
+ffuf_Install_arm64="ffuf_1.4.0_linux_arm64.tar.gz"
 Nuclei_Ver="v2.6.5"
 Nuclei_Install_amd64="nuclei_2.6.5_linux_amd64.zip"
 Nuclei_Install_arm64="nuclei_2.6.5_linux_arm64.zip"
@@ -136,18 +136,19 @@ rmg_bin="rmg-4.2.2-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
 anew_bin_arm64="anew_1.0.3_linux_arm64.tar.gz"
-nali_Ver="0.3.7"
-nali_bin="nali-linux-amd64-0.3.7.gz"
-dalfox_Ver="v2.7.1"
-dalfox_bin_amd64="dalfox_2.7.1_linux_amd64.tar.gz"
-dalfox_bin_arm64="dalfox_2.7.1_linux_arm64.tar.gz"
+nali_Ver="0.3.7-2"
+nali_bin_amd64="nali-linux-amd64-0.3.7-2.gz"
+nali_bin_arm64="nali-linux-armv8-0.3.7-2.gz"
+dalfox_Ver="v2.7.4"
+dalfox_bin_amd64="dalfox_2.7.4_linux_amd64.tar.gz"
+dalfox_bin_arm64="dalfox_2.7.4_linux_arm64.tar.gz"
 DomainSplit_Ver="1.0"
 Platypus_Ver="v1.5.1"
 Platypus_bin_amd64="Platypus_linux_amd64"
 Platypus_bin_arm64="Platypus_linux_arm64"
 lua_bin="lua-5.4.3.tar.gz"
 lua_dir="lua-5.4.3"
-Amass_Ver="v3.18.2"
+Amass_Ver="v3.19.0"
 Amass_bin_amd64="amass_linux_amd64.zip"
 Amass_bin_arm64="amass_linux_arm64.zip"
 gobuster_Ver="v3.1.0"
@@ -2286,9 +2287,13 @@ Pentest_fscan_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $fscan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
-        mv $fscan_Install fscan && mv --force fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
-        fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
+        #cd /tmp && rm -f $fscan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
+        #mv $fscan_Install fscan && mv --force fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
+        #fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
+        cd /tmp && rm -rf fscan && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/shadow1ng/fscan.git > /dev/null 2>&1
+        cd fscan && export GO111MODULE=on && export GOPROXY=https://goproxy.io && export GOPATH=$HOME/go && go build -ldflags="-s -w " -trimpath > /dev/null 2>&1
+        mv fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
+        which fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -3742,6 +3747,15 @@ Pentest_mapcidr_Install(){
 
 # ===================== Install nali =====================
 Pentest_nali_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            nali_bin=$nali_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            nali_bin=$nali_bin_arm64
+            ;;
+    esac
 
     name="nali"
     which nali > /dev/null 2>&1
@@ -6838,13 +6852,8 @@ kali_Tools_TypeA(){
     Pentest_gau_Install
     echo -e "\033[1;33m\n>> Installing gobuster\n\033[0m"
     Pentest_gobuster_Install
-
-    case $Linux_architecture_Name in
-        *"linux-x86_64"*)
-            echo -e "\033[1;33m\n>> Installing fscan\n\033[0m"
-            Pentest_fscan_Install
-            ;;
-    esac
+    echo -e "\033[1;33m\n>> Installing fscan\n\033[0m"
+    Pentest_fscan_Install
 
     # Pentest_zscan_Install
 
