@@ -1920,7 +1920,7 @@ Docker_Install(){
     then
         Echo_ALERT "docker-compose installed"
     else
-        pip3_Check
+        pip3_Check && pip3 install --upgrade pip > /dev/null 2>&1
         Install_Switch4 "docker-compose"
     fi
 
@@ -2886,7 +2886,6 @@ Pentest_xray_Install(){
     fi
 
     name="xray poc"
-
     dir="$P_Dir/xray"
 
     if test -d $dir
