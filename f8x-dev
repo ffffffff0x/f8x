@@ -58,6 +58,24 @@ sharry_Install(){
 
 }
 
+# ===================== Install mysql =====================
+mysql_docker_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your mysql listening port\033[0m" && read -r input
+    mysql_port=$input
+    echo -e "\033[5;33m\nPlease enter your mysql password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
+    mysql_pass=$input
+
+    docker search mysql
+    docker pull mysql:latest
+    docker images mysql
+    docker run -d -p $mysql_port:3306 --name f8x-mysql1 -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$mysql_port, please do not deploy in public network environment"
+
+}
+
 # ===================== Install mariadb =====================
 mariadb_Install(){
 
@@ -572,6 +590,7 @@ Help_Info(){
     echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m         : install tomcat9 \033[0m"
     echo -e ""
     echo -e "\033[1;34mDatabase \033[0m"
+    echo -e "  \033[1;34m-mysql-docker\033[0m \033[0;34m    : install mysql     (docker) \033[0m"
     echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m         : install mariadb   (Package Manager) \033[0m"
     echo -e "  \033[1;34m-mariadb-docker\033[0m \033[0;34m  : install mariadb   (docker) \033[0m"
     echo -e "  \033[1;34m-memcached\033[0m \033[0;34m       : install memcached (Package Manager) \033[0m"
@@ -601,6 +620,11 @@ do
             Porxy_Switch
             Base_Check
             sharry_Install
+            ;;
+        -mysql-docker)
+            Base_Check
+            Docker_Check
+            mysql_docker_Install
             ;;
         -mariadb)
             Base_Check
