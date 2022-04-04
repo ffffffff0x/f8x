@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.0.3 Dev"
+F8x_dev_Version="0.0.4 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -443,7 +443,7 @@ php72_Install(){
     Rm_Lock
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-            Echo_INFOR "RedHat 系暂未适配,后续补充"
+            Echo_INFOR "RedHat 系暂未适配"
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             Install_Switch "software-properties-common"
@@ -465,9 +465,58 @@ php72_Install(){
             Install_Switch "php7.2-odbc"
             Install_Switch "php7.2-cgi"
             Install_Switch "php7.2-zip"
+
+            php -v
             ;;
         *) ;;
     esac
+
+}
+
+# ===================== Install php7.2 (pkg) + nginx (pkg) + autoconfig =====================
+php72_nginx_Install(){
+
+    service httpd stop > /dev/null 2>&1
+    apt remove -y apache2 > /dev/null 2>&1
+
+    nginx_Install_pkg
+    php72_Install
+
+    mkdir -p /var/www/f0x && cd $_
+    echo "<?php phpinfo() ?>" > /var/www/f0x/phpinfo.php
+
+    # nginx 配置
+    cd /etc/nginx/sites-available
+    rm -rf default
+
+tee default <<-'EOF'
+server {
+        listen 7777 default_server;
+        root /var/www/f0x;
+        index index.php;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+                fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+                fastcgi_index index.php;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                include fastcgi_params;
+        }
+}
+EOF
+
+    service nginx restart
+    ufw disable 1> /dev/null 2>> /tmp/f8x_error.log
+    service firewalld stop 1> /dev/null 2>> /tmp/f8x_error.log
+    systemctl start nginx.service
+    ss -tnlp
+
+    Echo_INFOR "config : /etc/nginx/sites-available/default"
+    Echo_INFOR "www    : /var/www/f0x"
+    Echo_INFOR "test   : curl http://127.0.0.1:7777/phpinfo.php"
 
 }
 
@@ -499,6 +548,7 @@ Help_Info(){
     echo -e ""
     echo -e "\033[1;34mphp \033[0m"
     echo -e "  \033[1;34m-php72\033[0m \033[0;34m           : install php7.2 \033[0m"
+    echo -e "  \033[1;34m-php72-nginx\033[0m \033[0;34m     : install php7.2 (Package Manager) + nginx (Package Manager) + autoconfig\033[0m"
     #echo -e ""
     #echo -e "\033[1;34mOther \033[0m"
     #echo -e "  \033[1;34m-sharry\033[0m \033[0;34m          : install sharry\033[0m"
@@ -588,6 +638,10 @@ do
         -php72)
             Base_Check
             php72_Install
+            ;;
+        -php72-nginx)
+            Base_Check
+            php72_nginx_Install
             ;;
         -help | help)
             printf "\033c"
