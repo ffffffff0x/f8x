@@ -67,7 +67,7 @@ mariadb_Install(){
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
-        Echo_INFOR "systemctl start mariadb"
+        systemctl start mariadb && Echo_INFOR "systemctl start mariadb"
     else
         Rm_Lock
         case $Linux_Version in
@@ -445,7 +445,7 @@ php72_Install(){
         *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
             Echo_INFOR "RedHat 系暂未适配"
             ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+        *"Debian"*)
             Install_Switch "software-properties-common"
             Install_Switch "gnupg"
 
@@ -460,6 +460,7 @@ php72_Install(){
             Install_Switch "php7.2-curl"
             Install_Switch "php7.2-json"
             Install_Switch "php7.2-mbstring"
+            Install_Switch "php7.2-gd"
             Install_Switch "php7.2-xml"
             Install_Switch "php7.2-intl"
             Install_Switch "php7.2-odbc"
@@ -467,6 +468,32 @@ php72_Install(){
             Install_Switch "php7.2-zip"
 
             php -v
+            ;;
+        *"Ubuntu"*)
+            Install_Switch "software-properties-common"
+            Install_Switch "gnupg"
+
+            # 安装php7.2和扩展
+            sudo add-apt-repository ppa:ondrej/php
+            apt-get update > /dev/null 2>&1
+
+            Install_Switch "php7.2"
+            Install_Switch "php7.2-fpm"
+            Install_Switch "php7.2-mysql"
+            Install_Switch "php7.2-curl"
+            Install_Switch "php7.2-json"
+            Install_Switch "php7.2-mbstring"
+            Install_Switch "php7.2-gd"
+            Install_Switch "php7.2-xml"
+            Install_Switch "php7.2-intl"
+            Install_Switch "php7.2-odbc"
+            Install_Switch "php7.2-cgi"
+            Install_Switch "php7.2-zip"
+
+            php -v
+            ;;
+        *"Kali"*)
+            Echo_INFOR "Kali 暂未适配"
             ;;
         *) ;;
     esac
@@ -492,14 +519,17 @@ php72_nginx_Install(){
 tee default <<-'EOF'
 server {
         listen 7777 default_server;
-        root /var/www/f0x;
-        index index.php;
 
         location / {
+                root /var/www/f0x;
+                index index.php;
+
                 try_files $uri $uri/ =404;
         }
 
         location ~ \.php$ {
+                root /var/www/f0x;
+
                 fastcgi_pass unix:/run/php/php7.2-fpm.sock;
                 fastcgi_index index.php;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -508,11 +538,16 @@ server {
 }
 EOF
 
+    /usr/sbin/php-fpm7.2 1> /dev/null 2>> /tmp/f8x_error.log
+    /usr/sbin/nginx -t 1> /dev/null 2>> /tmp/f8x_error.log
+
     service nginx restart
     ufw disable 1> /dev/null 2>> /tmp/f8x_error.log
     service firewalld stop 1> /dev/null 2>> /tmp/f8x_error.log
     systemctl start nginx.service
     ss -tnlp
+
+    chmod -R 777 /var/www/f0x/
 
     Echo_INFOR "config : /etc/nginx/sites-available/default"
     Echo_INFOR "www    : /var/www/f0x"
