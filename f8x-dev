@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.0.5 Dev"
+F8x_dev_Version="0.0.6 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -32,31 +32,8 @@ redis4_dir="redis-4.0.11"
 redis5_bin="redis-5.0.12.tar.gz"
 redis5_dir="redis-5.0.12"
 
-sharry_Ver="v1.9.0"
-sharry_File="sharry-restserver-1.9.0.zip"
-
-memcached160_bin="memcached-1.6.0.tar.gz"
-memcached160_dir="memcached-1.6.0"
-
 Main
 Pentest_Base_Install > /dev/null 2>&1
-
-# ===================== Install sharry =====================
-sharry_Install(){
-
-    name="sharry"
-
-    if test -d $T_Dir/$name
-    then
-        Echo_ALERT "$name is already installed in $T_Dir/$name, run the following command to turn on the service:"
-    else
-        cd $T_Dir/ && rm -rf sharry-restserver-* && Echo_ALERT "Downloading $name (~70M)" && $Porxy_OK wget https://github.com/eikek/sharry/releases/download/$sharry_Ver/$sharry_File > /dev/null 2>&1 || Echo_ERROR2
-        unzip $sharry_File > /dev/null 2>&1 && rm -f $sharry_File > /dev/null 2>&1 && mv --force sharry-restserver-* sharry && Echo_INFOR "Successfully installed $name, run the following command to turn on the service:" || Echo_ERROR3
-    fi
-
-    Echo_INFOR "$T_Dir/sharry/bin/sharry-restserver , the service requires a jdk environment, if not installed you can run the -oraclejdk option to install it."
-
-}
 
 # ===================== Install mysql =====================
 mysql_docker_Install(){
@@ -66,13 +43,13 @@ mysql_docker_Install(){
     echo -e "\033[5;33m\nPlease enter your mysql password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
     mysql_pass=$input
 
-    docker search mysql
     docker pull mysql:latest
     docker images mysql
     docker run -d -p $mysql_port:3306 --name f8x-mysql1 -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mysql_port, please do not deploy in public network environment"
+    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$mysql_port\nusername: root\npassword: $mysql_pass"
 
 }
 
@@ -121,6 +98,7 @@ mariadb_Install(){
 
 }
 
+# ===================== Install mariadb (docker) =====================
 mariadb_docker_Install(){
 
     echo -e "\033[5;33m\nPlease enter your mariadb listening port\033[0m" && read -r input
@@ -128,27 +106,26 @@ mariadb_docker_Install(){
     echo -e "\033[5;33m\nPlease enter your mariadb password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
     mariadb_pass=$input
 
-    docker search mariadb
     docker pull mariadb
     docker images mariadb
     docker run -d -p $mariadb_port:3306 --name f8x-mariadb1 -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mariadb_port, please do not deploy in public network environment"
+    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$mariadb_port\nusername: root\npassword: $mariadb_pass"
 
 }
 
-# ===================== Install mongodb =====================
-mongodb_Install(){
+# ===================== Install mongodb (docker) =====================
+mongodb_docker_Install(){
 
     echo -e "\033[5;33m\nPlease enter your mongodb listening port\033[0m" && read -r input
     mongodb_port=$input
 
-    docker search mongodb   # 从Docker Hub查找镜像
-    docker pull mongo       # 从镜像仓库中拉取或者更新指定镜像
-    docker images mongo     # 列出本地主机上的mongo镜像
-    docker run -d -p $mongodb_port:27017 --name mongodb mongo  # 创建一个新的容器并运行一个命令
-    docker ps  # 显示正在运行的容器
+    docker pull mongo
+    docker images mongo
+    docker run -d -p $mongodb_port:27017 --name mongodb mongo
+    docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mongodb_port, please do not deploy in public network environment"
 
@@ -159,63 +136,6 @@ memcached_Install(){
 
     Rm_Lock
     Install_Switch "memcached"
-
-}
-
-# ===================== Install memcached 1.6.0 =====================
-memcached160_Install(){
-
-    mkdir -p /tmp/memcached160 && cd /tmp/memcached160
-    ls -al /usr/local/libevent-2.1.12-stable/lib | grep libevent > /dev/null 2>&1
-    if [ $? == 0 ]
-    then
-        Echo_INFOR "libevent 2.1.12 installed"
-    else
-        $Porxy_OK wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf libevent-2.1.12-stable.tar.gz > /dev/null 2>&1
-        cd libevent-2.1.12-stable
-        ./configure --prefix=/usr/local/libevent-2.1.12-stable
-        make && make install && Echo_INFOR "Successfully installed libevent 2.1.12"
-    fi
-    cd /tmp/memcached160 && rm -rf $memcached160_bin && $Porxy_OK wget https://www.memcached.org/files/$memcached160_bin > /dev/null 2>&1 || Echo_ERROR2
-    tar -zxvf $memcached160_bin > /dev/null 2>&1
-    cd $memcached160_dir && ./configure --prefix=/usr/local/memcached --with-libevent=/usr/local/libevent-2.1.12-stable/
-    make && make test
-    make install && Echo_INFOR "Successfully installed memcached 1.6.0"
-    rm -rf /tmp/memcached160
-    # 写了一大堆,编译还报错,干脆直接软件包安装得了 :)
-
-}
-
-# ===================== Install postgresql =====================
-postgresql_Install(){
-
-#    Rm_Lock
-#
-#    case $Linux_Version in
-#        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-#            Install_Switch "postgresql-server"
-#            ;;
-#        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-#            Install_Switch "postgresql"
-#            Install_Switch "postgresql-contrib"
-#            Install_Switch "sudo"
-#            ;;
-#        *) ;;
-#    esac
-#
-#    sudo -u postgres psql -c "SELECT version();" 2>> /tmp/f8x_error.log
-
-    Echo_INFOR "To allow external access, please refer to the following steps"
-    Echo_INFOR "1. Configure to listen on all ports, modify \033[1;33m/etc/postgresql/11/main/postgresql.conf\033[0m \033[1;32madd\033[0m \033[1;33mlisten_addresses = '*'\033[0m"
-    Echo_INFOR "2. Configure to allow external connections, modify \033[1;33m/etc/postgresql/11/main/pg_hba.conf\033[0m \033[1;32madd\033[0m \033[1;33mhost    all all 0.0.0.0/0   md5\033[0m"
-    Echo_INFOR "3. Open firewall ports and restart services : \033[1;33mservice postgresql restart\033[0m"
-
-    echo -e ""
-    Echo_INFOR "Default is postgres user, no password, if external connection need to set password"
-    Echo_INFOR "sudo -u postgres psql postgres"
-    Echo_INFOR "\password postgres"
-    Echo_INFOR "\q"
 
 }
 
@@ -311,6 +231,24 @@ redis5_Install(){
     mv --force /tmp/$redis5_dir/redis.conf /etc/redis.conf
     Echo_INFOR "redis.conf copied to /etc/redis.conf"
     rm -rf $redis5_dir
+
+}
+
+# ===================== Install oracle11 (docker) =====================
+oracle11_docker_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your oracle11 listening port\033[0m" && read -r input
+    oracle11_port=$input
+    echo -e "\033[5;33m\nPlease enter your oracle11 password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
+    oracle11_pass=$input
+
+    # https://hub.docker.com/r/gvenzl/oracle-xe
+    docker pull gvenzl/oracle-xe:11
+    docker run -d -p $oracle11_port:1521 --name f8x-oracle11 -e ORACLE_PASSWORD=$oracle11_pass gvenzl/oracle-xe:11
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$oracle11_port, please do not deploy in public network environment"
+    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$oracle11_port\nsid : XE\nusername: system\npassword: $oracle11_pass"
 
 }
 
@@ -612,23 +550,19 @@ Help_Info(){
     echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m         : install tomcat9   (Compile)\033[0m"
     echo -e ""
     echo -e "\033[1;34mDatabase \033[0m"
-    echo -e "  \033[1;34m-mysql-docker\033[0m \033[0;34m    : install mysql     (docker) \033[0m"
-    echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m         : install mariadb   (Package Manager) \033[0m"
-    echo -e "  \033[1;34m-mariadb-docker\033[0m \033[0;34m  : install mariadb   (docker) \033[0m"
+    echo -e "  \033[1;34m-mysql\033[0m \033[0;34m           : install mysql     (Docker) \033[0m"
+    echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m         : install mariadb   (Docker) \033[0m"
     echo -e "  \033[1;34m-memcached\033[0m \033[0;34m       : install memcached (Package Manager) \033[0m"
-    echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m         : install mongodb   (docker) \033[0m"
-    #echo -e "  \033[1;34m-postgresql\033[0m \033[0;34m      : install postgresql(Package Manager) \033[0m"
+    echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m         : install mongodb   (Docker) \033[0m"
     echo -e "  \033[1;34m-redis3\033[0m \033[0;34m          : install redis3    (Compile) \033[0m"
     echo -e "  \033[1;34m-redis4\033[0m \033[0;34m          : install redis4    (Compile) \033[0m"
     echo -e "  \033[1;34m-redis5\033[0m \033[0;34m          : install redis5    (Compile) \033[0m"
+    echo -e "  \033[1;34m-oracle11\033[0m \033[0;34m        : install oracle11  (Docker) \033[0m"
     echo -e ""
     echo -e "\033[1;34mphp \033[0m"
     echo -e "  \033[1;34m-php56\033[0m \033[0;34m           : install php5.6    (Package Manager)\033[0m"
     echo -e "  \033[1;34m-php72\033[0m \033[0;34m           : install php7.2    (Package Manager)\033[0m"
     echo -e "  \033[1;34m-php72-nginx\033[0m \033[0;34m     : install php7.2 + nginx (Package Manager) \033[0m"
-    #echo -e ""
-    #echo -e "\033[1;34mOther \033[0m"
-    #echo -e "  \033[1;34m-sharry\033[0m \033[0;34m          : install sharry\033[0m"
     echo -e ""
     echo -e "\033[1;37mcreate by ffffffff0x\033[0m"
     echo -e ""
@@ -638,22 +572,12 @@ Help_Info(){
 for cmd in $@
 do
     case $cmd in
-        -sharry)
-            linux_arm64_Check || exit 1
-            Porxy_Switch
-            Base_Check
-            sharry_Install
-            ;;
-        -mysql-docker)
+        -mysql)
             Base_Check
             Docker_Check
             mysql_docker_Install
             ;;
         -mariadb)
-            Base_Check
-            mariadb_Install
-            ;;
-        -mariadb-docker)
             Base_Check
             Docker_Check
             mariadb_docker_Install
@@ -661,15 +585,11 @@ do
         -mongodb)
             Base_Check
             Docker_Check
-            mongodb_Install
+            mongodb_docker_Install
             ;;
         -memcached)
             Base_Check
             memcached_Install
-            ;;
-        -postgresql)
-            Base_Check
-            # postgresql_Install
             ;;
         -redis3)
             Porxy_Switch
@@ -685,6 +605,11 @@ do
             Porxy_Switch
             Base_Check
             redis5_Install
+            ;;
+        -oracle11)
+            Base_Check
+            Docker_Check
+            oracle11_docker_Install
             ;;
         -tomcat6)
             Porxy_Switch
