@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.0.6 Dev"
+F8x_dev_Version="0.0.7 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -25,33 +25,8 @@ tomcat8_dir="apache-tomcat-8.5.68"
 tomcat9_bin="apache-tomcat-9.0.50.tar.gz"
 tomcat9_dir="apache-tomcat-9.0.50"
 
-redis3_bin="redis-3.2.0.tar.gz"
-redis3_dir="redis-3.2.0"
-redis4_bin="redis-4.0.11.tar.gz"
-redis4_dir="redis-4.0.11"
-redis5_bin="redis-5.0.12.tar.gz"
-redis5_dir="redis-5.0.12"
-
 Main
 Pentest_Base_Install > /dev/null 2>&1
-
-# ===================== Install mysql =====================
-mysql_docker_Install(){
-
-    echo -e "\033[5;33m\nPlease enter your mysql listening port\033[0m" && read -r input
-    mysql_port=$input
-    echo -e "\033[5;33m\nPlease enter your mysql password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
-    mysql_pass=$input
-
-    docker pull mysql:latest
-    docker images mysql
-    docker run -d -p $mysql_port:3306 --name f8x-mysql1 -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest
-    docker ps
-
-    Echo_ALERT "Already listening to 0.0.0.0:$mysql_port, please do not deploy in public network environment"
-    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$mysql_port\nusername: root\npassword: $mysql_pass"
-
-}
 
 # ===================== Install mariadb =====================
 mariadb_Install(){
@@ -103,16 +78,31 @@ mariadb_docker_Install(){
 
     echo -e "\033[5;33m\nPlease enter your mariadb listening port\033[0m" && read -r input
     mariadb_port=$input
-    echo -e "\033[5;33m\nPlease enter your mariadb password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your mariadb password\033[0m" && read -r input
     mariadb_pass=$input
 
+    # https://hub.docker.com/_/mariadb
     docker pull mariadb
-    docker images mariadb
-    docker run -d -p $mariadb_port:3306 --name f8x-mariadb1 -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest
+    docker run -d -p $mariadb_port:3306 --name f8x-mariadb -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mariadb_port, please do not deploy in public network environment"
     Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$mariadb_port\nusername: root\npassword: $mariadb_pass"
+
+}
+
+# ===================== Install memcached (docker) =====================
+memcached_docker_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your memcached listening port\033[0m" && read -r input
+    memcached_port=$input
+
+    # https://hub.docker.com/_/memcached
+    docker pull memcached
+    docker run -d -p $memcached_port:11211 --name f8x-memcached memcached
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$memcached_port, please do not deploy in public network environment"
 
 }
 
@@ -122,115 +112,48 @@ mongodb_docker_Install(){
     echo -e "\033[5;33m\nPlease enter your mongodb listening port\033[0m" && read -r input
     mongodb_port=$input
 
+    # https://hub.docker.com/_/mongo
     docker pull mongo
-    docker images mongo
-    docker run -d -p $mongodb_port:27017 --name mongodb mongo
+    docker run -d -p $mongodb_port:27017 --name f8x-mongodb mongo
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mongodb_port, please do not deploy in public network environment"
 
 }
 
-# ===================== Install memcached =====================
-memcached_Install(){
+# ===================== Install mssql2019 (docker) =====================
+mssql2019_docker_Install(){
 
-    Rm_Lock
-    Install_Switch "memcached"
+    echo -e "\033[5;33m\nPlease enter your mssql2019 listening port\033[0m" && read -r input
+    mssql2019_port=$input
+    echo -e "\033[5;33m\nPlease enter your mssql2019 password(必须包含大小写、字母和数字、特殊符号)\033[0m" && read -r input
+    mssql2019_pass=$input
 
-}
+    # https://hub.docker.com/_/microsoft-mssql-server
+    docker pull mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
+    docker run -d -p $mssql2019_port:1433 --name=f8x-sqlserver -e 'ACCEPT_EULA=Y' -e SA_PASSWORD=$mssql2019_pass -e 'MSSQL_PID=Developer' mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
+    docker ps
 
-# ===================== Install redis3 =====================
-redis3_Install(){
-
-    Rm_Lock
-    Install_Switch "tcl"
-
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            Install_Switch "tcl-devel"
-            ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            Install_Switch "tcl-dev"
-            ;;
-        *) ;;
-    esac
-
-    name="redis3"
-
-    cd /tmp && rm -rf $redis3_bin && $Porxy_OK wget http://download.redis.io/releases/$redis3_bin > /dev/null 2>&1 || Echo_ERROR2
-    tar -zxf $redis3_bin > /dev/null 2>&1
-    cd $redis3_dir
-    make test
-    make MALLOC=libc
-    make install
-    cd /tmp && rm -rf $redis3_bin
-
-    mv --force /tmp/$redis3_dir/redis.conf /etc/redis.conf
-    Echo_INFOR "redis.conf copied to /etc/redis.conf"
-    rm -rf $redis3_dir
+    Echo_ALERT "Already listening to 0.0.0.0:$mssql2019_port, please do not deploy in public network environment"
+    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$mssql2019_port\nusername: sa\npassword: $mssql2019_pass"
 
 }
 
-# ===================== Install redis4 =====================
-redis4_Install(){
+# ===================== Install mysql (docker) =====================
+mysql_docker_Install(){
 
-    Install_Switch "tcl"
+    echo -e "\033[5;33m\nPlease enter your mysql listening port\033[0m" && read -r input
+    mysql_port=$input
+    echo -e "\033[5;33m\nPlease enter your mysql password\033[0m" && read -r input
+    mysql_pass=$input
 
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            Install_Switch "tcl-devel"
-            ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            Install_Switch "tcl-dev"
-            ;;
-        *) ;;
-    esac
+    # https://hub.docker.com/_/mysql
+    docker pull mysql:latest
+    docker run -d -p $mysql_port:3306 --name f8x-mysql -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest
+    docker ps
 
-    name="redis4"
-
-    cd /tmp && rm -rf $redis4_bin && $Porxy_OK wget http://download.redis.io/releases/$redis4_bin > /dev/null 2>&1 || Echo_ERROR2
-    tar -zxf $redis4_bin > /dev/null 2>&1
-    cd $redis4_dir
-    make test
-    make MALLOC=libc
-    make install
-    cd /tmp && rm -rf $redis4_bin
-
-    mv --force /tmp/$redis4_dir/redis.conf /etc/redis.conf
-    Echo_INFOR "redis.conf copied to /etc/redis.conf"
-    rm -rf $redis4_dir
-
-}
-
-# ===================== Install redis5 =====================
-redis5_Install(){
-
-    Rm_Lock
-    Install_Switch "tcl"
-
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"Fedora"*)
-            Install_Switch "tcl-devel"
-            ;;
-        *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            Install_Switch "tcl-dev"
-            ;;
-        *) ;;
-    esac
-
-    name="redis5"
-
-    cd /tmp && rm -rf $redis5_bin && $Porxy_OK wget http://download.redis.io/releases/$redis5_bin > /dev/null 2>&1 || Echo_ERROR2
-    tar -zxf $redis5_bin > /dev/null 2>&1
-    cd $redis5_dir
-    make test
-    make MALLOC=libc
-    make install
-    cd /tmp && rm -rf $redis5_bin
-
-    mv --force /tmp/$redis5_dir/redis.conf /etc/redis.conf
-    Echo_INFOR "redis.conf copied to /etc/redis.conf"
-    rm -rf $redis5_dir
+    Echo_ALERT "Already listening to 0.0.0.0:$mysql_port, please do not deploy in public network environment"
+    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$mysql_port\nusername: root\npassword: $mysql_pass"
 
 }
 
@@ -239,7 +162,7 @@ oracle11_docker_Install(){
 
     echo -e "\033[5;33m\nPlease enter your oracle11 listening port\033[0m" && read -r input
     oracle11_port=$input
-    echo -e "\033[5;33m\nPlease enter your oracle11 password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your oracle11 password\033[0m" && read -r input
     oracle11_pass=$input
 
     # https://hub.docker.com/r/gvenzl/oracle-xe
@@ -249,6 +172,41 @@ oracle11_docker_Install(){
 
     Echo_ALERT "Already listening to 0.0.0.0:$oracle11_port, please do not deploy in public network environment"
     Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$oracle11_port\nsid : XE\nusername: system\npassword: $oracle11_pass"
+
+}
+
+# ===================== Install postgres (docker) =====================
+postgres_docker_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your PostgreSQL listening port\033[0m" && read -r input
+    postgres_port=$input
+    echo -e "\033[5;33m\nPlease enter your PostgreSQL password\033[0m" && read -r input
+    postgres_pass=$input
+
+    # https://hub.docker.com/_/postgres
+    docker pull postgres
+    docker run -d -p $postgres_port:5432 --name f8x-postgres -e POSTGRES_PASSWORD=$postgres_pass postgres
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$postgres_port, please do not deploy in public network environment"
+    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$postgres_port\nusername: postgres\npassword: $postgres_pass"
+
+}
+
+# ===================== Install redis (docker) =====================
+redis_docker_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your redis listening port\033[0m" && read -r input
+    redis_port=$input
+
+    # https://hub.docker.com/_/redis
+    docker pull redis
+    docker run -d -p $redis_port:6379 --name f8x-redis redis
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$redis_port, please do not deploy in public network environment!!!!"
+    Echo_ALERT "Already listening to 0.0.0.0:$redis_port, please do not deploy in public network environment!!!!"
+    Echo_ALERT "Already listening to 0.0.0.0:$redis_port, please do not deploy in public network environment!!!!"
 
 }
 
@@ -550,14 +508,14 @@ Help_Info(){
     echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m         : install tomcat9   (Compile)\033[0m"
     echo -e ""
     echo -e "\033[1;34mDatabase \033[0m"
-    echo -e "  \033[1;34m-mysql\033[0m \033[0;34m           : install mysql     (Docker) \033[0m"
     echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m         : install mariadb   (Docker) \033[0m"
-    echo -e "  \033[1;34m-memcached\033[0m \033[0;34m       : install memcached (Package Manager) \033[0m"
+    echo -e "  \033[1;34m-memcached\033[0m \033[0;34m       : install memcached (Docker) \033[0m"
     echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m         : install mongodb   (Docker) \033[0m"
-    echo -e "  \033[1;34m-redis3\033[0m \033[0;34m          : install redis3    (Compile) \033[0m"
-    echo -e "  \033[1;34m-redis4\033[0m \033[0;34m          : install redis4    (Compile) \033[0m"
-    echo -e "  \033[1;34m-redis5\033[0m \033[0;34m          : install redis5    (Compile) \033[0m"
+    echo -e "  \033[1;34m-mssql2019\033[0m \033[0;34m       : install mssql2019 (Docker) \033[0m"
+    echo -e "  \033[1;34m-mysql\033[0m \033[0;34m           : install mysql     (Docker) \033[0m"
     echo -e "  \033[1;34m-oracle11\033[0m \033[0;34m        : install oracle11  (Docker) \033[0m"
+    echo -e "  \033[1;34m-postgres\033[0m \033[0;34m        : install PostgreSQL(Docker) \033[0m"
+    echo -e "  \033[1;34m-redis\033[0m \033[0;34m           : install redis    (Docker) \033[0m"
     echo -e ""
     echo -e "\033[1;34mphp \033[0m"
     echo -e "  \033[1;34m-php56\033[0m \033[0;34m           : install php5.6    (Package Manager)\033[0m"
@@ -572,44 +530,45 @@ Help_Info(){
 for cmd in $@
 do
     case $cmd in
-        -mysql)
-            Base_Check
-            Docker_Check
-            mysql_docker_Install
-            ;;
         -mariadb)
             Base_Check
             Docker_Check
             mariadb_docker_Install
+            ;;
+        -memcached)
+            Base_Check
+            Docker_Check
+            memcached_docker_Install
             ;;
         -mongodb)
             Base_Check
             Docker_Check
             mongodb_docker_Install
             ;;
-        -memcached)
+        -mssql2019)
             Base_Check
-            memcached_Install
+            Docker_Check
+            mssql2019_docker_Install
             ;;
-        -redis3)
-            Porxy_Switch
+        -mysql)
             Base_Check
-            redis3_Install
-            ;;
-        -redis4)
-            Porxy_Switch
-            Base_Check
-            redis4_Install
-            ;;
-        -redis5)
-            Porxy_Switch
-            Base_Check
-            redis5_Install
+            Docker_Check
+            mysql_docker_Install
             ;;
         -oracle11)
             Base_Check
             Docker_Check
             oracle11_docker_Install
+            ;;
+        -postgres)
+            Base_Check
+            Docker_Check
+            postgres_docker_Install
+            ;;
+        -redis)
+            Base_Check
+            Docker_Check
+            redis_docker_Install
             ;;
         -tomcat6)
             Porxy_Switch
