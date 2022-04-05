@@ -62,7 +62,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 **f8x-dev**
 
-部分开发环境安装独立到该脚本,如 tomcat、redis 不同版本的部署
+该脚本用于部署中间件和数据库环境,支持 (apache、nginx、tomcat、Database、php) 分类
 
 - wget : `wget -O f8x-dev https://f8x.io/dev`
   - `bash f8x-dev -help`

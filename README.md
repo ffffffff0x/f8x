@@ -60,7 +60,7 @@ This script is used to deploy CTF environments (Web、Misc、Crypto、Pwn、Iot)
 
 **f8x-dev**
 
-Deployment of middleware, database
+Deployment of middleware, database (apache、nginx、tomcat、Database、php)
 
 - wget : `wget -O f8x-dev https://f8x.io/dev`
   - `bash f8x-dev -help`
