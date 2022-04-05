@@ -133,7 +133,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 **6. 杂项服务**
 - 使用 -asciinema 选项安装 asciinema 截图工具
 - 使用 -bt 选项部署宝塔服务
-- 使用 -clash 选项安装 clash 工具
+- 使用 -clash 选项安装 clash 工具              (使用 https://github.com/juewuy/ShellClash)
 - 使用 -music 选项部署 UnblockNeteaseMusic 服务
 - 使用 -nginx 选项配置 nginx 服务
 - 使用 -ssh 选项配置 ssh 环境                  (RedHat 系默认可用,无需重复安装)

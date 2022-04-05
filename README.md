@@ -126,7 +126,7 @@ The following options are currently supported by f8x
 **Miscellaneous Services**
 - `-asciinema`    : install asciinema
 - `-bt`           : install 宝塔服务
-- `-clash`        : install clash
+- `-clash`        : install clash                       (https://github.com/juewuy/ShellClash)
 - `-music`        : install UnblockNeteaseMusic
 - `-nginx`        : install nginx
 - `-ssh`          : install ssh                         (RedHat is available by default, no need to reinstall)
