@@ -57,8 +57,10 @@ chocolatey-install
 choco outdated
 
 # base_install
-choco install notepadplusplus.install
-choco install 7zip.install
-choco install jdk8
-choco install python3
-choco install git
+# https://community.chocolatey.org/packages
+choco install -y notepadplusplus.install
+choco install -y 7zip.install
+choco install -y jdk8
+choco install -y python3
+choco install -y git
+choco install -y 010editor.install
