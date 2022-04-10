@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.0.7 Dev"
+F8x_dev_Version="0.0.8 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -73,13 +73,26 @@ mariadb_Install(){
 
 }
 
-# ===================== Install mariadb (docker) =====================
+# ===================== Install mariadb (docker) (x86) (arm64) =====================
 mariadb_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your mariadb listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your mariadb listening port (Default 3306)\033[0m" && read -r input
     mariadb_port=$input
-    echo -e "\033[5;33m\nPlease enter your mariadb password\033[0m" && read -r input
+
+    if [ $mariadb_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 3306"
+        mariadb_port="3306"
+    fi
+
+    echo -e "\033[5;33m\nPlease enter your mariadb password (Default ffffffff0x)\033[0m" && read -r input
     mariadb_pass=$input
+
+    if [ $mariadb_pass ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认密码为 ffffffff0x"
+        mariadb_pass="ffffffff0x"
+    fi
 
     # https://hub.docker.com/_/mariadb
     docker pull mariadb
@@ -94,8 +107,14 @@ mariadb_docker_Install(){
 # ===================== Install memcached (docker) =====================
 memcached_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your memcached listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your memcached listening port (Default 11211)\033[0m" && read -r input
     memcached_port=$input
+
+    if [ $memcached_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 11211"
+        memcached_port="11211"
+    fi
 
     # https://hub.docker.com/_/memcached
     docker pull memcached
@@ -109,8 +128,14 @@ memcached_docker_Install(){
 # ===================== Install mongodb (docker) =====================
 mongodb_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your mongodb listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your mongodb listening port (Default 27017)\033[0m" && read -r input
     mongodb_port=$input
+
+    if [ $mongodb_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 27017"
+        mongodb_port="27017"
+    fi
 
     # https://hub.docker.com/_/mongo
     docker pull mongo
@@ -124,10 +149,23 @@ mongodb_docker_Install(){
 # ===================== Install mssql2019 (docker) =====================
 mssql2019_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your mssql2019 listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your mssql2019 listening port (Default 1433)\033[0m" && read -r input
     mssql2019_port=$input
-    echo -e "\033[5;33m\nPlease enter your mssql2019 password(必须包含大小写、字母和数字、特殊符号)\033[0m" && read -r input
+
+    if [ $mssql2019_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 1433"
+        mssql2019_port="1433"
+    fi
+
+    echo -e "\033[5;33m\nPlease enter your mssql2019 password(必须包含大小写、字母和数字、特殊符号)(Default Abcd1234!!)\033[0m" && read -r input
     mssql2019_pass=$input
+
+    if [ $mssql2019_pass ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认密码为 Abcd1234!!"
+        mssql2019_pass='Abcd1234!!'
+    fi
 
     # https://hub.docker.com/_/microsoft-mssql-server
     docker pull mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
@@ -139,13 +177,26 @@ mssql2019_docker_Install(){
 
 }
 
-# ===================== Install mysql (docker) =====================
+# ===================== Install mysql (docker) (x86) =====================
 mysql_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your mysql listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your mysql listening port (Default 3306)\033[0m" && read -r input
     mysql_port=$input
-    echo -e "\033[5;33m\nPlease enter your mysql password\033[0m" && read -r input
+
+    if [ $mysql_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 3306"
+        mysql_port="3306"
+    fi
+
+    echo -e "\033[5;33m\nPlease enter your mysql password (Default ffffffff0x)\033[0m" && read -r input
     mysql_pass=$input
+
+    if [ $mysql_pass ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认密码为 ffffffff0x"
+        mysql_pass="ffffffff0x"
+    fi
 
     # https://hub.docker.com/_/mysql
     docker pull mysql:latest
@@ -160,10 +211,23 @@ mysql_docker_Install(){
 # ===================== Install oracle11 (docker) =====================
 oracle11_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your oracle11 listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your oracle11 listening port (Default 1521)\033[0m" && read -r input
     oracle11_port=$input
-    echo -e "\033[5;33m\nPlease enter your oracle11 password\033[0m" && read -r input
+
+    if [ $oracle11_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 1521"
+        oracle11_port="1521"
+    fi
+
+    echo -e "\033[5;33m\nPlease enter your oracle11 password (Default ffffffff0x)\033[0m" && read -r input
     oracle11_pass=$input
+
+    if [ $oracle11_pass ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认密码为 ffffffff0x"
+        oracle11_pass="ffffffff0x"
+    fi
 
     # https://hub.docker.com/r/gvenzl/oracle-xe
     docker pull gvenzl/oracle-xe:11
@@ -178,10 +242,23 @@ oracle11_docker_Install(){
 # ===================== Install postgres (docker) =====================
 postgres_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your PostgreSQL listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your PostgreSQL listening port (Default 5432)\033[0m" && read -r input
     postgres_port=$input
-    echo -e "\033[5;33m\nPlease enter your PostgreSQL password\033[0m" && read -r input
+
+    if [ $postgres_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 5432"
+        postgres_port="5432"
+    fi
+
+    echo -e "\033[5;33m\nPlease enter your PostgreSQL password (Default ffffffff0x)\033[0m" && read -r input
     postgres_pass=$input
+
+    if [ $postgres_pass ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认密码为 ffffffff0x"
+        postgres_pass="ffffffff0x"
+    fi
 
     # https://hub.docker.com/_/postgres
     docker pull postgres
@@ -196,8 +273,14 @@ postgres_docker_Install(){
 # ===================== Install redis (docker) =====================
 redis_docker_Install(){
 
-    echo -e "\033[5;33m\nPlease enter your redis listening port\033[0m" && read -r input
+    echo -e "\033[5;33m\nPlease enter your redis listening port (Default 6379)\033[0m" && read -r input
     redis_port=$input
+
+    if [ $redis_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 6379"
+        redis_port="6379"
+    fi
 
     # https://hub.docker.com/_/redis
     docker pull redis
