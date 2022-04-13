@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.0.8 Dev"
+F8x_dev_Version="0.0.9 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -96,7 +96,7 @@ mariadb_docker_Install(){
 
     # https://hub.docker.com/_/mariadb
     docker pull mariadb
-    docker run -d -p $mariadb_port:3306 --name f8x-mariadb -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest
+    docker run -d -p $mariadb_port:3306 --name f8x-mariadb -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mariadb_port, please do not deploy in public network environment"
@@ -118,7 +118,7 @@ memcached_docker_Install(){
 
     # https://hub.docker.com/_/memcached
     docker pull memcached
-    docker run -d -p $memcached_port:11211 --name f8x-memcached memcached
+    docker run -d -p $memcached_port:11211 --name f8x-memcached memcached || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$memcached_port, please do not deploy in public network environment"
@@ -139,7 +139,7 @@ mongodb_docker_Install(){
 
     # https://hub.docker.com/_/mongo
     docker pull mongo
-    docker run -d -p $mongodb_port:27017 --name f8x-mongodb mongo
+    docker run -d -p $mongodb_port:27017 --name f8x-mongodb mongo || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mongodb_port, please do not deploy in public network environment"
@@ -169,7 +169,7 @@ mssql2019_docker_Install(){
 
     # https://hub.docker.com/_/microsoft-mssql-server
     docker pull mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
-    docker run -d -p $mssql2019_port:1433 --name=f8x-sqlserver -e 'ACCEPT_EULA=Y' -e SA_PASSWORD=$mssql2019_pass -e 'MSSQL_PID=Developer' mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
+    docker run -d -p $mssql2019_port:1433 --name=f8x-sqlserver -e 'ACCEPT_EULA=Y' -e SA_PASSWORD=$mssql2019_pass -e 'MSSQL_PID=Developer' mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04 || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mssql2019_port, please do not deploy in public network environment"
@@ -200,7 +200,7 @@ mysql_docker_Install(){
 
     # https://hub.docker.com/_/mysql
     docker pull mysql:latest
-    docker run -d -p $mysql_port:3306 --name f8x-mysql -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest
+    docker run -d -p $mysql_port:3306 --name f8x-mysql -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mysql_port, please do not deploy in public network environment"
@@ -231,7 +231,7 @@ oracle11_docker_Install(){
 
     # https://hub.docker.com/r/gvenzl/oracle-xe
     docker pull gvenzl/oracle-xe:11
-    docker run -d -p $oracle11_port:1521 --name f8x-oracle11 -e ORACLE_PASSWORD=$oracle11_pass gvenzl/oracle-xe:11
+    docker run -d -p $oracle11_port:1521 --name f8x-oracle11 -e ORACLE_PASSWORD=$oracle11_pass gvenzl/oracle-xe:11 || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$oracle11_port, please do not deploy in public network environment"
@@ -262,7 +262,7 @@ postgres_docker_Install(){
 
     # https://hub.docker.com/_/postgres
     docker pull postgres
-    docker run -d -p $postgres_port:5432 --name f8x-postgres -e POSTGRES_PASSWORD=$postgres_pass postgres
+    docker run -d -p $postgres_port:5432 --name f8x-postgres -e POSTGRES_PASSWORD=$postgres_pass postgres || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$postgres_port, please do not deploy in public network environment"
@@ -284,7 +284,7 @@ redis_docker_Install(){
 
     # https://hub.docker.com/_/redis
     docker pull redis
-    docker run -d -p $redis_port:6379 --name f8x-redis redis
+    docker run -d -p $redis_port:6379 --name f8x-redis redis || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$redis_port, please do not deploy in public network environment!!!!"
