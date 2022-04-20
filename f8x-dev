@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.0.9 Dev"
+F8x_dev_Version="0.1.0 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -70,6 +70,28 @@ mariadb_Install(){
         # :wq
         # systemctl restart mariadb
     fi
+
+}
+
+# ===================== Install influxdb (docker) (x86) (arm64) =====================
+influxdb_docker_Install(){
+
+    echo -e "\033[5;33m\nPlease enter your influxdb listening port (Default 8086)\033[0m" && read -r input
+    influxdb_port=$input
+
+    if [ $influxdb_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 8086"
+        influxdb_port="8086"
+    fi
+
+    # https://hub.docker.com/_/influxdb
+    docker pull influxdb
+    docker run -d -p $influxdb_port:8086 --name f8x-influxdb influxdb:latest || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$influxdb_port, please do not deploy in public network environment"
+    Echo_INFOR "Connect database with following setting:\nlisten: 0.0.0.0:$influxdb_port"
 
 }
 
@@ -591,6 +613,7 @@ Help_Info(){
     echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m         : install tomcat9   (Compile)\033[0m"
     echo -e ""
     echo -e "\033[1;34mDatabase \033[0m"
+    echo -e "  \033[1;34m-influxdb\033[0m \033[0;34m        : install InfluxDB   (Docker) \033[0m"
     echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m         : install mariadb   (Docker) \033[0m"
     echo -e "  \033[1;34m-memcached\033[0m \033[0;34m       : install memcached (Docker) \033[0m"
     echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m         : install mongodb   (Docker) \033[0m"
@@ -613,6 +636,11 @@ Help_Info(){
 for cmd in $@
 do
     case $cmd in
+        -influxdb)
+            Base_Check
+            Docker_Check
+            influxdb_docker_Install
+            ;;
         -mariadb)
             Base_Check
             Docker_Check
