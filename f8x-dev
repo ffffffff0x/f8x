@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.1.0 Dev"
+F8x_dev_Version="0.1.1 Dev"
 
 # ===================== Software version variable setting =====================
 
@@ -28,10 +28,11 @@ tomcat9_dir="apache-tomcat-9.0.50"
 Main
 Pentest_Base_Install > /dev/null 2>&1
 
-# ===================== Install mariadb =====================
+# ===================== Install mariadb (pkg) =====================
 mariadb_Install(){
 
     name="mariadb"
+
     which mysql > /dev/null 2>&1
 
     if [ $? == 0 ]
@@ -76,6 +77,8 @@ mariadb_Install(){
 # ===================== Install influxdb (docker) (x86) (arm64) =====================
 influxdb_docker_Install(){
 
+    name="influxdb"
+
     echo -e "\033[5;33m\nPlease enter your influxdb listening port (Default 8086)\033[0m" && read -r input
     influxdb_port=$input
 
@@ -97,6 +100,8 @@ influxdb_docker_Install(){
 
 # ===================== Install mariadb (docker) (x86) (arm64) =====================
 mariadb_docker_Install(){
+
+    name="mariadb"
 
     echo -e "\033[5;33m\nPlease enter your mariadb listening port (Default 3306)\033[0m" && read -r input
     mariadb_port=$input
@@ -129,6 +134,8 @@ mariadb_docker_Install(){
 # ===================== Install memcached (docker) =====================
 memcached_docker_Install(){
 
+    name="memcached"
+
     echo -e "\033[5;33m\nPlease enter your memcached listening port (Default 11211)\033[0m" && read -r input
     memcached_port=$input
 
@@ -150,6 +157,8 @@ memcached_docker_Install(){
 # ===================== Install mongodb (docker) =====================
 mongodb_docker_Install(){
 
+    name="mongodb"
+
     echo -e "\033[5;33m\nPlease enter your mongodb listening port (Default 27017)\033[0m" && read -r input
     mongodb_port=$input
 
@@ -170,6 +179,8 @@ mongodb_docker_Install(){
 
 # ===================== Install mssql2019 (docker) =====================
 mssql2019_docker_Install(){
+
+    name="mssql2019"
 
     echo -e "\033[5;33m\nPlease enter your mssql2019 listening port (Default 1433)\033[0m" && read -r input
     mssql2019_port=$input
@@ -202,6 +213,8 @@ mssql2019_docker_Install(){
 # ===================== Install mysql (docker) (x86) =====================
 mysql_docker_Install(){
 
+    name="mysql"
+
     echo -e "\033[5;33m\nPlease enter your mysql listening port (Default 3306)\033[0m" && read -r input
     mysql_port=$input
 
@@ -232,6 +245,8 @@ mysql_docker_Install(){
 
 # ===================== Install oracle11 (docker) =====================
 oracle11_docker_Install(){
+
+    name="oracle11"
 
     echo -e "\033[5;33m\nPlease enter your oracle11 listening port (Default 1521)\033[0m" && read -r input
     oracle11_port=$input
@@ -264,6 +279,8 @@ oracle11_docker_Install(){
 # ===================== Install postgres (docker) =====================
 postgres_docker_Install(){
 
+    name="postgres"
+
     echo -e "\033[5;33m\nPlease enter your PostgreSQL listening port (Default 5432)\033[0m" && read -r input
     postgres_port=$input
 
@@ -295,6 +312,8 @@ postgres_docker_Install(){
 # ===================== Install redis (docker) =====================
 redis_docker_Install(){
 
+    name="redis"
+
     echo -e "\033[5;33m\nPlease enter your redis listening port (Default 6379)\033[0m" && read -r input
     redis_port=$input
 
@@ -315,9 +334,77 @@ redis_docker_Install(){
 
 }
 
-# ===================== Install tomcat6 =====================
+# ===================== Install tomcat7 (docker) (x86) (arm) =====================
+tomcat7_docker_Install(){
 
-tomcat6_Install(){
+    name="tomcat7"
+
+    echo -e "\033[5;33m\nPlease enter your tomcat listening port (Default 8080)\033[0m" && read -r input
+    tomcat7_port=$input
+
+    if [ $tomcat7_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 8080"
+        tomcat7_port="8080"
+    fi
+
+    # https://hub.docker.com/_/tomcat
+    docker pull tomcat:7.0
+    docker run -d -p $tomcat7_port:8080 tomcat:7.0
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$tomcat7_port"
+
+}
+
+# ===================== Install tomcat8 (docker) (x86) =====================
+tomcat8_docker_Install(){
+
+    name="tomcat8"
+
+    echo -e "\033[5;33m\nPlease enter your tomcat listening port (Default 8080)\033[0m" && read -r input
+    tomcat8_port=$input
+
+    if [ $tomcat8_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 8080"
+        tomcat8_port="8080"
+    fi
+
+    # https://hub.docker.com/_/tomcat
+    docker pull tomcat:8.5.77
+    docker run -d -p $tomcat8_port:8080 tomcat:8.5.77
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$tomcat8_port"
+
+}
+
+# ===================== Install tomcat9 (docker) (x86) (arm) =====================
+tomcat9_docker_Install(){
+
+    name="tomcat9"
+
+    echo -e "\033[5;33m\nPlease enter your tomcat listening port (Default 8080)\033[0m" && read -r input
+    tomcat9_port=$input
+
+    if [ $tomcat9_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 8080"
+        tomcat9_port="8080"
+    fi
+
+    # https://hub.docker.com/_/tomcat
+    docker pull tomcat:9.0
+    docker run -d -p $tomcat9_port:8080 tomcat:9.0
+    docker ps
+
+    Echo_ALERT "Already listening to 0.0.0.0:$tomcat9_port"
+
+}
+
+# ===================== Install tomcat6 (src) =====================
+tomcat6_src_Install(){
 
     # Tomcat 6.0 requires JRE 5.0 or later.
 
@@ -341,9 +428,8 @@ tomcat6_Install(){
 
 }
 
-# ===================== Install tomcat7 =====================
-
-tomcat7_Install(){
+# ===================== Install tomcat7 (src) =====================
+tomcat7_src_Install(){
 
     # Tomcat 7.0 requires Java 6 or later.
 
@@ -366,9 +452,8 @@ tomcat7_Install(){
 
 }
 
-# ===================== Install tomcat8 =====================
-
-tomcat8_Install(){
+# ===================== Install tomcat8 (src) =====================
+tomcat8_src_Install(){
 
     # Tomcat 8.5 requires Java 7 or later.
 
@@ -392,9 +477,8 @@ tomcat8_Install(){
 
 }
 
-# ===================== Install tomcat9 =====================
-
-tomcat9_Install(){
+# ===================== Install tomcat9 (src) =====================
+tomcat9_src_Install(){
 
     # Tomcat 9.0 requires Java 8 or later.
 
@@ -607,13 +691,16 @@ Help_Info(){
     echo -e "  \033[1;34m-nginx-src\033[0m \033[0;34m       : install nginx     (Compile) \033[0m"
     echo -e ""
     echo -e "\033[1;34mtomcat \033[0m"
-    echo -e "  \033[1;34m-tomcat6\033[0m \033[0;34m         : install tomcat6   (Compile)\033[0m"
-    echo -e "  \033[1;34m-tomcat7\033[0m \033[0;34m         : install tomcat7   (Compile)\033[0m"
-    echo -e "  \033[1;34m-tomcat8\033[0m \033[0;34m         : install tomcat8   (Compile)\033[0m"
-    echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m         : install tomcat9   (Compile)\033[0m"
+    echo -e "  \033[1;34m-tomcat6-src\033[0m \033[0;34m     : install tomcat6   (Compile)\033[0m"
+    echo -e "  \033[1;34m-tomcat7\033[0m \033[0;34m         : install tomcat7   (Docker)\033[0m"
+    echo -e "  \033[1;34m-tomcat7-src\033[0m \033[0;34m     : install tomcat7   (Compile)\033[0m"
+    echo -e "  \033[1;34m-tomcat8\033[0m \033[0;34m         : install tomcat8   (Docker)\033[0m"
+    echo -e "  \033[1;34m-tomcat8-src\033[0m \033[0;34m     : install tomcat8   (Compile)\033[0m"
+    echo -e "  \033[1;34m-tomcat9\033[0m \033[0;34m         : install tomcat9   (Docker)\033[0m"
+    echo -e "  \033[1;34m-tomcat9-src\033[0m \033[0;34m     : install tomcat9   (Compile)\033[0m"
     echo -e ""
     echo -e "\033[1;34mDatabase \033[0m"
-    echo -e "  \033[1;34m-influxdb\033[0m \033[0;34m        : install InfluxDB   (Docker) \033[0m"
+    echo -e "  \033[1;34m-influxdb\033[0m \033[0;34m        : install InfluxDB  (Docker) \033[0m"
     echo -e "  \033[1;34m-mariadb\033[0m \033[0;34m         : install mariadb   (Docker) \033[0m"
     echo -e "  \033[1;34m-memcached\033[0m \033[0;34m       : install memcached (Docker) \033[0m"
     echo -e "  \033[1;34m-mongodb\033[0m \033[0;34m         : install mongodb   (Docker) \033[0m"
@@ -621,7 +708,7 @@ Help_Info(){
     echo -e "  \033[1;34m-mysql\033[0m \033[0;34m           : install mysql     (Docker) \033[0m"
     echo -e "  \033[1;34m-oracle11\033[0m \033[0;34m        : install oracle11  (Docker) \033[0m"
     echo -e "  \033[1;34m-postgres\033[0m \033[0;34m        : install PostgreSQL(Docker) \033[0m"
-    echo -e "  \033[1;34m-redis\033[0m \033[0;34m           : install redis    (Docker) \033[0m"
+    echo -e "  \033[1;34m-redis\033[0m \033[0;34m           : install redis     (Docker) \033[0m"
     echo -e ""
     echo -e "\033[1;34mphp \033[0m"
     echo -e "  \033[1;34m-php56\033[0m \033[0;34m           : install php5.6    (Package Manager)\033[0m"
@@ -681,25 +768,40 @@ do
             Docker_Check
             redis_docker_Install
             ;;
-        -tomcat6)
-            Porxy_Switch
-            Base_Check
-            tomcat6_Install
-            ;;
         -tomcat7)
-            Porxy_Switch
             Base_Check
-            tomcat7_Install
+            Docker_Check
+            tomcat7_docker_Install
             ;;
         -tomcat8)
-            Porxy_Switch
             Base_Check
-            tomcat8_Install
+            Docker_Check
+            tomcat8_docker_Install
             ;;
         -tomcat9)
+            Base_Check
+            Docker_Check
+            tomcat9_docker_Install
+            ;;
+        -tomcat6-src)
             Porxy_Switch
             Base_Check
-            tomcat9_Install
+            tomcat6_src_Install
+            ;;
+        -tomcat7-src)
+            Porxy_Switch
+            Base_Check
+            tomcat7_src_Install
+            ;;
+        -tomcat8-src)
+            Porxy_Switch
+            Base_Check
+            tomcat8_src_Install
+            ;;
+        -tomcat9-src)
+            Porxy_Switch
+            Base_Check
+            tomcat9_src_Install
             ;;
         -nginx-src)
             Porxy_Switch
