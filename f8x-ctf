@@ -12,12 +12,9 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_ctf_Version="0.0.9 Dev"
+F8x_ctf_Version="0.1.0 Dev"
 
 # ===================== Software version variable setting =====================
-
-Main
-Pentest_Base_Install > /dev/null 2>&1
 
 bkcrack_Ver="v1.3.5"
 bkcrack_bin="bkcrack-1.3.5-Linux.tar.gz"
@@ -27,6 +24,9 @@ upx_bin_amd64="upx-3.96-amd64_linux.tar.xz"
 upx_dir_amd64="upx-3.96-amd64_linux"
 upx_bin_arm64="upx-3.96-arm64_linux.tar.xz"
 upx_dir_arm64="upx-3.96-arm64_linux"
+
+Main
+Pentest_Base_Install > /dev/null 2>&1
 
 # ===================== CTF WEB Tool =====================
 
@@ -88,6 +88,20 @@ CTF_flask-session-cookie-manager_install(){
     else
         $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/noraj/flask-session-cookie-manager.git $dir > /dev/null 2>&1
         cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+    fi
+
+}
+
+Pentest_redis-ssrf_Install(){
+
+    name="redis-ssrf"
+    dir="$P_Dir/redis-ssrf"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Porxy_OK git clone ${GitPorxy}https://github.com/xmsec/redis-ssrf.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -696,6 +710,16 @@ CTF_WEB_tools(){
     CTF_flask-session-cookie-manager_install
     echo -e "\033[1;33m\n>> Installing Gopherus\n\033[0m"
     Pentest_Gopherus_Install
+    echo -e "\033[1;33m\n>> Installing redis-rogue-server\n\033[0m"
+    Pentest_redis-rogue-server_Install
+    echo -e "\033[1;33m\n>> Installing redis-rogue-server-win\n\033[0m"
+    Pentest_redis-rogue-server-win_Install
+    echo -e "\033[1;33m\n>> Installing redis-rce\n\033[0m"
+    Pentest_redis-rce_Install
+    echo -e "\033[1;33m\n>> Installing redis_lua_exploit\n\033[0m"
+    Pentest_redis_lua_exploit_Install
+    echo -e "\033[1;33m\n>> Installing redis-ssrf\n\033[0m"
+    Pentest_redis-ssrf_Install
 
 }
 
