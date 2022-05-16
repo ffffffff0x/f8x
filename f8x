@@ -32,7 +32,7 @@ Porxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.1 Dev(Beta7)"
+F8x_Version="1.6.1 Dev(Beta8)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -104,10 +104,10 @@ Girsh_bin_arm64="Girsh_0.40_linux_arm64.tar.gz"
 bettercap_Ver="v2.31.1"
 bettercap_bin_amd64="bettercap_linux_amd64_v2.31.1.zip"
 bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
-mitmproxy_Ver="8.0.0"
-mitmproxy_bin="mitmproxy-8.0.0-linux.tar.gz"
-naabu_Ver="v2.0.6"
-naabu_bin="naabu_2.0.6_linux_amd64.zip"
+mitmproxy_Ver="8.1.0"
+mitmproxy_bin="mitmproxy-8.1.0-linux.tar.gz"
+naabu_Ver="v2.0.7"
+naabu_bin="naabu_2.0.7_linux_amd64.zip"
 proxify_Ver="v0.0.6"
 proxify_bin_amd64="proxify_0.0.6_linux_amd64.zip"
 proxify_bin_arm64="proxify_0.0.6_linux_arm64.zip"
@@ -136,17 +136,17 @@ nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
 jadx_Ver="v1.3.5"
 jadx_bin="jadx-1.3.5.zip"
-rmg_Ver="v4.2.2"
-rmg_bin="rmg-4.2.2-jar-with-dependencies.jar"
+rmg_Ver="v4.3.0"
+rmg_bin="rmg-4.3.0-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
 anew_bin_arm64="anew_1.0.3_linux_arm64.tar.gz"
 nali_Ver="v0.3.10"
 nali_bin_amd64="nali-linux-amd64-v0.3.10.gz"
 nali_bin_arm64="nali-linux-armv8-v0.3.10.gz"
-dalfox_Ver="v2.7.4"
-dalfox_bin_amd64="dalfox_2.7.4_linux_amd64.tar.gz"
-dalfox_bin_arm64="dalfox_2.7.4_linux_arm64.tar.gz"
+dalfox_Ver="v2.7.5"
+dalfox_bin_amd64="dalfox_2.7.5_linux_amd64.tar.gz"
+dalfox_bin_arm64="dalfox_2.7.5_linux_arm64.tar.gz"
 DomainSplit_Ver="1.0"
 Platypus_Ver="v1.5.1"
 Platypus_bin_amd64="Platypus_linux_amd64"
@@ -218,9 +218,9 @@ netspy_bin_arm64="netspy_linux_arm64.zip"
 # https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media
 # https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?prefix=Linux_x64/958422/
 chromium_Ver="958422"
-bat_Ver="v0.20.0"
-bat_bin_amd64="bat_0.20.0_amd64.deb"
-bat_bin_arm64="bat_0.20.0_arm64.deb"
+bat_Ver="v0.21.0"
+bat_bin_amd64="bat_0.21.0_amd64.deb"
+bat_bin_arm64="bat_0.21.0_arm64.deb"
 duf_Ver="v0.8.1"
 duf_bin1_amd64="duf_0.8.1_linux_amd64.rpm"
 duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
@@ -608,6 +608,10 @@ Sys_Version(){
         *"Ubuntu"*|*"ubuntu"*)
             Linux_Version="Ubuntu"
             case $(cat /etc/*-release | head -n 4) in
+                *"jammy"*)
+                    Linux_Version_Num="22.04"
+                    Linux_Version_Name="jammy"
+                    ;;
                 *"impish"*)
                     Linux_Version_Num="21.10"
                     Linux_Version_Name="impish"
@@ -763,7 +767,7 @@ Sys_Version(){
                     ;;
                 [uU])
                     Linux_Version="Ubuntu"
-                    echo -e "\033[1;33m\nPlease enter the system version number [21.10] [21.04] [20.10] [20.04] [19.10] [19.04] [18.10] [18.04] [16.04] [15.04] [14.04] [12.04]\033[0m" && read -r input
+                    echo -e "\033[1;33m\nPlease enter the system version number [22.04] [21.10] [21.04] [20.10] [20.04] [19.10] [19.04] [18.10] [18.04] [16.04] [15.04] [14.04] [12.04]\033[0m" && read -r input
                     Linux_Version_Name=$input
                     ;;
                 [dD])
@@ -871,6 +875,11 @@ Update_APT_Mirror(){
             ;;
         *"Ubuntu"*)
             case $Linux_Version_Num in
+                "22.04")
+                    Echo_INFOR "Ubuntu22.04"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu2204_Mirror > /dev/null
+                    ;;
                 "21.10")
                     Echo_INFOR "Ubuntu21.10"
                     Echo_INFOR "Backed up apt source"
@@ -1000,6 +1009,21 @@ EOF
 }
 
 # ===================== Modify Ubuntu apt sources =====================
+Update_Ubuntu2204_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+EOF
+
+}
+
 Update_Ubuntu2110_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
@@ -3227,7 +3251,7 @@ Pentest_redis-rogue-server_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/n0b0dyCN/redis-rogue-server.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        $Porxy_OK git clone ${GitPorxy}https://github.com/Dliv3/redis-rogue-server.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
