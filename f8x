@@ -32,7 +32,7 @@ Porxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.1 Dev(Beta8)"
+F8x_Version="1.6.1 Dev(Beta9)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -76,9 +76,9 @@ goby_File="goby-linux-x64-1.9.325.zip"
 fscan_Ver="1.7.1"
 fscan_Install_amd64="fscan_amd64"
 fscan_Install_arm64="fscan_arm64"
-ffuf_Ver="v1.4.1"
-ffuf_Install_amd64="ffuf_1.4.1_linux_amd64.tar.gz"
-ffuf_Install_arm64="ffuf_1.4.1_linux_arm64.tar.gz"
+ffuf_Ver="v1.5.0"
+ffuf_Install_amd64="ffuf_1.5.0_linux_amd64.tar.gz"
+ffuf_Install_arm64="ffuf_1.5.0_linux_arm64.tar.gz"
 Nuclei_Ver="v2.7.0"
 Nuclei_Install_amd64="nuclei_2.7.0_linux_amd64.zip"
 Nuclei_Install_arm64="nuclei_2.7.0_linux_arm64.zip"
@@ -88,9 +88,9 @@ rad_File_arm64="rad_linux_arm64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File_amd64="crawlergo_linux_amd64.zip"
 crawlergo_File_arm64="crawlergo_linux_arm64.zip"
-Terraform_Ver="1.1.9"
-Terraform_bin_amd64="terraform_1.1.9_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.1.9_linux_arm64.zip"
+Terraform_Ver="1.2.0"
+Terraform_bin_amd64="terraform_1.2.0_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.2.0_linux_arm64.zip"
 CrossC2_Ver="v2.2.5"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
@@ -141,9 +141,9 @@ rmg_bin="rmg-4.3.0-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
 anew_bin_arm64="anew_1.0.3_linux_arm64.tar.gz"
-nali_Ver="v0.3.10"
-nali_bin_amd64="nali-linux-amd64-v0.3.10.gz"
-nali_bin_arm64="nali-linux-armv8-v0.3.10.gz"
+nali_Ver="v0.4.0"
+nali_bin_amd64="nali-linux-amd64-v0.4.0.gz"
+nali_bin_arm64="nali-linux-armv8-v0.4.0.gz"
 dalfox_Ver="v2.7.5"
 dalfox_bin_amd64="dalfox_2.7.5_linux_amd64.tar.gz"
 dalfox_bin_arm64="dalfox_2.7.5_linux_arm64.tar.gz"
@@ -183,7 +183,7 @@ assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.6.3"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
-code_server_Ver="v4.3.0"
+code_server_Ver="v4.4.0"
 code_server_bin1_amd64="code-server-4.4.0-amd64.rpm"
 code_server_bin2_amd64="code-server_4.4.0_amd64.deb"
 code_server_bin1_arm64="code-server-4.4.0-arm64.rpm"
@@ -234,6 +234,9 @@ fd_bin_arm64="fd_8.3.2_arm64.deb"
 # https://phantomjs.org/download.html
 phantomjs_bin="phantomjs-2.1.1-linux-x86_64.tar.bz2"
 phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
+cdk_Ver="v1.0.6"
+cdk_bin_amd64="cdk_linux_amd64"
+cdk_bin_arm64="cdk_linux_arm64"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -3127,7 +3130,7 @@ Pentest_remote-method-guesser_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         mkdir -p $dir && cd $_ && rm -f rmg.jar > /dev/null 2>&1 && $Porxy_OK wget -O rmg.jar ${GitPorxy}https://github.com/qtc-de/remote-method-guesser/releases/download/$rmg_Ver/$rmg_bin > /dev/null 2>&1 || Echo_ERROR2
-        java -jar rmg.jar --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir && java -jar rmg.jar --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3380,6 +3383,32 @@ Pentest_ysomap_Install(){
         else
             Echo_ERROR3
         fi
+    fi
+
+}
+
+# ===================== Install CDK =====================
+Pentest_CDK_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            cdk_bin=$cdk_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            cdk_bin=$cdk_bin_arm64
+            ;;
+    esac
+
+    name="CDK"
+    which cdk > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        cd /tmp && rm -f ${cdk_bin} && $Porxy_OK wget ${GitPorxy}https://github.com/cdk-team/CDK/releases/download/$cdk_Ver/$cdk_bin > /dev/null 2>&1 || Echo_ERROR2
+        mv --force $cdk_bin /usr/local/bin/cdk && chmod +x /usr/local/bin/cdk
+        which cdk > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $cdk_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -6215,6 +6244,23 @@ nps_Install(){
 
 }
 
+# -yakit
+yakit_Install(){
+
+    name="yakit"
+    which yak > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        cd /tmp && rm -f yak_linux_amd64 && $Porxy_OK wget ${GitPorxy}https://yaklang.oss-cn-beijing.aliyuncs.com/yak/latest/yak_linux_amd64 -q --show-progress || Echo_ERROR2
+        mv --force yak_linux_amd64 /usr/local/bin/yak && chmod +x /usr/local/bin/yak
+        which yak > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+    fi
+
+}
+
 # -suricata
 suricata_Install(){
 
@@ -7042,6 +7088,8 @@ kali_Tools_TypeB(){
     Pentest_marshalsec_Install
     echo -e "\033[1;33m\n>> Installing ysomap\n\033[0m"
     Pentest_ysomap_Install
+    echo -e "\033[1;33m\n>> Installing CDK\n\033[0m"
+    Pentest_CDK_Install
 
     # Pentest_remote-method-guesser_Install
     # Pentest_redis-rogue-server_Install
@@ -7257,6 +7305,7 @@ Help(){
     echo -e "  \033[1;34m-frp\033[0m \033[0;34m         : install frp\033[0m"
     echo -e "  \033[1;34m-goby\033[0m \033[0;34m        : install Goby\033[0m                       \033[1;33m(The client side requires a graphical environment, the server side does not.)\033[0m"
     echo -e "  \033[1;34m-nps\033[0m \033[0;34m         : install nps\033[0m"
+    echo -e "  \033[1;34m-yakit\033[0m \033[0;34m         : install yakit\033[0m"
     echo -e ""
     echo -e "\033[1;34mDocker-based environment deployment\033[0m"
     echo -e "  \033[1;34m-arl\033[0m \033[0;34m         : install ARL (~872 MB)\033[0m"
@@ -7643,6 +7692,13 @@ do
             Porxy_Switch
             Base_Check
             nps_Install
+            ;;
+        -yakit)
+            mac_Check || exit 1
+            linux_arm64_Check || exit 1
+            Porxy_Switch
+            Base_Check
+            yakit_Install
             ;;
         -suricata)
             mac_Check || exit 1
