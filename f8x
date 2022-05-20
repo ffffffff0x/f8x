@@ -491,6 +491,12 @@ Echo_ERROR3(){
 
 }
 
+Echo_ERROR4(){
+
+    Echo_ERROR "$1 git clone failed"
+
+}
+
 Install_Switch(){
 
     case $Linux_Version in
@@ -2924,7 +2930,7 @@ Pentest_xray_Install(){
     then
         Echo_ALERT "$name poc is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/chaitin/xray.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name poc in the $dir" || Echo_ERROR2
+        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/chaitin/xray.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name poc in the $dir" || Echo_ERROR4 "chaitin/xray"
     fi
 
 }
@@ -5973,7 +5979,7 @@ arl_Install(){
 
     docker pull tophant/arl && Echo_INFOR "Pulled the latest ARL image" || Echo_ERROR3
 
-    cd $P_Dir && rm -rf ARL > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/TophantTechnology/ARL > /dev/null 2>&1
+    cd $P_Dir && rm -rf ARL > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/TophantTechnology/ARL > /dev/null 2>&1 || Echo_ERROR4 "TophantTechnology/ARL"
     Echo_INFOR "Please run through the following command:\n cd $P_Dir/ARL/docker/ && docker-compose up -d , Default port 5003, default username password : admin/arlpass"
 
 }
@@ -5987,7 +5993,7 @@ music_Install(){
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
     Echo_ALERT "Installing npx module" && $Porxy_OK npm install npx -g > /dev/null 2>&1 && Echo_INFOR "npx module installed successfully" || Echo_ERROR "npx module installation failed"
-    cd $T_Dir && rm -rf UnblockNeteaseMusic > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/nondanee/UnblockNeteaseMusic > /dev/null 2>&1
+    cd $T_Dir && rm -rf UnblockNeteaseMusic > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/nondanee/UnblockNeteaseMusic > /dev/null 2>&1 || Echo_ERROR4 "nondanee/UnblockNeteaseMusic"
     cd UnblockNeteaseMusic && $Porxy_OK npm install && Echo_INFOR "After installation, run the following command to start the service:\n\033[0m\033[1;32mcd $T_Dir/UnblockNeteaseMusic && npx @nondanee/unblockneteasemusic\n" || Echo_ERROR3
 
 }
@@ -6039,7 +6045,7 @@ aircrack_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && rm -rf aircrack-ng > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/aircrack-ng/aircrack-ng.git > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        cd $P_Dir && rm -rf aircrack-ng > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/aircrack-ng/aircrack-ng.git > /dev/null 2>&1 && cd $dir || Echo_ERROR4 "aircrack-ng/aircrack-ng"
 
         Rm_Lock
         case $Linux_Version in
