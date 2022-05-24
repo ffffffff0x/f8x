@@ -32,7 +32,7 @@ Porxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.1 Dev(Beta9)"
+F8x_Version="1.6.1 Dev(Beta10)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -79,9 +79,9 @@ fscan_Install_arm64="fscan_arm64"
 ffuf_Ver="v1.5.0"
 ffuf_Install_amd64="ffuf_1.5.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_1.5.0_linux_arm64.tar.gz"
-Nuclei_Ver="v2.7.0"
-Nuclei_Install_amd64="nuclei_2.7.0_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.7.0_linux_arm64.zip"
+Nuclei_Ver="v2.7.1"
+Nuclei_Install_amd64="nuclei_2.7.1_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.7.1_linux_arm64.zip"
 rad_Ver="0.4"
 rad_File_amd64="rad_linux_amd64.zip"
 rad_File_arm64="rad_linux_arm64.zip"
@@ -134,8 +134,8 @@ lux_bin_amd64="lux_0.14.0_Linux_64-bit.tar.gz"
 lux_bin_arm64="lux_0.14.0_Linux_ARM64.tar.gz"
 nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
-jadx_Ver="v1.3.5"
-jadx_bin="jadx-1.3.5.zip"
+jadx_Ver="v1.4.0"
+jadx_bin="jadx-1.4.0.zip"
 rmg_Ver="v4.3.0"
 rmg_bin="rmg-4.3.0-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
@@ -843,7 +843,7 @@ Sys_Info(){
     echo -e "\033[1;32mUser          :\033[0m \033[1;35m$(whoami) \033[0m"
     echo -e "\033[1;32mDate          :\033[0m \033[1;35m$(date +"%Y-%m-%d") \033[0m"
     echo -e "\033[1;32mTime          :\033[0m \033[1;35m$(date +"%H:%M:%S") \033[0m"
-    echo -e "\033[1;32mRuntime       :\033[0m \033[1;35m$(uptime | awk '{print $3 $4}' | sed 's/\,.*$//g') \033[0m"
+    echo -e "\033[1;32mRuntime       :\033[0m \033[1;35m$(uptime 2>/dev/null | awk '{print $3 $4}' | sed 's/\,.*$//g') \033[0m"
     echo -e "\033[1;32mHostname      :\033[0m \033[1;35m$(hostname) \033[0m"
     echo -e "\033[1;32mDistribution  :\033[0m \033[1;35m$Linux_Version $Linux_Version_Num $Linux_Version_Name $Linux_architecture_Name\033[0m"
     echo -e "\033[1;32mf8x Version   :\033[0m \033[1;35m$F8x_Version \033[0m"
@@ -7281,6 +7281,7 @@ Help(){
     echo -e "  \033[1;34m-all\033[0m \033[0;34m         : fully automated deployment\033[0m         \033[1;32m(Compatible with CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)\033[0m"
     echo -e ""
     echo -e "\033[1;34mDevelopment Environment \033[0m"
+    echo -e "  \033[1;34m-docker\033[0m \033[0;34m      : install docker\033[0m"
     echo -e "  \033[1;34m-lua\033[0m \033[0;34m         : install lua\033[0m"
     echo -e "  \033[1;34m-nn\033[0m \033[0;34m          : install npm & NodeJs\033[0m"
     echo -e "  \033[1;34m-oraclejdk\033[0m \033[0;34m   : install oraclejdk8\033[0m"
@@ -7292,6 +7293,7 @@ Help(){
     echo -e "  \033[1;34m-perl\033[0m \033[0;34m        : install perl\033[0m"
     echo -e "  \033[1;34m-ruby\033[0m \033[0;34m        : install ruby\033[0m                       \033[1;33m(If that fails, try -ruby-f)\033[0m"
     echo -e "  \033[1;34m-rust\033[0m \033[0;34m        : install rust\033[0m"
+    echo -e "  \033[1;34m-code\033[0m \033[0;34m        : install code-server\033[0m"
     echo -e "  \033[1;34m-chromium\033[0m \033[0;34m    : install Chromium\033[0m                   \033[1;33m(Used with rad, crawlergo in the -k option) \033[0m"
     echo -e "  \033[1;34m-phantomjs\033[0m \033[0;34m   : install PhantomJS\033[0m"
     echo -e ""
@@ -7524,6 +7526,11 @@ do
             mac_Check || exit 1
             all_Install
             ;;
+        -docker)
+            mac_Check || exit 1
+            Dev_Base_Install
+            Docker_Install
+            ;;
         -lua)
             mac_Check || exit 1
             Porxy_Switch
@@ -7609,6 +7616,12 @@ do
             Porxy_Switch
             Base_Check
             Rust_Install
+            ;;
+        -code)
+            mac_Check || exit 1
+            Porxy_Switch
+            Base_Check
+            code-server_Install
             ;;
         -chromium)
             mac_Check || exit 1
