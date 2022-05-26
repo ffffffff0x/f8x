@@ -28,11 +28,11 @@ P_Dir=/pentest
 T_Dir=/ffffffff0x
 Default_DNS=223.5.5.5
 Proxy_URL="https://cdn.ffffffff0x.com/?durl=https://codeload.github.com/rofl0r/proxychains-ng/zip/master"
-Porxy_OK=
+Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.1 Dev(Beta10)"
+F8x_Version="1.6.1 Dev(Beta11)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -88,9 +88,9 @@ rad_File_arm64="rad_linux_arm64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File_amd64="crawlergo_linux_amd64.zip"
 crawlergo_File_arm64="crawlergo_linux_arm64.zip"
-Terraform_Ver="1.2.0"
-Terraform_bin_amd64="terraform_1.2.0_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.2.0_linux_arm64.zip"
+Terraform_Ver="1.2.1"
+Terraform_bin_amd64="terraform_1.2.1_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.2.1_linux_arm64.zip"
 CrossC2_Ver="v2.2.5"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
@@ -141,9 +141,9 @@ rmg_bin="rmg-4.3.0-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
 anew_bin_arm64="anew_1.0.3_linux_arm64.tar.gz"
-nali_Ver="v0.4.0"
-nali_bin_amd64="nali-linux-amd64-v0.4.0.gz"
-nali_bin_arm64="nali-linux-armv8-v0.4.0.gz"
+nali_Ver="v0.4.2"
+nali_bin_amd64="nali-linux-amd64-v0.4.2.gz"
+nali_bin_arm64="nali-linux-armv8-v0.4.2.gz"
 dalfox_Ver="v2.7.5"
 dalfox_bin_amd64="dalfox_2.7.5_linux_amd64.tar.gz"
 dalfox_bin_arm64="dalfox_2.7.5_linux_arm64.tar.gz"
@@ -171,8 +171,8 @@ gron_bin_amd64="gron-linux-amd64-0.7.1.tgz"
 gron_bin_arm64="gron-linux-arm64-0.7.1.tgz"
 unfurl_Ver="v0.2.0"
 unfurl_Bin="unfurl-linux-amd64-0.2.0.tgz"
-qsreplace_Ver="v0.0.1"
-qsreplace_bin="qsreplace-linux-amd64-0.0.1.tgz"
+qsreplace_Ver="v0.0.2"
+qsreplace_bin="qsreplace-linux-amd64-0.0.2.tgz"
 jaeles_Ver="beta-v0.17"
 jaeles_bin="jaeles-v0.17-linux.zip"
 jaeles_sbin="jaeles-v0.17-linux"
@@ -219,15 +219,15 @@ netspy_bin_arm64="netspy_linux_arm64.zip"
 # https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?prefix=Linux_x64/958422/
 chromium_Ver="958422"
 bat_Ver="v0.21.0"
-bat_bin_amd64="bat_0.21.0_amd64.deb"
-bat_bin_arm64="bat_0.21.0_arm64.deb"
+bat_bin_amd64="bat-musl_0.21.0_amd64.deb"
+bat_bin_arm64="bat-musl_0.21.0_i686.deb"
 duf_Ver="v0.8.1"
 duf_bin1_amd64="duf_0.8.1_linux_amd64.rpm"
 duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
 duf_bin1_arm64="duf_0.8.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
-procs_Ver="v0.12.2"
-procs_bin="procs-v0.12.2-x86_64-linux.zip"
+procs_Ver="v0.12.3"
+procs_bin="procs-v0.12.3-x86_64-linux.zip"
 fd_Ver="v8.3.2"
 fd_bin_amd64="fd_8.3.2_amd64.deb"
 fd_bin_arm64="fd_8.3.2_arm64.deb"
@@ -535,8 +535,8 @@ Install_Switch5(){
 
 }
 
-# ===================== Porxy Switch =====================
-Porxy_Switch(){
+# ===================== Proxy Switch =====================
+Proxy_Switch(){
 
     if test -e /tmp/IS_CI
     then
@@ -550,11 +550,11 @@ Porxy_Switch(){
                 if test -e /etc/proxychains.conf
                 then
                     Echo_INFOR "Proxychains-ng is being called"
-                    Porxy_OK=proxychains4
+                    Proxy_OK=proxychains4
                 else
                     Echo_ALERT "Proxychains-ng is not detected, start automatic installation"
                     Proxychains_Install
-                    Porxy_OK=proxychains4
+                    Proxy_OK=proxychains4
                 fi
                 ;;
             *)
@@ -1495,7 +1495,7 @@ Proxychains_Install(){
 
         case $input in
             [nN][oO]|[nN])
-                cd $T_Dir && rm -rf proxychains-ng* > /dev/null 2>&1 && git clone --depth 1 ${GitPorxy}https://github.com/rofl0r/proxychains-ng.git $T_Dir/proxychains-ng > /dev/null 2>&1 && Echo_INFOR "Downloaded from github.com" || Echo_ERROR "Download failed"
+                cd $T_Dir && rm -rf proxychains-ng* > /dev/null 2>&1 && git clone --depth 1 ${GitProxy}https://github.com/rofl0r/proxychains-ng.git $T_Dir/proxychains-ng > /dev/null 2>&1 && Echo_INFOR "Downloaded from github.com" || Echo_ERROR "Download failed"
                 ;;
             *)
                 cd $T_Dir && rm -rf proxychains-ng* > /dev/null 2>&1 && wget -O proxychains-ng.zip "$Proxy_URL" > /dev/null 2>&1 && Echo_INFOR "Downloaded from ffffffff0x.com" || Echo_ERROR "Download failed"
@@ -1714,8 +1714,8 @@ Python3_def_Install(){
             Install_Switch "python3-distutils"
             case $Linux_Version_Num in
                 "16.04")
-                    cd /tmp && rm -rf get-pip.py && $Porxy_OK wget https://bootstrap.pypa.io/pip/3.5/get-pip.py > /dev/null 2>&1
-                    $Porxy_OK python3 get-pip.py > /dev/null 2>&1 && rm -rf get-pip.py
+                    cd /tmp && rm -rf get-pip.py && $Proxy_OK wget https://bootstrap.pypa.io/pip/3.5/get-pip.py > /dev/null 2>&1
+                    $Proxy_OK python3 get-pip.py > /dev/null 2>&1 && rm -rf get-pip.py
                     ;;
             esac
             python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "Update python3-pip failed"
@@ -1729,7 +1729,7 @@ Python3_def_Install(){
 Python37_Install(){
 
     name="Python3.7"
-    mkdir -p /tmp/py37 && cd $_ && rm -f $py37_bin && $Porxy_OK wget https://www.python.org/ftp/python/$py37_ver/$py37_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    mkdir -p /tmp/py37 && cd $_ && rm -f $py37_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py37_ver/$py37_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
     tar -xvJf $py37_bin > /dev/null 2>&1 && cd $py37_dir
     Echo_INFOR "configure"
     ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
@@ -1765,7 +1765,7 @@ Python37_Install(){
 Python38_Install(){
 
     name="Python3.8"
-    mkdir -p /tmp/py38 && cd $_ && rm -f $py38_bin && $Porxy_OK wget https://www.python.org/ftp/python/$py38_ver/$py38_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    mkdir -p /tmp/py38 && cd $_ && rm -f $py38_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py38_ver/$py38_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
     tar -xvJf $py38_bin > /dev/null 2>&1 && cd $py38_dir
     Echo_INFOR "configure"
     ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
@@ -1801,7 +1801,7 @@ Python38_Install(){
 Python39_Install(){
 
     name="Python3.9"
-    mkdir -p /tmp/py39 && cd $_ && rm -f $py39_bin && $Porxy_OK wget https://www.python.org/ftp/python/$py39_ver/$py39_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    mkdir -p /tmp/py39 && cd $_ && rm -f $py39_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py39_ver/$py39_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
     tar -xvJf $py39_bin > /dev/null 2>&1 && cd $py39_dir
     Echo_INFOR "configure"
     ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
@@ -1853,7 +1853,7 @@ Go_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Echo_ALERT "Downloading Go (~120M)" && $Porxy_OK wget -O $T_Dir/$Go_Bin ${GitPorxy2}https://golang.org/dl/$Go_Bin > /dev/null 2>&1 && tar -C /usr/local -xzf $T_Dir/$Go_Bin && Echo_INFOR "Downloaded from golang.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        Echo_ALERT "Downloading Go (~120M)" && $Proxy_OK wget -O $T_Dir/$Go_Bin ${GitProxy2}https://golang.org/dl/$Go_Bin -q --show-progress && tar -C /usr/local -xzf $T_Dir/$Go_Bin && Echo_INFOR "Downloaded from golang.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
 
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
@@ -1905,17 +1905,17 @@ Docker_Install(){
                 Install_Switch "device-mapper-persistent-data"
                 Install_Switch "lvm2"
 
-                Echo_ALERT "Installing docker" && $Porxy_OK yum install -y docker > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
+                Echo_ALERT "Installing docker" && $Proxy_OK yum install -y docker > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
                 ;;
             *"CentOS"*|*"RedHat"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
                 Install_Switch "device-mapper-persistent-data"
                 Install_Switch "lvm2"
 
-                $Porxy_OK curl -o /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo > /dev/null 2>&1 && Echo_INFOR "Finished downloading the docker yum source from docker.com" || Echo_ERROR "Failed to download docker yum source"
+                $Proxy_OK curl -o /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo > /dev/null 2>&1 && Echo_INFOR "Finished downloading the docker yum source from docker.com" || Echo_ERROR "Failed to download docker yum source"
 
-                $Porxy_OK yum makecache > /dev/null 2>&1 || Echo_ERROR "yum Docker source update failed, please check if the network is reachable, proxychains4 configuration is correct"
+                $Proxy_OK yum makecache > /dev/null 2>&1 || Echo_ERROR "yum Docker source update failed, please check if the network is reachable, proxychains4 configuration is correct"
                 Rm_Lock
-                Echo_ALERT "Installing docker" && $Porxy_OK yum install -y docker > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
+                Echo_ALERT "Installing docker" && $Proxy_OK yum install -y docker > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Echo_INFOR "Uninstalling the Docker environment"
@@ -1929,7 +1929,7 @@ Docker_Install(){
                 Install_Switch "curl"
                 Install_Switch "software-properties-common"
                 Install_Switch "gnupg"
-                $Porxy_OK curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+                $Proxy_OK curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 
                 case $Linux_Version in
                     *"Kali"*|*"Debian"*)
@@ -1942,7 +1942,7 @@ Docker_Install(){
 
                 Echo_INFOR "Updating apt package list" && apt-get update > /dev/null 2>&1 || Echo_ERROR "Update apt package list failed"
 
-                Echo_ALERT "Installing docker" && $Porxy_OK apt-get install -y docker-ce > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker-ce" || Echo_ERROR "docker-ce installation failed, please check if the network is reachable, proxychains4 configuration is correct"
+                Echo_ALERT "Installing docker" && $Proxy_OK apt-get install -y docker-ce > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker-ce" || Echo_ERROR "docker-ce installation failed, please check if the network is reachable, proxychains4 configuration is correct"
                 rm -f /etc/apt/sources.list.d/docker.list > /dev/null 2>&1
                 ;;
             *)
@@ -1973,7 +1973,7 @@ SDKMAN_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && $Porxy_OK curl -o sdkman.sh "https://get.sdkman.io" > /dev/null 2>&1 && $Porxy_OK bash sdkman.sh > /dev/null 2>&1
+        cd /tmp && $Proxy_OK curl -o sdkman.sh "https://get.sdkman.io" > /dev/null 2>&1 && $Proxy_OK bash sdkman.sh > /dev/null 2>&1
         source "/root/.sdkman/bin/sdkman-init.sh"
         sdk version && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
 
@@ -2001,7 +2001,7 @@ Terraform_Install(){
         Echo_ALERT "$name installed"
     else
         Echo_ALERT "Downloading $name"
-        cd /tmp && $Porxy_OK wget https://releases.hashicorp.com/terraform/$Terraform_Ver/$Terraform_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from hashicorp.com" || Echo_ERROR2
+        cd /tmp && $Proxy_OK wget https://releases.hashicorp.com/terraform/$Terraform_Ver/$Terraform_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from hashicorp.com" || Echo_ERROR2
         unzip $Terraform_bin > /dev/null 2>&1
         mv --force terraform /usr/local/bin/terraform > /dev/null 2>&1 && chmod +x /usr/local/bin/terraform && Echo_INFOR "Successfully installed $name $Terraform_Ver" || Echo_ERROR3
         rm -rf $Terraform_bin
@@ -2020,7 +2020,7 @@ Serverless_Framework_Install(){
         Echo_ALERT "$name installed"
     else
         npm config set prefix /usr/local
-        $Porxy_OK npm install -g serverless
+        $Proxy_OK npm install -g serverless
         serverless -v && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
 
@@ -2036,7 +2036,7 @@ wrangler_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        $Porxy_OK cargo install wrangler
+        $Proxy_OK cargo install wrangler
         wrangler -V && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
 
@@ -2096,7 +2096,7 @@ Pentest_Dic_Install(){
     then
         Echo_ALERT "$name dictionary already exists"
     else
-        rm -rf $P_Dir/$name > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/ffffffff0x/AboutSecurity.git $P_Dir/$name > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $P_Dir/$name" || Echo_ERROR "Failed to download the $name dictionary from github"
+        rm -rf $P_Dir/$name > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ffffffff0x/AboutSecurity.git $P_Dir/$name > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $P_Dir/$name" || Echo_ERROR "Failed to download the $name dictionary from github"
     fi
 
 }
@@ -2195,7 +2195,7 @@ Pentest_ffuf_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $ffuf_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $ffuf_Install > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/ffuf/ffuf/releases/download/$ffuf_Ver/$ffuf_Install > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $ffuf_Install > /dev/null 2>&1
         mv --force ffuf /usr/local/bin/ && chmod +x /usr/local/bin/ffuf && rm -f /tmp/$ffuf_Install > /dev/null 2>&1
         ffuf -V > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $ffuf_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2213,7 +2213,7 @@ Pentest_JSFinder_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/Threezh1/JSFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/Threezh1/JSFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         python3 JSFinder.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -2229,7 +2229,7 @@ Pentest_SecretFinder_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/m4ll0k/SecretFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/m4ll0k/SecretFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Installed dependency modules" || ( Echo_ERROR "Failed to install dependency module" && rm -rf $P_Dir/SecretFinder > /dev/null 2>&1 )
         python3 SecretFinder.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -2248,7 +2248,7 @@ Pentest_OneForAll_Install(){
     else
         Install_Switch5 "setuptools"
         Install_Switch5 "wheel"
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/shmilylty/OneForAll.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name download failed, please check if the network is reachable, proxychains4 configuration is correct, or download using gitee git clone https://gitee.com/shmilylty/OneForAll.git "
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/shmilylty/OneForAll.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name download failed, please check if the network is reachable, proxychains4 configuration is correct, or download using gitee git clone https://gitee.com/shmilylty/OneForAll.git "
         Echo_ALERT "Installing dependency modules\033[0m" && pip3 install -r requirements.txt > /dev/null 2>&1 || ( Echo_ERROR "Failed to install dependency module" && rm -rf $P_Dir/OneForAll > /dev/null 2>&1 )
         python3 oneforall.py version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" && aarch64_massdns_Install || Echo_ERROR3
     fi
@@ -2260,7 +2260,7 @@ aarch64_massdns_Install(){
     case $Linux_architecture_Name in
         *"linux-arm64"*)
             mkdir -p /tmp/massdns && cd $_
-            $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/blechschmidt/massdns.git > /dev/null 2>&1
+            $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/blechschmidt/massdns.git > /dev/null 2>&1
             cd /tmp/massdns/massdns && make > /dev/null 2>&1
             mv /tmp/massdns/massdns/bin/massdns $P_Dir/OneForAll/thirdparty/massdns/massdns_linux_aarch64 && Echo_INFOR "Successfully installed massdns in the $P_Dir/OneForAll/thirdparty/massdns/" && rm -rf /tmp/massdns
             ;;
@@ -2281,7 +2281,7 @@ Pentest_ksubdomain_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                cd $T_Dir && rm -f ${ksubdomain_Install} > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/boy-hack/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR2
+                cd $T_Dir && rm -f ${ksubdomain_Install} > /dev/null 2>&1 && rm -rf ksubdomain > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/boy-hack/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR2
                 tar -xvf ${ksubdomain_Install} > /dev/null 2>&1
                 mv --force ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain && rm -f ${T_Dir:?}/${ksubdomain_Install} > /dev/null 2>&1
                 ksubdomain > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $ksubdomain_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2325,10 +2325,10 @@ Pentest_fscan_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        #cd /tmp && rm -f $fscan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
+        #cd /tmp && rm -f $fscan_Install > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
         #mv $fscan_Install fscan && mv --force fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
         #fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
-        cd /tmp && rm -rf fscan && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/shadow1ng/fscan.git > /dev/null 2>&1
+        cd /tmp && rm -rf fscan && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/shadow1ng/fscan.git > /dev/null 2>&1
         cd fscan && export GO111MODULE=on && export GOPROXY=https://goproxy.io && export GOPATH=$HOME/go && go build -ldflags="-s -w " -trimpath > /dev/null 2>&1
         mv fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
         which fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
@@ -2355,7 +2355,7 @@ Pentest_rad_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/rad && cd /tmp/rad && rm -f ${rad_File} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/rad/releases/download/$rad_Ver/$rad_File > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/rad && cd /tmp/rad && rm -f ${rad_File} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/chaitin/rad/releases/download/$rad_Ver/$rad_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $rad_File > /dev/null 2>&1
         mv $rad_File rad
         mv --force rad /usr/local/bin/ && chmod +x /usr/local/bin/rad
@@ -2385,7 +2385,7 @@ Pentest_crawlergo_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $crawlergo_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/Qianlitp/crawlergo/releases/download/$crawlergo_Ver/$crawlergo_File > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $crawlergo_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/Qianlitp/crawlergo/releases/download/$crawlergo_Ver/$crawlergo_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $crawlergo_File > /dev/null 2>&1
         mv --force crawlergo /usr/local/bin/ && chmod +x /usr/local/bin/crawlergo && rm -f /tmp/$crawlergo_File > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $crawlergo_Ver in the /usr/local/bin/" || Echo_ERROR3
 
@@ -2431,7 +2431,7 @@ Pentest_gospider_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/gospider && cd /tmp/gospider && rm -f ${gospider_bin} && rm -rf ${gospider_dir} && $Porxy_OK wget ${GitPorxy}https://github.com/jaeles-project/gospider/releases/download/$gospider_Ver/$gospider_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/gospider && cd /tmp/gospider && rm -f ${gospider_bin} && rm -rf ${gospider_dir} && $Proxy_OK wget ${GitProxy}https://github.com/jaeles-project/gospider/releases/download/$gospider_Ver/$gospider_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip ${gospider_bin} > /dev/null 2>&1
         mv --force ${gospider_dir}/gospider /usr/local/bin/gospider && chmod +x /usr/local/bin/gospider
         rm -rf /tmp/gospider
@@ -2453,7 +2453,7 @@ Pentest_naabu_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                cd /tmp && rm -f $naabu_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/naabu/releases/download/$naabu_Ver/$naabu_bin > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp && rm -f $naabu_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/naabu/releases/download/$naabu_Ver/$naabu_bin > /dev/null 2>&1 || Echo_ERROR2
                 unzip $naabu_bin > /dev/null 2>&1
                 mv --force naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu && rm -f /tmp/$naabu_bin > /dev/null 2>&1
                 naabu -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $naabu_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2499,7 +2499,7 @@ Pentest_httpx_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/httpx && cd /tmp/httpx && rm -f ${httpx_bin} && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/httpx/releases/download/$httpx_Ver/$httpx_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/httpx && cd /tmp/httpx && rm -f ${httpx_bin} && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/httpx/releases/download/$httpx_Ver/$httpx_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $httpx_bin > /dev/null 2>&1
         mv --force httpx /usr/local/bin/httpx && chmod +x /usr/local/bin/httpx
         rm -rf /tmp/httpx
@@ -2528,7 +2528,7 @@ Pentest_httpx_old_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $httpx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/httpx/releases/download/v1.0.5/$httpx_old_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $httpx_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/httpx/releases/download/v1.0.5/$httpx_old_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $httpx_old_bin > /dev/null 2>&1
         mv --force httpx /usr/local/bin/httpx1.0.5 && chmod +x /usr/local/bin/httpx1.0.5 && rm -f /tmp/$httpx_old_bin > /dev/null 2>&1
         httpx1.0.5 -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $httpx_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2555,7 +2555,7 @@ Pentest_subfinder_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $subfinder_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/subfinder/releases/download/$subfinder_Ver/$subfinder_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $subfinder_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/subfinder/releases/download/$subfinder_Ver/$subfinder_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $subfinder_bin > /dev/null 2>&1
         mv --force subfinder /usr/local/bin/subfinder && chmod +x /usr/local/bin/subfinder && rm -f /tmp/$subfinder_bin > /dev/null 2>&1
         subfinder -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $subfinder_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2576,7 +2576,7 @@ Pentest_gau_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                cd /tmp && rm -f $gau_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/lc/gau/releases/download/$gau_Ver/$gau_bin > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp && rm -f $gau_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/lc/gau/releases/download/$gau_Ver/$gau_bin > /dev/null 2>&1 || Echo_ERROR2
                 tar -zxvf $gau_bin > /dev/null 2>&1
                 mv --force gau /usr/local/bin/gau && chmod +x /usr/local/bin/gau && rm -f /tmp/$gau_bin > /dev/null 2>&1
                 which gau > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $gau_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2605,8 +2605,8 @@ Pentest_apktool_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f apktool && $Porxy_OK wget -O apktool ${GitPorxy}https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool > /dev/null 2>&1 || Echo_ERROR2
-        rm -f $apktool_bin && $Porxy_OK wget ${GitPorxy}https://github.com/iBotPeaches/Apktool/releases/download/$apktool_Ver/$apktool_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f apktool && $Proxy_OK wget -O apktool ${GitProxy}https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/linux/apktool > /dev/null 2>&1 || Echo_ERROR2
+        rm -f $apktool_bin && $Proxy_OK wget ${GitProxy}https://github.com/iBotPeaches/Apktool/releases/download/$apktool_Ver/$apktool_bin > /dev/null 2>&1 || Echo_ERROR2
         mv $apktool_bin apktool.jar && mv --force apktool.jar /usr/local/bin/apktool.jar && chmod +x /usr/local/bin/apktool.jar
         mv --force apktool /usr/local/bin/apktool && chmod +x /usr/local/bin/apktool
         which apktool > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $apktool_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2670,7 +2670,7 @@ Pentest_AppInfoScanner_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/kelvinBen/AppInfoScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/kelvinBen/AppInfoScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $dir && python3 -m pip install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -2695,7 +2695,7 @@ Pentest_Amass_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/Amass && cd /tmp/Amass && rm -rf ${Amass_bin} && rm -rf amass_linux_amd64 && $Porxy_OK wget ${GitPorxy}https://github.com/OWASP/Amass/releases/download/$Amass_Ver/$Amass_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/Amass && cd /tmp/Amass && rm -rf ${Amass_bin} && rm -rf amass_linux_amd64 && $Proxy_OK wget ${GitProxy}https://github.com/OWASP/Amass/releases/download/$Amass_Ver/$Amass_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip ${Amass_bin} > /dev/null 2>&1
         mv --force amass_linux_*/amass /usr/local/bin/amass && chmod +x /usr/local/bin/amass
         rm -rf /tmp/Amass
@@ -2717,7 +2717,7 @@ Pentest_gobuster_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                mkdir -p /tmp/gobuster && cd /tmp/gobuster && rm -f ${gobuster_bin} && rm -rf gobuster-linux-amd64 && $Porxy_OK wget ${GitPorxy}https://github.com/OJ/gobuster/releases/download/$gobuster_Ver/$gobuster_bin > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/gobuster && cd /tmp/gobuster && rm -f ${gobuster_bin} && rm -rf gobuster-linux-amd64 && $Proxy_OK wget ${GitProxy}https://github.com/OJ/gobuster/releases/download/$gobuster_Ver/$gobuster_bin > /dev/null 2>&1 || Echo_ERROR2
                 7za x ${gobuster_bin} > /dev/null 2>&1
                 mv --force gobuster-linux-amd64/gobuster /usr/local/bin/gobuster && chmod +x /usr/local/bin/gobuster
                 rm -rf /tmp/gobuster
@@ -2744,7 +2744,7 @@ Pentest_dirsearch_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd $P_Dir && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/maurosoria/dirsearch.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/maurosoria/dirsearch.git > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
         if test -d $dir
         then
@@ -2775,7 +2775,7 @@ Pentest_dismap_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f ${dismap_bin} && $Porxy_OK wget ${GitPorxy}https://github.com/zhzyker/dismap/releases/download/$dismap_Ver/$dismap_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f ${dismap_bin} && $Proxy_OK wget ${GitProxy}https://github.com/zhzyker/dismap/releases/download/$dismap_Ver/$dismap_bin > /dev/null 2>&1 || Echo_ERROR2
         mv --force $dismap_bin /usr/local/bin/dismap && chmod +x /usr/local/bin/dismap
         which dismap > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $dismap_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -2792,7 +2792,7 @@ Pentest_htpwdScan_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/lijiejie/htpwdScan.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/lijiejie/htpwdScan.git > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -2808,7 +2808,7 @@ Pentest_WebCrack_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/yzddmr6/WebCrack.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/yzddmr6/WebCrack.git > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -2833,7 +2833,7 @@ Pentest_netspy_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir /tmp/netspy && cd /tmp/netspy && $Porxy_OK wget ${GitPorxy}https://github.com/shmilylty/netspy/releases/download/$netspy_Ver/$netspy_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir /tmp/netspy && cd /tmp/netspy && $Proxy_OK wget ${GitProxy}https://github.com/shmilylty/netspy/releases/download/$netspy_Ver/$netspy_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $netspy_bin > /dev/null 2>&1
         mv --force $netspy_bin /usr/local/bin/netspy && chmod +x /usr/local/bin/netspy && rm -rf /tmp/netspy
         which netspy > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $netspy_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2869,11 +2869,11 @@ Pentest_Metasploit_Install(){
     then
         Echo_ALERT "$name installed , consider running 'msfupdate' to update to the latest version."
     else
-        if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+        if [ $GitProxy ==  ] 2>> /tmp/f8x_error.log
         then
             Rm_Lock
-            cd /tmp && rm -f msfinstall > /dev/null 2>&1 && $Porxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /dev/null 2>&1 && chmod 777 msfinstall
-            Echo_ALERT "Downloading Metasploit" && $Porxy_OK ./msfinstall > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+            cd /tmp && rm -f msfinstall > /dev/null 2>&1 && $Proxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /dev/null 2>&1 && chmod 777 msfinstall
+            Echo_ALERT "Downloading Metasploit" && $Proxy_OK ./msfinstall > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
             rm -f msfinstall > /dev/null 2>&1
         fi
     fi
@@ -2890,7 +2890,7 @@ Pentest_Sqlmap_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Echo_ALERT "Downloading Sqlmap" && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/sqlmapproject/sqlmap $dir > /dev/null 2>&1 || Echo_ERROR2
+        Echo_ALERT "Downloading Sqlmap" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/sqlmapproject/sqlmap $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && Echo_INFOR "Successfully installed $name $(python3 sqlmap.py --version) in the $P_Dir/sqlmap" || Echo_ERROR3
     fi
 
@@ -2917,7 +2917,7 @@ Pentest_xray_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/xray && cd /tmp/xray && rm -f $xray_File && $Porxy_OK wget ${GitPorxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/xray && cd /tmp/xray && rm -f $xray_File && $Proxy_OK wget ${GitProxy}https://github.com/chaitin/xray/releases/download/$xray_Ver/$xray_File > /dev/null 2>&1 || Echo_ERROR2
         unzip $xray_File > /dev/null 2>&1 && rm -f $xray_File && mv --force $xray_bin /usr/local/bin/xray && chmod +x /usr/local/bin/xray
         rm -rf /tmp/xray
         xray version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $xray_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -2930,7 +2930,7 @@ Pentest_xray_Install(){
     then
         Echo_ALERT "$name poc is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/chaitin/xray.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name poc in the $dir" || Echo_ERROR4 "chaitin/xray"
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/chaitin/xray.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name poc in the $dir" || Echo_ERROR4 "chaitin/xray"
     fi
 
 }
@@ -2970,15 +2970,15 @@ Pentest_Nuclei_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $Nuclei_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $Nuclei_Install > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/nuclei/releases/download/$Nuclei_Ver/$Nuclei_Install > /dev/null 2>&1 || Echo_ERROR2
         unzip $Nuclei_Install > /dev/null 2>&1
         mv --force nuclei /usr/local/bin/nuclei && chmod +x /usr/local/bin/nuclei && rm -f /tmp/$Nuclei_Install > /dev/null 2>&1
         which nuclei > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Nuclei_Ver in the /usr/local/bin/" || Echo_ERROR3
 
-        if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+        if [ $GitProxy ==  ] 2>> /tmp/f8x_error.log
         then
             echo -e "\033[1;33m\n>> Updating nuclei-templates\n\033[0m"
-            cd $P_Dir && $Porxy_OK nuclei -update-templates > /dev/null 2>&1 && Echo_INFOR "Updated nuclei-templates " || Echo_ERROR "nuclei-templates update failed"
+            cd $P_Dir && $Proxy_OK nuclei -update-templates > /dev/null 2>&1 && Echo_INFOR "Updated nuclei-templates " || Echo_ERROR "nuclei-templates update failed"
         fi
 
     fi
@@ -2995,7 +2995,7 @@ Pentest_w13scan_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/w-digital-scanner/w13scan.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/w-digital-scanner/w13scan.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
 
         Install_Switch4 "cowpy"
@@ -3014,7 +3014,7 @@ Pentest_commix_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/commixproject/commix.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/commixproject/commix.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         python3 commix.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3030,7 +3030,7 @@ Pentest_tplmap_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/epinna/tplmap.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/epinna/tplmap.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         python2 tplmap.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3047,7 +3047,7 @@ Pentest_OpenRedireX_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "aiohttp"
-        cd $P_Dir && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/No-Github/OpenRedireX.git > /dev/null 2>&1 && cd $dir && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/No-Github/OpenRedireX.git > /dev/null 2>&1 && cd $dir && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3062,7 +3062,7 @@ Pentest_CORScanner_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/chenjj/CORScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/chenjj/CORScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
         python3 cors_scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -3079,7 +3079,7 @@ Pentest_swagger-exp_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/lijiejie/swagger-exp.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/lijiejie/swagger-exp.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3095,7 +3095,7 @@ Pentest_swagger-hack_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "loguru"
-        cd $P_Dir && $Porxy_OK git clone ${GitPorxy}https://github.com/jayus0821/swagger-hack.git > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/jayus0821/swagger-hack.git > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $dir && python3 swagger-hack2.0.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3112,7 +3112,7 @@ Pentest_ysoserial_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        mkdir -p $dir && cd $_ && rm -f ysoserial.jar > /dev/null 2>&1 && $Porxy_OK wget -O ysoserial.jar ${GitPorxy2}https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p $dir && cd $_ && rm -f ysoserial.jar > /dev/null 2>&1 && $Proxy_OK wget -O ysoserial.jar ${GitProxy2}https://jitpack.io/com/github/frohoff/ysoserial/master-SNAPSHOT/ysoserial-master-SNAPSHOT.jar > /dev/null 2>&1 || Echo_ERROR2
         if test -e $dir/ysoserial.jar
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -3135,7 +3135,7 @@ Pentest_remote-method-guesser_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        mkdir -p $dir && cd $_ && rm -f rmg.jar > /dev/null 2>&1 && $Porxy_OK wget -O rmg.jar ${GitPorxy}https://github.com/qtc-de/remote-method-guesser/releases/download/$rmg_Ver/$rmg_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p $dir && cd $_ && rm -f rmg.jar > /dev/null 2>&1 && $Proxy_OK wget -O rmg.jar ${GitProxy}https://github.com/qtc-de/remote-method-guesser/releases/download/$rmg_Ver/$rmg_bin > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && java -jar rmg.jar --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3151,7 +3151,7 @@ Pentest_SSRFmap_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/swisskyrepo/SSRFmap.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/swisskyrepo/SSRFmap.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && python3 ssrfmap.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3201,7 +3201,7 @@ Pentest_dalfox_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $dalfox_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/hahwul/dalfox/releases/download/$dalfox_Ver/$dalfox_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $dalfox_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/hahwul/dalfox/releases/download/$dalfox_Ver/$dalfox_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $dalfox_bin > /dev/null 2>&1 && rm -f $dalfox_bin > /dev/null 2>&1
         mv dalfox /usr/local/bin/dalfox && chmod +x /usr/local/bin/dalfox && rm -f /tmp/$dalfox_bin > /dev/null 2>&1
         which dalfox > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $dalfox_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -3219,7 +3219,7 @@ Pentest_JNDI-Injection-Exploit_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        mkdir -p $dir && cd $_ && rm -f JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar > /dev/null 2>&1 && $Porxy_OK wget -O JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar ${GitPorxy}https://github.com/welk1n/JNDI-Injection-Exploit/releases/download/v1.0/JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p $dir && cd $_ && rm -f JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar > /dev/null 2>&1 && $Proxy_OK wget -O JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar ${GitProxy}https://github.com/welk1n/JNDI-Injection-Exploit/releases/download/v1.0/JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar > /dev/null 2>&1 || Echo_ERROR2
         if test -e $dir/JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -3240,7 +3240,7 @@ Pentest_Gopherus_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd $P_Dir && rm -rf Gopherus && $Porxy_OK git clone ${GitPorxy}https://github.com/tarunkant/Gopherus.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && rm -rf Gopherus && $Proxy_OK git clone ${GitProxy}https://github.com/tarunkant/Gopherus.git > /dev/null 2>&1 || Echo_ERROR2
         Install_Switch3 "argparse"
         Install_Switch3 "requests"
         cd Gopherus && chmod +x gopherus.py
@@ -3260,7 +3260,7 @@ Pentest_redis-rogue-server_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/Dliv3/redis-rogue-server.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/Dliv3/redis-rogue-server.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3276,7 +3276,7 @@ Pentest_redis-rogue-server-win_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/No-Github/redis-rogue-server-win.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/No-Github/redis-rogue-server-win.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3293,7 +3293,7 @@ Pentest_redis-rce_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "six"
-        rm -rf $dir && $Porxy_OK git clone ${GitPorxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        rm -rf $dir && $Proxy_OK git clone ${GitProxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rce.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cp $P_Dir/redis-rogue-server/exp.so $dir && Echo_INFOR "Copied exp.so to $dir"
     fi
@@ -3311,7 +3311,7 @@ Pentest_redis_lua_exploit_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch3 "redis"
-        $Porxy_OK git clone ${GitPorxy}https://github.com/QAX-A-Team/redis_lua_exploit.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/QAX-A-Team/redis_lua_exploit.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
     fi
 
 }
@@ -3326,7 +3326,7 @@ Pentest_shiro_rce_tool_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && rm -f shiro_tool.zip && $Porxy_OK wget -O shiro_tool.zip ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/shiro/shiro_tool.zip > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && rm -f shiro_tool.zip && $Proxy_OK wget -O shiro_tool.zip ${GitProxy2}https://raw.githubusercontent.com/No-Github/Archive/master/shiro/shiro_tool.zip > /dev/null 2>&1 || Echo_ERROR2
         unzip shiro_tool.zip > /dev/null 2>&1 && rm -f shiro_tool.zip && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3342,7 +3342,7 @@ Pentest_shiro-exploit_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 || Echo_ERROR2
         Install_Switch4 "pycryptodome"
         cd $dir && python3 shiro-exploit.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -3360,7 +3360,7 @@ Pentest_marshalsec_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         mkdir -p $dir && cd $_ && rm -f marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1
-        $Porxy_OK wget -O marshalsec-0.0.3-SNAPSHOT-all.jar ${GitPorxy}https://github.com/No-Github/marshalsec/releases/download/v0.0.3/marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1 || rm marshalsec-0.0.3-SNAPSHOT-all.jar
+        $Proxy_OK wget -O marshalsec-0.0.3-SNAPSHOT-all.jar ${GitProxy}https://github.com/No-Github/marshalsec/releases/download/v0.0.3/marshalsec-0.0.3-SNAPSHOT-all.jar > /dev/null 2>&1 || rm marshalsec-0.0.3-SNAPSHOT-all.jar
         if test -e $dir/marshalsec-0.0.3-SNAPSHOT-all.jar
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -3382,7 +3382,7 @@ Pentest_ysomap_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         mkdir -p $dir && cd $_ && rm -f $ysomap_bin > /dev/null 2>&1
-        $Porxy_OK wget -O $ysomap_bin ${GitPorxy}https://github.com/wh1t3p1g/ysomap/releases/download/$ysomap_Ver/$ysomap_bin > /dev/null 2>&1 || rm $ysomap_bin
+        $Proxy_OK wget -O $ysomap_bin ${GitProxy}https://github.com/wh1t3p1g/ysomap/releases/download/$ysomap_Ver/$ysomap_bin > /dev/null 2>&1 || rm $ysomap_bin
         if test -e $dir/$ysomap_bin
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -3412,7 +3412,7 @@ Pentest_CDK_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f ${cdk_bin} && $Porxy_OK wget ${GitPorxy}https://github.com/cdk-team/CDK/releases/download/$cdk_Ver/$cdk_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f ${cdk_bin} && $Proxy_OK wget ${GitProxy}https://github.com/cdk-team/CDK/releases/download/$cdk_Ver/$cdk_bin > /dev/null 2>&1 || Echo_ERROR2
         mv --force $cdk_bin /usr/local/bin/cdk && chmod +x /usr/local/bin/cdk
         which cdk > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $cdk_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -3430,7 +3430,7 @@ Pentest_JNDIExploit_0x727_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         mkdir -p $dir && cd $_
-        $Porxy_OK wget -O $JNDIExploit_bin ${GitPorxy}https://github.com/0x727/JNDIExploit/releases/download/$JNDIExploit_Ver/$JNDIExploit_bin > /dev/null 2>&1 || rm $JNDIExploit_bin
+        $Proxy_OK wget -O $JNDIExploit_bin ${GitProxy}https://github.com/0x727/JNDIExploit/releases/download/$JNDIExploit_Ver/$JNDIExploit_bin > /dev/null 2>&1 || rm $JNDIExploit_bin
         unzip $JNDIExploit_bin > /dev/null 2>&1 && rm -f $JNDIExploit_bin
         if test -e $dir/JNDIExploit-1.3-SNAPSHOT.jar
         then
@@ -3453,7 +3453,7 @@ Pentest_JNDIExploit_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         mkdir -p $dir && cd $_ && rm -rf $JNDIExploit_dir > /dev/null 2>&1
-        $Porxy_OK wget -O $JNDIExploit_bin ${GitPorxy}https://github.com/feihong-cs/JNDIExploit/releases/download/$JNDIExploit_Ver/$JNDIExploit_bin > /dev/null 2>&1 || rm $JNDIExploit_bin
+        $Proxy_OK wget -O $JNDIExploit_bin ${GitProxy}https://github.com/feihong-cs/JNDIExploit/releases/download/$JNDIExploit_Ver/$JNDIExploit_bin > /dev/null 2>&1 || rm $JNDIExploit_bin
         unzip $JNDIExploit_bin > /dev/null 2>&1 && rm -f $JNDIExploit_bin
         if test -e $dir/JNDIExploit-1.2-SNAPSHOT.jar
         then
@@ -3475,7 +3475,7 @@ Pentest_Impacket_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/SecureAuthCorp/impacket.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/SecureAuthCorp/impacket.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && pip3 install . > /dev/null 2>&1
         python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -3493,7 +3493,7 @@ Pentest_CobaltStrike_Install(){
     then
         Echo_ALERT "$CS_Version is already installed in $P_Dir/$CS_Version"
     else
-        cd $P_Dir && rm -f $CS_File > /dev/null 2>&1 && $Porxy_OK wget -O $CS_File ${GitPorxy2}https://raw.githubusercontent.com/No-Github/Archive/master/CS/$CS_File > /dev/null 2>&1 || Echo_ERROR "$CS_File download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        cd $P_Dir && rm -f $CS_File > /dev/null 2>&1 && $Proxy_OK wget -O $CS_File ${GitProxy2}https://raw.githubusercontent.com/No-Github/Archive/master/CS/$CS_File > /dev/null 2>&1 || Echo_ERROR "$CS_File download failed, please check if the network is reachable, proxychains4 configuration is correct"
         rm -rf $CS_Version > /dev/null 2>&1 && unzip $CS_File > /dev/null 2>&1 && rm -f $CS_File > /dev/null 2>&1
         cd $P_Dir/$CS_Version && chmod +x teamserver > /dev/null 2>&1
         rm -f cobaltstrike.store > /dev/null 2>&1
@@ -3506,7 +3506,7 @@ Pentest_CobaltStrike_Install(){
     then
         Echo_ALERT "genCrossC2.Linux file already exists "
     else
-        cd $P_Dir/$CS_Version && $Porxy_OK wget ${GitPorxy}https://github.com/gloxec/CrossC2/releases/download/$CrossC2_Ver/genCrossC2.Linux > /dev/null 2>&1 && Echo_INFOR "Downloaded CrossC2 in the $P_Dir/$CS_Version/genCrossC2.Linux " || Echo_ERROR "CrossC2 installation failed"
+        cd $P_Dir/$CS_Version && $Proxy_OK wget ${GitProxy}https://github.com/gloxec/CrossC2/releases/download/$CrossC2_Ver/genCrossC2.Linux > /dev/null 2>&1 && Echo_INFOR "Downloaded CrossC2 in the $P_Dir/$CS_Version/genCrossC2.Linux " || Echo_ERROR "CrossC2 installation failed"
         chmod +x genCrossC2.Linux > /dev/null 2>&1
     fi
 
@@ -3532,7 +3532,7 @@ Pentest_Responder_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "netifaces"
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/lgandx/Responder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/lgandx/Responder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         python3 Responder.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 }
@@ -3547,7 +3547,7 @@ Pentest_krbrelayx_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/dirkjanm/krbrelayx.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        $Proxy_OK git clone ${GitProxy}https://github.com/dirkjanm/krbrelayx.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3572,7 +3572,7 @@ Pentest_bettercap_Install(){
         Echo_ALERT "$name installed"
     else
 
-        mkdir /tmp/bettercap && cd /tmp/bettercap && rm -f $bettercap_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/bettercap/bettercap/releases/download/$bettercap_Ver/$bettercap_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir /tmp/bettercap && cd /tmp/bettercap && rm -f $bettercap_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/bettercap/bettercap/releases/download/$bettercap_Ver/$bettercap_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $bettercap_bin > /dev/null 2>&1
         mv --force bettercap /usr/local/bin/bettercap && chmod +x /usr/local/bin/bettercap
         rm -rf /tmp/bettercap
@@ -3601,9 +3601,9 @@ Pentest_mitmproxy_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        if [ $GitPorxy ==  ]
+        if [ $GitProxy ==  ]
         then
-            cd /tmp && rm -f $mitmproxy_bin > /dev/null 2>&1 && $Porxy_OK wget -O $mitmproxy_bin https://snapshots.mitmproxy.org/$mitmproxy_Ver/$mitmproxy_bin > /dev/null 2>&1 || Echo_ERROR2
+            cd /tmp && rm -f $mitmproxy_bin > /dev/null 2>&1 && $Proxy_OK wget -O $mitmproxy_bin https://snapshots.mitmproxy.org/$mitmproxy_Ver/$mitmproxy_bin > /dev/null 2>&1 || Echo_ERROR2
             tar -zxvf $mitmproxy_bin > /dev/null 2>&1
             mv --force mitmproxy /usr/local/bin/ && chmod +x /usr/local/bin/mitmproxy && rm -f /tmp/$mitmproxy_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $mitmproxy_Ver in the /usr/local/bin/" || Echo_ERROR3
             mv --force mitmdump /usr/local/bin/ && chmod +x /usr/local/bin/mitmdump && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR "mitmdump installation failed"
@@ -3655,7 +3655,7 @@ Pentest_Neo-reGeorg_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/L-codes/Neo-reGeorg.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/L-codes/Neo-reGeorg.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -3673,7 +3673,7 @@ Pentest_hashcat_Install(){
         name="hashcat"
         rm -rf /usr/sbin/hashcat
         rm -rf $P_Dir/hashcat-6.2.*
-        $Porxy_OK wget -O $P_Dir/${hashcat_Version}.7z ${GitPorxy2}https://hashcat.net/files/${hashcat_Version}.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "Downloaded ${hashcat_Version}" || Echo_ERROR2
+        $Proxy_OK wget -O $P_Dir/${hashcat_Version}.7z ${GitProxy2}https://hashcat.net/files/${hashcat_Version}.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "Downloaded ${hashcat_Version}" || Echo_ERROR2
         7za x $P_Dir/${hashcat_Version}.7z -o$P_Dir > /dev/null 2>&1
         rm -f $P_Dir/${hashcat_Version}.7z > /dev/null 2>&1
         cd $P_Dir/hashcat* > /dev/null 2>&1 && chmod +x hashcat.bin && cp hashcat.bin hashcat
@@ -3686,7 +3686,7 @@ Pentest_hashcat_Install(){
         Echo_ALERT "7z2hashcat is already installed in $P_Dir"
     else
         name="7z2hashcat"
-        $Porxy_OK curl -o $P_Dir/7z2hashcat.pl ${GitPorxy}https://raw.githubusercontent.com/philsmd/7z2hashcat/master/7z2hashcat.pl > /dev/null 2>&1 && Echo_INFOR "Downloaded 7z2hashcat.pl in the $P_Dir" || Echo_ERROR2
+        $Proxy_OK curl -o $P_Dir/7z2hashcat.pl ${GitProxy}https://raw.githubusercontent.com/philsmd/7z2hashcat/master/7z2hashcat.pl > /dev/null 2>&1 && Echo_INFOR "Downloaded 7z2hashcat.pl in the $P_Dir" || Echo_ERROR2
 
     fi
 
@@ -3717,7 +3717,7 @@ Pentest_jadx_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /usr/local/jadx && cd /usr/local/jadx && rm -f $jadx_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/skylot/jadx/releases/download/$jadx_Ver/$jadx_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /usr/local/jadx && cd /usr/local/jadx && rm -f $jadx_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/skylot/jadx/releases/download/$jadx_Ver/$jadx_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $jadx_bin > /dev/null 2>&1
         chmod +x /usr/local/jadx/bin/jadx && ln -s /usr/local/jadx/bin/jadx /usr/local/bin/jadx && rm -f /usr/local/$jadx_bin > /dev/null 2>&1
         which jadx > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $jadx_Ver in the /usr/local/jadx/" || Echo_ERROR3
@@ -3773,7 +3773,7 @@ Pentest_Platypus_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/Platypus && cd /tmp/Platypus && rm -f ${Platypus_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/WangYihang/Platypus/releases/download/${Platypus_Ver}/${Platypus_bin} > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/Platypus && cd /tmp/Platypus && rm -f ${Platypus_bin} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/WangYihang/Platypus/releases/download/${Platypus_Ver}/${Platypus_bin} > /dev/null 2>&1 || Echo_ERROR2
         mv ${Platypus_bin} /usr/local/bin/Platypus && chmod +x /usr/local/bin/Platypus
         rm -rf /tmp/Platypus
         which Platypus > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name ${Platypus_Ver} in the /usr/local/bin/" || Echo_ERROR3
@@ -3800,7 +3800,7 @@ Pentest_mapcidr_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $mapcidr_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/mapcidr/releases/download/$mapcidr_Ver/$mapcidr_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $mapcidr_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/mapcidr/releases/download/$mapcidr_Ver/$mapcidr_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $mapcidr_bin > /dev/null 2>&1
         mv --force mapcidr /usr/local/bin/mapcidr && chmod +x /usr/local/bin/mapcidr && rm -f /tmp/$mapcidr_bin > /dev/null 2>&1
         mapcidr -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $mapcidr_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -3827,7 +3827,7 @@ Pentest_nali_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f nali-linux-* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/zu1k/nali/releases/download/$nali_Ver/$nali_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f nali-linux-* > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/zu1k/nali/releases/download/$nali_Ver/$nali_bin > /dev/null 2>&1 || Echo_ERROR2
         gunzip $nali_bin > /dev/null 2>&1 && rm -f $nali_bin > /dev/null 2>&1
         mv nali-linux-* /usr/local/bin/nali && chmod +x /usr/local/bin/nali && rm -f $nali_bin > /dev/null 2>&1
         which nali > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $nali_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -3854,7 +3854,7 @@ Pentest_anew_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/anew && cd /tmp/anew && rm -f ${anew_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/No-Github/anew/releases/download/$anew_Ver/$anew_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/anew && cd /tmp/anew && rm -f ${anew_bin} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/No-Github/anew/releases/download/$anew_Ver/$anew_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -xzvf ${anew_bin} > /dev/null
         mv anew /usr/local/bin/anew && chmod +x /usr/local/bin/anew
         rm -rf /tmp/anew
@@ -3882,7 +3882,7 @@ Pentest_gron_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/gron && cd /tmp/gron && rm -f ${gron_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/tomnomnom/gron/releases/download/${gron_Ver}/${gron_bin} > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/gron && cd /tmp/gron && rm -f ${gron_bin} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/tomnomnom/gron/releases/download/${gron_Ver}/${gron_bin} > /dev/null 2>&1 || Echo_ERROR2
         tar -xzvf ${gron_bin} > /dev/null 2>&1
         mv /tmp/gron/gron /usr/local/bin/gron && chmod +x /usr/local/bin/gron
         rm -rf /tmp/gron
@@ -3903,7 +3903,7 @@ Pentest_unfurl_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                mkdir -p /tmp/unfurl && cd /tmp/unfurl && rm -f ${unfurl_Bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/tomnomnom/unfurl/releases/download/${unfurl_Ver}/${unfurl_Bin} > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/unfurl && cd /tmp/unfurl && rm -f ${unfurl_Bin} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/tomnomnom/unfurl/releases/download/${unfurl_Ver}/${unfurl_Bin} > /dev/null 2>&1 || Echo_ERROR2
                 tar -xzvf ${unfurl_Bin} > /dev/null 2>&1
                 mv /tmp/unfurl/unfurl /usr/local/bin/unfurl && chmod +x /usr/local/bin/unfurl
                 rm -rf /tmp/unfurl
@@ -3932,7 +3932,7 @@ Pentest_qsreplace_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                mkdir -p /tmp/qsreplace && cd /tmp/qsreplace && rm -f ${qsreplace_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/tomnomnom/qsreplace/releases/download/${qsreplace_Ver}/${qsreplace_bin} > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/qsreplace && cd /tmp/qsreplace && rm -f ${qsreplace_bin} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/tomnomnom/qsreplace/releases/download/${qsreplace_Ver}/${qsreplace_bin} > /dev/null 2>&1 || Echo_ERROR2
                 tar -xzvf ${qsreplace_bin} > /dev/null 2>&1
                 mv /tmp/qsreplace/qsreplace /usr/local/bin/qsreplace && chmod +x /usr/local/bin/qsreplace
                 rm -rf /tmp/qsreplace
@@ -3960,8 +3960,8 @@ Pentest_Interlace_Install(){
         Echo_ALERT "$name installed"
     else
         cd /tmp && rm -rf Interlace
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/codingo/Interlace.git > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd Interlace && $Porxy_OK python3 setup.py install > /dev/null 2>&1
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/codingo/Interlace.git > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        cd Interlace && $Proxy_OK python3 setup.py install > /dev/null 2>&1
         which interlace > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
         rm -rf /tmp/Interlace
     fi
@@ -3987,7 +3987,7 @@ Pentest_sttr_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $sttr_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/abhimanyu003/sttr/releases/download/$sttr_Ver/$sttr_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $sttr_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/abhimanyu003/sttr/releases/download/$sttr_Ver/$sttr_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $sttr_bin > /dev/null 2>&1
         mv --force sttr /usr/local/bin/ && chmod +x /usr/local/bin/sttr && rm -f /tmp/$sttr_bin > /dev/null 2>&1
         which sttr > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $sttr_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -4005,7 +4005,7 @@ Pentest_jwtcat_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone ${GitPorxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK git clone ${GitProxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 -m pip install -r requirements.txt > /dev/null 2>&1
         python3 jwtcat.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -4024,7 +4024,7 @@ Pentest_gojwtcrack_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                cd /tmp && rm -f ${gojwtcrack_bin} > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/x1sec/gojwtcrack/releases/download/${gojwtcrack_Ver}/${gojwtcrack_bin} > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp && rm -f ${gojwtcrack_bin} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/x1sec/gojwtcrack/releases/download/${gojwtcrack_Ver}/${gojwtcrack_bin} > /dev/null 2>&1 || Echo_ERROR2
                 gunzip ${gojwtcrack_bin} && rm -rf ${gojwtcrack_bin}
                 mv gojwtcrack-linux-* /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack
                 which gojwtcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name ${gojwtcrack_Ver} in the /usr/local/bin/" || Echo_ERROR3
@@ -4051,7 +4051,7 @@ Pentest_DomainSplit_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        mkdir -p $dir && cd $_ && rm -f DomainSplit.jar > /dev/null 2>&1 && $Porxy_OK wget -O DomainSplit.jar ${GitPorxy}https://github.com/ffffffff0x/DomainSplit/releases/download/$DomainSplit_Ver/DomainSplit.jar > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p $dir && cd $_ && rm -f DomainSplit.jar > /dev/null 2>&1 && $Proxy_OK wget -O DomainSplit.jar ${GitProxy}https://github.com/ffffffff0x/DomainSplit/releases/download/$DomainSplit_Ver/DomainSplit.jar > /dev/null 2>&1 || Echo_ERROR2
         if test -e $dir/DomainSplit.jar
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -4082,7 +4082,7 @@ Pentest_proxify_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $proxify_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/projectdiscovery/proxify/releases/download/$proxify_Ver/$proxify_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $proxify_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/proxify/releases/download/$proxify_Ver/$proxify_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $proxify_bin > /dev/null 2>&1
         mv --force proxify /usr/local/bin/proxify && chmod +x /usr/local/bin/proxify && rm -f /tmp/$proxify_bin > /dev/null 2>&1
         proxify -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $proxify_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -4100,7 +4100,7 @@ Pentest_SecLists_Install(){
     then
         Echo_ALERT "$name dictionary already exists"
     else
-        rm -rf $P_Dir/$name > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/danielmiessler/SecLists.git $P_Dir/$name > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $P_Dir/$name" || Echo_ERROR "Failed to download the $name dictionary from github"
+        rm -rf $P_Dir/$name > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/danielmiessler/SecLists.git $P_Dir/$name > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $P_Dir/$name" || Echo_ERROR "Failed to download the $name dictionary from github"
     fi
 
 }
@@ -4118,7 +4118,7 @@ Pentest_jaeles_Install(){
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
                 mkdir -p /tmp/jaeles
-                cd /tmp/jaeles && rm -f $jaeles_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/jaeles-project/jaeles/releases/download/$jaeles_Ver/$jaeles_bin > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp/jaeles && rm -f $jaeles_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/jaeles-project/jaeles/releases/download/$jaeles_Ver/$jaeles_bin > /dev/null 2>&1 || Echo_ERROR2
                 unzip $jaeles_bin > /dev/null 2>&1
                 mv $jaeles_sbin /usr/local/bin/jaeles && chmod +x /usr/local/bin/jaeles
                 rm -rf /tmp/jaeles
@@ -4154,7 +4154,7 @@ Pentest_Girsh_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $Girsh_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/nodauf/Girsh/releases/download/$Girsh_Ver/$Girsh_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $Girsh_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/nodauf/Girsh/releases/download/$Girsh_Ver/$Girsh_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $Girsh_bin > /dev/null 2>&1
         mv --force Girsh /usr/local/bin/ && chmod +x /usr/local/bin/Girsh && rm -f /tmp/$Girsh_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Girsh_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -4171,7 +4171,7 @@ Pentest_See-SURF_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/In3tinct/See-SURF.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/In3tinct/See-SURF.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $dir && python3 see-surf.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -4190,7 +4190,7 @@ Pentest_subjs_Install(){
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
                 mkdir -p /tmp/subjs
-                cd /tmp/subjs && rm -f $subjs_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/lc/subjs/releases/download/$subjs_Ver/$subjs_bin > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp/subjs && rm -f $subjs_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/lc/subjs/releases/download/$subjs_Ver/$subjs_bin > /dev/null 2>&1 || Echo_ERROR2
                 tar -zxvf $subjs_bin > /dev/null 2>&1
                 mv subjs /usr/local/bin/subjs && chmod +x /usr/local/bin/subjs
                 rm -rf /tmp/subjs
@@ -4220,7 +4220,7 @@ Pentest_assetfinder_Install(){
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
                 mkdir -p /tmp/assetfinder
-                cd /tmp/assetfinder && rm -f $assetfinder_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/tomnomnom/assetfinder/releases/download/$assetfinder_Ver/$assetfinder_bin > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp/assetfinder && rm -f $assetfinder_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/tomnomnom/assetfinder/releases/download/$assetfinder_Ver/$assetfinder_bin > /dev/null 2>&1 || Echo_ERROR2
                 tar -xzvf $assetfinder_bin > /dev/null 2>&1
                 mv assetfinder /usr/local/bin/assetfinder && chmod +x /usr/local/bin/assetfinder
                 rm -rf /tmp/assetfinder
@@ -4251,7 +4251,7 @@ Pentest_hakrawler_Install(){
     else
         Echo_INFOR "Local compilation and installation, if the compilation timeout, please deal with it yourself"
         cd /tmp && rm -rf hakrawler
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/hakluke/hakrawler.git > /dev/null 2>&1 && cd hakrawler || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/hakluke/hakrawler.git > /dev/null 2>&1 && cd hakrawler || Echo_ERROR2
         go build hakrawler.go
         mv hakrawler /usr/local/bin/hakrawler && chmod +x /usr/local/bin/hakrawler && rm -rf /tmp/hakrawler
         which hakrawler > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
@@ -4269,12 +4269,12 @@ Pentest_routersploit_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/threat9/routersploit.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/threat9/routersploit.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         Echo_ALERT "Installing dependency modules" && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
 
-                if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+                if [ $GitProxy ==  ] 2>> /tmp/f8x_error.log
                 then
                     Echo_ALERT "Installing Bluetooth Low Energy support"
                     Rm_Lock
@@ -4300,7 +4300,7 @@ Pentest_exploitdb_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/offensive-security/exploitdb.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/offensive-security/exploitdb.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -4318,14 +4318,14 @@ Pentest_RustScan_Install(){
     else
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                if [ $GitPorxy ==  ]
+                if [ $GitProxy ==  ]
                 then
                     rm -f /var/cache/dnf/metadata_lock.pid > /dev/null 2>&1
-                    $Porxy_OK dnf install -y 'dnf-command(copr)' > /dev/null 2>&1 && $Porxy_OK dnf copr enable atim/rustscan -y > /dev/null 2>&1 && $Porxy_OK dnf install -y rustscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                    $Proxy_OK dnf install -y 'dnf-command(copr)' > /dev/null 2>&1 && $Proxy_OK dnf copr enable atim/rustscan -y > /dev/null 2>&1 && $Proxy_OK dnf install -y rustscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 fi
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                cd /tmp && rm -f $RustScan_Install > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || Echo_ERROR2
+                cd /tmp && rm -f $RustScan_Install > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || Echo_ERROR2
                 dpkg -i $RustScan_Install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 rm -f $RustScan_Install > /dev/null 2>&1
                 ;;
@@ -4349,7 +4349,7 @@ Pentest_WAFW00F_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        rm -rf $dir && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/EnableSecurity/wafw00f $dir > /dev/null 2>&1 || Echo_ERROR2
+        rm -rf $dir && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/EnableSecurity/wafw00f $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
 
@@ -4366,7 +4366,7 @@ Pentest_WebAliveScan_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/broken5/WebAliveScan.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/broken5/WebAliveScan.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
         pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Installed dependency modules" || ( Echo_ERROR "Failed to install dependency module" && rm -rf $P_Dir/WebAliveScan )
         Install_Switch4 "gevent"
         python3 webscan.py --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
@@ -4385,7 +4385,7 @@ Pentest_MassBleed_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/1N3/MassBleed.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/1N3/MassBleed.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
     fi
 
 }
@@ -4401,7 +4401,7 @@ Pentest_jmet_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        mkdir -p $dir && cd $_ && rm -f ysoserial.jar > /dev/null 2>&1 && $Porxy_OK wget -O jmet.jar ${GitPorxy2}https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p $dir && cd $_ && rm -f ysoserial.jar > /dev/null 2>&1 && $Proxy_OK wget -O jmet.jar ${GitProxy2}https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar > /dev/null 2>&1 || Echo_ERROR2
         if test -e $dir/jmet.jar
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -4417,7 +4417,7 @@ unyaffs_Install(){
 
     name="unyaffs"
 
-    cd $T_Dir && rm -f unyaffs > /dev/null 2>&1 && $Porxy_OK wget -O unyaffs ${GitPorxy2}https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unyaffs/unyaffs > /dev/null 2>&1 || Echo_ERROR2
+    cd $T_Dir && rm -f unyaffs > /dev/null 2>&1 && $Proxy_OK wget -O unyaffs ${GitProxy2}https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/unyaffs/unyaffs > /dev/null 2>&1 || Echo_ERROR2
     mv --force unyaffs /usr/local/bin/unyaffs && chmod +x /usr/local/bin/unyaffs && Echo_INFOR "Successfully installed $name 在 /usr/local/bin/" || Echo_ERROR3
 
 }
@@ -4449,7 +4449,7 @@ Secure_chkrootkit_Install(){
     then
         Echo_ALERT "$name is already installed in $T_Dir/"
     else
-        cd $T_Dir && rm -f chkrootkit.tar.gz > /dev/null 2>&1 && $Porxy_OK wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        cd $T_Dir && rm -f chkrootkit.tar.gz > /dev/null 2>&1 && $Proxy_OK wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         tar zxvf chkrootkit.tar.gz > /dev/null 2>&1 && rm -f chkrootkit.tar.gz > /dev/null 2>&1
         cd chkrootkit-* && make sense > /dev/null 2>&1
         Echo_INFOR "Successfully installed $name in the $T_Dir" || Echo_ERROR3
@@ -4482,7 +4482,7 @@ Secure_shellpub_Install(){
     then
         Echo_ALERT "$name is already installed in $T_Dir/hm"
     else
-        mkdir -p $T_Dir/hm && cd $_ && $Porxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 > /dev/null 2>&1 && Echo_INFOR "Downloaded shellpub" || Echo_ERROR2
+        mkdir -p $T_Dir/hm && cd $_ && $Proxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 > /dev/null 2>&1 && Echo_INFOR "Downloaded shellpub" || Echo_ERROR2
         tar zxvf hm-linux.tgz > /dev/null 2>&1 && rm -f hm-linux.tgz > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $T_Dir/hm" || Echo_ERROR3
     fi
 
@@ -4497,7 +4497,7 @@ Secure_anti_portscan_Install(){
     then
         Echo_ALERT "$name is already installed in $T_Dir/anti-portscan"
     else
-        cd $T_Dir && rm -f anti-portscan > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/EtherDream/anti-portscan.git > /dev/null 2>&1 && Echo_INFOR "Downloaded anti-portscan in the $T_Dir/anti-portscan" || Echo_ERROR2
+        cd $T_Dir && rm -f anti-portscan > /dev/null 2>&1 && $Proxy_OK git clone ${GitProxy}https://github.com/EtherDream/anti-portscan.git > /dev/null 2>&1 && Echo_INFOR "Downloaded anti-portscan in the $T_Dir/anti-portscan" || Echo_ERROR2
     fi
 
 }
@@ -4523,7 +4523,7 @@ Secure_BruteShark_Install(){
                 ;;
             *) ;;
         esac
-        mkdir -p $T_Dir/BruteShark && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/odedshimon/BruteShark/releases/latest/download/BruteSharkCli > /dev/null 2>&1 && chmod +x BruteSharkCli && Echo_INFOR "Downloaded $name in the $dir " || Echo_ERROR2
+        mkdir -p $T_Dir/BruteShark && cd $_ && $Proxy_OK wget ${GitProxy}https://github.com/odedshimon/BruteShark/releases/latest/download/BruteSharkCli > /dev/null 2>&1 && chmod +x BruteSharkCli && Echo_INFOR "Downloaded $name in the $dir " || Echo_ERROR2
         find /usr/lib/x86_64-linux-gnu -type f | grep libpcap | head -1 | xargs -i sudo ln -s {} /usr/lib/x86_64-linux-gnu/libpcap.so > /dev/null 2>&1
     fi
 
@@ -4548,7 +4548,7 @@ Secure_fapro_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $fapro_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fofapro/fapro/releases/download/$fapro_Ver/$fapro_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $fapro_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/fofapro/fapro/releases/download/$fapro_Ver/$fapro_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $fapro_bin > /dev/null 2>&1
         mv --force fapro /usr/local/bin/ && chmod +x /usr/local/bin/fapro && rm -f /tmp/$fapro_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fapro_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -4564,7 +4564,7 @@ Bash_Insulter(){
     then
         Echo_ALERT "$name is already installed in /etc/bash.command-not-found"
     else
-        rm -rf $T_Dir/bash-insulter > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/No-Github/bash-insulter.git $T_Dir/bash-insulter > /dev/null 2>&1 || Echo_ERROR2
+        rm -rf $T_Dir/bash-insulter > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/No-Github/bash-insulter.git $T_Dir/bash-insulter > /dev/null 2>&1 || Echo_ERROR2
         mv --force $T_Dir/bash-insulter/src/bash.command-not-found /etc/ && rm -rf $T_Dir/bash-insulter > /dev/null 2>&1
         chmod 777 /etc/bash.command-not-found && Echo_INFOR ":)"
 
@@ -4590,7 +4590,7 @@ vlmcsd_Install(){
     then
         Echo_ALERT "$name is already installed in $T_Dir/vlmcsd"
     else
-        cd $T_Dir && rm -f binaries.tar.gz > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/Wind4/vlmcsd/releases/download/svn1113/binaries.tar.gz > /dev/null 2>&1 || Echo_ERROR2
+        cd $T_Dir && rm -f binaries.tar.gz > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/Wind4/vlmcsd/releases/download/svn1113/binaries.tar.gz > /dev/null 2>&1 || Echo_ERROR2
         tar -xzvf binaries.tar.gz > /dev/null 2>&1
         mv --force binaries vlmcsd && rm -f binaries.tar.gz > /dev/null 2>&1 && Echo_INFOR "$name is already installed in $T_Dir/vlmcsd, the vlmcsd service can be run with the following command:\ncd $T_Dir/vlmcsd/Linux/intel/static && ./vlmcsd-x86-musl-static"
     fi
@@ -4615,7 +4615,7 @@ AdGuardHome_Install(){
     then
         Echo_ALERT "AdGuardHome is already installed in $T_Dir/AdGuardHome"
     else
-        cd $T_Dir && rm -f $AdGuardHome_File > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/AdguardTeam/AdGuardHome/releases/download/$AdGuardHome_Version/$AdGuardHome_File > /dev/null 2>&1 || Echo_ERROR2
+        cd $T_Dir && rm -f $AdGuardHome_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/AdguardTeam/AdGuardHome/releases/download/$AdGuardHome_Version/$AdGuardHome_File > /dev/null 2>&1 || Echo_ERROR2
         tar -xzvf $AdGuardHome_File > /dev/null 2>&1 && rm -f $AdGuardHome_File > /dev/null 2>&1
         cd AdGuardHome && Echo_INFOR "Successfully installed $name $AdGuardHome_Version , run the following command to enable the AdGuardHome service\n\033[0m\033[1;32mcd $T_Dir/AdGuardHome && ./AdGuardHome -s install" || Echo_ERROR3
     fi
@@ -4671,7 +4671,7 @@ fzf_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $fzf_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/junegunn/fzf/releases/download/$fzf_Ver/$fzf_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $fzf_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/junegunn/fzf/releases/download/$fzf_Ver/$fzf_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $fzf_bin > /dev/null 2>&1 && mv fzf /usr/local/bin/fzf && chmod +x /usr/local/bin/fzf && rm -f $fzf_bin > /dev/null 2>&1
         fzf --version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
@@ -4697,7 +4697,7 @@ lux_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f $lux_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/iawia002/lux/releases/download/$lux_Ver/$lux_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd /tmp && rm -f $lux_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/iawia002/lux/releases/download/$lux_Ver/$lux_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $lux_bin > /dev/null 2>&1
         mv --force lux /usr/local/bin/lux && chmod +x /usr/local/bin/lux && rm -f $lux_bin > /dev/null 2>&1
         lux -v > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $lux_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -4773,7 +4773,7 @@ filebrowser_Install(){
     then
         Echo_ALERT "$name installed, Run the following command to turn on the service:"
     else
-        cd /tmp && $Porxy_OK curl -o install.sh https://raw.githubusercontent.com/filebrowser/get/master/get.sh > /dev/null 2>&1 && $Porxy_OK bash install.sh > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name, Run the following command to turn on the service:" || Echo_ERROR2
+        cd /tmp && $Proxy_OK curl -o install.sh https://raw.githubusercontent.com/filebrowser/get/master/get.sh > /dev/null 2>&1 && $Proxy_OK bash install.sh > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name, Run the following command to turn on the service:" || Echo_ERROR2
     fi
 
     Echo_INFOR "filebrowser -a [Listening IP] -r [Folder path]" && Echo_INFOR "Default account password admin"
@@ -4790,7 +4790,7 @@ starship_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f install.sh > /dev/null 2>&1 && $Porxy_OK curl -o install.sh https://starship.rs/install.sh > /dev/null 2>&1 && $Porxy_OK bash install.sh && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
+        cd /tmp && rm -f install.sh > /dev/null 2>&1 && $Proxy_OK curl -o install.sh https://starship.rs/install.sh > /dev/null 2>&1 && $Proxy_OK bash install.sh && Echo_INFOR "Successfully installed $name" || Echo_ERROR2
         rm -f /tmp/install.sh > /dev/null 2>&1
     fi
 
@@ -4819,7 +4819,7 @@ ttyd_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        $Porxy_OK wget -O /usr/local/bin/ttyd ${GitPorxy}https://github.com/tsl0922/ttyd/releases/download/$ttyd_Ver/$ttyd_bin > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK wget -O /usr/local/bin/ttyd ${GitProxy}https://github.com/tsl0922/ttyd/releases/download/$ttyd_Ver/$ttyd_bin > /dev/null 2>&1 || Echo_ERROR2
         chmod +x /usr/local/bin/ttyd
         which ttyd > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $ttyd_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -4848,7 +4848,7 @@ duf_Install(){
                         ;;
                 esac
 
-                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/dufinstall && cd $_ && $Proxy_OK wget ${GitProxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin1 > /dev/null 2>&1 || Echo_ERROR2
                 rpm -i $duf_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $duf_Ver" || Echo_ERROR3
                 rm -rf /tmp/dufinstall
                 ;;
@@ -4863,7 +4863,7 @@ duf_Install(){
                         ;;
                 esac
 
-                mkdir -p /tmp/dufinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/dufinstall && cd $_ && $Proxy_OK wget ${GitProxy}https://github.com/muesli/duf/releases/download/$duf_Ver/$duf_bin2 > /dev/null 2>&1 || Echo_ERROR2
                 dpkg -i $duf_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $duf_Ver" || Echo_ERROR3
                 rm -rf /tmp/dufinstall
                 ;;
@@ -4884,7 +4884,7 @@ procs_Install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/procsinstall && cd $_
-        $Porxy_OK wget ${GitPorxy}https://github.com/dalance/procs/releases/download/$procs_Ver/$procs_bin > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK wget ${GitProxy}https://github.com/dalance/procs/releases/download/$procs_Ver/$procs_bin > /dev/null 2>&1 || Echo_ERROR2
         unzip $procs_bin > /dev/null 2>&1
         mv --force procs /usr/local/bin/procs && chmod +x /usr/local/bin/procs
         which procs > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $procs_Ver in the /usr/local/bin/" || Echo_ERROR3
@@ -4958,7 +4958,7 @@ bat_Install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/batinstall && cd $_
-        $Porxy_OK wget ${GitPorxy}https://github.com/sharkdp/bat/releases/download/$bat_Ver/$bat_bin > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK wget ${GitProxy}https://github.com/sharkdp/bat/releases/download/$bat_Ver/$bat_bin > /dev/null 2>&1 || Echo_ERROR2
         dpkg -i $bat_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $bat_Ver" || Echo_ERROR3
         rm -rf /tmp/batinstall
     fi
@@ -4985,13 +4985,14 @@ fd_Install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/fdinstall && cd $_
-        $Porxy_OK wget ${GitPorxy}https://github.com/sharkdp/fd/releases/download/$fd_Ver/$fd_bin > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK wget ${GitProxy}https://github.com/sharkdp/fd/releases/download/$fd_Ver/$fd_bin > /dev/null 2>&1 || Echo_ERROR2
         dpkg -i $fd_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fd_Ver" || Echo_ERROR3
         rm -rf /tmp/fdinstall
     fi
 
 }
 
+# -code
 # ===================== Install code-server =====================
 code-server_Install(){
 
@@ -5013,7 +5014,7 @@ code-server_Install(){
                         ;;
                 esac
 
-                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/code-serverinstall && cd $_ && $Proxy_OK wget ${GitProxy}https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin1 -q --show-progress || Echo_ERROR2
                 rpm -i $code_server_bin1 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/code-serverinstall
                 # sudo systemctl enable --now code-server@$USER
@@ -5029,7 +5030,7 @@ code-server_Install(){
                         ;;
                 esac
 
-                mkdir -p /tmp/code-serverinstall && cd $_ && $Porxy_OK wget ${GitPorxy}https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 > /dev/null 2>&1 || Echo_ERROR2
+                mkdir -p /tmp/code-serverinstall && cd $_ && $Proxy_OK wget ${GitProxy}https://github.com/cdr/code-server/releases/download/$code_server_Ver/$code_server_bin2 -q --show-progress || Echo_ERROR2
                 dpkg -i $code_server_bin2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $code_server_Ver" || Echo_ERROR3
                 rm -rf /tmp/code-serverinstall
                 # sudo systemctl enable --now code-server@$USER
@@ -5049,7 +5050,7 @@ wait-for_Install(){
     then
         Echo_ALERT "$name is already installed in $T_Dir"
     else
-        $Porxy_OK curl -o $T_Dir/wait-for ${GitPorxy}https://raw.githubusercontent.com/eficode/wait-for/master/wait-for > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $T_Dir" || Echo_ERROR2
+        $Proxy_OK curl -o $T_Dir/wait-for ${GitProxy}https://raw.githubusercontent.com/eficode/wait-for/master/wait-for > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $T_Dir" || Echo_ERROR2
     fi
 
 }
@@ -5097,7 +5098,7 @@ Volatility_Install(){
                 Install_Switch3 "yara-python"
                 ln -s /usr/local/lib/python2.7/dist-packages/usr/lib/libyara.so /usr/lib/libyara.so > /dev/null 2>&1
 
-                $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+                $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/volatilityfoundation/volatility.git $P_Dir/volatility > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
                 cd $P_Dir/volatility && python setup.py build > /dev/null 2>&1 || Echo_ERROR "Failed to install dependency module"
                 python setup.py install > /dev/null 2>&1 || Echo_ERROR "Failed to install dependency module"
                 python vol.py --info > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $P_Dir/volatility" || Echo_ERROR3
@@ -5117,7 +5118,7 @@ volatility3_Install(){
     then
         Echo_ALERT "$name is already installed in $P_Dir/volatility3"
     else
-        $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/volatilityfoundation/volatility3.git $P_Dir/volatility3 > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/volatilityfoundation/volatility3.git $P_Dir/volatility3 > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $P_Dir/volatility3 && python3 setup.py build > /dev/null 2>&1 || Echo_ERROR "Failed to install dependency module"
         python3 setup.py install > /dev/null 2>&1 || Echo_ERROR "Failed to install dependency module"
         python3 vol.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $P_Dir/volatility3" || Echo_ERROR3
@@ -5137,9 +5138,9 @@ volatility3_Install(){
         Echo_INFOR "mv --force /tmp/linux.zip $P_Dir/volatility3/symbols"
 
         # echo -e "\033[1;33m\n>> Downloading Symbol Tables \n\033[0m"
-        # cd /tmp && $Porxy_OK wget https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip > /dev/null 2>&1
-        # $Porxy_OK wget https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip > /dev/null 2>&1
-        # $Porxy_OK wget https://downloads.volatilityfoundation.org/volatility3/symbols/linux.zip > /dev/null 2>&1
+        # cd /tmp && $Proxy_OK wget https://downloads.volatilityfoundation.org/volatility3/symbols/windows.zip > /dev/null 2>&1
+        # $Proxy_OK wget https://downloads.volatilityfoundation.org/volatility3/symbols/mac.zip > /dev/null 2>&1
+        # $Proxy_OK wget https://downloads.volatilityfoundation.org/volatility3/symbols/linux.zip > /dev/null 2>&1
         # mkdir -p $P_Dir/volatility3/symbols
         # mv --force /tmp/windows.zip $P_Dir/volatility3/symbols && Echo_INFOR "Downloaded windows Symbol Tables in the $P_Dir/volatility3/symbols " || Echo_ERROR "windows Symbol Tables download failed"
         # mv --force /tmp/mac.zip $P_Dir/volatility3/symbols && Echo_INFOR "Downloaded mac Symbol Tables in the $P_Dir/volatility3/symbols " || Echo_ERROR "windows Symbol Tables download failed"
@@ -5176,8 +5177,8 @@ binwalk_Install(){
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Echo_ALERT "Installing binwalk"
-                cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/ReFirmLabs/binwalk.git > /dev/null 2>&1 && cd binwalk  > /dev/null 2>&1 || Echo_ERROR2
-                $Porxy_OK sudo ./deps.sh && python setup.py uninstall > /dev/null 2>&1 && python setup.py install > /dev/null 2>&1
+                cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ReFirmLabs/binwalk.git > /dev/null 2>&1 && cd binwalk  > /dev/null 2>&1 || Echo_ERROR2
+                $Proxy_OK sudo ./deps.sh && python setup.py uninstall > /dev/null 2>&1 && python setup.py install > /dev/null 2>&1
                 binwalk -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" && touch /tmp/f8x_binwalk.txt > /dev/null 2>&1 || Echo_ERROR "binwalk installation failed, recommended to use -binwalk-force for installation"
                 echo -e "\033[1;33m\n>> Installing unyaffs\n\033[0m"
                 unyaffs_Install
@@ -5246,31 +5247,31 @@ binwalk_force_Install(){
                 # sasquatch
                 name="sasquatch"
                 echo -e "\033[1;33m\n>> Installing sasquatch\n\033[0m"
-                cd $T_Dir && rm -rf sasquatch > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/devttys0/sasquatch > /dev/null 2>&1 && cd sasquatch || Echo_ERROR2
-                $Porxy_OK ./build.sh > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                cd $T_Dir && rm -rf sasquatch > /dev/null 2>&1 && $Proxy_OK git clone ${GitProxy}https://github.com/devttys0/sasquatch > /dev/null 2>&1 && cd sasquatch || Echo_ERROR2
+                $Proxy_OK ./build.sh > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
 
                 # jefferson
                 name="jefferson"
                 echo -e "\033[1;33m\n>> Installing jefferson\n\033[0m"
-                cd $T_Dir && rm -rf jefferson > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/sviehb/jefferson > /dev/null 2>&1 && cd jefferson || Echo_ERROR2
-                $Porxy_OK python setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                cd $T_Dir && rm -rf jefferson > /dev/null 2>&1 && $Proxy_OK git clone ${GitProxy}https://github.com/sviehb/jefferson > /dev/null 2>&1 && cd jefferson || Echo_ERROR2
+                $Proxy_OK python setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
 
                 # ubi_reader
                 name="ubi_reader"
                 echo -e "\033[1;33m\n>> Installing ubi_reader\n\033[0m"
-                cd $T_Dir && rm -rf ubi_reader > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/jrspruitt/ubi_reader > /dev/null 2>&1 && cd ubi_reader || Echo_ERROR2
-                $Porxy_OK python setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                cd $T_Dir && rm -rf ubi_reader > /dev/null 2>&1 && $Proxy_OK git clone ${GitProxy}https://github.com/jrspruitt/ubi_reader > /dev/null 2>&1 && cd ubi_reader || Echo_ERROR2
+                $Proxy_OK python setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
 
                 # yaffshiv
                 name="yaffshiv"
                 echo -e "\033[1;33m\n>> Installing yaffshiv\n\033[0m"
-                cd $T_Dir && rm -rf yaffshiv > /dev/null 2>&1 && $Porxy_OK git clone ${GitPorxy}https://github.com/devttys0/yaffshiv > /dev/null 2>&1 && cd yaffshiv || Echo_ERROR2
-                $Porxy_OK python setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                cd $T_Dir && rm -rf yaffshiv > /dev/null 2>&1 && $Proxy_OK git clone ${GitProxy}https://github.com/devttys0/yaffshiv > /dev/null 2>&1 && cd yaffshiv || Echo_ERROR2
+                $Proxy_OK python setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
 
                 # unstuff
                 name="unstuff"
                 echo -e "\033[1;33m\n>> Installing unstuff\n\033[0m"
-                cd $T_Dir && $Porxy_OK curl -o stuffit520.611linux-i386.tar.gz http://downloads.tuxfamily.org/sdtraces/stuffit520.611linux-i386.tar.gz > /dev/null 2>&1 | tar -zxvf stuffit520.611linux-i386.tar.gz > /dev/null 2>&1
+                cd $T_Dir && $Proxy_OK curl -o stuffit520.611linux-i386.tar.gz http://downloads.tuxfamily.org/sdtraces/stuffit520.611linux-i386.tar.gz > /dev/null 2>&1 | tar -zxvf stuffit520.611linux-i386.tar.gz > /dev/null 2>&1
                 mv --force bin/unstuff /usr/local/bin/ && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
 
                 # unyaffs
@@ -5281,7 +5282,7 @@ binwalk_force_Install(){
                 # binwalk
                 name="binwalk"
                 echo -e "\033[1;33m\n>> Installing binwalk\n\033[0m"
-                cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/ReFirmLabs/binwalk > /dev/null 2>&1 && cd binwalk || Echo_ERROR2
+                cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ReFirmLabs/binwalk > /dev/null 2>&1 && cd binwalk || Echo_ERROR2
 
                 python3 setup.py install > /dev/null 2>&1
 
@@ -5311,12 +5312,12 @@ clamav_Install(){
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
                 Install_Switch "clamav"
                 Install_Switch "clamav-update"
-                $Porxy_OK freshclam
+                $Proxy_OK freshclam
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Install_Switch "clamav"
                 systemctl stop clamav-freshclam.service
-                $Porxy_OK freshclam -v
+                $Proxy_OK freshclam -v
                 ;;
             *) ;;
         esac
@@ -5359,8 +5360,8 @@ Python2_Install(){
             Install_Switch3 "setuptools"
             case $Linux_Version_Num in
                 "16.04")
-                    cd /tmp && rm -rf get-pip.py && $Porxy_OK wget https://bootstrap.pypa.io/pip/2.7/get-pip.py > /dev/null 2>&1
-                    $Porxy_OK python2 get-pip.py > /dev/null 2>&1 && rm -rf get-pip.py
+                    cd /tmp && rm -rf get-pip.py && $Proxy_OK wget https://bootstrap.pypa.io/pip/2.7/get-pip.py > /dev/null 2>&1
+                    $Proxy_OK python2 get-pip.py > /dev/null 2>&1 && rm -rf get-pip.py
                     ;;
             esac
             ;;
@@ -5372,11 +5373,11 @@ Python2_Install(){
 # -pip2-force
 pip2_Install(){
 
-    if [ $GitPorxy ==  ] 2>> /tmp/f8x_error.log
+    if [ $GitProxy ==  ] 2>> /tmp/f8x_error.log
     then
         echo -e "\033[1;33m\n>> Installing pip2\n\033[0m"
-        cd $T_Dir && $Porxy_OK curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py > /dev/null 2>&1 || Echo_ERROR "https://bootstrap.pypa.io/get-pip.py download failed, please check if the network is reachable, proxychains4 configuration is correct"
-        $Porxy_OK python2 get-pip.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed python-pip" || Echo_ERROR "python-pip installation failed"
+        cd $T_Dir && $Proxy_OK curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py > /dev/null 2>&1 || Echo_ERROR "https://bootstrap.pypa.io/get-pip.py download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        $Proxy_OK python2 get-pip.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed python-pip" || Echo_ERROR "python-pip installation failed"
         rm -f get-pip.py > /dev/null 2>&1
 
         Install_Switch3 "setuptools"
@@ -5401,7 +5402,7 @@ Ruby_Install_f(){
     name="ruby"
 
     echo -e "\033[1;33m\n>> Installing Ruby\n\033[0m"
-    cd $T_Dir && rm -f $Ruby_bin > /dev/null 2>&1 && $Porxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/$Ruby_bin > /dev/null 2>&1 || Echo_ERROR2
+    cd $T_Dir && rm -f $Ruby_bin > /dev/null 2>&1 && $Proxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/$Ruby_bin -q --show-progress || Echo_ERROR2
     tar xvfvz $Ruby_bin > /dev/null 2>&1
     cd $Ruby_Dir && ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $(ruby -v) in the /usr/local/bin/" || Echo_ERROR3
     rm -f $T_Dir/$Ruby_bin
@@ -5414,7 +5415,7 @@ Rust_Install(){
     name="rust"
 
     echo -e "\033[1;33m\n>> Installing rust\n\033[0m"
-    $Porxy_OK curl https://sh.rustup.rs -sSf | $Porxy_OK sh
+    $Proxy_OK curl https://sh.rustup.rs -sSf | $Proxy_OK sh
 
 }
 
@@ -5489,7 +5490,7 @@ chromium_Install(){
 
     echo -e "\033[1;33m\n>> Installing chromium (~120M)\n\033[0m"
 
-    cd $T_Dir && rm -rf chrome-linux* > /dev/null 2>&1 && $Porxy_OK wget https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/$chromium_Ver/chrome-linux.zip > /dev/null 2>&1
+    cd $T_Dir && rm -rf chrome-linux* > /dev/null 2>&1 && $Proxy_OK wget https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/$chromium_Ver/chrome-linux.zip -q --show-progress || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
 
     unzip chrome-linux.zip > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $T_Dir/chrome-linux " || Echo_ERROR3
     rm -f chrome-linux.zip > /dev/null 2>&1
@@ -5530,7 +5531,7 @@ phantomjs_Install(){
         esac
 
         echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
-        mkdir /tmp/phantomjs && cd $_ && rm -rf $phantomjs_bin > /dev/null 2>&1 && $Porxy_OK wget https://bitbucket.org/ariya/phantomjs/downloads/$phantomjs_bin > /dev/null 2>&1
+        mkdir /tmp/phantomjs && cd $_ && rm -rf $phantomjs_bin > /dev/null 2>&1 && $Proxy_OK wget https://bitbucket.org/ariya/phantomjs/downloads/$phantomjs_bin > /dev/null 2>&1
         tar -xvf $phantomjs_bin > /dev/null 2>&1
         mv $phantomjs_dir/bin/phantomjs /usr/local/bin/phantomjs && chmod +x /usr/local/bin/phantomjs && rm -rf /tmp/phantomjs
         which phantomjs > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
@@ -5587,7 +5588,7 @@ Oraclejdk_Install(){
     else
         echo -e "\033[1;33m\n>> Installing Java environment(oraclejdk8)\n\033[0m"
 
-        cd $T_Dir && rm -f $orclejdk_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy2}https://github.com/No-Github/Archive/releases/download/$orclejdk_tmp_ver/$orclejdk_bin -q --show-progress || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        cd $T_Dir && rm -f $orclejdk_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy2}https://github.com/No-Github/Archive/releases/download/$orclejdk_tmp_ver/$orclejdk_bin -q --show-progress || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
 
         tar -xzvf $orclejdk_bin > /dev/null 2>&1
         rm -rf /usr/local/java/ > /dev/null 2>&1 && mkdir -p /usr/local/java/
@@ -5643,7 +5644,7 @@ Oraclejdk11_Install(){
     else
         echo -e "\033[1;33m\n>> Installing Java environment(oraclejdk11)\n\033[0m"
 
-        cd $T_Dir && rm -f $orclejdk11_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy2}https://github.com/No-Github/Archive/releases/download/$orclejdk_tmp_ver/$orclejdk11_bin -q --show-progress || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        cd $T_Dir && rm -f $orclejdk11_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy2}https://github.com/No-Github/Archive/releases/download/$orclejdk_tmp_ver/$orclejdk11_bin -q --show-progress || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
 
         tar -xzvf $orclejdk11_bin > /dev/null 2>&1
         # rm -rf /usr/local/java/ > /dev/null 2>&1
@@ -5699,7 +5700,7 @@ jenv_Install(){
         then
             Echo_ALERT "$name is already installed in $dir"
         else
-            $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/jenv/jenv.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed jenv, environment variables may need to be re-entered in bash to take effect\nexport PATH=\"$T_Dir/.jenv/bin:\$PATH\"\neval \"\$(jenv init -)\"" || Echo_ERROR2
+            $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/jenv/jenv.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed jenv, environment variables may need to be re-entered in bash to take effect\nexport PATH=\"$T_Dir/.jenv/bin:\$PATH\"\neval \"\$(jenv init -)\"" || Echo_ERROR2
 
             case $Linux_Version in
                 *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
@@ -5753,7 +5754,7 @@ lua_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/lua && cd /tmp/lua && rm -rf ${lua_bin} && $Porxy_OK curl -R -O http://www.lua.org/ftp/$lua_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded $lua_bin" || Echo_ERROR "$lua_bin download failed"
+        mkdir -p /tmp/lua && cd /tmp/lua && rm -rf ${lua_bin} && $Proxy_OK curl -R -O http://www.lua.org/ftp/$lua_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded $lua_bin" || Echo_ERROR "$lua_bin download failed"
         tar -zxvf ${lua_bin} > /dev/null 2>&1 && cd ${lua_dir}
         make linux test && make install && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
         rm -rf /tmp/lua
@@ -5767,7 +5768,7 @@ lua_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/luajit && cd /tmp/luajit && rm -rf luajit && $Porxy_OK git clone --depth 1 ${GitPorxy}https://luajit.org/git/luajit.git
+        mkdir -p /tmp/luajit && cd /tmp/luajit && rm -rf luajit && $Proxy_OK git clone --depth 1 ${GitProxy}https://luajit.org/git/luajit.git
         cd luajit && make && make install
         Echo_INFOR "Please link by output information"
         rm -rf /tmp/luajit
@@ -5785,7 +5786,7 @@ Perl_Install(){
 
     name="perl"
 
-    echo -e "\033[1;33m\n>> Installing $name(Pay attention to the installation options, if the installation does not respond for a long time, please press enter a few times, and after the installation is complete, you need to exit manually.)\n\033[0m" && cd $T_Dir && $Porxy_OK sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) --activate-default ActiveState/ActivePerl-5.28
+    echo -e "\033[1;33m\n>> Installing $name(Pay attention to the installation options, if the installation does not respond for a long time, please press enter a few times, and after the installation is complete, you need to exit manually.)\n\033[0m" && cd $T_Dir && $Proxy_OK sh <(curl -q https://platform.activestate.com/dl/cli/install.sh) --activate-default ActiveState/ActivePerl-5.28
 
 }
 
@@ -5810,7 +5811,7 @@ nn_Install(){
     then
         Echo_ALERT "nodejs && npm installed"
     else
-        cd /tmp && $Porxy_OK wget https://nodejs.org/dist/$node_Ver/$node_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded $node_bin " || Echo_ERROR "$node_bin download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        cd /tmp && $Proxy_OK wget https://nodejs.org/dist/$node_Ver/$node_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded $node_bin " || Echo_ERROR "$node_bin download failed, please check if the network is reachable, proxychains4 configuration is correct"
         mkdir /usr/local/nodejs/ && tar -C /usr/local/nodejs -xvJf $node_bin > /dev/null 2>&1 && rm $node_bin
         ln -s /usr/local/nodejs/$node_Dir/bin/node /usr/local/bin/node && Echo_INFOR "Successfully installed nodejs" || Echo_ERROR "nodejs installation failed"
         ln -s /usr/local/nodejs/$node_Dir/bin/npm /usr/local/bin/npm && Echo_INFOR "Successfully installed npm" || Echo_ERROR "npm installation failed"
@@ -5835,7 +5836,7 @@ vulhub_Install(){
     name="vulhub"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    cd $P_Dir && rm -rf vulhub > /dev/null 2>&1 && Echo_ALERT "Downloading vulhub" && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/vulhub/vulhub > /dev/null 2>&1 || Echo_ERROR2
+    cd $P_Dir && rm -rf vulhub > /dev/null 2>&1 && Echo_ALERT "Downloading vulhub" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/vulhub/vulhub > /dev/null 2>&1 || Echo_ERROR2
     cd vulhub && Echo_INFOR "Downloaded vulhub in the $P_Dir/vulhub" || Echo_ERROR3
 
 }
@@ -5874,7 +5875,7 @@ Goby_Install(){
         esac
 
         Echo_ALERT "Downloading Goby(~120M)"
-        cd $P_Dir && mkdir -p $P_Dir/goby > /dev/null 2>&1 && $Porxy_OK wget https://cn.gobies.org/$goby_File > /dev/null 2>&1 || Echo_ERROR "$goby_File download failed"
+        cd $P_Dir && mkdir -p $P_Dir/goby > /dev/null 2>&1 && $Proxy_OK wget https://cn.gobies.org/$goby_File > /dev/null 2>&1 || Echo_ERROR "$goby_File download failed"
         unzip $goby_File -d $P_Dir/goby > /dev/null 2>&1 && rm -f $goby_File && Echo_INFOR "Goby $goby_Ver in the $P_Dir/goby, Please run through the following command:\ncd $P_Dir/goby/goby* && ./goby (Graphical interface required)" || Echo_ERROR3
     fi
 
@@ -5913,7 +5914,7 @@ mobsf_Install(){
     name="MobSF"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    docker pull opensecurity/mobile-security-framework-mobsf && Echo_INFOR "Pulled the latest MobSF image, Please run through the following command:\n$Porxy_OK docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest\n\n-browser access：http://127.0.0.1:8000/" || Echo_ERROR3
+    docker pull opensecurity/mobile-security-framework-mobsf && Echo_INFOR "Pulled the latest MobSF image, Please run through the following command:\n$Proxy_OK docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest\n\n-browser access：http://127.0.0.1:8000/" || Echo_ERROR3
 
 }
 
@@ -5979,7 +5980,7 @@ arl_Install(){
 
     docker pull tophant/arl && Echo_INFOR "Pulled the latest ARL image" || Echo_ERROR3
 
-    cd $P_Dir && rm -rf ARL > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/TophantTechnology/ARL > /dev/null 2>&1 || Echo_ERROR4 "TophantTechnology/ARL"
+    cd $P_Dir && rm -rf ARL > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/TophantTechnology/ARL > /dev/null 2>&1 || Echo_ERROR4 "TophantTechnology/ARL"
     Echo_INFOR "Please run through the following command:\n cd $P_Dir/ARL/docker/ && docker-compose up -d , Default port 5003, default username password : admin/arlpass"
 
 }
@@ -5992,9 +5993,9 @@ music_Install(){
 
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    Echo_ALERT "Installing npx module" && $Porxy_OK npm install npx -g > /dev/null 2>&1 && Echo_INFOR "npx module installed successfully" || Echo_ERROR "npx module installation failed"
-    cd $T_Dir && rm -rf UnblockNeteaseMusic > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/nondanee/UnblockNeteaseMusic > /dev/null 2>&1 || Echo_ERROR4 "nondanee/UnblockNeteaseMusic"
-    cd UnblockNeteaseMusic && $Porxy_OK npm install && Echo_INFOR "After installation, run the following command to start the service:\n\033[0m\033[1;32mcd $T_Dir/UnblockNeteaseMusic && npx @nondanee/unblockneteasemusic\n" || Echo_ERROR3
+    Echo_ALERT "Installing npx module" && $Proxy_OK npm install npx -g > /dev/null 2>&1 && Echo_INFOR "npx module installed successfully" || Echo_ERROR "npx module installation failed"
+    cd $T_Dir && rm -rf UnblockNeteaseMusic > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/nondanee/UnblockNeteaseMusic > /dev/null 2>&1 || Echo_ERROR4 "nondanee/UnblockNeteaseMusic"
+    cd UnblockNeteaseMusic && $Proxy_OK npm install && Echo_INFOR "After installation, run the following command to start the service:\n\033[0m\033[1;32mcd $T_Dir/UnblockNeteaseMusic && npx @nondanee/unblockneteasemusic\n" || Echo_ERROR3
 
 }
 
@@ -6025,7 +6026,7 @@ nginx_Install(){
             *) ;;
         esac
 
-        cd /tmp && rm -f $nginx_bin > /dev/null 2>&1 && $Porxy_OK wget -O $nginx_bin https://nginx.org/download/$nginx_bin > /dev/null 2>&1 || Echo_ERROR "$nginx_bin download failed"
+        cd /tmp && rm -f $nginx_bin > /dev/null 2>&1 && $Proxy_OK wget -O $nginx_bin https://nginx.org/download/$nginx_bin > /dev/null 2>&1 || Echo_ERROR "$nginx_bin download failed"
         tar -zxvf $nginx_bin > /dev/null 2>&1 && rm -f $nginx_bin > /dev/null 2>&1 && cd nginx-*
         ./configure && make && make install && Echo_INFOR "Compile successfully" || Echo_ERROR "Compile failure"
         mv --force /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && chmod +x /usr/local/bin/nginx && nginx -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name , the configuration file is located in /usr/local/nginx/conf/" || Echo_ERROR3
@@ -6045,7 +6046,7 @@ aircrack_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && rm -rf aircrack-ng > /dev/null 2>&1 && $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/aircrack-ng/aircrack-ng.git > /dev/null 2>&1 && cd $dir || Echo_ERROR4 "aircrack-ng/aircrack-ng"
+        cd $P_Dir && rm -rf aircrack-ng > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/aircrack-ng/aircrack-ng.git > /dev/null 2>&1 && cd $dir || Echo_ERROR4 "aircrack-ng/aircrack-ng"
 
         Rm_Lock
         case $Linux_Version in
@@ -6215,7 +6216,7 @@ frp_Install(){
     name="frp"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    mkdir -p /tmp/frp && cd /tmp/frp && rm -rf frp* > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/fatedier/frp/releases/download/$frp_Ver/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File download failed"
+    mkdir -p /tmp/frp && cd /tmp/frp && rm -rf frp* > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/fatedier/frp/releases/download/$frp_Ver/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File download failed"
     tar -zxvf $frp_File > /dev/null 2>&1
     cd $frp_Dir && Echo_INFOR "frp is already installed in $T_Dir/$frp_Dir" || Echo_ERROR3
     rm -rf /tmp/frp > /dev/null 2>&1
@@ -6241,7 +6242,7 @@ nps_Install(){
     then
         Echo_INFOR "nps is already installed in $T_Dir/nps"
     else
-        mkdir -p $T_Dir/nps && cd $T_Dir/nps && $Porxy_OK wget ${GitPorxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_File > /dev/null 2>&1 || Echo_ERROR "$nps_File download failed"
+        mkdir -p $T_Dir/nps && cd $T_Dir/nps && $Proxy_OK wget ${GitProxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_File > /dev/null 2>&1 || Echo_ERROR "$nps_File download failed"
         tar -zxvf $nps_File > /dev/null 2>&1
         rm -f $T_Dir/nps/$nps_File > /dev/null 2>&1 && chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
         $T_Dir/nps/nps -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $nps_Ver in the $T_Dir/nps" || Echo_ERROR3
@@ -6260,7 +6261,7 @@ yakit_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f yak_linux_amd64 && $Porxy_OK wget ${GitPorxy}https://yaklang.oss-cn-beijing.aliyuncs.com/yak/latest/yak_linux_amd64 -q --show-progress || Echo_ERROR2
+        cd /tmp && rm -f yak_linux_amd64 && $Proxy_OK wget ${GitProxy}https://yaklang.oss-cn-beijing.aliyuncs.com/yak/latest/yak_linux_amd64 -q --show-progress || Echo_ERROR2
         mv --force yak_linux_amd64 /usr/local/bin/yak && chmod +x /usr/local/bin/yak
         which yak > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -6337,11 +6338,11 @@ zsh_Install(){
 
     Echo_INFOR "Configuring Oh My Zsh"
 
-    if [ $Porxy_OK == proxychains4 ] 2>> /tmp/f8x_error.log
+    if [ $Proxy_OK == proxychains4 ] 2>> /tmp/f8x_error.log
     then
-        $Porxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/zsh/install.sh > /dev/null 2>&1
-        $Porxy_OK bash install.sh
-        $Porxy_OK exec zsh -l
+        $Proxy_OK wget https://raw.githubusercontent.com/No-Github/Archive/master/zsh/install.sh > /dev/null 2>&1
+        $Proxy_OK bash install.sh
+        $Proxy_OK exec zsh -l
     else
         wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh > /dev/null 2>&1
         Echo_INFOR "Please exit the subshell environment manually when you see ➜ ~ to continue the installation"
@@ -6351,10 +6352,10 @@ zsh_Install(){
 
     cat ~/.zshrc | sed "s/robbyrussell/agnoster/" >> ~/.zshrc
 
-    $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
     cat ~/.zshrc | sed "s/git/git zsh-syntax-highlighting/" >> ~/.zshrc
 
-    $Porxy_OK git clone --depth 1 ${GitPorxy}https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+    $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
     echo 'source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh' >>~/.zshrc
 
     echo -e "\033[1;33m\n>> Do you need to configure powerlevel10k theme [Y/n,Default Y] \033[0m" && read -r input
@@ -6363,7 +6364,7 @@ zsh_Install(){
             Echo_INFOR "Pass~"
             ;;
         *)
-            $Porxy_OK git clone --depth 1 ${GitPorxy}--depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+            $Proxy_OK git clone --depth 1 ${GitProxy}--depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
             echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
             Echo_ALERT "If you don't need it, you can delete the last few lines of powerlevel10k in ~/.zshrc file"
             ;;
@@ -6821,7 +6822,7 @@ clash_Install(){
         # https://github.com/juewuy/ShellClash
         export tmp_url='https://cdn.jsdelivr.net/gh/juewuy/ShellClash@master' && sh -c "$(curl -kfsSl $tmp_url/install.sh)" && source /etc/profile &> /dev/null
         Echo_INFOR "如果提示找不到 clash 命令,请输入 source /etc/profile &> /dev/null && clash"
-        # cd /tmp && rm -f $clash_bin > /dev/null 2>&1 && $Porxy_OK wget ${GitPorxy}https://github.com/Dreamacro/clash/releases/download/$clash_Ver/$clash_bin > /dev/null 2>&1 || Echo_ERROR "$clash_bin download failed"
+        # cd /tmp && rm -f $clash_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/Dreamacro/clash/releases/download/$clash_Ver/$clash_bin > /dev/null 2>&1 || Echo_ERROR "$clash_bin download failed"
         # gunzip $clash_bin && mv --force clash-linux-amd64-v1.4.2 /usr/local/bin/clash && chmod +x /usr/local/bin/clash
         # clash -v > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
@@ -6852,7 +6853,7 @@ jq_Install(){
         Echo_ALERT "$name installed"
     else
 
-        mkdir -p /tmp/jq && cd /tmp/jq && rm -rf ${jq_bin} && rm -rf ${jq_dir} && $Porxy_OK wget -O ${jq_bin} ${GitPorxy}https://github.com/stedolan/jq/releases/download/${jq_ver}/${jq_bin} > /dev/null 2>&1 || Echo_ERROR "${jq_bin} download failed"
+        mkdir -p /tmp/jq && cd /tmp/jq && rm -rf ${jq_bin} && rm -rf ${jq_dir} && $Proxy_OK wget -O ${jq_bin} ${GitProxy}https://github.com/stedolan/jq/releases/download/${jq_ver}/${jq_bin} > /dev/null 2>&1 || Echo_ERROR "${jq_bin} download failed"
         unzip ${jq_bin} > /dev/null 2>&1
         cd ${jq_dir} && ./configure --prefix=/usr/local && make && make install
         ls -s /opt/jq/${jq_dir}/jq /usr/local/bin/jq
@@ -7452,13 +7453,13 @@ do
             ;;
         -d | d)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Dev_Tools
             ;;
         -k | k)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Py_Check
             GO_Check
@@ -7466,48 +7467,48 @@ do
             ;;
         -ka | ka)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Py_Check
             kali_Tools "a"
             ;;
         -kb | kb)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Py_Check
             kali_Tools "b"
             ;;
         -kc | kc)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Py_Check
             kali_Tools "c"
             ;;
         -kd | kd)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Py_Check
             kali_Tools "d"
             ;;
         -ke | ke)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Py_Check
             kali_Tools "e"
             ;;
         -s | s)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Secure
             ;;
         -f | f)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             pip3_Check
             Fun_Tools
@@ -7518,7 +7519,7 @@ do
             ;;
         -cloud)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             cloud
             ;;
@@ -7533,31 +7534,31 @@ do
             ;;
         -lua)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             lua_Install
             ;;
         -nn)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             nn_Install
             ;;
         -openjdk)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Openjdk_Install
             ;;
         -oraclejdk)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Oraclejdk_Install
             ;;
         -oraclejdk11)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Oraclejdk11_Install
             ;;
@@ -7567,19 +7568,19 @@ do
             ;;
         -py37 | py37)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Python3_Install "py37"
             ;;
         -py38 | py38)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Python3_Install "py38"
             ;;
         -py39 | py39)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Python3_Install "py39"
             ;;
@@ -7589,176 +7590,176 @@ do
             ;;
         -pip2-f)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             pip2_Install
             ;;
         -perl)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Perl_Install
             ;;
         -ruby)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Ruby_Install
             ;;
         -ruby-f)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Ruby_Install_f
             ;;
         -rust)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Rust_Install
             ;;
         -code)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             code-server_Install
             ;;
         -chromium)
             mac_Check || exit 1
             linux_arm64_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             chromium_Install
             ;;
         -phantomjs)
             mac_Check || exit 1
             linux_arm64_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             phantomjs_Install
             ;;
         -binwalk)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             binwalk_Install
             ;;
         -binwalk-f)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             binwalk_force_Install
             ;;
         -clamav)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             clamav_Install
             ;;
         -vol)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             pip2_Check
             Volatility_Install
             ;;
         -vol3)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             pip3_Check
             volatility3_Install
             ;;
         -lt)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             lt_Install
             ;;
         -aircrack)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             aircrack_Install
             ;;
         -bypass)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Py_Check
             bypass_Install
             ;;
         -cs)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             cs_Install
             ;;
         -frp)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             frp_Install
             ;;
         -goby)
             mac_Check || exit 1
             linux_arm64_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             Goby_Install
             ;;
         -nps)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             nps_Install
             ;;
         -yakit)
             mac_Check || exit 1
             linux_arm64_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             yakit_Install
             ;;
         -suricata)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             suricata_Install
             ;;
         -arl)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Pentest_Base_Install
             arl_Install
             ;;
         -awvs14)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             awvs14_Install
             ;;
         -mobsf)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             mobsf_Install
             ;;
         -nodejsscan)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             nodejsscan_Install
             ;;
         -viper)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             viper_Install
             ;;
         -vulhub)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             vulhub_Install
             ;;
         -vulfocus)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             vulfocus_Install
             ;;
         -asciinema)
@@ -7777,13 +7778,13 @@ do
             ;;
         -music)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             music_Install
             ;;
         -nginx)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             nginx_Install
             ;;
@@ -7799,7 +7800,7 @@ do
             ;;
         -zsh)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             pip3_Check
             zsh_Install
@@ -7838,19 +7839,19 @@ do
             ;;
         -update)
             mac_Check || exit 1
-            Porxy_Switch
+            Proxy_Switch
             if test -e /usr/local/bin/f8x
             then
-                rm -f /usr/local/bin/f8x && $Porxy_OK curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
+                rm -f /usr/local/bin/f8x && $Proxy_OK curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
             else
-                rm -f f8x && $Porxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
+                rm -f f8x && $Proxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
             fi
             ;;
         -debug)
             mac_Check || exit 1
             Base_Check
             Pentest_Base_Install
-            Porxy_Switch
+            Proxy_Switch
             Debug_Fun
             ;;
         *)
