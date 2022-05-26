@@ -415,7 +415,7 @@ tomcat6_src_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $T_Dir && rm -rf $tomcat6_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/$tomcat6_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd $T_Dir && rm -rf $tomcat6_bin && $Proxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.53/bin/$tomcat6_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat6_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat6_bin
 
     fi
@@ -440,7 +440,7 @@ tomcat7_src_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $T_Dir && rm -rf $tomcat7_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/$tomcat7_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd $T_Dir && rm -rf $tomcat7_bin && $Proxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/$tomcat7_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat7_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat7_bin
     fi
 
@@ -464,7 +464,7 @@ tomcat8_src_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $T_Dir && rm -rf $tomcat8_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.68/bin/$tomcat8_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd $T_Dir && rm -rf $tomcat8_bin && $Proxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.68/bin/$tomcat8_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat8_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat8_bin
 
     fi
@@ -489,7 +489,7 @@ tomcat9_src_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $T_Dir && rm -rf $tomcat9_bin && $Porxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.50/bin/$tomcat9_bin > /dev/null 2>&1 || Echo_ERROR2
+        cd $T_Dir && rm -rf $tomcat9_bin && $Proxy_OK wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.50/bin/$tomcat9_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxf $tomcat9_bin -C /usr/local/ > /dev/null 2>&1 && rm -rf $tomcat9_bin
 
     fi
@@ -784,27 +784,27 @@ do
             tomcat9_docker_Install
             ;;
         -tomcat6-src)
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             tomcat6_src_Install
             ;;
         -tomcat7-src)
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             tomcat7_src_Install
             ;;
         -tomcat8-src)
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             tomcat8_src_Install
             ;;
         -tomcat9-src)
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             tomcat9_src_Install
             ;;
         -nginx-src)
-            Porxy_Switch
+            Proxy_Switch
             Base_Check
             nginx_Install
             ;;
