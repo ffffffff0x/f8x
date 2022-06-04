@@ -32,15 +32,15 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.1 Dev(Beta11)"
+F8x_Version="1.6.1 Dev(Beta12)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
 # https://www.oracle.com/java/technologies/downloads/
-jdk_Version="jdk1.8.0_321"
+jdk8_Version="jdk1.8.0_321"
 orclejdk_tmp_ver="1.0.5"
-orclejdk_bin_amd64="jdk-8u321-linux-x64.tar.gz"
-orclejdk_bin_arm64="jdk-8u321-linux-aarch64.tar.gz"
+orclejdk8_bin_amd64="jdk-8u321-linux-x64.tar.gz"
+orclejdk8_bin_arm64="jdk-8u321-linux-aarch64.tar.gz"
 jdk11_Version="jdk-11.0.15"
 orclejdk11_bin_amd64="jdk-11.0.15_linux-x64_bin.tar.gz"
 orclejdk11_bin_arm64="jdk-11.0.15_linux-aarch64_bin.tar.gz"
@@ -49,11 +49,11 @@ CS_Version="CobaltStrike4.3"
 AdGuardHome_Version="v0.107.4"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
-frp_Ver="v0.42.0"
-frp_File_amd64="frp_0.42.0_linux_amd64.tar.gz"
-frp_File_arm64="frp_0.42.0_linux_arm64.tar.gz"
-frp_Dir_amd64="frp_0.42.0_linux_amd64"
-frp_Dir_arm64="frp_0.42.0_linux_arm64"
+frp_Ver="v0.43.0"
+frp_File_amd64="frp_0.43.0_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.43.0_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.43.0_linux_amd64"
+frp_Dir_arm64="frp_0.43.0_linux_arm64"
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
 nps_File_arm64="linux_arm64_server.tar.gz"
@@ -134,8 +134,8 @@ lux_bin_amd64="lux_0.14.0_Linux_64-bit.tar.gz"
 lux_bin_arm64="lux_0.14.0_Linux_ARM64.tar.gz"
 nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
-jadx_Ver="v1.4.0"
-jadx_bin="jadx-1.4.0.zip"
+jadx_Ver="v1.4.1"
+jadx_bin="jadx-1.4.1.zip"
 rmg_Ver="v4.3.0"
 rmg_bin="rmg-4.3.0-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
@@ -205,6 +205,9 @@ py38_dir="Python-3.8.12"
 py39_ver="3.9.8"
 py39_bin="Python-3.9.8.tar.xz"
 py39_dir="Python-3.9.8"
+py310_ver="3.10.4"
+py310_bin="Python-3.10.4.tar.xz"
+py310_dir="Python-3.10.4"
 ysomap_Ver="v0.1.3"
 ysomap_bin="ysomap.jar"
 JNDIExploit_Ver="1.1"
@@ -228,13 +231,13 @@ duf_bin1_arm64="duf_0.8.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
 procs_Ver="v0.12.3"
 procs_bin="procs-v0.12.3-x86_64-linux.zip"
-fd_Ver="v8.3.2"
-fd_bin_amd64="fd_8.3.2_amd64.deb"
-fd_bin_arm64="fd_8.3.2_arm64.deb"
+fd_Ver="v8.4.0"
+fd_bin_amd64="fd_8.4.0_amd64.deb"
+fd_bin_arm64="fd_8.4.0_arm64.deb"
 # https://phantomjs.org/download.html
 phantomjs_bin="phantomjs-2.1.1-linux-x86_64.tar.bz2"
 phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
-cdk_Ver="v1.0.6"
+cdk_Ver="v1.1.0"
 cdk_bin_amd64="cdk_linux_amd64"
 cdk_bin_arm64="cdk_linux_arm64"
 
@@ -1607,6 +1610,7 @@ Base_Tools(){
     Install_Switch "unhide"
     Install_Switch "net-tools"
     Install_Switch "dos2unix"
+    Install_Switch "tmux"
 
 }
 
@@ -1649,39 +1653,102 @@ Dev_Base_Install(){
 Python3_Install(){
 
     name="Python3"
-    which python3 > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_INFOR "py3 output: $(python3 -V)"
-        Echo_ALERT "警告 : 覆盖安装可能会导致无法预期的问题, 请明白自己在做什么"
-        Echo_ALERT "Warning : Overwrite installation may cause unpredictable problems, please understand what you are doing"
-        echo -e "\033[1;33m\n>> $name is installed, do you want to continue? [y/N,Default N] \033[0m" && read -r input
-        case $input in
-        [yY][eE][sS]|[Yy])
-            Echo_INFOR "continue"
-            ;;
-        *)
-            Echo_INFOR "exit"
-            exit 1
-            ;;
-        esac
-    fi
 
     case "$1" in
-        -py37 | py37)
-            Python37_Install
+        py37)
+            pyenv_Install
+            Python37_Install_with_pyenv
+            # Python37_Install
             ;;
-        -py38 | py38)
-            Python38_Install
+        py38)
+            pyenv_Install
+            Python38_Install_with_pyenv
+            # Python38_Install
             ;;
-        -py39 | py39)
-            Python39_Install
+        py39)
+            pyenv_Install
+            Python39_Install_with_pyenv
+            # Python39_Install
+            ;;
+        py310)
+            pyenv_Install
+            Python310_Install_with_pyenv
+            # Python310_Install
             ;;
         *)
             Python3_def_Install
             ;;
     esac
+
+}
+
+pyenv_Install(){
+
+    name="pyenv"
+    dir="$T_Dir/.pyenv"
+    echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+
+    which pyenv > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_INFOR "$name installed"
+    else
+        if test -d $dir
+        then
+            Echo_ALERT "$name is already installed in $dir"
+        else
+            Base_Tools
+
+            Dev_Base_Install
+
+            case $Linux_Version in
+                *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                    Install_Switch "bzip2"
+                    Install_Switch "bzip2-devel"
+                    Install_Switch "readline-devel"
+                    Install_Switch "sqlite"
+                    Install_Switch "sqlite-devel"
+                    Install_Switch "openssl-devel"
+                    Install_Switch "tk-devel"
+                    Install_Switch "libffi-devel"
+                    Install_Switch "xz-devel"
+                    Install_Switch "zlib-devel"
+                    ;;
+                *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                    Install_Switch "zlib1g-dev"
+                    Install_Switch "libbz2-dev"
+                    Install_Switch "libedit-dev"
+                    Install_Switch "libncurses5-dev"
+                    Install_Switch "libreadline-dev"
+                    Install_Switch "libsqlite3-dev"
+                    Install_Switch "llvm"
+                    Install_Switch "libncursesw5-dev"
+                    Install_Switch "xz-utils"
+                    Install_Switch "tk-dev"
+                    Install_Switch "libffi-dev"
+                    Install_Switch "liblzma-dev"
+                    ;;
+                *) ;;
+            esac
+
+            $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/pyenv/pyenv.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed pyenv, environment variables may need to be re-entered in bash to take effect\nexport PATH=\"$T_Dir/.jenv/bin:\$PATH\"\neval \"\$(jenv init -)\"" || Echo_ERROR2
+
+            case $Linux_Version in
+                *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                    echo "export PYENV_ROOT=\"$T_Dir/.pyenv\"" >> /etc/bashrc
+                    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> /etc/bashrc
+                    echo 'eval "$(pyenv init -)"' >> /etc/bashrc
+                    ;;
+                *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                    echo "export PYENV_ROOT=\"$T_Dir/.pyenv\"" >> /etc/bash.bashrc
+                    echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> /etc/bash.bashrc
+                    echo 'eval "$(pyenv init -)"' >> /etc/bash.bashrc
+                    ;;
+                *) ;;
+            esac
+        fi
+    fi
 
 }
 
@@ -1726,10 +1793,26 @@ Python3_def_Install(){
 
 }
 
+Python37_Install_with_pyenv(){
+
+    name="Python3.7"
+
+    if [ $(pyenv versions | grep $py37_ver) ]
+    then
+        Echo_INFOR "$name installed, Please run the following command:\npyenv global $py37_ver && pyenv local $py37_ver"
+        pyenv global $py37_ver && pyenv local $py37_ver
+    else
+        mkdir -p ~/.pyenv/cache/ && cd $_ && rm -f $py37_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py37_ver/$py37_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        pyenv install $py37_ver && pyenv global $py37_ver && pyenv local $py37_ver && Echo_INFOR "Successfully installed Python, Please run the following command:\npyenv global $py37_ver && pyenv local $py37_ver"
+        rm -rf $py37_bin
+    fi
+
+}
+
 Python37_Install(){
 
     name="Python3.7"
-    mkdir -p /tmp/py37 && cd $_ && rm -f $py37_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py37_ver/$py37_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    mkdir -p /tmp/py37 && cd $_ && rm -f $py37_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py37_ver/$py37_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
     tar -xvJf $py37_bin > /dev/null 2>&1 && cd $py37_dir
     Echo_INFOR "configure"
     ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
@@ -1762,10 +1845,26 @@ Python37_Install(){
 
 }
 
+Python38_Install_with_pyenv(){
+
+    name="Python3.8"
+
+    if [ $(pyenv versions | grep $py38_ver) ]
+    then
+        Echo_INFOR "$name installed, Please run the following command:\npyenv global $py38_ver && pyenv local $py38_ver"
+        pyenv global $py38_ver && pyenv local $py38_ver
+    else
+        mkdir -p ~/.pyenv/cache/ && cd $_ && rm -f $py38_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py38_ver/$py38_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        pyenv install $py38_ver && pyenv global $py38_ver && pyenv local $py38_ver && Echo_INFOR "Successfully installed Python, Please run the following command:\npyenv global $py38_ver && pyenv local $py38_ver"
+        rm -rf $py38_bin
+    fi
+
+}
+
 Python38_Install(){
 
     name="Python3.8"
-    mkdir -p /tmp/py38 && cd $_ && rm -f $py38_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py38_ver/$py38_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    mkdir -p /tmp/py38 && cd $_ && rm -f $py38_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py38_ver/$py38_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
     tar -xvJf $py38_bin > /dev/null 2>&1 && cd $py38_dir
     Echo_INFOR "configure"
     ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
@@ -1798,10 +1897,26 @@ Python38_Install(){
 
 }
 
+Python39_Install_with_pyenv(){
+
+    name="Python3.9"
+
+    if [ $(pyenv versions | grep $py39_ver) ]
+    then
+        Echo_INFOR "$name installed, Please run the following command:\npyenv global $py39_ver && pyenv local $py39_ver"
+        pyenv global $py39_ver && pyenv local $py39_ver
+    else
+        mkdir -p ~/.pyenv/cache/ && cd $_ && rm -f $py39_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py39_ver/$py39_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        pyenv install $py39_ver && pyenv global $py39_ver && pyenv local $py39_ver && Echo_INFOR "Successfully installed Python, Please run the following command:\npyenv global $py39_ver && pyenv local $py39_ver"
+        rm -rf $py39_bin
+    fi
+
+}
+
 Python39_Install(){
 
     name="Python3.9"
-    mkdir -p /tmp/py39 && cd $_ && rm -f $py39_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py39_ver/$py39_bin > /dev/null 2>&1 && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    mkdir -p /tmp/py39 && cd $_ && rm -f $py39_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py39_ver/$py39_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
     tar -xvJf $py39_bin > /dev/null 2>&1 && cd $py39_dir
     Echo_INFOR "configure"
     ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
@@ -1831,6 +1946,58 @@ Python39_Install(){
 
     Echo_INFOR "pip3 output: $(pip3 -V)"
     rm -rf /tmp/py39
+
+}
+
+Python310_Install_with_pyenv(){
+
+    name="Python3.10"
+
+    if [ $(pyenv versions | grep $py310_ver) ]
+    then
+        Echo_INFOR "$name installed, Please run the following command:\npyenv global $py310_ver && pyenv local $py310_ver"
+        pyenv global $py310_ver && pyenv local $py310_ver
+    else
+        mkdir -p ~/.pyenv/cache/ && cd $_ && rm -f $py310_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py310_ver/$py310_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        pyenv install $py310_ver && pyenv global $py310_ver && pyenv local $py310_ver && Echo_INFOR "Successfully installed Python, Please run the following command:\npyenv global $py310_ver && pyenv local $py310_ver"
+        rm -rf $py310_bin
+    fi
+
+}
+
+Python310_Install(){
+
+    name="Python3.10"
+    mkdir -p /tmp/py310 && cd $_ && rm -f $py310_bin && $Proxy_OK wget https://www.python.org/ftp/python/$py310_dir/$py310_bin -q --show-progress && Echo_INFOR "Downloaded from python.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+    tar -xvJf $py310_bin > /dev/null 2>&1 && cd $py310_dir
+    Echo_INFOR "configure"
+    ./configure --prefix=/usr/local/python3 > /dev/null 2>&1
+    Echo_INFOR "make"
+    make > /dev/null 2>&1
+    Echo_INFOR "make install"
+    make install > /dev/null 2>&1
+
+    rm -f /usr/bin/python3
+    ln -s /usr/local/python3/bin/python3 /usr/bin/python3
+    python3 -V > /dev/null 2>&1 && Echo_INFOR "Installation Location : /usr/local/python3" || Echo_ERROR3
+    Echo_INFOR "py3 output: $(python3 -V)"
+
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+            echo "PATH=\$PATH:/usr/local/python3/bin" >> /etc/bashrc
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            echo "PATH=\$PATH:/usr/local/python3/bin" >> /etc/bash.bashrc
+            ;;
+        *) ;;
+    esac
+
+    rm -f /usr/bin/lsb_release > /dev/null 2>&1
+    python3 -m ensurepip > /dev/null 2>&1
+    python3 -m pip install --upgrade pip > /dev/null 2>&1
+
+    Echo_INFOR "pip3 output: $(pip3 -V)"
+    rm -rf /tmp/py310
 
 }
 
@@ -5567,59 +5734,79 @@ Openjdk_Install(){
 
 }
 
-# -oraclejdk
 Oraclejdk_Install(){
+
+    name="Oraclejdk"
+
+    jenv_Install
+
+    case "$1" in
+        oraclejdk8)
+            Oraclejdk8_Install
+            ;;
+        oraclejdk11)
+            Oraclejdk11_Install
+            ;;
+        *)
+            Oraclejdk8_Install
+            ;;
+    esac
+
+}
+
+# -oraclejdk8
+Oraclejdk8_Install(){
 
     case $Linux_architecture_Name in
         *"linux-x86_64"*)
-            orclejdk_bin=$orclejdk_bin_amd64
+            orclejdk8_bin=$orclejdk8_bin_amd64
             ;;
         *"linux-arm64"*)
-            orclejdk_bin=$orclejdk_bin_arm64
+            orclejdk8_bin=$orclejdk8_bin_arm64
             ;;
     esac
 
     name="oraclejdk8"
-    java -version > /dev/null 2>&1
+    dir="/usr/local/java/$jdk8_Version"
 
-    if [ $? == 0 ]
+    if test -d $dir
     then
-        Echo_INFOR "java installed"
+        Echo_INFOR "java8 installed"
     else
         echo -e "\033[1;33m\n>> Installing Java environment(oraclejdk8)\n\033[0m"
 
-        cd $T_Dir && rm -f $orclejdk_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy2}https://github.com/No-Github/Archive/releases/download/$orclejdk_tmp_ver/$orclejdk_bin -q --show-progress || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        cd $T_Dir && rm -f $orclejdk8_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy2}https://github.com/No-Github/Archive/releases/download/$orclejdk_tmp_ver/$orclejdk8_bin -q --show-progress || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
 
-        tar -xzvf $orclejdk_bin > /dev/null 2>&1
+        tar -xzvf $orclejdk8_bin > /dev/null 2>&1
         rm -rf /usr/local/java/ > /dev/null 2>&1 && mkdir -p /usr/local/java/
-        mv --force $jdk_Version/ /usr/local/java
+        mv --force $jdk8_Version/ /usr/local/java
 
-        case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                echo "JAVA_HOME=/usr/local/java/$jdk_Version" >> /etc/bashrc
-                echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bashrc
-                echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bashrc
-                echo "PATH=\$PATH:\$JAVA_HOME/bin" >> /etc/bashrc
-                ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java > /dev/null 2>&1
-                ln -s /usr/local/java/$jdk_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
-                /usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect" || Echo_ERROR "java installation failed (Maybe a false positive, execute the following command and re-enter bash\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH)"
-                ;;
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                echo "JAVA_HOME=/usr/local/java/$jdk_Version" >> /etc/bash.bashrc
-                echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bash.bashrc
-                echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bash.bashrc
-                echo "PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/bash.bashrc
-                ln -s /usr/local/java/$jdk_Version/bin/java /usr/bin/java > /dev/null 2>&1
-                ln -s /usr/local/java/$jdk_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
-                /usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect\nexport JAVA_HOME=/usr/local/java/$jdk_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH" || Echo_ERROR3
-                ;;
-            *) ;;
-        esac
+        ln -s /usr/local/java/$jdk8_Version/bin/java /usr/bin/java > /dev/null 2>&1
+        ln -s /usr/local/java/$jdk8_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
 
-        rm -f $orclejdk_bin > /dev/null 2>&1
+        #case $Linux_Version in
+            #*"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                #echo "JAVA_HOME=/usr/local/java/$jdk8_Version" >> /etc/bashrc
+                #echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bashrc
+                #echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bashrc
+                #echo "PATH=\$PATH:\$JAVA_HOME/bin" >> /etc/bashrc
+                #/usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect" || Echo_ERROR "java installation failed (Maybe a false positive, execute the following command and re-enter bash\nexport JAVA_HOME=/usr/local/java/$jdk8_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH)"
+                #;;
+            #*"Kali"*|*"Ubuntu"*|*"Debian"*)
+                #echo "JAVA_HOME=/usr/local/java/$jdk8_Version" >> /etc/bash.bashrc
+                #echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bash.bashrc
+                #echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bash.bashrc
+                #echo "PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/bash.bashrc
+                #/usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect\nexport JAVA_HOME=/usr/local/java/$jdk8_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH" || Echo_ERROR3
+                #;;
+            #*) ;;
+        #esac
 
-        jenv_Install && jenv_config "/usr/local/java/$jdk_Version"
+        rm -f $orclejdk8_bin > /dev/null 2>&1
     fi
+
+    jenv_config "/usr/local/java/$jdk8_Version"
+    jenv global 1.8 && jenv local 1.8 && echo -e "" && Echo_INFOR "Successfully installed java, Please run the following command:\njenv global 1.8 && jenv local 1.8"
 
 }
 
@@ -5651,36 +5838,32 @@ Oraclejdk11_Install(){
         mkdir -p /usr/local/java/
         mv --force $jdk11_Version/ /usr/local/java
 
-        case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                echo "JAVA_HOME=/usr/local/java/$jdk11_Version" >> /etc/bashrc
-                echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bashrc
-                echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bashrc
-                echo "PATH=\$PATH:\$JAVA_HOME/bin" >> /etc/bashrc
-                rm -rf /usr/bin/java > /dev/null 2>&1
-                ln -s /usr/local/java/$jdk11_Version/bin/java /usr/bin/java > /dev/null 2>&1
-                rm -rf /usr/bin/keytool > /dev/null 2>&1
-                ln -s /usr/local/java/$jdk11_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
-                /usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect" || Echo_ERROR "java installation failed (Maybe a false positive, execute the following command and re-enter bash\nexport JAVA_HOME=/usr/local/java/$jdk11_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH)"
-                ;;
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                echo "JAVA_HOME=/usr/local/java/$jdk11_Version" >> /etc/bash.bashrc
-                echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bash.bashrc
-                echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bash.bashrc
-                echo "PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/bash.bashrc
-                rm -rf /usr/bin/java > /dev/null 2>&1
-                ln -s /usr/local/java/$jdk11_Version/bin/java /usr/bin/java > /dev/null 2>&1
-                rm -rf /usr/bin/keytool > /dev/null 2>&1
-                ln -s /usr/local/java/$jdk11_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
-                /usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect\nexport JAVA_HOME=/usr/local/java/$jdk11_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH" || Echo_ERROR3
-                ;;
-            *) ;;
-        esac
+        ln -s /usr/local/java/$jdk11_Version/bin/java /usr/bin/java > /dev/null 2>&1
+        ln -s /usr/local/java/$jdk11_Version/bin/keytool /usr/bin/keytool > /dev/null 2>&1
+
+        #case $Linux_Version in
+            #*"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                #echo "JAVA_HOME=/usr/local/java/$jdk11_Version" >> /etc/bashrc
+                #echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bashrc
+                #echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bashrc
+                #echo "PATH=\$PATH:\$JAVA_HOME/bin" >> /etc/bashrc
+                #/usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect" || Echo_ERROR "java installation failed (Maybe a false positive, execute the following command and re-enter bash\nexport JAVA_HOME=/usr/local/java/$jdk11_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH)"
+                #;;
+            #*"Kali"*|*"Ubuntu"*|*"Debian"*)
+                #echo "JAVA_HOME=/usr/local/java/$jdk11_Version" >> /etc/bash.bashrc
+                #echo "JRE_HOME=\$JAVA_HOME/jre" >> /etc/bash.bashrc
+                #echo "CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib" >> /etc/bash.bashrc
+                #echo "PATH=\$JAVA_HOME/bin:\$PATH" >> /etc/bash.bashrc
+                #/usr/bin/java -version && Echo_INFOR "Successfully installed java environment, environment variables may need to be re-entered in bash to take effect\nexport JAVA_HOME=/usr/local/java/$jdk11_Version\nexport JRE_HOME=\$JAVA_HOME/jre\nexport CLASSPATH=.:\$JAVA_HOME/lib:\$JRE_HOME/lib\nexport PATH=\$JAVA_HOME/bin:\$PATH" || Echo_ERROR3
+                #;;
+            #*) ;;
+        #esac
 
         rm -f $orclejdk11_bin > /dev/null 2>&1
-
-        jenv_Install && jenv_config "/usr/local/java/$jdk11_Version"
     fi
+
+    jenv_config "/usr/local/java/$jdk11_Version"
+    jenv global 11 && jenv local 11 && echo -e "" && Echo_INFOR "Successfully installed java, Please run the following command:\njenv global 11 && jenv local 11"
 
 }
 
@@ -5694,7 +5877,7 @@ jenv_Install(){
 
     if [ $? == 0 ]
     then
-        Echo_INFOR "jenv installed"
+        Echo_INFOR "$name installed"
     else
         if test -d $dir
         then
@@ -6216,10 +6399,15 @@ frp_Install(){
     name="frp"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    mkdir -p /tmp/frp && cd /tmp/frp && rm -rf frp* > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/fatedier/frp/releases/download/$frp_Ver/$frp_File > /dev/null 2>&1 || Echo_ERROR "$frp_File download failed"
-    tar -zxvf $frp_File > /dev/null 2>&1
-    cd $frp_Dir && Echo_INFOR "frp is already installed in $T_Dir/$frp_Dir" || Echo_ERROR3
-    rm -rf /tmp/frp > /dev/null 2>&1
+    if test -d $T_Dir/frp
+    then
+        Echo_INFOR "$name is already installed in $T_Dir/frp"
+    else
+        mkdir -p $T_Dir/frp && cd $T_Dir/frp && rm -rf frp* > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/fatedier/frp/releases/download/$frp_Ver/$frp_File -q --show-progress || Echo_ERROR "$frp_File download failed"
+        tar -zxvf $frp_File > /dev/null 2>&1
+        cd $frp_Dir && Echo_INFOR "frp is already installed in $T_Dir/frp/$frp_Dir" || Echo_ERROR3
+        rm -rf $T_Dir/frp/$frp_File > /dev/null 2>&1
+    fi
 
 }
 
@@ -6240,13 +6428,13 @@ nps_Install(){
 
     if test -d $T_Dir/nps
     then
-        Echo_INFOR "nps is already installed in $T_Dir/nps"
+        Echo_INFOR "$name is already installed in $T_Dir/nps"
     else
-        mkdir -p $T_Dir/nps && cd $T_Dir/nps && $Proxy_OK wget ${GitProxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_File > /dev/null 2>&1 || Echo_ERROR "$nps_File download failed"
+        mkdir -p $T_Dir/nps && cd $T_Dir/nps && $Proxy_OK wget ${GitProxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$nps_File -q --show-progress || Echo_ERROR "$nps_File download failed"
         tar -zxvf $nps_File > /dev/null 2>&1
-        rm -f $T_Dir/nps/$nps_File > /dev/null 2>&1 && chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
+        chmod +x $T_Dir/nps/nps && $T_Dir/nps/nps install > /dev/null 2>&1
         $T_Dir/nps/nps -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $nps_Ver in the $T_Dir/nps" || Echo_ERROR3
-        rm -rf /tmp/nps
+        rm -f $T_Dir/nps/$nps_File > /dev/null 2>&1
     fi
 
 }
@@ -6963,19 +7151,19 @@ kali_Tools(){
     Pentest_pip_Install
 
     case "$1" in
-        -a | a)
+        a)
             kali_Tools_TypeA
             ;;
-        -b | b)
+        b)
             kali_Tools_TypeB
             ;;
-        -c | c)
+        c)
             kali_Tools_TypeC
             ;;
-        -d | d)
+        d)
             kali_Tools_TypeD
             ;;
-        -e | e)
+        e)
             kali_Tools_TypeE
             ;;
         *)
@@ -7272,77 +7460,76 @@ SSH(){
 Help(){
 
     echo -e "\033[1;34mBatch installation \033[0m"
-    echo -e "  \033[1;34m-b\033[0m \033[0;34m           : install Basic Environment\033[0m          \033[1;32m(gcc、make、git、vim、telnet、jq、unzip and other basic tools)\033[0m"
-    echo -e "  \033[1;34m-p\033[0m \033[0;34m           : install Proxy Environment\033[0m          \033[1;31m(Warning : Use only when needed)\033[0m"
-    echo -e "  \033[1;34m-d\033[0m \033[0;34m           : install Development Environment\033[0m    \033[1;32m(python3、pip3、Go、Docker、Docker-Compose、SDKMAN)\033[0m"
-    echo -e "  \033[1;34m-k(a/b/c/d/e)\033[0m\033[0;34m : install Pentest environment\033[0m        \033[1;32m(hashcat、ffuf、OneForAll、ksubdomain、impacket and other Pentest tools)\033[0m"
-    echo -e "  \033[1;34m-s\033[0m \033[0;34m           : install Blue Team Environment\033[0m      \033[1;32m(Fail2Ban、chkrootkit、rkhunter、shellpub)\033[0m"
-    echo -e "  \033[1;34m-f\033[0m \033[0;34m           : install Other Tools\033[0m                \033[1;32m(AdguardTeam、trash-cli、fzf)\033[0m"
-    echo -e "  \033[1;34m-cloud\033[0m \033[0;34m       : install Cloud Applications\033[0m         \033[1;32m(Terraform、Serverless Framework、wrangler)\033[0m"
-    echo -e "  \033[1;34m-all\033[0m \033[0;34m         : fully automated deployment\033[0m         \033[1;32m(Compatible with CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)\033[0m"
+    echo -e "  \033[1;34m-b\033[0m \033[0;34m               : install Basic Environment\033[0m          \033[1;32m(gcc、make、git、vim、telnet、jq、unzip ...)\033[0m"
+    echo -e "  \033[1;34m-p\033[0m \033[0;34m               : install Proxy Environment\033[0m          \033[1;31m(Warning : Use only when needed)\033[0m"
+    echo -e "  \033[1;34m-d\033[0m \033[0;34m               : install Development Environment\033[0m    \033[1;32m(python3、pip3、Go、Docker、Docker-Compose、SDKMAN)\033[0m"
+    echo -e "  \033[1;34m-k(a/b/c/d/e)\033[0m\033[0;34m     : install Pentest environment\033[0m        \033[1;32m(hashcat、ffuf、OneForAll、ksubdomain、impacket ...)\033[0m"
+    echo -e "  \033[1;34m-s\033[0m \033[0;34m               : install Blue Team Environment\033[0m      \033[1;32m(Fail2Ban、chkrootkit、rkhunter、shellpub)\033[0m"
+    echo -e "  \033[1;34m-f\033[0m \033[0;34m               : install Other Tools\033[0m                \033[1;32m(AdguardTeam、trash-cli、fzf)\033[0m"
+    echo -e "  \033[1;34m-cloud\033[0m \033[0;34m           : install Cloud Applications\033[0m         \033[1;32m(Terraform、Serverless Framework、wrangler)\033[0m"
+    echo -e "  \033[1;34m-all\033[0m \033[0;34m             : fully automated deployment\033[0m"
     echo -e ""
     echo -e "\033[1;34mDevelopment Environment \033[0m"
-    echo -e "  \033[1;34m-docker\033[0m \033[0;34m      : install docker\033[0m"
-    echo -e "  \033[1;34m-lua\033[0m \033[0;34m         : install lua\033[0m"
-    echo -e "  \033[1;34m-nn\033[0m \033[0;34m          : install npm & NodeJs\033[0m"
-    echo -e "  \033[1;34m-oraclejdk\033[0m \033[0;34m   : install oraclejdk8\033[0m"
-    echo -e "  \033[1;34m-oraclejdk11\033[0m \033[0;34m : install oraclejdk11\033[0m"
-    echo -e "  \033[1;34m-openjdk\033[0m \033[0;34m     : install openjdk\033[0m"
-    echo -e "  \033[1;34m-py3(7/8/9)\033[0m \033[0;34m  : install python3\033[0m                    \033[1;33m(Based on package manager)\033[0m"
-    echo -e "  \033[1;34m-py2\033[0m \033[0;34m         : install python2\033[0m                    \033[1;33m(Based on package manager)\033[0m"
-    echo -e "  \033[1;34m-pip2-f\033[0m \033[0;34m      : force install pip2\033[0m                 \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
-    echo -e "  \033[1;34m-perl\033[0m \033[0;34m        : install perl\033[0m"
-    echo -e "  \033[1;34m-ruby\033[0m \033[0;34m        : install ruby\033[0m                       \033[1;33m(If that fails, try -ruby-f)\033[0m"
-    echo -e "  \033[1;34m-rust\033[0m \033[0;34m        : install rust\033[0m"
-    echo -e "  \033[1;34m-code\033[0m \033[0;34m        : install code-server\033[0m"
-    echo -e "  \033[1;34m-chromium\033[0m \033[0;34m    : install Chromium\033[0m                   \033[1;33m(Used with rad, crawlergo in the -k option) \033[0m"
-    echo -e "  \033[1;34m-phantomjs\033[0m \033[0;34m   : install PhantomJS\033[0m"
+    echo -e "  \033[1;34m-docker\033[0m \033[0;34m          : install docker\033[0m"
+    echo -e "  \033[1;34m-lua\033[0m \033[0;34m             : install lua\033[0m"
+    echo -e "  \033[1;34m-nn\033[0m \033[0;34m              : install npm & NodeJs\033[0m"
+    echo -e "  \033[1;34m-oraclejdk(8/11)\033[0m\033[0;34m  : install oraclejdk\033[0m"
+    echo -e "  \033[1;34m-openjdk\033[0m \033[0;34m         : install openjdk\033[0m"
+    echo -e "  \033[1;34m-py3(7/8/9/10)\033[0m\033[0;34m    : install python3\033[0m                    \033[1;33m(Based on package manager)\033[0m"
+    echo -e "  \033[1;34m-py2\033[0m \033[0;34m             : install python2\033[0m                    \033[1;33m(Based on package manager)\033[0m"
+    echo -e "  \033[1;34m-pip2-f\033[0m \033[0;34m          : force install pip2\033[0m                 \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
+    echo -e "  \033[1;34m-perl\033[0m \033[0;34m            : install perl\033[0m"
+    echo -e "  \033[1;34m-ruby\033[0m \033[0;34m            : install ruby\033[0m                       \033[1;33m(If that fails, try -ruby-f)\033[0m"
+    echo -e "  \033[1;34m-rust\033[0m \033[0;34m            : install rust\033[0m"
+    echo -e "  \033[1;34m-code\033[0m \033[0;34m            : install code-server\033[0m"
+    echo -e "  \033[1;34m-chromium\033[0m \033[0;34m        : install Chromium\033[0m                   \033[1;33m(Used with rad, crawlergo in the -k option) \033[0m"
+    echo -e "  \033[1;34m-phantomjs\033[0m \033[0;34m       : install PhantomJS\033[0m"
     echo -e ""
     echo -e "\033[1;34mBlue Team Service \033[0m"
-    echo -e "  \033[1;34m-binwalk\033[0m \033[0;34m     : install binwalk\033[0m"
-    echo -e "  \033[1;34m-binwalk-f\033[0m \033[0;34m   : force install binwalk\033[0m              \033[1;33m(It is recommended to run if the -binwalk option fails)\033[0m"
-    echo -e "  \033[1;34m-clamav\033[0m \033[0;34m      : install ClamAV\033[0m"
-    echo -e "  \033[1;34m-lt\033[0m \033[0;34m          : install LogonTracer\033[0m                \033[1;33m(High hardware configuration requirements)\033[0m"
-    echo -e "  \033[1;34m-suricata\033[0m \033[0;34m    : install Suricata\033[0m"
-    echo -e "  \033[1;34m-vol\033[0m \033[0;34m         : install volatility\033[0m"
-    echo -e "  \033[1;34m-vol3\033[0m \033[0;34m        : install volatility3\033[0m"
+    echo -e "  \033[1;34m-binwalk\033[0m \033[0;34m         : install binwalk\033[0m"
+    echo -e "  \033[1;34m-binwalk-f\033[0m \033[0;34m       : force install binwalk\033[0m              \033[1;33m(It is recommended to run if the -binwalk option fails)\033[0m"
+    echo -e "  \033[1;34m-clamav\033[0m \033[0;34m          : install ClamAV\033[0m"
+    echo -e "  \033[1;34m-lt\033[0m \033[0;34m              : install LogonTracer\033[0m                \033[1;33m(High hardware configuration requirements)\033[0m"
+    echo -e "  \033[1;34m-suricata\033[0m \033[0;34m        : install Suricata\033[0m"
+    echo -e "  \033[1;34m-vol\033[0m \033[0;34m             : install volatility\033[0m"
+    echo -e "  \033[1;34m-vol3\033[0m \033[0;34m            : install volatility3\033[0m"
     echo -e ""
     echo -e "\033[1;34mRed Team Service \033[0m"
-    echo -e "  \033[1;34m-aircrack\033[0m \033[0;34m    : install aircrack-ng\033[0m"
-    echo -e "  \033[1;34m-bypass\033[0m \033[0;34m      : install Bypass\033[0m"
-    echo -e "  \033[1;34m-cs\033[0m \033[0;34m          : install CobaltStrike 4.3\033[0m"
-    echo -e "  \033[1;34m-frp\033[0m \033[0;34m         : install frp\033[0m"
-    echo -e "  \033[1;34m-goby\033[0m \033[0;34m        : install Goby\033[0m                       \033[1;33m(The client side requires a graphical environment, the server side does not.)\033[0m"
-    echo -e "  \033[1;34m-nps\033[0m \033[0;34m         : install nps\033[0m"
-    echo -e "  \033[1;34m-yakit\033[0m \033[0;34m         : install yakit\033[0m"
+    echo -e "  \033[1;34m-aircrack\033[0m \033[0;34m        : install aircrack-ng\033[0m"
+    echo -e "  \033[1;34m-bypass\033[0m \033[0;34m          : install Bypass\033[0m"
+    echo -e "  \033[1;34m-cs\033[0m \033[0;34m              : install CobaltStrike 4.3\033[0m"
+    echo -e "  \033[1;34m-frp\033[0m \033[0;34m             : install frp\033[0m"
+    echo -e "  \033[1;34m-goby\033[0m \033[0;34m            : install Goby\033[0m                       \033[1;33m(Requires GUI environment)\033[0m"
+    echo -e "  \033[1;34m-nps\033[0m \033[0;34m             : install nps\033[0m"
+    echo -e "  \033[1;34m-yakit\033[0m \033[0;34m           : install yakit\033[0m"
     echo -e ""
     echo -e "\033[1;34mDocker-based environment deployment\033[0m"
-    echo -e "  \033[1;34m-arl\033[0m \033[0;34m         : install ARL (~872 MB)\033[0m"
-    echo -e "  \033[1;34m-awvs14\033[0m \033[0;34m      : install AWVS14 (~1.04 GB)\033[0m"
-    echo -e "  \033[1;34m-mobsf\033[0m \033[0;34m       : install MobSF (~1.54 GB)\033[0m"
-    echo -e "  \033[1;34m-nodejsscan\033[0m \033[0;34m  : install nodejsscan (~873 MB)\033[0m"
-    echo -e "  \033[1;34m-viper\033[0m \033[0;34m       : install Viper (~2.1 GB)\033[0m\033[0m"
-    echo -e "  \033[1;34m-vulhub\033[0m \033[0;34m      : install vulhub (~210 MB)\033[0m"
-    echo -e "  \033[1;34m-vulfocus\033[0m \033[0;34m    : install vulfocus (~1.04 GB)\033[0m"
+    echo -e "  \033[1;34m-arl\033[0m \033[0;34m             : install ARL (~872 MB)\033[0m"
+    echo -e "  \033[1;34m-awvs14\033[0m \033[0;34m          : install AWVS14 (~1.04 GB)\033[0m"
+    echo -e "  \033[1;34m-mobsf\033[0m \033[0;34m           : install MobSF (~1.54 GB)\033[0m"
+    echo -e "  \033[1;34m-nodejsscan\033[0m \033[0;34m      : install nodejsscan (~873 MB)\033[0m"
+    echo -e "  \033[1;34m-viper\033[0m \033[0;34m           : install Viper (~2.1 GB)\033[0m\033[0m"
+    echo -e "  \033[1;34m-vulhub\033[0m \033[0;34m          : install vulhub (~210 MB)\033[0m"
+    echo -e "  \033[1;34m-vulfocus\033[0m \033[0;34m        : install vulfocus (~1.04 GB)\033[0m"
     echo -e ""
     echo -e "\033[1;34mMiscellaneous Services \033[0m"
-    echo -e "  \033[1;34m-asciinema\033[0m \033[0;34m   : install asciinema\033[0m"
-    echo -e "  \033[1;34m-bt\033[0m \033[0;34m          : install 宝塔服务\033[0m"
-    echo -e "  \033[1;34m-clash\033[0m \033[0;34m       : install clash\033[0m                      \033[1;33m(https://github.com/juewuy/ShellClash)\033[0m"
-    echo -e "  \033[1;34m-music\033[0m \033[0;34m       : install UnblockNeteaseMusic\033[0m"
-    echo -e "  \033[1;34m-nginx\033[0m \033[0;34m       : install nginx\033[0m"
-    echo -e "  \033[1;34m-ssh\033[0m \033[0;34m         : install ssh\033[0m                        \033[1;33m(RedHat is available by default, no need to reinstall)\033[0m"
-    echo -e "  \033[1;34m-ssr\033[0m \033[0;34m         : install ssr \033[0m"
-    echo -e "  \033[1;34m-zsh\033[0m \033[0;34m         : install zsh\033[0m"
+    echo -e "  \033[1;34m-asciinema\033[0m \033[0;34m       : install asciinema\033[0m"
+    echo -e "  \033[1;34m-bt\033[0m \033[0;34m              : install 宝塔服务\033[0m"
+    echo -e "  \033[1;34m-clash\033[0m \033[0;34m           : install clash\033[0m                      \033[1;33m(https://github.com/juewuy/ShellClash)\033[0m"
+    echo -e "  \033[1;34m-music\033[0m \033[0;34m           : install UnblockNeteaseMusic\033[0m"
+    echo -e "  \033[1;34m-nginx\033[0m \033[0;34m           : install nginx\033[0m"
+    echo -e "  \033[1;34m-ssh\033[0m \033[0;34m             : install ssh\033[0m                        \033[1;33m(RedHat is available by default, no need to reinstall)\033[0m"
+    echo -e "  \033[1;34m-ssr\033[0m \033[0;34m             : install ssr \033[0m"
+    echo -e "  \033[1;34m-zsh\033[0m \033[0;34m             : install zsh\033[0m"
     echo -e ""
     echo -e "\033[1;34mOther \033[0m"
-    echo -e "  \033[1;34m-clear\033[0m \033[0;34m       : Clean up system usage traces\033[0m"
-    echo -e "  \033[1;34m-info\033[0m \033[0;34m        : View system information\033[0m"
-    echo -e "  \033[1;34m-optimize\033[0m \033[0;34m    : Improve device options and optimize performance\033[0m"
-    echo -e "  \033[1;34m-remove\033[0m \033[0;34m      : Uninstall some vps cloud monitoring\033[0m"
-    echo -e "  \033[1;34m-rmlock\033[0m \033[0;34m      : Run the Unlock module\033[0m"
-    echo -e "  \033[1;34m-swap\033[0m \033[0;34m        : Configuring swap partitions\033[0m"
-    echo -e "  \033[1;34m-update\033[0m \033[0;34m      : Update f8x\033[0m"
+    echo -e "  \033[1;34m-clear\033[0m \033[0;34m           : Clean up system usage traces\033[0m"
+    echo -e "  \033[1;34m-info\033[0m \033[0;34m            : View system information\033[0m"
+    echo -e "  \033[1;34m-optimize\033[0m \033[0;34m        : Improve device options and optimize performance\033[0m"
+    echo -e "  \033[1;34m-remove\033[0m \033[0;34m          : Uninstall some vps cloud monitoring\033[0m"
+    echo -e "  \033[1;34m-rmlock\033[0m \033[0;34m          : Run the Unlock module\033[0m"
+    echo -e "  \033[1;34m-swap\033[0m \033[0;34m            : Configuring swap partitions\033[0m"
+    echo -e "  \033[1;34m-update\033[0m \033[0;34m          : Update f8x\033[0m"
     echo -e ""
     echo -e "\033[1;37mAuthor r0fus0d , feel free to submit an issue if you need to add tool support or run into problems\033[0m"
     echo -e "\033[1;37m|- create by ffffffff0x\033[0m"
@@ -7556,11 +7743,17 @@ do
             Base_Check
             Oraclejdk_Install
             ;;
+        -oraclejdk8)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Oraclejdk_Install "oraclejdk8"
+            ;;
         -oraclejdk11)
             mac_Check || exit 1
             Proxy_Switch
             Base_Check
-            Oraclejdk11_Install
+            Oraclejdk_Install "oraclejdk11"
             ;;
         -py3 | py3)
             mac_Check || exit 1
@@ -7583,6 +7776,12 @@ do
             Proxy_Switch
             Base_Check
             Python3_Install "py39"
+            ;;
+        -py310 | py310)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Python3_Install "py310"
             ;;
         -py2 | py2)
             mac_Check || exit 1
