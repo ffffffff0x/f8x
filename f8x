@@ -1732,7 +1732,7 @@ pyenv_Install(){
                 *) ;;
             esac
 
-            $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/pyenv/pyenv.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed pyenv, environment variables may need to be re-entered in bash to take effect\nexport PYENV_ROOT=\"$T_Dir/.pyenv\"\neval \"\$(pyenv init -)\"" || Echo_ERROR2
+            $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/pyenv/pyenv.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed pyenv, environment variables may need to be re-entered in bash to take effect\nexport PYENV_ROOT=\"$T_Dir/.pyenv\"\ncommand -v pyenv >/dev/null || export PATH=\"\$PYENV_ROOT/bin:\$PATH\"\neval \"\$(pyenv init -)\"" || Echo_ERROR2
 
             case $Linux_Version in
                 *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
@@ -1803,7 +1803,7 @@ Python37_Install_with_pyenv(){
 
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    if [ $(pyenv versions | grep $py37_ver) ]
+    if [ "$(pyenv versions | grep $py37_ver)" ]
     then
         Echo_INFOR "$name installed, Please run the following command:\npyenv global $py37_ver && pyenv local $py37_ver"
         pyenv global $py37_ver && pyenv local $py37_ver
@@ -1861,7 +1861,7 @@ Python38_Install_with_pyenv(){
 
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    if [ $(pyenv versions | grep $py38_ver) ]
+    if [ "$(pyenv versions | grep $py38_ver)" ]
     then
         Echo_INFOR "$name installed, Please run the following command:\npyenv global $py38_ver && pyenv local $py38_ver"
         pyenv global $py38_ver && pyenv local $py38_ver
@@ -1919,7 +1919,7 @@ Python39_Install_with_pyenv(){
 
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    if [ $(pyenv versions | grep $py39_ver) ]
+    if [ "$(pyenv versions | grep $py39_ver)" ]
     then
         Echo_INFOR "$name installed, Please run the following command:\npyenv global $py39_ver && pyenv local $py39_ver"
         pyenv global $py39_ver && pyenv local $py39_ver
@@ -1977,7 +1977,7 @@ Python310_Install_with_pyenv(){
 
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    if [ $(pyenv versions | grep $py310_ver) ]
+    if [ "$(pyenv versions | grep $py310_ver)" ]
     then
         Echo_INFOR "$name installed, Please run the following command:\npyenv global $py310_ver && pyenv local $py310_ver"
         pyenv global $py310_ver && pyenv local $py310_ver
