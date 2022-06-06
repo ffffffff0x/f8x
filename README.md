@@ -84,18 +84,20 @@ The following options are currently supported by f8x
 - `-all`          : fully automated deployment         (Compatible with CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 **Development Environment**
-- `-lua`          : install lua
-- `-nn`           : install npm & NodeJs
-- `-oraclejdk`    : install oraclejdk
-- `-openjdk`      : install openjdk
-- `-py3(7/8/9)`   : install python3
-- `-py2`          : install python2
-- `-pip2-f`       : force install pip2                 (It is recommended to run with the -python2 option failing)
-- `-perl`         : install perl
-- `-ruby`         : install ruby
-- `-rust`         : install rust
-- `-chromium`     : install Chromium                   (Used with rad, crawlergo in the -k option)
-- `-phantomjs`    : install PhantomJS
+- `-docker`         : install docker
+- `-lua`            : install lua
+- `-nn`             : install npm & NodeJs
+- `-oraclejdk(8/11)`: install oraclejdk
+- `-openjdk`        : install openjdk
+- `-py3(7/8/9/10)`  : install python3
+- `-py2`            : install python2
+- `-pip2-f`         : force install pip2                 (It is recommended to run with the -python2 option failing)
+- `-perl`           : install perl
+- `-ruby`           : install ruby
+- `-rust`           : install rust
+- `-code`           : install code-server
+- `-chromium`       : install Chromium                   (Used with rad, crawlergo in the -k option)
+- `-phantomjs`      : install PhantomJS
 
 **Blue Team Service**
 - `-binwalk`      : install binwalk
@@ -113,6 +115,7 @@ The following options are currently supported by f8x
 - `-frp`          : install frp
 - `-goby`         : install Goby                       (The client side requires a graphical environment, the server side does not.)
 - `-nps`          : install nps
+- `-yakit`        : install yakit
 
 **Docker-based environment deployment**
 - `-arl`          : install ARL (~872 MB)
@@ -122,6 +125,7 @@ The following options are currently supported by f8x
 - `-viper`        : install Viper (~2.1 GB)
 - `-vulhub`       : install vulhub (~210 MB)
 - `-vulfocus`     : install vulfocus (~1.04 GB)
+- `-TerraformGoat`: install TerraformGoat
 
 **Miscellaneous Services**
 - `-asciinema`    : install asciinema

@@ -91,16 +91,18 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -all 选项全自动化部署      (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 **2. 开发环境**
+- 使用 -docker 选项安装 docker 环境
 - 使用 -lua 选项安装 lua 环境
 - 使用 -nn 选项安装 npm & NodeJs 环境
-- 使用 -oraclejdk 选项安装 oraclejdk 环境
+- 使用 -oraclejdk(8/11) 选项安装 oraclejdk 环境
 - 使用 -openjdk 选项安装 openjdk 环境
-- 使用 -py3(7/8/9) 选项安装 python3 环境
+- 使用 -py3(7/8/9/10) 选项安装 python3 环境
 - 使用 -py2 选项安装 python2 环境
 - 使用 -pip2-f 选项强制安装 pip2 环境          (建议在 -python2 选项失败的情况下运行)
 - 使用 -perl 选项安装 perl 环境
 - 使用 -ruby 选项安装 ruby 环境
 - 使用 -rust 选项安装 rust 环境
+- 使用 -code 选项安装 code-server 环境
 - 使用 -chromium 选项安装 Chromium 环境        (用于配合 -k 选项中的 rad、crawlergo)
 - 使用 -phantomjs 选项安装 PhantomJS
 
@@ -120,6 +122,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -frp 选项部署 frp 环境
 - 使用 -goby 选项部署 Goby 环境                (需要图形化环境)
 - 使用 -nps 选项部署 nps 环境
+- 使用 -yakit 选项部署 yakit 环境
 
 **5. 基于 Docker 的环境部署**
 - 使用 -arl 选项部署 ARL 环境(872 MB)
@@ -129,6 +132,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -viper 选项部署 Viper 环境(2.1 GB)
 - 使用 -vulhub 选项部署 vulhub 环境(210 MB)
 - 使用 -vulfocus 选项部署 vulfocus 环境(1.04 GB)
+- 使用 -TerraformGoat 选项部署 TerraformGoat 环境
 
 **6. 杂项服务**
 - 使用 -asciinema 选项安装 asciinema 截图工具
