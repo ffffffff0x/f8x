@@ -2,6 +2,27 @@
 
 ## Details
 
+### [1.6.1] - 2022-6-6
+
+**兼容性**
+* 支持 ubuntu 22.04
+
+**功能添加**
+* -k 选项添加 [CDK](https://github.com/cdk-team/CDK)
+* 添加 -yakit 选项
+* 添加 -py310 选项
+* 添加 -oraclejdk11 选项
+* 添加 -docker 选项 (安装 docker)
+* 添加 -code 选项 (安装 [code-server](https://github.com/coder/code-server))
+
+**功能修改与优化**
+* bat 换成兼容更强的安装包
+* 目前 -py3(7/8/9/10) 可以调用 pyenv 进行 python3 版本的切换,无需重复安装
+* 目前 -oraclejdk(8/11) 可以调用 jenv 进行 java 版本的切换,无需重复安装
+
+**错误修复**
+* 修改一些拼写错误
+
 ### [1.6.0] - 2022-3-11
 
 **兼容性**
