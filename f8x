@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta2)"
+F8x_Version="1.6.2 Dev(Beta3)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -6085,11 +6085,19 @@ nn_Install(){
 vulhub_Install(){
 
     Pentest_Base_Install
+    Docker_Check
     name="vulhub"
-    echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+    dir="$P_Dir/vulhub"
 
-    cd $P_Dir && rm -rf vulhub > /dev/null 2>&1 && Echo_ALERT "Downloading vulhub" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/vulhub/vulhub > /dev/null 2>&1 || Echo_ERROR2
-    cd vulhub && Echo_INFOR "Downloaded vulhub in the $P_Dir/vulhub" || Echo_ERROR3
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+
+        cd $P_Dir && rm -rf vulhub > /dev/null 2>&1 && Echo_ALERT "Downloading $name" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/vulhub/vulhub || Echo_ERROR2
+        cd vulhub && Echo_INFOR "Downloaded vulhub in the $dir" || Echo_ERROR3
+    fi
 
 }
 
@@ -6101,6 +6109,27 @@ vulfocus_Install(){
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
     docker pull vulfocus/vulfocus:latest && Echo_INFOR "Pulled the latest vulfocus image, For more information, please refer to https://fofapro.github.io/vulfocus/#/INSTALL" || Echo_ERROR3
+
+}
+
+# -TerraformGoat
+TerraformGoat_Install(){
+
+    Pentest_Base_Install
+    Docker_Check
+    name="TerraformGoat"
+    dir="$P_Dir/TerraformGoat"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+        Echo_INFOR "Please run through the following command:\ndocker run -itd --name terraformgoat terraformgoat:v0.0.3\ndocker exec -it terraformgoat /bin/bash\n"
+    else
+        echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+        cd $P_Dir && rm -rf TerraformGoat > /dev/null 2>&1 && Echo_ALERT "Downloading $name" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/HuoCorp/TerraformGoat.git > /dev/null 2>&1 || Echo_ERROR2
+        cd TerraformGoat && Echo_INFOR "Downloaded $name in the $P_Dir/TerraformGoat" || Echo_ERROR3
+        docker build . -t terraformgoat:v0.0.3 && Echo_INFOR "Please run through the following command:\ndocker run -itd --name terraformgoat terraformgoat:v0.0.3\ndocker exec -it terraformgoat /bin/bash\n" || Echo_ERROR3
+    fi
 
 }
 
@@ -7581,6 +7610,7 @@ Help(){
     echo -e "  \033[1;34m-viper\033[0m \033[0;34m           : install Viper (~2.1 GB)\033[0m\033[0m"
     echo -e "  \033[1;34m-vulhub\033[0m \033[0;34m          : install vulhub (~210 MB)\033[0m"
     echo -e "  \033[1;34m-vulfocus\033[0m \033[0;34m        : install vulfocus (~1.04 GB)\033[0m"
+    echo -e "  \033[1;34m-TerraformGoat\033[0m \033[0;34m   : install TerraformGoat\033[0m"
     echo -e ""
     echo -e "\033[1;34mMiscellaneous Services \033[0m"
     echo -e "  \033[1;34m-asciinema\033[0m \033[0;34m       : install asciinema\033[0m"
@@ -8037,6 +8067,11 @@ do
             mac_Check || exit 1
             Proxy_Switch
             vulfocus_Install
+            ;;
+        -TerraformGoat)
+            mac_Check || exit 1
+            Proxy_Switch
+            TerraformGoat_Install
             ;;
         -asciinema)
             mac_Check || exit 1
