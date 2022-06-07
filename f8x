@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta3)"
+F8x_Version="1.6.2 Dev(Beta4)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -82,6 +82,11 @@ ffuf_Install_arm64="ffuf_1.5.0_linux_arm64.tar.gz"
 Nuclei_Ver="v2.7.1"
 Nuclei_Install_amd64="nuclei_2.7.1_linux_amd64.zip"
 Nuclei_Install_arm64="nuclei_2.7.1_linux_arm64.zip"
+merlin_Ver="v1.4.1"
+merlin_Install_amd64="merlinServer-Linux-x64.7z"
+merlin_agent_windows="merlinAgent-Windows-x64.7z"
+merlin_agent_linux="merlinAgent-Linux-x64.7z"
+merlin_agent_darwin="merlinAgent-Darwin-x64.7z"
 rad_Ver="0.4"
 rad_File_amd64="rad_linux_amd64.zip"
 rad_File_arm64="rad_linux_arm64.zip"
@@ -6480,6 +6485,48 @@ cs_Install(){
 
 }
 
+# -merlin
+merlin_Install(){
+
+    name="merlin"
+    echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+
+    which merlinServer > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+        Echo_INFOR "Merlin Server Command   : merlinServer"
+    else
+        mkdir -p /tmp/merlin && cd /tmp/merlin && rm -f ${merlin_Install_amd64} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_Install_amd64 > /dev/null 2>&1 || Echo_ERROR2
+        7za x -pmerlin ${merlin_Install_amd64} > /dev/null 2>&1
+        mv --force merlinServer-Linux-x64 /usr/local/bin/merlinServer && chmod +x /usr/local/bin/merlinServer && rm -rf /tmp/merlin > /dev/null 2>&1
+        which merlinServer > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $merlin_Ver in the /usr/local/bin/" && Echo_INFOR "Merlin Server Command   : merlinServer" || Echo_ERROR3
+    fi
+
+    dir="$P_Dir/merlinAgent"
+
+    if test -d $dir
+    then
+        Echo_INFOR "Merlin Agent Folder     : $dir"
+    else
+        mkdir $dir
+        mkdir -p /tmp/merlin && cd /tmp/merlin && rm -f ${merlin_agent_windows} > /dev/null 2>&1 && rm -f ${merlin_agent_linux} > /dev/null 2>&1 && rm -f ${merlin_agent_darwin} > /dev/null 2>&1
+        $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_agent_windows > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_agent_linux > /dev/null 2>&1 || Echo_ERROR2
+        $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_agent_darwin > /dev/null 2>&1 || Echo_ERROR2
+        7za x -pmerlin ${merlin_agent_windows} > /dev/null 2>&1
+        7za x -pmerlin ${merlin_agent_linux} > /dev/null 2>&1
+        7za x -pmerlin ${merlin_agent_darwin} > /dev/null 2>&1
+
+        mv --force merlinAgent-Windows-x64.exe $dir/merlinAgent-Windows-x64.exe
+        mv --force merlinAgent-Linux-x64 $dir/merlinAgent-Linux-x64
+        mv --force merlinAgent-Darwin-x64 $dir/merlinAgent-Darwin-x64 && Echo_INFOR "Merlin Agent Folder    : $dir" || Echo_ERROR3
+
+        rm -rf /tmp/merlin > /dev/null 2>&1
+    fi
+
+}
+
 # -frp
 frp_Install(){
 
@@ -7999,6 +8046,13 @@ do
             Proxy_Switch
             Base_Check
             cs_Install
+            ;;
+        -merlin)
+            mac_Check || exit 1
+            linux_arm64_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            merlin_Install
             ;;
         -frp)
             mac_Check || exit 1
