@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta4)"
+F8x_Version="1.6.2 Dev(Beta5)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -2528,6 +2528,7 @@ Pentest_fscan_Install(){
         cd fscan && export GO111MODULE=on && export GOPROXY=https://goproxy.io && export GOPATH=$HOME/go && go build -ldflags="-s -w " -trimpath > /dev/null 2>&1
         mv fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
         which fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+        rm -rf /tmp/fscan > /dev/null 2>&1
     fi
 
 }
@@ -2836,7 +2837,7 @@ Pentest_ApkAnalyser_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "apkutils"
-        curl -o $P_Dir/apkAnalyser.py https://cdn.jsdelivr.net/gh/TheKingOfDuck/ApkAnalyser/apkAnalyser.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        $Proxy_OK curl -o $P_Dir/apkAnalyser.py https://cdn.jsdelivr.net/gh/TheKingOfDuck/ApkAnalyser/apkAnalyser.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -2851,7 +2852,7 @@ Pentest_Diggy_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && curl -o diggy.sh https://cdn.jsdelivr.net/gh/s0md3v/Diggy/diggy.sh > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK curl -o diggy.sh https://cdn.jsdelivr.net/gh/s0md3v/Diggy/diggy.sh > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3119,15 +3120,15 @@ Pentest_xray_Install(){
         xray version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $xray_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
-    name="xray poc"
-    dir="$P_Dir/xray"
+    #name="xray poc"
+    #dir="$P_Dir/xray"
 
-    if test -d $dir
-    then
-        Echo_ALERT "$name poc is already installed in $dir"
-    else
-        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/chaitin/xray.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name poc in the $dir" || Echo_ERROR4 "chaitin/xray"
-    fi
+    #if test -d $dir
+    #then
+        #Echo_ALERT "$name poc is already installed in $dir"
+    #else
+        #$Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/chaitin/xray.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name poc in the $dir" || Echo_ERROR4 "chaitin/xray"
+    #fi
 
 }
 
@@ -7394,8 +7395,8 @@ kali_Tools_TypeB(){
     Pentest_Sqlmap_Install
     echo -e "\033[1;33m\n>> Installing xray\n\033[0m"
     Pentest_xray_Install
-    echo -e "\033[1;33m\n>> Installing pocsuite3\n\033[0m"
-    Pentest_pocsuite3_Install
+    #echo -e "\033[1;33m\n>> Installing pocsuite3\n\033[0m"
+    #Pentest_pocsuite3_Install
     echo -e "\033[1;33m\n>> Installing Nuclei\n\033[0m"
     Pentest_Nuclei_Install
     echo -e "\033[1;33m\n>> Installing w13scan\n\033[0m"
