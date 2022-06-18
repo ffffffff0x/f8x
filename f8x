@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta7)"
+F8x_Version="1.6.2 Dev(Beta8)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -95,9 +95,9 @@ rad_File_arm64="rad_linux_arm64.zip"
 crawlergo_Ver="v0.4.1"
 crawlergo_File_amd64="crawlergo_linux_amd64.zip"
 crawlergo_File_arm64="crawlergo_linux_arm64.zip"
-Terraform_Ver="1.2.1"
-Terraform_bin_amd64="terraform_1.2.1_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.2.1_linux_arm64.zip"
+Terraform_Ver="1.2.3"
+Terraform_bin_amd64="terraform_1.2.3_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.2.3_linux_arm64.zip"
 CrossC2_Ver="v3.1.0"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
@@ -724,6 +724,10 @@ Sys_Version(){
             echo -e "\033[1;31mPlease replace your Centos, as Centos will not be maintained.\033[0m"
             Linux_Version="CentOS"
             case $(cat /etc/*-release | head -n 1) in
+                *"Stream release 9"*)
+                    Linux_Version_Num="9 Stream"
+                    Linux_Version_Name=""
+                    ;;
                 *"Stream release 8"*)
                     Linux_Version_Num="8 Stream"
                     Linux_Version_Name=""
@@ -752,6 +756,10 @@ Sys_Version(){
         *"Fedora"*|*"fedora"*)
             Linux_Version="Fedora"
             case $(cat /etc/*-release | head -n 1) in
+                *"release 36"*)
+                    Linux_Version_Num="36"
+                    Linux_Version_Name=""
+                    ;;
                 *"release 35"*)
                     Linux_Version_Num="35"
                     Linux_Version_Name=""
@@ -802,7 +810,7 @@ Sys_Version(){
                     ;;
                 [cC])
                     Linux_Version="CentOS"
-                    echo -e "\033[1;33m\nPlease enter the system version number [8] [7] [6]\033[0m" && read -r input
+                    echo -e "\033[1;33m\nPlease enter the system version number [9 Stream] [8 Stream] [8] [7] [6]\033[0m" && read -r input
                     Linux_Version_Name=$input
                     ;;
                 [rR])
@@ -813,7 +821,7 @@ Sys_Version(){
                     ;;
                 [fF])
                     Linux_Version="Fedora"
-                    echo -e "\033[1;33m\nPlease enter the system version number [34] [33] [32]\033[0m" && read -r input
+                    echo -e "\033[1;33m\nPlease enter the system version number [36] [35] [34] [33] [32]\033[0m" && read -r input
                     Linux_Version_Name=$input
                     ;;
                 [vV])
@@ -1336,6 +1344,9 @@ Update_EPEL_Mirror(){
         Echo_ALERT "epel source not detected, being installed automatically"
         Rm_Lock
         case $Linux_Version_Num in
+            "9 Stream")
+                Install_Switch "epel-release"
+                ;;
             "8 Stream")
                 Install_Switch "epel-release"
                 ;;
@@ -1362,6 +1373,9 @@ Update_EPEL_Mirror(){
 Update_CentOS_Mirror(){
 
     case $Linux_Version_Num in
+        "9 Stream")
+            Echo_INFOR "pass"
+            ;;
         "8 Stream")
             Echo_INFOR "pass"
             ;;
@@ -1591,6 +1605,7 @@ Base_Tools(){
             Install_Switch "openssl-devel"
             Install_Switch "kernel-devel"
             Install_Switch "dnf"
+            yum upgrade -y wget > /dev/null 2>&1
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
             apt-get update > /dev/null 2>&1
@@ -6580,7 +6595,7 @@ cs45_Install(){
     CS_IP=$input
     echo -e "\033[5;33m\nPlease enter your teamserver server password(Special characters should be preceded by a backslash \"\\\" to escape them)\033[0m" && read -r input
     CS_Pass=$input
-    Echo_INFOR "Please create a new bash session and run the following command:(Default Port 41337)\n\033[0m\033[1;32mcd $P_Dir/$CS45_Version/ && nohup ./teamserver $CS_IP $CS_Pass & "
+    Echo_INFOR "Please create a new bash session and run the following command:(Default Port 50050)\n\033[0m\033[1;32mcd $P_Dir/$CS45_Version/ && nohup ./teamserver $CS_IP $CS_Pass & "
 
 }
 
