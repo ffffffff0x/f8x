@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta12)"
+F8x_Version="1.6.2 Dev(Beta13)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -83,9 +83,9 @@ fscan_Install_arm64="fscan_arm64"
 ffuf_Ver="v1.5.0"
 ffuf_Install_amd64="ffuf_1.5.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_1.5.0_linux_arm64.tar.gz"
-Nuclei_Ver="v2.7.3"
-Nuclei_Install_amd64="nuclei_2.7.3_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.7.3_linux_arm64.zip"
+Nuclei_Ver="v2.7.5"
+Nuclei_Install_amd64="nuclei_2.7.5_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.7.5_linux_arm64.zip"
 merlin_Ver="v1.4.1"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
 merlin_agent_windows="merlinAgent-Windows-x64.7z"
@@ -97,9 +97,9 @@ rad_File_arm64="rad_linux_arm64.zip"
 crawlergo_Ver="v0.4.3"
 crawlergo_File_amd64="crawlergo_linux_amd64"
 crawlergo_File_arm64="crawlergo_linux_arm64"
-Terraform_Ver="1.2.5"
-Terraform_bin_amd64="terraform_1.2.5_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.2.5_linux_arm64.zip"
+Terraform_Ver="1.2.6"
+Terraform_bin_amd64="terraform_1.2.6_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.2.6_linux_arm64.zip"
 CrossC2_Ver="v3.1.0"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
@@ -115,16 +115,16 @@ bettercap_bin_amd64="bettercap_linux_amd64_v2.31.1.zip"
 bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
 mitmproxy_Ver="8.1.1"
 mitmproxy_bin="mitmproxy-8.1.1-linux.tar.gz"
-naabu_Ver="v2.0.7"
-naabu_bin="naabu_2.0.7_linux_amd64.zip"
+naabu_Ver="v2.0.9"
+naabu_bin="naabu_2.0.9_linux_amd64.zip"
 proxify_Ver="v0.0.6"
 proxify_bin_amd64="proxify_0.0.6_linux_amd64.zip"
 proxify_bin_arm64="proxify_0.0.6_linux_arm64.zip"
 clash_Ver="v1.7.0"
 clash_bin="clash-linux-amd64-v1.7.0.gz"
-fzf_Ver="0.30.0"
-fzf_bin_amd64="fzf-0.30.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.30.0-linux_arm64.tar.gz"
+fzf_Ver="0.31.0"
+fzf_bin_amd64="fzf-0.31.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.31.0-linux_arm64.tar.gz"
 subfinder_Ver="v2.5.2"
 subfinder_bin_amd64="subfinder_2.5.2_linux_amd64.zip"
 subfinder_bin_arm64="subfinder_2.5.2_linux_arm64.zip"
@@ -142,23 +142,23 @@ dnsx_bin_amd64="dnsx_1.1.0_linux_amd64.zip"
 dnsx_bin_arm64="dnsx_1.1.0_linux_arm64.zip"
 apktool_Ver="v2.6.1"
 apktool_bin="apktool_2.6.1.jar"
-gau_Ver="v2.1.1"
-gau_bin="gau_2.1.1_linux_amd64.tar.gz"
+gau_Ver="v2.1.2"
+gau_bin="gau_2.1.2_linux_amd64.tar.gz"
 lux_Ver="v0.14.0"
 lux_bin_amd64="lux_0.14.0_Linux_64-bit.tar.gz"
 lux_bin_arm64="lux_0.14.0_Linux_ARM64.tar.gz"
 nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
-jadx_Ver="v1.4.2"
-jadx_bin="jadx-1.4.2.zip"
+jadx_Ver="v1.4.3"
+jadx_bin="jadx-1.4.3.zip"
 rmg_Ver="v4.3.0"
 rmg_bin="rmg-4.3.0-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
 anew_bin_arm64="anew_1.0.3_linux_arm64.tar.gz"
-nali_Ver="v0.4.8"
-nali_bin_amd64="nali-linux-amd64-v0.4.8.gz"
-nali_bin_arm64="nali-linux-armv8-v0.4.8.gz"
+nali_Ver="v0.5.0"
+nali_bin_amd64="nali-linux-amd64-v0.5.0.gz"
+nali_bin_arm64="nali-linux-armv8-v0.5.0.gz"
 dalfox_Ver="v2.7.5"
 dalfox_bin_amd64="dalfox_2.7.5_linux_amd64.tar.gz"
 dalfox_bin_arm64="dalfox_2.7.5_linux_arm64.tar.gz"
@@ -198,17 +198,17 @@ assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.6.3"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
-code_server_Ver="v4.5.0"
-code_server_bin1_amd64="code-server-4.5.0-amd64.rpm"
-code_server_bin2_amd64="code-server_4.5.0_amd64.deb"
-code_server_bin1_arm64="code-server-4.5.0-arm64.rpm"
-code_server_bin2_arm64="code-server_4.5.0_arm64.deb"
+code_server_Ver="v4.5.1"
+code_server_bin1_amd64="code-server-4.5.1-amd64.rpm"
+code_server_bin2_amd64="code-server_4.5.1_amd64.deb"
+code_server_bin1_arm64="code-server-4.5.1-arm64.rpm"
+code_server_bin2_arm64="code-server_4.5.1_arm64.deb"
 dismap_Ver="v0.4"
 dismap_bin_amd64="dismap-0.4-linux-amd64"
 dismap_bin_arm64="dismap-0.4-linux-arm64"
 gojwtcrack_Ver="0.1"
 gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
-fapro_Ver="v0.62"
+fapro_Ver="v0.63"
 fapro_bin_amd64="fapro_linux_x86_64.tar.gz"
 fapro_bin_arm64="fapro_linux_arm64.tar.gz"
 py37_ver="3.7.12"
@@ -244,8 +244,8 @@ duf_bin1_amd64="duf_0.8.1_linux_amd64.rpm"
 duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
 duf_bin1_arm64="duf_0.8.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
-procs_Ver="v0.12.3"
-procs_bin="procs-v0.12.3-x86_64-linux.zip"
+procs_Ver="v0.13.0"
+procs_bin="procs-v0.13.0-x86_64-linux.zip"
 fd_Ver="v8.4.0"
 fd_bin_amd64="fd_8.4.0_amd64.deb"
 fd_bin_arm64="fd_8.4.0_arm64.deb"
@@ -2544,21 +2544,29 @@ Pentest_masscan_Install(){
 # ===================== Install fscan =====================
 Pentest_fscan_Install(){
 
-    name="fscan"
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            fscan_Install=$fscan_Install_amd64
+            ;;
+        *"linux-arm64"*)
+            fscan_Install=$fscan_Install_arm64
+            ;;
+    esac
 
+    name="fscan"
     which fscan > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
     else
-        #cd /tmp && rm -f $fscan_Install > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
-        #mv $fscan_Install fscan && mv --force fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
-        #fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
-        cd /tmp && rm -rf fscan && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/shadow1ng/fscan.git > /dev/null 2>&1
-        cd fscan && export GO111MODULE=on && export GOPROXY=https://goproxy.io && export GOPATH=$HOME/go && go build -ldflags="-s -w " -trimpath > /dev/null 2>&1
-        mv fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
-        which fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+        cd /tmp && rm -f $fscan_Install > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
+        mv $fscan_Install fscan && mv --force fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
+        fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
+        #cd /tmp && rm -rf fscan && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/shadow1ng/fscan.git > /dev/null 2>&1
+        #cd fscan && export GO111MODULE=on && export GOPROXY=https://goproxy.io && export GOPATH=$HOME/go && go build -ldflags="-s -w " -trimpath > /dev/null 2>&1
+        #mv fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
+        #which fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
         rm -rf /tmp/fscan > /dev/null 2>&1
     fi
 
@@ -7182,6 +7190,7 @@ remove_watcher(){
     then
         # 卸载阿里云盾和监控服务
         /etc/init.d/aegis uninstall
+        wget "http://update2.aegis.aliyun.com/download/uninstall.sh" && chmod +x uninstall.sh && ./uninstall.sh
         wget http://update.aegis.aliyun.com/download/uninstall.sh && chmod +x uninstall.sh && ./uninstall.sh
         wget http://update.aegis.aliyun.com/download/quartz_uninstall.sh && chmod +x quartz_uninstall.sh && ./quartz_uninstall.sh
 
@@ -8395,7 +8404,7 @@ do
             clear_log
             ;;
         -info)
-            Base_Check
+            # Base_Check
             System_info
             ;;
         -optimize)
