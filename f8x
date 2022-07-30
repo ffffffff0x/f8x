@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta13)"
+F8x_Version="1.6.2 Dev(Beta14)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -7398,6 +7398,85 @@ jq_Install(){
 
 }
 
+# 更新已经安装的软件
+pentest_tool_upgrade(){
+
+    nuclei -version > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "Nuclei 已安装,是否需要覆盖更新 nuclei $Nuclei_Ver ? [y/N,默认No]" && read -r input
+        case $input in
+            [yY][eE][sS]|[Yy])
+                rm -rf /usr/local/bin/nuclei
+                Pentest_Nuclei_Install
+                ;;
+            *)
+                sleep 0.001
+                ;;
+        esac
+    else
+        Echo_ERROR "Nuclei 未安装"
+        Pentest_Nuclei_Install
+    fi
+
+    which httpx > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "httpx 已安装,是否需要覆盖更新 httpx $httpx_Ver ? [y/N,默认No]" && read -r input
+        case $input in
+            [yY][eE][sS]|[Yy])
+                rm -rf /usr/local/bin/httpx
+                Pentest_httpx_Install
+                ;;
+            *)
+                sleep 0.001
+                ;;
+        esac
+    else
+        Echo_ERROR "httpx 未安装"
+        Pentest_httpx_Install
+    fi
+
+    naabu -version > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "naabu 已安装,是否需要覆盖更新 naabu $naabu_Ver ? [y/N,默认No]" && read -r input
+        case $input in
+            [yY][eE][sS]|[Yy])
+                rm -rf /usr/local/bin/naabu
+                Pentest_naabu_Install
+                ;;
+            *)
+                sleep 0.001
+                ;;
+        esac
+    else
+        Echo_ERROR "naabu 未安装"
+        Pentest_naabu_Install
+    fi
+
+    name="AboutSecurity"
+    if test -d $P_Dir/$name
+    then
+        Echo_ALERT "$name 字典库已安装,以下是最近3条更新记录"
+        cd $P_Dir/AboutSecurity && git log --color --date=format:'%Y-%m-%d %H:%M:%S' --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --no-merges -n 3
+        echo -e ""
+        Echo_ALERT "是否需要更新 AboutSecurity ? [y/N,默认No]" && read -r input
+        case $input in
+            [yY][eE][sS]|[Yy])
+                cd $P_Dir/AboutSecurity && $Proxy_OK git pull
+                ;;
+            *)
+                sleep 0.001
+                ;;
+        esac
+    else
+        Echo_ERROR "$name 未安装"
+        Pentest_Dic_Install
+    fi
+
+}
+
 # -all
 all_Install(){
 
@@ -7886,6 +7965,7 @@ Help(){
     echo -e "  \033[1;34m-rmlock\033[0m \033[0;34m          : Run the Unlock module\033[0m"
     echo -e "  \033[1;34m-swap\033[0m \033[0;34m            : Configuring swap partitions\033[0m"
     echo -e "  \033[1;34m-update\033[0m \033[0;34m          : Update f8x\033[0m"
+    echo -e "  \033[1;34m-upgrade\033[0m \033[0;34m         : Upgrade some tools\033[0m"
     echo -e ""
     echo -e "\033[1;37mAuthor r0fus0d , feel free to submit an issue if you need to add tool support or run into problems\033[0m"
     echo -e "\033[1;37m|- create by ffffffff0x\033[0m"
@@ -8440,6 +8520,14 @@ do
             else
                 rm -f f8x && $Proxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
             fi
+            ;;
+        -upgrade)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Py_Check
+            GO_Check
+            pentest_tool_upgrade
             ;;
         -debug)
             mac_Check || exit 1
