@@ -129,6 +129,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -frp 选项部署 frp 工具
 - 使用 -interactsh 选项部署 interactsh 工具
 - 使用 -merlin 选项部署 merlin 环境
+- 使用 -msf 选项部署 Metasploit 环境
 - 使用 -nps 选项部署 nps 工具
 - 使用 -pupy 选项部署 pupy 环境
 - 使用 -rg 选项部署 RedGuard 工具

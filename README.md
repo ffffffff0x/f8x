@@ -122,6 +122,7 @@ The following options are currently supported by f8x
 - `-frp`          : install frp
 - `-interactsh`   : install interactsh
 - `-merlin`       : install merlin
+- `-msf`          : install Metasploit
 - `-nps`          : install nps
 - `-pupy`         : install pupy
 - `-rg`           : install RedGuard
