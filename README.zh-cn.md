@@ -76,19 +76,19 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 目前 f8x 支持以下部署选项 (Linux arm64 下大部分都支持)
 
 **1. 批量化安装**
-- 使用 -b 选项安装基本环境        (gcc、make、git、vim、telnet、jq、unzip 等基本工具)
-- 使用 -p 选项安装代理环境        (警告:国外云服务器上不要用,会降速)
-- 使用 -d 选项安装开发环境        (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
-- 使用 -k 选项安装渗透环境        (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
+- 使用 -b 选项安装基本环境 (gcc、make、git、vim、telnet、jq、unzip 等基本工具)
+- 使用 -p 选项安装代理环境 (警告:国外云服务器上不要用,会降速)
+- 使用 -d 选项安装开发环境 (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
+- 使用 -k 选项安装渗透环境 (hashcat、ffuf、OneForAll、ksubdomain、impacket 等渗透工具)
   - -ka 信息收集、扫描、爆破、抓取
   - -kb 漏洞利用
   - -kc 后渗透、C2
   - -kd 其他
   - -ke 功能重叠或长期不维护
-- 使用 -s 选项安装蓝队环境        (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
-- 使用 -f 选项安装其他工具        (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli 等辅助工具)
-- 使用 -cloud 选项安装云应用      (Terraform、Serverless Framework、wrangler)
-- 使用 -all 选项全自动化部署      (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
+- 使用 -s 选项安装蓝队环境 (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
+- 使用 -f 选项安装其他工具 (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli 等辅助工具)
+- 使用 -cloud 选项安装云应用 (Terraform、Serverless Framework、wrangler)
+- 使用 -all 选项全自动化部署 (默认不走代理,兼容 CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 **2. 开发环境**
 - 使用 -docker 选项安装 docker 环境
@@ -99,19 +99,19 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -openjdk 选项安装 openjdk 环境
 - 使用 -py3(7/8/9/10) 选项安装 python3 环境
 - 使用 -py2 选项安装 python2 环境
-- 使用 -pip2-f 选项强制安装 pip2 环境          (建议在 -python2 选项失败的情况下运行)
+- 使用 -pip2-f 选项强制安装 pip2 环境 (建议在 -python2 选项失败的情况下运行)
 - 使用 -perl 选项安装 perl 环境
 - 使用 -ruby 选项安装 ruby 环境
 - 使用 -rust 选项安装 rust 环境
 - 使用 -code 选项安装 code-server 环境
-- 使用 -chromium 选项安装 Chromium 环境        (用于配合 -k 选项中的 rad、crawlergo)
+- 使用 -chromium 选项安装 Chromium 环境 (用于配合 -k 选项中的 rad、crawlergo)
 - 使用 -phantomjs 选项安装 PhantomJS
 
 **3. 蓝队工具**
 - 使用 -binwalk 选项安装 binwalk 环境
-- 使用 -binwalk-f 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
+- 使用 -binwalk-f 选项强制安装 binwalk 环境 (建议在 -binwalk 选项失败的情况下运行)
 - 使用 -clamav 选项安装 ClamAV 工具
-- 使用 -lt 选项部署 LogonTracer 环境           (非超高配置机器不要部署,这个应用太吃配置了)
+- 使用 -lt 选项部署 LogonTracer 环境 (非超高配置机器不要部署,这个应用太吃配置了)
 - 使用 -suricata 选项部署 Suricata 环境
 - 使用 -vol 选项安装 volatility 取证工具
 - 使用 -vol3 选项安装 volatility3 取证工具
@@ -119,7 +119,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 **4. 红队工具**
 - 使用 -aircrack 选项部署 aircrack-ng 环境
 - 使用 -bypass 选项部署 Bypass 环境
-- 使用 -goby 选项部署 Goby 环境                (需要图形化环境)
+- 使用 -goby 选项部署 Goby 环境 (需要图形化环境)
 - 使用 -yakit 选项部署 yakit 环境
 
 **5. 红队基础设施**
@@ -127,13 +127,15 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -cs 选项部署 CobaltStrike4.3 环境
 - 使用 -cs45 选项部署 CobaltStrike4.5 环境
 - 使用 -frp 选项部署 frp 工具
-- 使用 -interactsh 选项部署 interactsh 工具
-- 使用 -merlin 选项部署 merlin 环境
+- 使用 -interactsh 选项部署 interactsh 工具 (https://github.com/projectdiscovery/interactsh)
+- 使用 -merlin 选项部署 merlin 环境 (https://github.com/Ne0nd0g/merlin)
 - 使用 -msf 选项部署 Metasploit 环境
 - 使用 -nps 选项部署 nps 工具
-- 使用 -pupy 选项部署 pupy 环境
-- 使用 -rg 选项部署 RedGuard 工具
-- 使用 -sps 选项部署 SharPyShell 工具
+- 使用 -pupy 选项部署 pupy 环境 (https://github.com/n1nj4sec/pupy)
+- 使用 -rg 选项部署 RedGuard 工具 (https://github.com/wikiZ/RedGuard)
+- 使用 -sliver 选项部署 sliver 环境 (https://github.com/BishopFox/sliver)
+- 使用 -sliver-client 选项安装 sliver-client 工具
+- 使用 -sps 选项部署 SharPyShell 工具 (https://github.com/antonioCoco/SharPyShell)
 - 使用 -viper 选项部署 Viper 环境(2.1 GB)
 
 **6. 基于 Docker 的环境部署**
@@ -147,10 +149,10 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 **7. 杂项服务**
 - 使用 -asciinema 选项安装 asciinema 截图工具
 - 使用 -bt 选项部署宝塔服务
-- 使用 -clash 选项安装 clash 工具              (使用 https://github.com/juewuy/ShellClash)
+- 使用 -clash 选项安装 clash 工具 (https://github.com/juewuy/ShellClash)
 - 使用 -music 选项部署 UnblockNeteaseMusic 服务
 - 使用 -nginx 选项配置 nginx 服务
-- 使用 -ssh 选项配置 ssh 环境                  (RedHat 系默认可用,无需重复安装)
+- 使用 -ssh 选项配置 ssh 环境 (RedHat 系默认可用,无需重复安装)
 - 使用 -ssr 选项部署 ssr 工具
 - 使用 -zsh 选项部署 zsh 工具
 

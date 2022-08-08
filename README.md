@@ -74,14 +74,14 @@ Deployment of middleware, database (apache、nginx、tomcat、Database、php)
 The following options are currently supported by f8x
 
 **Batch installation**
-- `-b`            : install Basic Environment          (gcc、make、git、vim、telnet、jq、unzip and other basic tools)
-- `-p`            : install Proxy Environment          (Warning : Use only when needed)
-- `-d`            : install Development Environment    (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
-- `-k` (`a`/`b`/`c`/`d`/`e`): install Pentest environment        (hashcat、ffuf、OneForAll、ksubdomain、impacket and other Pentest tools)
-- `-s`            : install Blue Team Environment      (Fail2Ban、chkrootkit、rkhunter、shellpub)
-- `-f`            : install Other Tools                (AdguardTeam、trash-cli、fzf)
-- `-cloud`        : install Cloud Applications         (Terraform、Serverless Framework、wrangler)
-- `-all`          : fully automated deployment         (Compatible with CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
+- `-b`            : install Basic Environment (gcc、make、git、vim、telnet、jq、unzip and other basic tools)
+- `-p`            : install Proxy Environment (Warning : Use only when needed)
+- `-d`            : install Development Environment (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
+- `-k` (`a`/`b`/`c`/`d`/`e`): install Pentest environment (hashcat、ffuf、OneForAll、ksubdomain、impacket and other Pentest tools)
+- `-s`            : install Blue Team Environment (Fail2Ban、chkrootkit、rkhunter、shellpub)
+- `-f`            : install Other Tools (AdguardTeam、trash-cli、fzf)
+- `-cloud`        : install Cloud Applications (Terraform、Serverless Framework、wrangler)
+- `-all`          : fully automated deployment (Compatible with CentOS7/8,Debain10/9,Ubuntu20/18,Fedora33)
 
 **Development Environment**
 - `-docker`         : install docker
@@ -92,19 +92,19 @@ The following options are currently supported by f8x
 - `-openjdk`        : install openjdk
 - `-py3(7/8/9/10)`  : install python3
 - `-py2`            : install python2
-- `-pip2-f`         : force install pip2                 (It is recommended to run with the -python2 option failing)
+- `-pip2-f`         : force install pip2 (It is recommended to run with the -python2 option failing)
 - `-perl`           : install perl
 - `-ruby`           : install ruby
 - `-rust`           : install rust
 - `-code`           : install code-server
-- `-chromium`       : install Chromium                   (Used with rad, crawlergo in the -k option)
+- `-chromium`       : install Chromium (Used with rad, crawlergo in the -k option)
 - `-phantomjs`      : install PhantomJS
 
 **Blue Team Service**
 - `-binwalk`      : install binwalk
-- `-binwalk-f`    : force install binwalk              (It is recommended to run if the -binwalk option fails)
+- `-binwalk-f`    : force install binwalk (It is recommended to run if the -binwalk option fails)
 - `-clamav`       : install ClamAV
-- `-lt`           : install LogonTracer                (High hardware configuration requirements)
+- `-lt`           : install LogonTracer (High hardware configuration requirements)
 - `-suricata`     : install Suricata
 - `-vol`          : install volatility
 - `-vol3`         : install volatility3
@@ -112,7 +112,7 @@ The following options are currently supported by f8x
 **Red Team Service**
 - `-aircrack`     : install aircrack-ng
 - `-bypass`       : install Bypass
-- `-goby`         : install Goby                       (The client side requires a graphical environment, the server side does not.)
+- `-goby`         : install Goby (The client side requires a graphical environment, the server side does not.)
 - `-yakit`        : install yakit
 
 **Red Team Infrastructure**
@@ -120,13 +120,15 @@ The following options are currently supported by f8x
 - `-cs`           : install CobaltStrike 4.3
 - `-cs45`         : install CobaltStrike 4.5
 - `-frp`          : install frp
-- `-interactsh`   : install interactsh
-- `-merlin`       : install merlin
+- `-interactsh`   : install interactsh (https://github.com/projectdiscovery/interactsh)
+- `-merlin`       : install merlin (https://github.com/Ne0nd0g/merlin)
 - `-msf`          : install Metasploit
 - `-nps`          : install nps
-- `-pupy`         : install pupy
-- `-rg`           : install RedGuard
-- `-sps`          : install SharPyShell
+- `-pupy`         : install pupy (https://github.com/n1nj4sec/pupy)
+- `-rg`           : install RedGuard (https://github.com/wikiZ/RedGuard)
+- `-sliver`       : install sliver-server && client (https://github.com/BishopFox/sliver)
+- `-sliver-client` : install sliver-client
+- `-sps`          : install SharPyShell (https://github.com/antonioCoco/SharPyShell)
 - `-viper`        : install Viper (~2.1 GB)
 
 **Docker-based environment deployment**
@@ -140,10 +142,10 @@ The following options are currently supported by f8x
 **Miscellaneous Services**
 - `-asciinema`    : install asciinema
 - `-bt`           : install 宝塔服务
-- `-clash`        : install clash                       (https://github.com/juewuy/ShellClash)
+- `-clash`        : install clash (https://github.com/juewuy/ShellClash)
 - `-music`        : install UnblockNeteaseMusic
 - `-nginx`        : install nginx
-- `-ssh`          : install ssh                         (RedHat is available by default, no need to reinstall)
+- `-ssh`          : install ssh (RedHat is available by default, no need to reinstall)
 - `-ssr`          : install ssr
 - `-zsh`          : install zsh
 
