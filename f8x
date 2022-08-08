@@ -8077,6 +8077,7 @@ Help(){
     echo -e "  \033[1;34m-frp\033[0m \033[0;34m             : install frp\033[0m"
     echo -e "  \033[1;34m-interactsh\033[0m \033[0;34m      : install interactsh\033[0m"
     echo -e "  \033[1;34m-merlin\033[0m \033[0;34m          : install merlin\033[0m"
+    echo -e "  \033[1;34m-msf\033[0m \033[0;34m             : install Metasploit\033[0m"
     echo -e "  \033[1;34m-nps\033[0m \033[0;34m             : install nps\033[0m"
     echo -e "  \033[1;34m-pupy\033[0m \033[0;34m            : install pupy\033[0m\033[0m"
     echo -e "  \033[1;34m-rg\033[0m \033[0;34m              : install RedGuard\033[0m"
@@ -8506,7 +8507,13 @@ do
             Base_Check
             merlin_Install
             ;;
-        -sps
+        -msf)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Pentest_Metasploit_Install
+            ;;
+        -sps)
             mac_Check || exit 1
             linux_arm64_Check || exit 1
             Proxy_Switch
