@@ -6983,10 +6983,9 @@ sliver-server_Install(){
         mv --force sliver-server_linux /root/sliver-server && chmod 755 /root/sliver-server
         /root/sliver-server unpack --force && Echo_INFOR "Successfully installed $name in the /root/sliver-server" || Echo_ERROR3
         rm -f /tmp/sliver-server > /dev/null 2>&1
-    fi
 
-    # systemd
-    Echo_INFOR "Configuring systemd service ..."
+        # systemd
+        Echo_INFOR "Configuring systemd service ..."
 cat > /etc/systemd/system/sliver.service <<-EOF
 [Unit]
 Description=Sliver
@@ -7003,27 +7002,29 @@ ExecStart=/root/sliver-server daemon
 [Install]
 WantedBy=multi-user.target
 EOF
-    chown root:root /etc/systemd/system/sliver.service
-    chmod 600 /etc/systemd/system/sliver.service
+        chown root:root /etc/systemd/system/sliver.service
+        chmod 600 /etc/systemd/system/sliver.service
 
-    Echo_INFOR "systemctl start sliver"
-    systemctl start sliver
+        Echo_INFOR "systemctl start sliver"
+        systemctl start sliver
 
-    # Generate local configs
-    Echo_INFOR "Generating operator configs ..."
-    mkdir -p /root/.sliver-client/configs
-    /root/sliver-server operator --name root --lhost localhost --save /root/.sliver-client/configs
-    chown -R root:root /root/.sliver-client/
+        # Generate local configs
+        Echo_INFOR "Generating operator configs ..."
+        mkdir -p /root/.sliver-client/configs
+        /root/sliver-server operator --name root --lhost localhost --save /root/.sliver-client/configs
+        chown -R root:root /root/.sliver-client/
 
-    USER_DIRS=(/home/*)
-    for USER_DIR in "${USER_DIRS[@]}"; do
-        USER=$(basename $USER_DIR)
-        if id -u $USER >/dev/null 2>&1; then
-            mkdir -p $USER_DIR/.sliver-client/configs
-            /root/sliver-server operator --name $USER --lhost localhost --save $USER_DIR/.sliver-client/configs
-            chown -R $USER:$USER $USER_DIR/.sliver-client/
-        fi
-    done
+        USER_DIRS=(/home/*)
+        for USER_DIR in "${USER_DIRS[@]}"; do
+            USER=$(basename $USER_DIR)
+            if id -u $USER >/dev/null 2>&1; then
+                mkdir -p $USER_DIR/.sliver-client/configs
+                /root/sliver-server operator --name $USER --lhost localhost --save $USER_DIR/.sliver-client/configs
+                chown -R $USER:$USER $USER_DIR/.sliver-client/
+            fi
+        done
+
+    fi
 
     sliver-client_Install
 
