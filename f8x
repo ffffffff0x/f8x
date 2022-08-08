@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta14)"
+F8x_Version="1.6.2 Dev(Beta15)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -48,7 +48,7 @@ CS_File="CobaltStrike4.3.zip"
 CS_Version="CobaltStrike4.3"
 CS45_File="CobaltStrike4.5.zip"
 CS45_Version="CobaltStrike4.5"
-AdGuardHome_Version="v0.107.8"
+AdGuardHome_Version="v0.107.9"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 frp_Ver="v0.44.0"
@@ -59,7 +59,7 @@ frp_Dir_arm64="frp_0.44.0_linux_arm64"
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
 nps_File_arm64="linux_arm64_server.tar.gz"
-RedGuard_Ver="22.7.14"
+RedGuard_Ver="22.08.03"
 RedGuard_File_amd64="RedGuard_64"
 Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
@@ -115,22 +115,22 @@ bettercap_bin_amd64="bettercap_linux_amd64_v2.31.1.zip"
 bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
 mitmproxy_Ver="8.1.1"
 mitmproxy_bin="mitmproxy-8.1.1-linux.tar.gz"
-naabu_Ver="v2.0.9"
-naabu_bin="naabu_2.0.9_linux_amd64.zip"
+naabu_Ver="v2.1.0"
+naabu_bin="naabu_2.1.0_linux_amd64.zip"
 proxify_Ver="v0.0.6"
 proxify_bin_amd64="proxify_0.0.6_linux_amd64.zip"
 proxify_bin_arm64="proxify_0.0.6_linux_arm64.zip"
 clash_Ver="v1.7.0"
 clash_bin="clash-linux-amd64-v1.7.0.gz"
-fzf_Ver="0.31.0"
-fzf_bin_amd64="fzf-0.31.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.31.0-linux_arm64.tar.gz"
-subfinder_Ver="v2.5.2"
-subfinder_bin_amd64="subfinder_2.5.2_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.5.2_linux_arm64.zip"
-httpx_Ver="v1.2.3"
-httpx_bin_amd64="httpx_1.2.3_linux_amd64.zip"
-httpx_bin_arm64="httpx_1.2.3_linux_arm64.zip"
+fzf_Ver="0.32.0"
+fzf_bin_amd64="fzf-0.32.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.32.0-linux_arm64.tar.gz"
+subfinder_Ver="v2.5.3"
+subfinder_bin_amd64="subfinder_2.5.3_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.5.3_linux_arm64.zip"
+httpx_Ver="v1.2.4"
+httpx_bin_amd64="httpx_1.2.4_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.2.4_linux_arm64.zip"
 mapcidr_Ver="v1.0.1"
 mapcidr_bin_amd64="mapcidr_1.0.1_linux_amd64.tar.gz"
 mapcidr_bin_arm64="mapcidr_1.0.1_linux_arm64.tar.gz"
@@ -6384,6 +6384,66 @@ nodejsscan_Install(){
 
 }
 
+# -pupy
+pupy_Install(){
+
+    Docker_Check
+    name="pupy"
+    echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+
+    docker pull alxchk/pupy:unstable && echo -e "" && Echo_INFOR "Pulled the latest pupy image" || Echo_ERROR3
+
+    echo -e "\033[5;33m\n输入 pupy 容器 ssh 端口 (默认 2022)\033[0m" && read -r input
+    pupy_ssh_port=$input
+
+    if [ $pupy_ssh_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 2022"
+        pupy_ssh_port="2022"
+    fi
+
+    echo -e "\033[5;33m\n输入 pupy 容器 http 端口 (默认 80)\033[0m" && read -r input
+    pupy_http_port=$input
+
+    if [ $pupy_http_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 80"
+        pupy_http_port="80"
+    fi
+
+    echo -e "\033[5;33m\n输入 pupy 容器 https 端口 (默认 443)\033[0m" && read -r input
+    pupy_https_port=$input
+
+    if [ $pupy_https_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认监听端口为 443"
+        pupy_https_port="443"
+    fi
+
+    echo -e "\033[5;33m\npupy 容器是否监听 53 端口 [y/N,Default N] (注意: 如果监听 53 会关闭系统自带 systemd-resolved,请知晓这个选项的用意)\033[0m" && read -r input
+    case $input in
+        [yY][eE][sS]|[Yy])
+            systemctl stop systemd-resolved
+            pupy_dns="-p 53:53 "
+        ;;
+        *)
+            echo -e "pass~"
+        ;;
+    esac
+
+    echo -e "" && Echo_INFOR "docker run -d --name pupy-server -p $pupy_ssh_port:22 $pupy_dns-p $pupy_http_port:80 -p $pupy_https_port:443 -v /tmp/projects:/projects alxchk/pupy:unstable"
+    docker run -d --name pupy-server -p $pupy_ssh_port:22 $pupy_dns-p $pupy_http_port:80 -p $pupy_https_port:443 -v /tmp/projects:/projects alxchk/pupy:unstable
+
+    # ssh-keygen 免交互
+    yes | ssh-keygen -t rsa -N "" -C "test@email.com" -f ~/.ssh/id_rsa_pupy
+    cp ~/.ssh/id_rsa_pupy.pub /tmp/projects/keys/authorized_keys
+
+    # ssh首次交互免输入yes
+    # ssh -i ~/.ssh/id_rsa_pupy -p 2022 -o stricthostkeychecking=no pupy@127.0.0.1
+    Echo_INFOR "pupy 交互命令:\nssh -i ~/.ssh/id_rsa_pupy -p 2022 -o stricthostkeychecking=no pupy@127.0.0.1"
+
+}
+
 # -viper
 viper_Install(){
 
@@ -7917,7 +7977,7 @@ Help(){
     echo -e "  \033[1;34m-phantomjs\033[0m \033[0;34m       : install PhantomJS\033[0m"
     #echo -e "  \033[1;34m-k8s\033[0m \033[0;34m             : install k8s\033[0m"
     echo -e ""
-    echo -e "\033[1;34mBlue Team Service \033[0m"
+    echo -e "\033[1;34mBlue Team Tools \033[0m"
     echo -e "  \033[1;34m-binwalk\033[0m \033[0;34m         : install binwalk\033[0m"
     echo -e "  \033[1;34m-binwalk-f\033[0m \033[0;34m       : force install binwalk\033[0m              \033[1;33m(It is recommended to run if the -binwalk option fails)\033[0m"
     echo -e "  \033[1;34m-clamav\033[0m \033[0;34m          : install ClamAV\033[0m"
@@ -7926,23 +7986,27 @@ Help(){
     echo -e "  \033[1;34m-vol\033[0m \033[0;34m             : install volatility\033[0m"
     echo -e "  \033[1;34m-vol3\033[0m \033[0;34m            : install volatility3\033[0m"
     echo -e ""
-    echo -e "\033[1;34mRed Team Service \033[0m"
+    echo -e "\033[1;34mRed Team Tools \033[0m"
     echo -e "  \033[1;34m-aircrack\033[0m \033[0;34m        : install aircrack-ng\033[0m"
     echo -e "  \033[1;34m-bypass\033[0m \033[0;34m          : install Bypass\033[0m"
+    echo -e "  \033[1;34m-goby\033[0m \033[0;34m            : install Goby\033[0m                       \033[1;33m(Requires GUI environment)\033[0m"
+    echo -e "  \033[1;34m-yakit\033[0m \033[0;34m           : install yakit\033[0m"
+    echo -e ""
+    echo -e "\033[1;34mRed Team Infrastructure \033[0m"
+    echo -e "  \033[1;34m-awvs14\033[0m \033[0;34m          : install AWVS14 (~1.04 GB)\033[0m"
     echo -e "  \033[1;34m-cs\033[0m \033[0;34m              : install CobaltStrike 4.3\033[0m"
     echo -e "  \033[1;34m-cs45\033[0m \033[0;34m            : install CobaltStrike 4.5\033[0m"
+    echo -e "  \033[1;34m-merlin\033[0m \033[0;34m          : install merlin\033[0m"
     echo -e "  \033[1;34m-frp\033[0m \033[0;34m             : install frp\033[0m"
-    echo -e "  \033[1;34m-goby\033[0m \033[0;34m            : install Goby\033[0m                       \033[1;33m(Requires GUI environment)\033[0m"
     echo -e "  \033[1;34m-nps\033[0m \033[0;34m             : install nps\033[0m"
     echo -e "  \033[1;34m-rg\033[0m \033[0;34m              : install RedGuard\033[0m"
-    echo -e "  \033[1;34m-yakit\033[0m \033[0;34m           : install yakit\033[0m"
+    echo -e "  \033[1;34m-pupy\033[0m \033[0;34m            : install pupy\033[0m\033[0m"
+    echo -e "  \033[1;34m-viper\033[0m \033[0;34m           : install Viper (~2.1 GB)\033[0m\033[0m"
     echo -e ""
     echo -e "\033[1;34mDocker-based environment deployment\033[0m"
     echo -e "  \033[1;34m-arl\033[0m \033[0;34m             : install ARL (~872 MB)\033[0m"
-    echo -e "  \033[1;34m-awvs14\033[0m \033[0;34m          : install AWVS14 (~1.04 GB)\033[0m"
     echo -e "  \033[1;34m-mobsf\033[0m \033[0;34m           : install MobSF (~1.54 GB)\033[0m"
     echo -e "  \033[1;34m-nodejsscan\033[0m \033[0;34m      : install nodejsscan (~873 MB)\033[0m"
-    echo -e "  \033[1;34m-viper\033[0m \033[0;34m           : install Viper (~2.1 GB)\033[0m\033[0m"
     echo -e "  \033[1;34m-vulhub\033[0m \033[0;34m          : install vulhub (~210 MB)\033[0m"
     echo -e "  \033[1;34m-vulfocus\033[0m \033[0;34m        : install vulfocus (~1.04 GB)\033[0m"
     echo -e "  \033[1;34m-TerraformGoat\033[0m \033[0;34m   : install TerraformGoat\033[0m"
@@ -8416,6 +8480,11 @@ do
             Proxy_Switch
             nodejsscan_Install
             ;;
+        -pupy)
+            mac_Check || exit 1
+            Proxy_Switch
+            pupy_Install
+            ;;
         -viper)
             mac_Check || exit 1
             Proxy_Switch
@@ -8527,6 +8596,7 @@ do
             Base_Check
             Py_Check
             GO_Check
+            Pentest_Base_Install
             pentest_tool_upgrade
             ;;
         -debug)
