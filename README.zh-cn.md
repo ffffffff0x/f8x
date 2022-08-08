@@ -94,6 +94,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -docker 选项安装 docker 环境
 - 使用 -lua 选项安装 lua 环境
 - 使用 -nn 选项安装 npm & NodeJs 环境
+- 使用 -go 选项安装 go 环境
 - 使用 -oraclejdk(8/11) 选项安装 oraclejdk 环境
 - 使用 -openjdk 选项安装 openjdk 环境
 - 使用 -py3(7/8/9/10) 选项安装 python3 环境
@@ -106,7 +107,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -chromium 选项安装 Chromium 环境        (用于配合 -k 选项中的 rad、crawlergo)
 - 使用 -phantomjs 选项安装 PhantomJS
 
-**3. 蓝队服务**
+**3. 蓝队工具**
 - 使用 -binwalk 选项安装 binwalk 环境
 - 使用 -binwalk-f 选项强制安装 binwalk 环境    (建议在 -binwalk 选项失败的情况下运行)
 - 使用 -clamav 选项安装 ClamAV 工具
@@ -115,26 +116,34 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -vol 选项安装 volatility 取证工具
 - 使用 -vol3 选项安装 volatility3 取证工具
 
-**4. 红队服务**
+**4. 红队工具**
 - 使用 -aircrack 选项部署 aircrack-ng 环境
 - 使用 -bypass 选项部署 Bypass 环境
-- 使用 -cs 选项部署 CobaltStrike 环境
-- 使用 -frp 选项部署 frp 环境
 - 使用 -goby 选项部署 Goby 环境                (需要图形化环境)
-- 使用 -nps 选项部署 nps 环境
 - 使用 -yakit 选项部署 yakit 环境
 
-**5. 基于 Docker 的环境部署**
-- 使用 -arl 选项部署 ARL 环境(872 MB)
+**5. 红队基础设施**
 - 使用 -awvs14 选项部署 AWVS13 环境(1.04 GB)
+- 使用 -cs 选项部署 CobaltStrike4.3 环境
+- 使用 -cs45 选项部署 CobaltStrike4.5 环境
+- 使用 -frp 选项部署 frp 工具
+- 使用 -interactsh 选项部署 interactsh 工具
+- 使用 -merlin 选项部署 merlin 环境
+- 使用 -nps 选项部署 nps 工具
+- 使用 -pupy 选项部署 pupy 环境
+- 使用 -rg 选项部署 RedGuard 工具
+- 使用 -sps 选项部署 SharPyShell 工具
+- 使用 -viper 选项部署 Viper 环境(2.1 GB)
+
+**6. 基于 Docker 的环境部署**
+- 使用 -arl 选项部署 ARL 环境(872 MB)
 - 使用 -mobsf 选项部署 MobSF 环境(1.54 GB)
 - 使用 -nodejsscan 选项部署 nodejsscan 环境(873 MB)
-- 使用 -viper 选项部署 Viper 环境(2.1 GB)
 - 使用 -vulhub 选项部署 vulhub 环境(210 MB)
 - 使用 -vulfocus 选项部署 vulfocus 环境(1.04 GB)
 - 使用 -TerraformGoat 选项部署 TerraformGoat 环境
 
-**6. 杂项服务**
+**7. 杂项服务**
 - 使用 -asciinema 选项安装 asciinema 截图工具
 - 使用 -bt 选项部署宝塔服务
 - 使用 -clash 选项安装 clash 工具              (使用 https://github.com/juewuy/ShellClash)
@@ -144,7 +153,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -ssr 选项部署 ssr 工具
 - 使用 -zsh 选项部署 zsh 工具
 
-**7. 其他**
+**8. 其他**
 - 使用 -clear 选项清理系统使用痕迹
 - 使用 -info 选项查看系统各项信息
 - 使用 -optimize 选项改善设备选项,优化性能
@@ -152,6 +161,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -rmlock 选项运行除锁模块
 - 使用 -swap 选项配置 swap 分区
 - 使用 -update 选项更新 f8x 工具
+- 使用 -upgrade 选项更新渗透工具
 
 ---
 

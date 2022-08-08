@@ -87,6 +87,7 @@ The following options are currently supported by f8x
 - `-docker`         : install docker
 - `-lua`            : install lua
 - `-nn`             : install npm & NodeJs
+- `-go`             : install go
 - `-oraclejdk(8/11)`: install oraclejdk
 - `-openjdk`        : install openjdk
 - `-py3(7/8/9/10)`  : install python3
@@ -111,18 +112,26 @@ The following options are currently supported by f8x
 **Red Team Service**
 - `-aircrack`     : install aircrack-ng
 - `-bypass`       : install Bypass
-- `-cs`           : install CobaltStrike 4.3
-- `-frp`          : install frp
 - `-goby`         : install Goby                       (The client side requires a graphical environment, the server side does not.)
-- `-nps`          : install nps
 - `-yakit`        : install yakit
+
+**Red Team Infrastructure**
+- `-awvs14`       : install AWVS14 (~1.04 GB)
+- `-cs`           : install CobaltStrike 4.3
+- `-cs45`         : install CobaltStrike 4.5
+- `-frp`          : install frp
+- `-interactsh`   : install interactsh
+- `-merlin`       : install merlin
+- `-nps`          : install nps
+- `-pupy`         : install pupy
+- `-rg`           : install RedGuard
+- `-sps`          : install SharPyShell
+- `-viper`        : install Viper (~2.1 GB)
 
 **Docker-based environment deployment**
 - `-arl`          : install ARL (~872 MB)
-- `-awvs14`       : install AWVS14 (~1.04 GB)
 - `-mobsf`        : install MobSF (~1.54 GB)
 - `-nodejsscan`   : install nodejsscan (~873 MB)
-- `-viper`        : install Viper (~2.1 GB)
 - `-vulhub`       : install vulhub (~210 MB)
 - `-vulfocus`     : install vulfocus (~1.04 GB)
 - `-TerraformGoat`: install TerraformGoat
@@ -145,6 +154,7 @@ The following options are currently supported by f8x
 - `-rmlock`       : Run the Unlock module
 - `-swap`         : Configuring swap partitions
 - `-update`       : Update f8x
+- `-upgrade`      : Upgrade Pentest tools
 
 ---
 
