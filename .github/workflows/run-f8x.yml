@@ -5,8 +5,8 @@ on:
     - 'f8x'
 
 jobs:
-  ubuntu-1804-build:
-    runs-on: ubuntu-18.04
+  ubuntu-latest-build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout codes
         uses: actions/checkout@v2
@@ -55,8 +55,8 @@ jobs:
         run:
           cat /tmp/f8x_error.log
 
-  ubuntu-2004-build:
-    runs-on: ubuntu-20.04
+  ubuntu-latest-build2:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout codes
         uses: actions/checkout@v2
@@ -69,37 +69,119 @@ jobs:
         run:
           sudo bash f8x
 
-      - name: Run -h
+      - name: Run -all
         run:
-          sudo bash f8x -h
+          sudo bash f8x -all
 
-      - name: Run -clear
+      - name: log
         run:
-          sudo bash f8x -clear
+          cat /tmp/f8x_error.log
 
-      - name: Run -b
-        run:
-          sudo bash f8x -b
+  ubuntu-latest-build3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
 
-      - name: Run -d
+      - name: init
         run:
-          sudo bash f8x -d
+          touch /tmp/IS_CI
 
-      - name: Run -s
+      - name: Run
         run:
-          sudo bash f8x -s
+          sudo bash f8x
 
-      - name: Run -f
+      - name: Run -docker
         run:
-          sudo bash f8x -f
+          sudo bash f8x -docker
 
-      - name: Run -k
+      - name: Run -lua
         run:
-          sudo bash f8x -k
+          sudo bash f8x -lua
 
-      - name: Run -info
+      - name: Run -nn
         run:
-          sudo bash f8x -info
+          sudo bash f8x -nn
+
+      - name: Run -go
+        run:
+          sudo bash f8x -go
+
+      - name: Run -code
+        run:
+          sudo bash f8x -code
+
+      - name: log
+        run:
+          cat /tmp/f8x_error.log
+
+  ubuntu-latest-build4:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+
+      - name: init
+        run:
+          touch /tmp/IS_CI
+
+      - name: Run
+        run:
+          sudo bash f8x
+
+      - name: Run -py3
+        run:
+          sudo bash f8x -py3
+
+      - name: Run -py37
+        run:
+          sudo bash f8x -py37
+
+      - name: Run -py38
+        run:
+          sudo bash f8x -py38
+
+      - name: Run -py39
+        run:
+          sudo bash f8x -py39
+
+      - name: Run -py2
+        run:
+          sudo bash f8x -py2
+
+      - name: log
+        run:
+          cat /tmp/f8x_error.log
+
+  ubuntu-latest-build5:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v2
+
+      - name: init
+        run:
+          touch /tmp/IS_CI
+
+      - name: Run
+        run:
+          sudo bash f8x
+
+      - name: Run -phantomjs
+        run:
+          sudo bash f8x -phantomjs
+
+      - name: Run -vol
+        run:
+          sudo bash f8x -vol
+
+      - name: Run -vol3
+        run:
+          sudo bash f8x -vol3
+
+      - name: Run -yakit
+        run:
+          sudo bash f8x -yakit
 
       - name: log
         run:
