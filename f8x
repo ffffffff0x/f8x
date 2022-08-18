@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.2 Dev(Beta15)"
+F8x_Version="1.6.2 Dev(Beta16)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.5"
@@ -48,7 +48,7 @@ CS_File="CobaltStrike4.3.zip"
 CS_Version="CobaltStrike4.3"
 CS45_File="CobaltStrike4.5.zip"
 CS45_Version="CobaltStrike4.5"
-AdGuardHome_Version="v0.107.9"
+AdGuardHome_Version="v0.107.10"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 frp_Ver="v0.44.0"
@@ -83,9 +83,9 @@ fscan_Install_arm64="fscan_arm64"
 ffuf_Ver="v1.5.0"
 ffuf_Install_amd64="ffuf_1.5.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_1.5.0_linux_arm64.tar.gz"
-Nuclei_Ver="v2.7.5"
-Nuclei_Install_amd64="nuclei_2.7.5_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.7.5_linux_arm64.zip"
+Nuclei_Ver="v2.7.6"
+Nuclei_Install_amd64="nuclei_2.7.6_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.7.6_linux_arm64.zip"
 merlin_Ver="v1.4.1"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
 merlin_agent_windows="merlinAgent-Windows-x64.7z"
@@ -97,9 +97,9 @@ rad_File_arm64="rad_linux_arm64.zip"
 crawlergo_Ver="v0.4.3"
 crawlergo_File_amd64="crawlergo_linux_amd64"
 crawlergo_File_arm64="crawlergo_linux_arm64"
-Terraform_Ver="1.2.6"
-Terraform_bin_amd64="terraform_1.2.6_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.2.6_linux_arm64.zip"
+Terraform_Ver="1.2.7"
+Terraform_bin_amd64="terraform_1.2.7_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.2.7_linux_arm64.zip"
 CrossC2_Ver="v3.1.0"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
@@ -122,9 +122,9 @@ proxify_bin_amd64="proxify_0.0.6_linux_amd64.zip"
 proxify_bin_arm64="proxify_0.0.6_linux_arm64.zip"
 clash_Ver="v1.7.0"
 clash_bin="clash-linux-amd64-v1.7.0.gz"
-fzf_Ver="0.32.0"
-fzf_bin_amd64="fzf-0.32.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.32.0-linux_arm64.tar.gz"
+fzf_Ver="0.32.1"
+fzf_bin_amd64="fzf-0.32.1-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.32.1-linux_arm64.tar.gz"
 subfinder_Ver="v2.5.3"
 subfinder_bin_amd64="subfinder_2.5.3_linux_amd64.zip"
 subfinder_bin_arm64="subfinder_2.5.3_linux_arm64.zip"
@@ -156,9 +156,9 @@ rmg_bin="rmg-4.3.0-jar-with-dependencies.jar"
 anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
 anew_bin_arm64="anew_1.0.3_linux_arm64.tar.gz"
-nali_Ver="v0.5.0"
-nali_bin_amd64="nali-linux-amd64-v0.5.0.gz"
-nali_bin_arm64="nali-linux-armv8-v0.5.0.gz"
+nali_Ver="v0.5.3"
+nali_bin_amd64="nali-linux-amd64-v0.5.3.gz"
+nali_bin_arm64="nali-linux-armv8-v0.5.3.gz"
 dalfox_Ver="v2.7.5"
 dalfox_bin_amd64="dalfox_2.7.5_linux_amd64.tar.gz"
 dalfox_bin_arm64="dalfox_2.7.5_linux_arm64.tar.gz"
@@ -195,14 +195,14 @@ subjs_Ver="v1.0.1"
 subjs_bin="subjs_1.0.1_linux_amd64.tar.gz"
 assetfinder_Ver="v0.1.1"
 assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
-ttyd_Ver="1.6.3"
+ttyd_Ver="1.7.1"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
-code_server_Ver="v4.5.1"
-code_server_bin1_amd64="code-server-4.5.1-amd64.rpm"
-code_server_bin2_amd64="code-server_4.5.1_amd64.deb"
-code_server_bin1_arm64="code-server-4.5.1-arm64.rpm"
-code_server_bin2_arm64="code-server_4.5.1_arm64.deb"
+code_server_Ver="v4.5.2"
+code_server_bin1_amd64="code-server-4.5.2-amd64.rpm"
+code_server_bin2_amd64="code-server_4.5.2_amd64.deb"
+code_server_bin1_arm64="code-server-4.5.2-arm64.rpm"
+code_server_bin2_arm64="code-server_4.5.2_arm64.deb"
 dismap_Ver="v0.4"
 dismap_bin_amd64="dismap-0.4-linux-amd64"
 dismap_bin_arm64="dismap-0.4-linux-arm64"
@@ -260,6 +260,9 @@ interactsh_client_bin_amd64="interactsh-client_1.0.6_Linux_x86_64.zip"
 interactsh_server_bin_amd64="interactsh-server_1.0.6_Linux_x86_64.zip"
 interactsh_client_bin_arm64="interactsh-client_1.0.6_Linux_arm.zip"
 interactsh_server_bin_arm64="interactsh-server_1.0.6_Linux_arm.zip"
+sliver_Ver="v1.5.22"
+sliver_bin_Server="sliver-server_linux"
+sliver_bin_Client="sliver-client_linux"
 
 # ===================== Base Folder =====================
 Base_Dir(){
@@ -6979,8 +6982,8 @@ sliver-server_Install(){
             *) ;;
         esac
 
-        mkdir -p /tmp/sliver-server && cd /tmp/sliver-server && $Proxy_OK wget ${GitProxy}https://github.com/BishopFox/sliver/releases/download/v1.5.21/sliver-server_linux -q --show-progress || Echo_ERROR2
-        mv --force sliver-server_linux /root/sliver-server && chmod 755 /root/sliver-server
+        mkdir -p /tmp/sliver-server && cd /tmp/sliver-server && $Proxy_OK wget ${GitProxy}https://github.com/BishopFox/sliver/releases/download/$sliver_Ver/$sliver_bin_Server -q --show-progress || Echo_ERROR2
+        mv --force $sliver_bin_Server /root/sliver-server && chmod 755 /root/sliver-server
         /root/sliver-server unpack --force && Echo_INFOR "Successfully installed $name in the /root/sliver-server" || Echo_ERROR3
         rm -f /tmp/sliver-server > /dev/null 2>&1
 
@@ -7040,8 +7043,8 @@ sliver-client_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/sliver-client && cd /tmp/sliver-client && $Proxy_OK wget ${GitProxy}https://github.com/BishopFox/sliver/releases/download/v1.5.21/sliver-client_linux -q --show-progress || Echo_ERROR2
-        mv --force sliver-client_linux /usr/local/bin/sliver && chmod 755 /usr/local/bin/sliver
+        mkdir -p /tmp/sliver-client && cd /tmp/sliver-client && $Proxy_OK wget ${GitProxy}https://github.com/BishopFox/sliver/releases/download/$sliver_Ver/$sliver_bin_Client -q --show-progress || Echo_ERROR2
+        mv --force $sliver_bin_Client /usr/local/bin/sliver && chmod 755 /usr/local/bin/sliver
         which sliver > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/sliver" || Echo_ERROR3
         rm -f /tmp/sliver-client > /dev/null 2>&1
     fi
@@ -7650,7 +7653,6 @@ jq_Install(){
     then
         Echo_ALERT "$name installed"
     else
-
         mkdir -p /tmp/jq && cd /tmp/jq && rm -rf ${jq_bin} && rm -rf ${jq_dir} && $Proxy_OK wget -O ${jq_bin} ${GitProxy}https://github.com/stedolan/jq/releases/download/${jq_ver}/${jq_bin} > /dev/null 2>&1 || Echo_ERROR "${jq_bin} download failed"
         unzip ${jq_bin} > /dev/null 2>&1
         cd ${jq_dir} && ./configure --prefix=/usr/local && make && make install
