@@ -29,12 +29,11 @@
 ## 开始
 
 **下载**
-
-- 访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
-
-- 在网络不佳的情况下通过 CF Workers 加速下载
+- 通过 CF Workers 下载 [推荐]
   - wget : `wget -O f8x https://f8x.io/`
   - curl : `curl -o f8x https://f8x.io/`
+
+- 访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
 
 **使用**
 ```bash
@@ -120,6 +119,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -aircrack 选项部署 aircrack-ng 环境
 - 使用 -bypass 选项部署 Bypass 环境
 - 使用 -goby 选项部署 Goby 环境 (需要图形化环境)
+- 使用 -wpscan 选项安装 wpscan 工具
 - 使用 -yakit 选项部署 yakit 环境
 
 **5. 红队基础设施**

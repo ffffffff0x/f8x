@@ -2,6 +2,33 @@
 
 ## Details
 
+### [1.6.2] - 2022-9-4
+
+**兼容性**
+* 支持 CentOS 9 Stream
+* 支持 Fedora 36
+
+**功能添加**
+* -k 选项添加 iprange/dnsx/MoreFind
+* 添加 -wpscan 选项
+* 添加 -cs45 选项
+* 添加 -interactsh 选项
+* 添加 -merlin 选项
+* 添加 -msf 选项
+* 添加 -pupy 选项
+* 添加 -rg 选项
+* 添加 -sliver 选项
+* 添加 -sliver-client 选项
+* 添加 -sps 选项
+* 添加 -TerraformGoat 选项
+* 添加 -TerraformGoat 选项
+* 添加 -upgrade 选项
+
+**功能修改与优化**
+* 优化对docker环境的判断
+* 添加了对ruby的检测
+* 优化了对keytool工具的判断
+
 ### [1.6.1] - 2022-6-6
 
 **兼容性**

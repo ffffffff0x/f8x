@@ -27,12 +27,11 @@ English | [简体中文](README.zh-cn.md)
 ## Start
 
 **Download**
-
-- Visit [releases](https://github.com/ffffffff0x/f8x/releases)
-
-- Download via CF Workers
+- Download via CF Workers [Recommend]
   - wget : `wget -O f8x https://f8x.io/`
   - curl : `curl -o f8x https://f8x.io/`
+
+- Visit [releases](https://github.com/ffffffff0x/f8x/releases)
 
 **usage**
 ```bash
@@ -113,6 +112,7 @@ The following options are currently supported by f8x
 - `-aircrack`     : install aircrack-ng
 - `-bypass`       : install Bypass
 - `-goby`         : install Goby (The client side requires a graphical environment, the server side does not.)
+- `-wpscan`       : install wpscan
 - `-yakit`        : install yakit
 
 **Red Team Infrastructure**
