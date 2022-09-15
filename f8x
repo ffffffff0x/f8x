@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.3 Dev(Beta1)"
+F8x_Version="1.6.3 Dev(Beta2)"
 
 # ===================== Software version variable setting =====================
 hashcat_Version="hashcat-6.2.6"
@@ -48,7 +48,7 @@ CS_File="CobaltStrike4.3.zip"
 CS_Version="CobaltStrike4.3"
 CS45_File="CobaltStrike4.5.zip"
 CS45_Version="CobaltStrike4.5"
-AdGuardHome_Version="v0.107.12"
+AdGuardHome_Version="v0.107.13"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 frp_Ver="v0.44.0"
@@ -131,9 +131,9 @@ subfinder_bin_arm64="subfinder_2.5.3_linux_arm64.zip"
 httpx_Ver="v1.2.4"
 httpx_bin_amd64="httpx_1.2.4_linux_amd64.zip"
 httpx_bin_arm64="httpx_1.2.4_linux_arm64.zip"
-mapcidr_Ver="v1.0.1"
-mapcidr_bin_amd64="mapcidr_1.0.1_linux_amd64.tar.gz"
-mapcidr_bin_arm64="mapcidr_1.0.1_linux_arm64.tar.gz"
+mapcidr_Ver="v1.0.2"
+mapcidr_bin_amd64="mapcidr_1.0.2_linux_amd64.tar.gz"
+mapcidr_bin_arm64="mapcidr_1.0.2_linux_arm64.tar.gz"
 iprange_Ver="v1.0.1"
 iprange_bin_amd64="iprange_1.0.1_linux_amd64.tar.gz"
 iprange_bin_arm64="iprange_1.0.1_linux_arm64.tar.gz"
@@ -198,11 +198,11 @@ assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 ttyd_Ver="1.7.1"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
-code_server_Ver="v4.6.1"
-code_server_bin1_amd64="code-server-4.6.1-amd64.rpm"
-code_server_bin2_amd64="code-server_4.6.1_amd64.deb"
-code_server_bin1_arm64="code-server-4.6.1-arm64.rpm"
-code_server_bin2_arm64="code-server_4.6.1_arm64.deb"
+code_server_Ver="v4.7.0"
+code_server_bin1_amd64="code-server-4.7.0-amd64.rpm"
+code_server_bin2_amd64="code-server_4.7.0_amd64.deb"
+code_server_bin1_arm64="code-server-4.7.0-arm64.rpm"
+code_server_bin2_arm64="code-server_4.7.0_arm64.deb"
 dismap_Ver="v0.4"
 dismap_bin_amd64="dismap-0.4-linux-amd64"
 dismap_bin_arm64="dismap-0.4-linux-arm64"
@@ -236,9 +236,9 @@ netspy_bin_arm64="netspy_linux_arm64.zip"
 # https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media
 # https://commondatastorage.googleapis.com/chromium-browser-snapshots/index.html?prefix=Linux_x64/958422/
 chromium_Ver="958422"
-bat_Ver="v0.22.0"
-bat_bin_amd64="bat-musl_0.22.0_amd64.deb"
-bat_bin_arm64="bat-musl_0.22.0_i686.deb"
+bat_Ver="v0.22.1"
+bat_bin_amd64="bat-musl_0.22.1_amd64.deb"
+bat_bin_arm64="bat-musl_0.22.1_i686.deb"
 duf_Ver="v0.8.1"
 duf_bin1_amd64="duf_0.8.1_linux_amd64.rpm"
 duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
@@ -793,6 +793,10 @@ Sys_Version(){
         *"Fedora"*|*"fedora"*)
             Linux_Version="Fedora"
             case $(cat /etc/*-release | head -n 1) in
+                *"release 37"*)
+                    Linux_Version_Num="37"
+                    Linux_Version_Name=""
+                    ;;
                 *"release 36"*)
                     Linux_Version_Num="36"
                     Linux_Version_Name=""
@@ -1333,8 +1337,8 @@ Update_YUM_Mirror(){
 
     case $Linux_Version in
         *"CentOS"*)
-            Update_CentOS_Mirror
-            Update_EPEL_Mirror
+            Update_CentOS_Mirror "$1"
+            Update_EPEL_Mirror "$1"
             ;;
         *"RedHat"*)
             Echo_INFOR "RedHat Pass~"
@@ -1351,8 +1355,17 @@ Update_YUM_Mirror(){
         *"Fedora"*)
             Echo_INFOR "Fedora"
             rm -f /etc/yum.repos.d/fedora.repo.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/fedora.repo /etc/yum.repos.d/fedora.repo.bak > /dev/null 2>&1 && Echo_INFOR "Backed up Yum sources"
-            curl -o /etc/yum.repos.d/fedora.repo http://mirrors.aliyun.com/repo/fedora.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed,"
-            curl -o /etc/yum.repos.d/fedora-updates.repo http://mirrors.aliyun.com/repo/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum update sources" || Echo_ERROR "aliyun Yum update sources download failed,"
+
+            if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+            then
+                curl -o /etc/yum.repos.d/fedora.repo http://mirrors.aliyun.com/repo/fedora.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed"
+                curl -o /etc/yum.repos.d/fedora-updates.repo http://mirrors.aliyun.com/repo/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum update sources" || Echo_ERROR "aliyun Yum update sources download failed"
+            elif [ $1 == huawei ] 2>> /tmp/f8x_error.log
+            then
+                curl -o /etc/yum.repos.d/fedora.repo https://f8x.io/repo/fedora.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum sources" || Echo_ERROR "huaweicloud Yum sources download failed"
+                curl -o /etc/yum.repos.d/fedora-updates.repo https://f8x.io/repo/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum update sources" || Echo_ERROR "huaweicloud Yum update sources download failed"
+            fi
+
             ;;
     esac
 
@@ -1388,15 +1401,28 @@ Update_EPEL_Mirror(){
                 Install_Switch "epel-release"
                 ;;
             8)
-                yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed, please check the log /tmp/f8x_error.log"
+                if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+                then
+                    yum install -y https://mirrors.aliyun.com/epel/epel-release-latest-8.noarch.rpm > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed"
+                elif [ $1 == huawei ] 2>> /tmp/f8x_error.log
+                then
+                    yum install -y https://mirrors.huaweicloud.com/epel/epel-release-latest-8.noarch.rpm > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud EPEL sources" || Echo_ERROR "huaweicloud EPEL sources download failed"
+                fi
+
                 sed -i 's|^#baseurl=https://download.fedoraproject.org/pub|baseurl=https://mirrors.aliyun.com|' /etc/yum.repos.d/epel*
                 sed -i 's|^metalink|#metalink|' /etc/yum.repos.d/epel*
                 ;;
             7)
-                curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed,"
+                if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+                then
+                    curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed"
+                elif [ $1 == huawei ] 2>> /tmp/f8x_error.log
+                then
+                    curl -o /etc/yum.repos.d/epel.repo https://f8x.io/repo/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud EPEL sources" || Echo_ERROR "huaweicloud EPEL sources download failed"
+                fi
                 ;;
             6)
-                curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed,"
+                curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed"
                 ;;
             *)
                 Echo_ERROR "Version error"
@@ -1408,6 +1434,7 @@ Update_EPEL_Mirror(){
 
 # ===================== Modify CentOS YUM sources =====================
 Update_CentOS_Mirror(){
+# CentOS 8和CentOS 6 及以下版本已被华为云官网下线
 
     case $Linux_Version_Num in
         "9 Stream")
@@ -1418,15 +1445,23 @@ Update_CentOS_Mirror(){
             ;;
         8)
             rm -f /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && Echo_INFOR "Backed up Yum sources"
-            curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-8.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed,"
+            curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-8.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed"
             ;;
         7)
             rm -f /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && Echo_INFOR "Backed up Yum sources"
-            curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed,"
+
+            if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+            then
+                curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed"
+            elif [ $1 == huawei ] 2>> /tmp/f8x_error.log
+            then
+                curl -o /etc/yum.repos.d/CentOS-Base.repo https://f8x.io/repo/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum sources" || Echo_ERROR "huaweicloud Yum sources download failed"
+            fi
+
             ;;
         6)
             rm -f /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && cp /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak > /dev/null 2>&1 && Echo_INFOR "Backed up Yum sources"
-            curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed,"
+            curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed"
             ;;
         *)
             Echo_ERROR "Version error"
@@ -1446,7 +1481,7 @@ Mirror(){
                     Echo_INFOR "Pass~"
                     ;;
                 *)
-                    Update_YUM_Mirror
+                    Update_YUM_Mirror "$1"
                     Echo_INFOR "yum source updated"
                     ;;
             esac
@@ -1458,7 +1493,7 @@ Mirror(){
                     Echo_INFOR "Pass~"
                     ;;
                 *)
-                    Update_APT_Mirror
+                    Update_APT_Mirror "$1"
                     Echo_INFOR "apt source updated"
                     ;;
 
@@ -2168,7 +2203,12 @@ Docker_Install(){
                 Install_Switch "device-mapper-persistent-data"
                 Install_Switch "lvm2"
 
-                $Proxy_OK curl -o /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo > /dev/null 2>&1 && Echo_INFOR "Finished downloading the docker yum source from docker.com" || Echo_ERROR "Failed to download docker yum source"
+                if [ $1 == tuna ] 2>> /tmp/f8x_error.log
+                then
+                    $Proxy_OK curl -o /etc/yum.repos.d/docker-ce.repo https://f8x.io/docker-ce.repo > /dev/null 2>&1 && Echo_INFOR "Finished downloading the docker yum source from aliyun.com" || Echo_ERROR "Failed to download docker yum source"
+                else
+                    $Proxy_OK curl -o /etc/yum.repos.d/docker-ce.repo https://download.docker.com/linux/centos/docker-ce.repo > /dev/null 2>&1 && Echo_INFOR "Finished downloading the docker yum source from docker.com" || Echo_ERROR "Failed to download docker yum source"
+                fi
 
                 $Proxy_OK yum makecache > /dev/null 2>&1 || Echo_ERROR "yum Docker source update failed, please check if the network is reachable, proxychains4 configuration is correct"
                 Rm_Lock
@@ -2186,16 +2226,31 @@ Docker_Install(){
                 Install_Switch "curl"
                 Install_Switch "software-properties-common"
                 Install_Switch "gnupg"
-                $Proxy_OK curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 
-                case $Linux_Version in
-                    *"Kali"*|*"Debian"*)
-                        echo -e 'deb https://download.docker.com/linux/debian' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
-                        ;;
-                    *"Ubuntu"*)
-                        echo -e 'deb https://download.docker.com/linux/ubuntu/' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
-                        ;;
-                esac
+                if [ $1 == tuna ] 2>> /tmp/f8x_error.log
+                then
+                    $Proxy_OK curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/gpg | apt-key add -
+
+                    case $Linux_Version in
+                        *"Kali"*|*"Debian"*)
+                            echo -e 'deb https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
+                            ;;
+                        *"Ubuntu"*)
+                            echo -e 'deb https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
+                            ;;
+                    esac
+                else
+                    $Proxy_OK curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+
+                    case $Linux_Version in
+                        *"Kali"*|*"Debian"*)
+                            echo -e 'deb https://download.docker.com/linux/debian' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
+                            ;;
+                        *"Ubuntu"*)
+                            echo -e 'deb https://download.docker.com/linux/ubuntu/' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
+                            ;;
+                    esac
+                fi
 
                 Echo_INFOR "Updating apt package list" && apt-get update > /dev/null 2>&1 || Echo_ERROR "Update apt package list failed"
 
@@ -4222,6 +4277,7 @@ Pentest_mapcidr_Install(){
 
 }
 
+# 建议使用 mapcidr
 # ===================== Install iprange =====================
 Pentest_iprange_Install(){
 
@@ -8158,8 +8214,8 @@ kali_Tools_TypeD(){
     Pentest_ncat_Install
     echo -e "\033[1;33m\n>> Installing mapcidr\n\033[0m"
     Pentest_mapcidr_Install
-    echo -e "\033[1;33m\n>> Installing iprange\n\033[0m"
-    Pentest_iprange_Install
+    # echo -e "\033[1;33m\n>> Installing iprange\n\033[0m"
+    # Pentest_iprange_Install
     echo -e "\033[1;33m\n>> Installing dnsx\n\033[0m"
     Pentest_dnsx_Install
     echo -e "\033[1;33m\n>> Installing nali\n\033[0m"
@@ -8308,6 +8364,7 @@ Help(){
     echo -e ""
     echo -e "\033[1;34mDevelopment Environment \033[0m"
     echo -e "  \033[1;34m-docker\033[0m \033[0;34m          : install docker\033[0m"
+    echo -e "  \033[1;34m-docker-cn\033[0m \033[0;34m       : install docker (aliyun source)\033[0m"
     echo -e "  \033[1;34m-lua\033[0m \033[0;34m             : install lua\033[0m"
     echo -e "  \033[1;34m-nn\033[0m \033[0;34m              : install npm & NodeJs\033[0m"
     echo -e "  \033[1;34m-go\033[0m\033[0;34m               : install golang\033[0m"
@@ -8396,7 +8453,19 @@ Proxy(){
 
     echo -e "\033[1;33m\n>> Do you want to update DNS settings? [Y/n,Default Y]\033[0m"
     Change_DNS_IP
-    Mirror
+
+    echo -e "\033[1;33m\nPlease enter Source aliyun[a] huawei[h]\033[0m" && read -r input
+    case $input in
+        [aA])
+            Mirror "aliyun"
+            ;;
+        [hH])
+            Mirror "huawei"
+            ;;
+        *)
+            Mirror "aliyun"
+            ;;
+    esac
 
     if [ $Docker_OK != 1 ] 2>> /tmp/f8x_error.log
     then
@@ -8573,6 +8642,12 @@ do
             Base_Check
             Dev_Base_Install
             Docker_Install
+            ;;
+        -docker-cn)
+            mac_Check || exit 1
+            Base_Check
+            Dev_Base_Install
+            Docker_Install "tuna"
             ;;
         -lua)
             mac_Check || exit 1
