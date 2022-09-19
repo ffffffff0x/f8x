@@ -47,7 +47,7 @@ function chrome-install {
 }
 
 Banner
-chrome-install
+# chrome-install
 chocolatey-install
 
 # proxy
@@ -65,3 +65,10 @@ choco install -y python3
 choco install -y git
 choco install -y 010editor.install
 choco install -y everything
+choco install -y firefox
+choco install -y wireshark
+choco install -y go
+choco install -y vscode
+choco install -y processhacker
+choco install -y psexec
+choco install -y googlechrome
