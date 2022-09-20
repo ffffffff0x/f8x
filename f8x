@@ -6928,11 +6928,9 @@ arl_Install(){
     name="ARL"
 
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
-
-    docker pull tophant/arl && Echo_INFOR "Pulled the latest ARL image" || Echo_ERROR3
-
     cd $P_Dir && rm -rf ARL > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/TophantTechnology/ARL > /dev/null 2>&1 || Echo_ERROR4 "TophantTechnology/ARL"
-    Echo_INFOR "Please run through the following command:\n cd $P_Dir/ARL/docker/ && docker-compose up -d , Default port 5003, default username password : admin/arlpass"
+    # docker pull tophant/arl && Echo_INFOR "Pulled the latest ARL image" || Echo_ERROR3
+    Echo_INFOR "Please run through the following command:\ncd $P_Dir/ARL/docker/ && docker volume create arl_db && docker-compose up -d\nDefault port: 5003\nDefault username: admin\n/Default password: arlpass"
 
 }
 
@@ -8630,7 +8628,7 @@ Help(){
     echo -e "  \033[1;34m-asciinema\033[0m \033[0;34m       : install asciinema\033[0m"
     echo -e "  \033[1;34m-bt\033[0m \033[0;34m              : install 宝塔服务\033[0m"
     echo -e "  \033[1;34m-clash\033[0m \033[0;34m           : install clash\033[0m                      \033[1;33m(https://github.com/juewuy/ShellClash)\033[0m"
-    echo -e "  \033[1;34m-music\033[0m \033[0;34m           : install UnblockNeteaseMusic\033[0m"
+    # echo -e "  \033[1;34m-music\033[0m \033[0;34m           : install UnblockNeteaseMusic\033[0m"
     echo -e "  \033[1;34m-nginx\033[0m \033[0;34m           : install nginx\033[0m"
     echo -e "  \033[1;34m-ssh\033[0m \033[0;34m             : install ssh\033[0m                        \033[1;33m(RedHat is available by default, no need to reinstall)\033[0m"
     echo -e "  \033[1;34m-ssr\033[0m \033[0;34m             : install ssr\033[0m"
