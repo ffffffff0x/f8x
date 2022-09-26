@@ -62,10 +62,10 @@ choco install -y notepadplusplus.install
 choco install -y 7zip.install
 choco install -y jdk8
 choco install -y python3
-choco install -y git
-choco install -y 010editor.install
+# choco install -y git
+# choco install -y 010editor.install
 choco install -y everything
-choco install -y firefox
+# choco install -y firefox
 choco install -y wireshark
 choco install -y go
 choco install -y vscode
