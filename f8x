@@ -2334,23 +2334,25 @@ Python310_Install(){
 # -go
 Go_Option(){
 
-    case $Linux_architecture_Name in
-        *"linux-x86_64"*)
-            Go_Bin=$Go_Bin_amd64
-            ;;
-        *"linux-arm64"*)
-            Go_Bin=$Go_Bin_arm64
-            ;;
-    esac
-
     name="go"
     which go > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
+        Go_Version=$(curl -L -s https://golang.org/VERSION?m=text)
+
         Echo_ALERT "已安装 $(go version),是否升级至 $Go_Version? [y/N,默认No]" && read -r input
         case $input in
             [yY][eE][sS]|[Yy])
+                case $Linux_architecture_Name in
+                    *"linux-x86_64"*)
+                        Go_Bin="${Go_Version}.linux-amd64.tar.gz"
+                        ;;
+                    *"linux-arm64"*)
+                        Go_Bin="${Go_Version}.linux-arm64.tar.gz"
+                        ;;
+                esac
+
                 rm -rf /usr/bin/go > /dev/null 2>&1
                 rm -rf /usr/local/go > /dev/null 2>&1
                 Echo_ALERT "Downloading Go (~120M)" && $Proxy_OK wget -O $T_Dir/$Go_Bin ${GitProxy2}https://golang.org/dl/$Go_Bin -q --show-progress && tar -C /usr/local -xzf $T_Dir/$Go_Bin && Echo_INFOR "Downloaded from golang.org" || { Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct" ; rm -f ${T_Dir:?}/${Go_Bin} > /dev/null 2>&1; }
