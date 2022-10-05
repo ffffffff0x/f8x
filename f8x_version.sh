@@ -305,3 +305,7 @@ Terraform_bin_arm64="terraform_1.3.0_linux_arm64.zip"
 aliyun_cli_Ver="v3.0.127"
 aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.127-amd64.tgz"
 aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.127-arm64.tgz"
+# https://github.com/bcicen/ctop/releases/
+ctop_Ver="v0.7.7"
+ctop_bin_amd64="ctop-0.7.7-linux-amd64"
+ctop_bin_arm64="ctop-0.7.7-linux-arm64"
