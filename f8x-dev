@@ -124,6 +124,8 @@ mariadb_docker_Install(){
     # https://hub.docker.com/_/mariadb
     docker pull mariadb
     docker run -d -p $mariadb_port:3306 --name f8x-mariadb -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest || { Echo_ERROR "Deployment failed"; exit 1; }
+    # Error : Can't initialize timers
+    # Use : docker run -d -p $mariadb_port:3306 -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:10.7
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mariadb_port, please do not deploy in public network environment"
