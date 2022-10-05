@@ -207,6 +207,10 @@ wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /us
 f8x -k
 ```
 
+**如何自定义版本**
+
+shell脚本在运行时，可以通过 `. ./test.sh` 这样同等进程运行修改当前shell环境变量，那么f8x对同目录下的 f8x_version.sh 文件做个判断，当有这个文件时，会加载这个文件中的内容，也就是覆盖f8x的变量值，这样只需要在当前目录下对 f8x_version.sh 文件做修改或定制，即可做到安装指定版本
+
 ---
 
 ## 开发日志
