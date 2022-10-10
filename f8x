@@ -571,6 +571,7 @@ Docker_Check(){
     if [ $? == 0 ]
     then
         Echo_INFOR "Docker passed~"
+        service docker start > /dev/null 2>&1
         systemctl start docker > /dev/null 2>&1
     else
         Echo_ALERT "Dependencies not passed, start automatic installation of Docker"
@@ -2526,6 +2527,7 @@ Docker_Install(){
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed"
+        service docker start > /dev/null 2>&1
         systemctl start docker > /dev/null 2>&1
     else
         Rm_Lock
@@ -2598,6 +2600,7 @@ Docker_Install(){
                 ;;
         esac
 
+        service docker start > /dev/null 2>&1
         systemctl start docker > /dev/null 2>&1 && Echo_INFOR "docker service is started" || Echo_ERROR "docker service startup failed"
         systemctl enable docker > /dev/null 2>&1 && Echo_INFOR "Configure the docker service to start on boot" || Echo_ERROR "Failed to configure boot items"
     fi
@@ -6069,7 +6072,7 @@ binwalk_Install(){
                 Echo_ALERT "Installing binwalk"
                 cd $T_Dir && rm -rf binwalk > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ReFirmLabs/binwalk.git > /dev/null 2>&1 && cd binwalk  > /dev/null 2>&1 || Echo_ERROR2
                 $Proxy_OK sudo ./deps.sh && python setup.py uninstall > /dev/null 2>&1 && python setup.py install > /dev/null 2>&1
-                binwalk -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" && touch /tmp/f8x_binwalk.txt > /dev/null 2>&1 || Echo_ERROR "binwalk installation failed, recommended to use -binwalk-force for installation"
+                binwalk -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" && touch /tmp/f8x_binwalk.txt > /dev/null 2>&1 || Echo_ERROR "binwalk installation failed, recommended to use -binwalk-f for installation"
                 echo -e "\033[1;33m\n>> Installing unyaffs\n\033[0m"
                 unyaffs_Install
                 ;;
@@ -6079,7 +6082,7 @@ binwalk_Install(){
 
 }
 
-# -binwalk-force
+# -binwalk-f
 binwalk_force_Install(){
 
     name="binwalk"
@@ -6161,8 +6164,8 @@ binwalk_force_Install(){
                 # unstuff
                 name="unstuff"
                 echo -e "\033[1;33m\n>> Installing unstuff\n\033[0m"
-                cd $T_Dir && $Proxy_OK curl -o stuffit520.611linux-i386.tar.gz http://downloads.tuxfamily.org/sdtraces/stuffit520.611linux-i386.tar.gz > /dev/null 2>&1 | tar -zxvf stuffit520.611linux-i386.tar.gz > /dev/null 2>&1
-                mv --force bin/unstuff /usr/local/bin/ && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                cd $T_Dir && $Proxy_OK curl -o stuffit520.611linux-i386.tar.gz ${GitProxy2}https://github.com/No-Github/Archive/releases/download/1.0.7/stuffit520.611linux-i386.tar.gz > /dev/null 2>&1 && tar -zxvf stuffit520.611linux-i386.tar.gz > /dev/null 2>&1
+                mv --force bin/unstuff /usr/local/bin/unstuff && chmod +x /usr/local/bin/unstuff && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
 
                 # unyaffs
                 name="unyaffs"
@@ -6857,7 +6860,7 @@ TerraformGoat_Install(){
         Echo_INFOR "Please run through the following command:\ndocker run -itd --name terraformgoat terraformgoat:v0.0.3\ndocker exec -it terraformgoat /bin/bash\n"
     else
         echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
-        cd $P_Dir && rm -rf TerraformGoat > /dev/null 2>&1 && Echo_ALERT "Downloading $name" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/HuoCorp/TerraformGoat.git > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && rm -rf TerraformGoat > /dev/null 2>&1 && Echo_ALERT "Downloading $name" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/HXSecurity/TerraformGoat.git > /dev/null 2>&1 || Echo_ERROR2
         cd TerraformGoat && Echo_INFOR "Downloaded $name in the $P_Dir/TerraformGoat" || Echo_ERROR3
         docker build . -t terraformgoat:v0.0.3 && Echo_INFOR "Please run through the following command:\ndocker run -itd --name terraformgoat terraformgoat:v0.0.3\ndocker exec -it terraformgoat /bin/bash\n" || Echo_ERROR3
     fi
@@ -8823,7 +8826,7 @@ Help(){
     echo -e "  \033[1;34m-metarget\033[0m \033[0;34m        : install metarget\033[0m                   \033[1;33m(https://github.com/Metarget/metarget)\033[0m"
     echo -e "  \033[1;34m-vulhub\033[0m \033[0;34m          : install vulhub (~210 MB)\033[0m           \033[1;33m(https://github.com/vulhub/vulhub)\033[0m"
     echo -e "  \033[1;34m-vulfocus\033[0m \033[0;34m        : install vulfocus (~1.04 GB)\033[0m        \033[1;33m(https://github.com/fofapro/vulfocus)\033[0m"
-    echo -e "  \033[1;34m-TerraformGoat\033[0m \033[0;34m   : install TerraformGoat\033[0m              \033[1;33m(https://github.com/selefra/TerraformGoat)\033[0m"
+    echo -e "  \033[1;34m-TerraformGoat\033[0m \033[0;34m   : install TerraformGoat\033[0m              \033[1;33m(https://github.com/HXSecurity/TerraformGoat)\033[0m"
     echo -e ""
     echo -e "\033[1;34mMiscellaneous Services \033[0m"
     echo -e "  \033[1;34m-asciinema\033[0m \033[0;34m       : install asciinema\033[0m"
