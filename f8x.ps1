@@ -71,4 +71,5 @@ choco install -y go
 choco install -y vscode
 choco install -y processhacker
 choco install -y psexec
+choco install -y procexp
 choco install -y googlechrome
