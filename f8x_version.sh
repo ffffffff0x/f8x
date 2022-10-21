@@ -83,7 +83,7 @@ RustScan_Install="rustscan_2.0.1_amd64.deb"
 ksubdomain_Ver="v1.9.5"
 ksubdomain_Install="KSubdomain-v1.9.5-linux.tar"
 # https://github.com/chaitin/xray/releases
-xray_Ver="1.8.4"
+xray_Ver="1.9.3"
 xray_File_amd64="xray_linux_amd64.zip"
 xray_bin_amd64="xray_linux_amd64"
 xray_File_arm64="xray_linux_arm64.zip"
@@ -140,9 +140,9 @@ proxify_bin_arm64="proxify_0.0.6_linux_arm64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="hashcat-6.2.6"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.5.3"
-subfinder_bin_amd64="subfinder_2.5.3_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.5.3_linux_arm64.zip"
+subfinder_Ver="v2.5.4"
+subfinder_bin_amd64="subfinder_2.5.4_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.5.4_linux_arm64.zip"
 # https://github.com/projectdiscovery/httpx/releases
 httpx_Ver="v1.2.4"
 httpx_bin_amd64="httpx_1.2.4_linux_amd64.zip"
@@ -176,9 +176,9 @@ anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
 anew_bin_arm64="anew_1.0.3_linux_arm64.tar.gz"
 # https://github.com/zu1k/nali/releases
-nali_Ver="v0.5.3"
-nali_bin_amd64="nali-linux-amd64-v0.5.3.gz"
-nali_bin_arm64="nali-linux-armv8-v0.5.3.gz"
+nali_Ver="v0.6.0"
+nali_bin_amd64="nali-linux-amd64-v0.6.0.gz"
+nali_bin_arm64="nali-linux-armv8-v0.6.0.gz"
 # https://github.com/hahwul/dalfox/releases
 dalfox_Ver="v2.8.2"
 dalfox_bin_amd64="dalfox_2.8.2_linux_amd64.tar.gz"
@@ -250,7 +250,7 @@ interactsh_server_bin_amd64="interactsh-server_1.0.7_Linux_x86_64.zip"
 interactsh_client_bin_arm64="interactsh-client_1.0.7_Linux_arm.zip"
 interactsh_server_bin_arm64="interactsh-server_1.0.7_Linux_arm.zip"
 # https://github.com/BishopFox/sliver/releases
-sliver_Ver="v1.5.29"
+sliver_Ver="v1.5.30"
 sliver_bin_Server="sliver-server_linux"
 sliver_bin_Client="sliver-client_linux"
 # https://github.com/mstxq17/MoreFind/releases
@@ -265,6 +265,8 @@ fingerprintx_Install_arm64="fingerprintx_1.0.1_linux_arm64.tar.gz"
 cf_Ver="v0.4.2"
 cf_Install_amd64="cf_v0.4.2_linux_amd64.tar.gz"
 cf_Install_arm64="cf_v0.4.2_linux_arm64.tar.gz"
+ysuserial_Ver="v0.9"
+ysuserial_bin="ysuserial-0.9-su18-all.jar"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
@@ -300,8 +302,8 @@ duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
 duf_bin1_arm64="duf_0.8.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
 # https://github.com/dalance/procs/releases
-procs_Ver="v0.13.2"
-procs_bin="procs-v0.13.2-x86_64-linux.zip"
+procs_Ver="v0.13.3"
+procs_bin="procs-v0.13.3-x86_64-linux.zip"
 # https://github.com/sharkdp/fd/releases
 fd_Ver="v8.4.0"
 fd_bin_amd64="fd_8.4.0_amd64.deb"
@@ -311,10 +313,16 @@ Terraform_Ver="1.3.2"
 Terraform_bin_amd64="terraform_1.3.2_linux_amd64.zip"
 Terraform_bin_arm64="terraform_1.3.2_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.0.128"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.128-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.128-arm64.tgz"
+aliyun_cli_Ver="v3.0.131"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.131-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.131-arm64.tgz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
+# https://github.com/mikefarah/yq
+yq_Ver="v4.28.1"
+yq_bin_amd64="yq_linux_amd64"
+yq_bin_arm64="yq_linux_arm64"
+yq_File_amd64="yq_linux_amd64.tar.gz"
+yq_File_arm64="yq_linux_arm64.tar.gz"
