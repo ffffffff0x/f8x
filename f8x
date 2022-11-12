@@ -2829,16 +2829,6 @@ Pentest_Misc_Install(){
         Rm_Lock
         Install_Switch "parallel"
         Install_Switch "rlwrap"
-        case $Linux_Version in
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                Install_Switch "foremost"
-                Install_Switch "btscanner"
-                Install_Switch "rarcrack"
-                Install_Switch "xdot"
-                ;;
-            *) ;;
-        esac
-
         touch /tmp/f8x_misc.txt > /dev/null 2>&1
     fi
 
@@ -6105,6 +6095,7 @@ Volatility_Install(){
                 Rm_Lock
                 Install_Switch3 "distorm3==3.4.4"
                 Install_Switch3 "yara-python"
+                Install_Switch "xdot"
                 ln -s /usr/local/lib/python2.7/dist-packages/usr/lib/libyara.so /usr/lib/libyara.so > /dev/null 2>&1
                 Install_Switch "volatility"
             fi
@@ -6150,6 +6141,15 @@ volatility3_Install(){
     then
         Echo_ALERT "$name is already installed in $P_Dir/volatility3"
     else
+
+        case $Linux_Version in
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                Rm_Lock
+                Install_Switch "xdot"
+                ;;
+            *) ;;
+        esac
+
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/volatilityfoundation/volatility3.git $P_Dir/volatility3 > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
         cd $P_Dir/volatility3 && python3 setup.py build > /dev/null 2>&1 || Echo_ERROR "Failed to install dependency module"
         python3 setup.py install > /dev/null 2>&1 || Echo_ERROR "Failed to install dependency module"
@@ -6528,6 +6528,8 @@ chromium_Install(){
             ;;
         *) ;;
     esac
+
+    linux_arm64_Check || exit 1
 
     echo -e "\033[1;33m\n>> Installing chromium (~120M)\n\033[0m"
 
@@ -9313,7 +9315,6 @@ do
             ;;
         -chromium)
             mac_Check || exit 1
-            linux_arm64_Check || exit 1
             Proxy_Switch
             Base_Check
             chromium_Install

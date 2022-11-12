@@ -114,6 +114,8 @@ CTF_Misc_install(){
     Install_Switch "unrar"
     Install_Switch "python3-tk"
     Install_Switch "android-tools-adb"
+    Install_Switch "foremost"
+    Install_Switch "rarcrack"
 
 }
 
@@ -533,6 +535,12 @@ CTF_basecrack_install(){
 
 # ===================== CTF IOT Tool =====================
 
+CTF_IOT_install(){
+
+    Install_Switch "btscanner"
+
+}
+
 CTF_firmware_mod_kit_Install(){
 
     name="firmware-mod-kit"
@@ -805,6 +813,8 @@ CTF_Crypto_tools(){
 CTF_IOT_tools(){
 
     Rm_Lock
+    echo -e "\033[1;33m\n>> Installing some misc tools\n\033[0m"
+    CTF_IOT_install
     binwalk_Install
     echo -e "\033[1;33m\n>> Installing firmware-mod-kit\n\033[0m"
     CTF_firmware_mod_kit_Install
