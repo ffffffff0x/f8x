@@ -267,6 +267,9 @@ cf_Install_amd64="cf_v0.4.2_linux_amd64.tar.gz"
 cf_Install_arm64="cf_v0.4.2_linux_arm64.tar.gz"
 ysuserial_Ver="v0.9"
 ysuserial_bin="ysuserial-0.9-su18-all.jar"
+katana_Ver="v0.0.2"
+katana_bin_amd64="katana_0.0.2_linux_amd64.zip"
+katana_bin_arm64="katana_0.0.2_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
