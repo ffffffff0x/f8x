@@ -270,6 +270,9 @@ ysuserial_bin="ysuserial-0.9-su18-all.jar"
 katana_Ver="v0.0.2"
 katana_bin_amd64="katana_0.0.2_linux_amd64.zip"
 katana_bin_arm64="katana_0.0.2_linux_arm64.zip"
+uncover_Ver="v0.0.9"
+uncover_bin_amd64="uncover_0.0.9_linux_amd64.zip"
+uncover_bin_arm64="uncover_0.0.9_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
