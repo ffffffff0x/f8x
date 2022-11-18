@@ -140,9 +140,9 @@ proxify_bin_arm64="proxify_0.0.8_linux_arm64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="hashcat-6.2.6"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.5.4"
-subfinder_bin_amd64="subfinder_2.5.4_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.5.4_linux_arm64.zip"
+subfinder_Ver="v2.5.5"
+subfinder_bin_amd64="subfinder_2.5.5_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.5.5_linux_arm64.zip"
 # https://github.com/projectdiscovery/httpx/releases
 httpx_Ver="v1.2.5"
 httpx_bin_amd64="httpx_1.2.5_linux_amd64.zip"
@@ -315,9 +315,9 @@ fd_Ver="v8.5.2"
 fd_bin_amd64="fd_8.5.2_amd64.deb"
 fd_bin_arm64="fd_8.5.2_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.3.4"
-Terraform_bin_amd64="terraform_1.3.4_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.3.4_linux_arm64.zip"
+Terraform_Ver="1.3.5"
+Terraform_bin_amd64="terraform_1.3.5_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.3.5_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
 aliyun_cli_Ver="v3.0.134"
 aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.134-amd64.tgz"
