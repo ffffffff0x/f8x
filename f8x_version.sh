@@ -92,7 +92,7 @@ xray_bin_arm64="xray_linux_arm64"
 goby_Ver="Beta1.9.325"
 goby_File="goby-linux-x64-1.9.325.zip"
 # https://github.com/shadow1ng/fscan/releases
-fscan_Ver="1.8.1"
+fscan_Ver="1.8.2"
 fscan_Install_amd64="fscan_amd64"
 fscan_Install_arm64="fscan_arm64"
 # https://github.com/ffuf/ffuf/releases
@@ -282,9 +282,9 @@ AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 clash_Ver="v1.7.0"
 clash_bin="clash-linux-amd64-v1.7.0.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="0.35.0"
-fzf_bin_amd64="fzf-0.35.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.35.0-linux_arm64.tar.gz"
+fzf_Ver="0.35.1"
+fzf_bin_amd64="fzf-0.35.1-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.35.1-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
 lux_Ver="v0.16.0"
 lux_bin_amd64="lux_0.16.0_Linux_64-bit.tar.gz"
