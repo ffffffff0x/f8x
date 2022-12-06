@@ -9097,8 +9097,6 @@ Proxy(){
 Debug_Fun(){
 
     echo -e "none :>"
-    Pentest_HostCollision_Install
-    Pentest_csprecon_Install
 
 }
 
