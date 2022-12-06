@@ -60,7 +60,8 @@ choco outdated
 # https://community.chocolatey.org/packages
 choco install -y notepadplusplus.install
 choco install -y 7zip.install
-choco install -y jdk8
+# choco install -y jdk8
+choco install -y jdk11
 choco install -y python3
 # choco install -y git
 # choco install -y 010editor.install
