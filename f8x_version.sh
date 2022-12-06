@@ -114,7 +114,7 @@ rad_Ver="0.4"
 rad_File_amd64="rad_linux_amd64.zip"
 rad_File_arm64="rad_linux_arm64.zip"
 # https://github.com/Qianlitp/crawlergo/releases
-crawlergo_Ver="v0.4.3"
+crawlergo_Ver="v0.4.4"
 crawlergo_File_amd64="crawlergo_linux_amd64"
 crawlergo_File_arm64="crawlergo_linux_arm64"
 # https://github.com/gloxec/CrossC2/releases
@@ -273,6 +273,9 @@ katana_bin_arm64="katana_0.0.2_linux_arm64.zip"
 uncover_Ver="v0.0.9"
 uncover_bin_amd64="uncover_0.0.9_linux_amd64.zip"
 uncover_bin_arm64="uncover_0.0.9_linux_arm64.zip"
+HostCollision_Ver="HostCollision-2.2.7"
+HostCollision_Bin="HostCollision-2.2.7.zip"
+HostCollision_dir="HostCollision-2.2.7"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
