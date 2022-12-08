@@ -276,6 +276,12 @@ uncover_bin_arm64="uncover_0.0.9_linux_arm64.zip"
 HostCollision_Ver="HostCollision-2.2.7"
 HostCollision_Bin="HostCollision-2.2.7.zip"
 HostCollision_dir="HostCollision-2.2.7"
+asnmap_bin_amd64="asnmap_0.0.1_linux_amd64.tar.gz"
+asnmap_bin_arm64="asnmap_0.0.1_linux_arm64.tar.gz"
+asnmap_Ver="v0.0.1"
+tlsx_bin_amd64="tlsx_0.0.9_linux_amd64.zip"
+tlsx_bin_arm64="tlsx_0.0.9_linux_arm64.zip"
+tlsx_Ver="v0.0.9"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
