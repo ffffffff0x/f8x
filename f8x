@@ -4127,7 +4127,7 @@ Pentest_redis-rogue-server_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Proxy_OK git clone ${GitProxy}https://github.com/Dliv3/redis-rogue-server.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/Dliv3/redis-rogue-server.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -4143,7 +4143,7 @@ Pentest_redis-rogue-server-win_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Proxy_OK git clone ${GitProxy}https://github.com/No-Github/redis-rogue-server-win.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/No-Github/redis-rogue-server-win.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rogue-server.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -4160,7 +4160,7 @@ Pentest_redis-rce_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch4 "six"
-        rm -rf $dir && $Proxy_OK git clone ${GitProxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        rm -rf $dir && cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rce.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cp $P_Dir/redis-rogue-server/exp.so $dir && Echo_INFOR "Copied exp.so to $dir"
     fi
@@ -4178,7 +4178,7 @@ Pentest_redis_lua_exploit_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         Install_Switch3 "redis"
-        $Proxy_OK git clone ${GitProxy}https://github.com/QAX-A-Team/redis_lua_exploit.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/QAX-A-Team/redis_lua_exploit.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
     fi
 
 }
@@ -4209,7 +4209,7 @@ Pentest_shiro-exploit_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Proxy_OK git clone ${GitProxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/Ares-X/shiro-exploit.git $dir > /dev/null 2>&1 || Echo_ERROR2
         Install_Switch4 "pycryptodome"
         cd $dir && python3 shiro-exploit.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
@@ -5081,7 +5081,7 @@ Pentest_jwtcat_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        $Proxy_OK git clone ${GitProxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 || Echo_ERROR2
+        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 -m pip install -r requirements.txt > /dev/null 2>&1
         python3 jwtcat.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
