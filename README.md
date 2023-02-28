@@ -31,7 +31,11 @@ English | [简体中文](README.zh-cn.md)
   - wget : `wget -O f8x https://f8x.io/`
   - curl : `curl -o f8x https://f8x.io/`
 
-- Visit [releases](https://github.com/ffffffff0x/f8x/releases)
+- github raw
+  - wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
+  - curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
+
+> Subsequent releases will not be updated, so it is recommended not to download old versions of f8x from releases.
 
 **usage**
 ```bash

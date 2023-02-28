@@ -33,7 +33,11 @@
   - wget : `wget -O f8x https://f8x.io/`
   - curl : `curl -o f8x https://f8x.io/`
 
-- 访问 [releases](https://github.com/ffffffff0x/f8x/releases) 下载
+- github 直链
+  - wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
+  - curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
+
+> 后续不会更新 releases,建议不要下载 releases 的旧版本 f8x
 
 **使用**
 ```bash
