@@ -41,9 +41,9 @@ Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
 Ruby_bin="ruby-3.0.0.tar.gz"
 # https://go.dev/dl/
-Go_Version="go1.18.6"
-Go_Bin_amd64="go1.18.6.linux-amd64.tar.gz"
-Go_Bin_arm64="go1.18.6.linux-arm64.tar.gz"
+Go_Version="go1.20.1"
+Go_Bin_amd64="go1.20.1.linux-amd64.tar.gz"
+Go_Bin_arm64="go1.20.1.linux-arm64.tar.gz"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
 node_bin_amd64="node-v17.4.0-linux-x64.tar.xz"
@@ -2518,7 +2518,7 @@ Go_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Echo_ALERT "Downloading Go (~120M)" && $Proxy_OK wget -O $T_Dir/$Go_Bin ${GitProxy2}https://golang.org/dl/$Go_Bin ${wget_option} && tar -C /usr/local -xzf $T_Dir/$Go_Bin && Echo_INFOR "Downloaded from golang.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+        Echo_ALERT "Downloading Go (~120M)" && $Proxy_OK wget -O $T_Dir/$Go_Bin ${GitProxy2}https://go.dev/dl/$Go_Bin ${wget_option} && tar -C /usr/local -xzf $T_Dir/$Go_Bin && Echo_INFOR "Downloaded from golang.org" || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
 
         case $Linux_Version in
             *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
@@ -3357,8 +3357,8 @@ Pentest_naabu_Install(){
                         ;;
                     *) ;;
                 esac
-                cd /tmp && go install github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
-                mv $GOPATH/bin/naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu
+                go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
+                mv $GOPATH/bin/naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu || { mv /root/go/bin/naabu /usr/local/bin/naabu; chmod +x /usr/local/bin/naabu; }
                 which naabu > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -3441,7 +3441,7 @@ Pentest_gau_Install(){
                 ;;
             *"linux-arm64"*)
                 go install github.com/lc/gau/v2/cmd/gau@latest
-                mv $GOPATH/bin/gau /usr/local/bin/gau && chmod +x /usr/local/bin/gau
+                mv $GOPATH/bin/gau /usr/local/bin/gau && chmod +x /usr/local/bin/gau || { mv /root/go/bin/gau /usr/local/bin/gau; chmod +x /usr/local/bin/gau; }
                 which gau > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -4995,7 +4995,7 @@ Pentest_unfurl_Install(){
                 ;;
             *"linux-arm64"*)
                 go install github.com/tomnomnom/unfurl@latest
-                mv $GOPATH/bin/unfurl /usr/local/bin/unfurl && chmod +x /usr/local/bin/unfurl
+                mv $GOPATH/bin/unfurl /usr/local/bin/unfurl && chmod +x /usr/local/bin/unfurl || { mv /root/go/bin/unfurl /usr/local/bin/unfurl; chmod +x /usr/local/bin/unfurl; }
                 which unfurl > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -5023,7 +5023,7 @@ Pentest_qsreplace_Install(){
                 ;;
             *"linux-arm64"*)
                 go install github.com/tomnomnom/qsreplace@latest
-                mv $GOPATH/bin/qsreplace /usr/local/bin/qsreplace && chmod +x /usr/local/bin/qsreplace
+                mv $GOPATH/bin/qsreplace /usr/local/bin/qsreplace && chmod +x /usr/local/bin/qsreplace || { mv /root/go/bin/qsreplace /usr/local/bin/qsreplace; chmod +x /usr/local/bin/qsreplace; }
                 which qsreplace > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -5114,7 +5114,7 @@ Pentest_gojwtcrack_Install(){
                 ;;
             *"linux-arm64"*)
                 go install github.com/x1sec/gojwtcrack@latest
-                mv $GOPATH/bin/gojwtcrack /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack
+                mv $GOPATH/bin/gojwtcrack /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack || { mv /root/go/bin/gojwtcrack /usr/local/bin/gojwtcrack; chmod +x /usr/local/bin/gojwtcrack; }
                 which gojwtcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
