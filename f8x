@@ -65,11 +65,11 @@ ttyd_Ver="1.7.3"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
 # https://github.com/coder/code-server
-code_server_Ver="v4.9.1"
-code_server_bin1_amd64="code-server-4.9.1-amd64.rpm"
-code_server_bin2_amd64="code-server_4.9.1_amd64.deb"
-code_server_bin1_arm64="code-server-4.9.1-arm64.rpm"
-code_server_bin2_arm64="code-server_4.9.1_arm64.deb"
+code_server_Ver="v4.10.0"
+code_server_bin1_amd64="code-server-4.10.0-amd64.rpm"
+code_server_bin2_amd64="code-server_4.10.0_amd64.deb"
+code_server_bin1_arm64="code-server-4.10.0-arm64.rpm"
+code_server_bin2_arm64="code-server_4.10.0_arm64.deb"
 # https://www.python.org/downloads/
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -161,8 +161,8 @@ bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
 mitmproxy_Ver="9.0.1"
 mitmproxy_bin="mitmproxy-9.0.1-linux.tar.gz"
 # https://github.com/projectdiscovery/naabu/releases
-naabu_Ver="v2.1.1"
-naabu_bin="naabu_2.1.1_linux_amd64.zip"
+naabu_Ver="v2.1.2"
+naabu_bin="naabu_2.1.2_linux_amd64.zip"
 # https://github.com/projectdiscovery/proxify/releases
 proxify_Ver="v0.0.8"
 proxify_bin_amd64="proxify_0.0.8_linux_amd64.zip"
@@ -170,25 +170,25 @@ proxify_bin_arm64="proxify_0.0.8_linux_arm64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="hashcat-6.2.6"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.5.5"
-subfinder_bin_amd64="subfinder_2.5.5_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.5.5_linux_arm64.zip"
+subfinder_Ver="v2.5.6"
+subfinder_bin_amd64="subfinder_2.5.6_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.5.6_linux_arm64.zip"
 # https://github.com/projectdiscovery/httpx/releases
 httpx_Ver="v1.2.7"
 httpx_bin_amd64="httpx_1.2.7_linux_amd64.zip"
 httpx_bin_arm64="httpx_1.2.7_linux_arm64.zip"
 # https://github.com/projectdiscovery/mapcidr/releases
-mapcidr_Ver="v1.0.3"
-mapcidr_bin_amd64="mapcidr_1.0.3_linux_amd64.tar.gz"
-mapcidr_bin_arm64="mapcidr_1.0.3_linux_arm64.tar.gz"
+mapcidr_Ver="v1.1.0"
+mapcidr_bin_amd64="mapcidr_1.1.0_linux_amd64.zip"
+mapcidr_bin_arm64="mapcidr_1.1.0_linux_arm64.zip"
 # https://github.com/ffffffff0x/iprange/releases
 iprange_Ver="v1.0.1"
 iprange_bin_amd64="iprange_1.0.1_linux_amd64.tar.gz"
 iprange_bin_arm64="iprange_1.0.1_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/dnsx/releases
-dnsx_Ver="v1.1.1"
-dnsx_bin_amd64="dnsx_1.1.1_linux_amd64.zip"
-dnsx_bin_arm64="dnsx_1.1.1_linux_arm64.zip"
+dnsx_Ver="v1.1.2"
+dnsx_bin_amd64="dnsx_1.1.2_linux_amd64.zip"
+dnsx_bin_arm64="dnsx_1.1.2_linux_arm64.zip"
 # https://github.com/iBotPeaches/Apktool/releases
 apktool_Ver="v2.7.0"
 apktool_bin="apktool_2.7.0.jar"
@@ -196,8 +196,8 @@ apktool_bin="apktool_2.7.0.jar"
 gau_Ver="v2.1.2"
 gau_bin="gau_2.1.2_linux_amd64.tar.gz"
 # https://github.com/skylot/jadx/releases
-jadx_Ver="v1.4.5"
-jadx_bin="jadx-1.4.5.zip"
+jadx_Ver="v1.4.6"
+jadx_bin="jadx-1.4.6.zip"
 # https://github.com/qtc-de/remote-method-guesser/releases
 rmg_Ver="v4.4.0"
 rmg_bin="rmg-4.4.0-jar-with-dependencies.jar"
@@ -224,9 +224,9 @@ Amass_Ver="v3.21.2"
 Amass_bin_amd64="amass_linux_amd64.zip"
 Amass_bin_arm64="amass_linux_arm64.zip"
 # https://github.com/OJ/gobuster/releases
-gobuster_Ver="v3.4.0"
-gobuster_bin_amd64="gobuster_3.4.0_Linux_x86_64.tar.gz"
-gobuster_bin_arm64="gobuster_3.4.0_Linux_arm64.tar.gz"
+gobuster_Ver="v3.5.0"
+gobuster_bin_amd64="gobuster_3.5.0_Linux_x86_64.tar.gz"
+gobuster_bin_arm64="gobuster_3.5.0_Linux_arm64.tar.gz"
 # https://github.com/jaeles-project/gospider/releases
 gospider_Ver="v1.1.6"
 gospider_bin_amd64="gospider_v1.1.6_linux_x86_64.zip"
@@ -288,9 +288,9 @@ MoreFind_Ver="v1.2.8"
 MoreFind_bin_amd64="MoreFind_1.2.8_Linux_x86_64.tar.gz"
 MoreFind_bin_arm64="MoreFind_1.2.8_Linux_arm64.tar.gz"
 # https://github.com/praetorian-inc/fingerprintx
-fingerprintx_Ver="v1.1.5"
-fingerprintx_Install_amd64="fingerprintx_1.1.5_linux_amd64.tar.gz"
-fingerprintx_Install_arm64="fingerprintx_1.1.5_linux_arm64.tar.gz"
+fingerprintx_Ver="v1.1.6"
+fingerprintx_Install_amd64="fingerprintx_1.1.6_linux_amd64.tar.gz"
+fingerprintx_Install_arm64="fingerprintx_1.1.6_linux_arm64.tar.gz"
 # https://github.com/teamssix/cf
 cf_Ver="v0.4.4"
 cf_Install_amd64="cf_v0.4.4_linux_amd64.tar.gz"
@@ -318,13 +318,13 @@ tlsx_bin_arm64="tlsx_1.0.5_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.23"
+AdGuardHome_Version="v0.107.25"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="0.37.0"
-fzf_bin_amd64="fzf-0.37.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.37.0-linux_arm64.tar.gz"
+fzf_Ver="0.38.0"
+fzf_bin_amd64="fzf-0.38.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.38.0-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
 lux_Ver="v0.16.0"
 lux_bin_amd64="lux_0.16.0_Linux_64-bit.tar.gz"
@@ -334,9 +334,9 @@ gron_Ver="v0.7.1"
 gron_bin_amd64="gron-linux-amd64-0.7.1.tgz"
 gron_bin_arm64="gron-linux-arm64-0.7.1.tgz"
 # https://github.com/abhimanyu003/sttr/releases
-sttr_Ver="v0.2.14"
-sttr_bin_amd64="sttr_0.2.14_linux_amd64.tar.gz"
-sttr_bin_arm64="sttr_0.2.14_linux_arm64.tar.gz"
+sttr_Ver="v0.2.16"
+sttr_bin_amd64="sttr_0.2.16_linux_amd64.tar.gz"
+sttr_bin_arm64="sttr_0.2.16_linux_arm64.tar.gz"
 # https://github.com/sharkdp/bat/releases
 bat_Ver="v0.22.1"
 bat_bin_amd64="bat-musl_0.22.1_amd64.deb"
@@ -351,23 +351,23 @@ duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
 procs_Ver="v0.13.4"
 procs_bin="procs-v0.13.4-x86_64-linux.zip"
 # https://github.com/sharkdp/fd/releases
-fd_Ver="v8.6.0"
-fd_bin_amd64="fd_8.6.0_amd64.deb"
-fd_bin_arm64="fd_8.6.0_arm64.deb"
+fd_Ver="v8.7.0"
+fd_bin_amd64="fd_8.7.0_amd64.deb"
+fd_bin_arm64="fd_8.7.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.3.7"
-Terraform_bin_amd64="terraform_1.3.7_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.3.7_linux_arm64.zip"
+Terraform_Ver="1.3.9"
+Terraform_bin_amd64="terraform_1.3.9_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.3.9_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.0.141"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.141-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.141-arm64.tgz"
+aliyun_cli_Ver="v3.0.150"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.150-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.150-arm64.tgz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.30.8"
+yq_Ver="v4.31.1"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
@@ -4798,7 +4798,7 @@ Pentest_mapcidr_Install(){
         Echo_ALERT "$name installed"
     else
         cd /tmp && rm -f $mapcidr_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/mapcidr/releases/download/$mapcidr_Ver/$mapcidr_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $mapcidr_bin > /dev/null 2>&1
+        unzip $mapcidr_bin > /dev/null 2>&1
         mv --force mapcidr /usr/local/bin/mapcidr && chmod +x /usr/local/bin/mapcidr && rm -f /tmp/$mapcidr_bin > /dev/null 2>&1
         mapcidr -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $mapcidr_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -8497,6 +8497,25 @@ jq_Install(){
 # 更新已经安装的软件
 pentest_tool_upgrade(){
 
+    ffuf -V 1> /dev/null 2>> /dev/null
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "ffuf 已安装,是否需要覆盖更新 ffuf $ffuf_Ver ? [y/N,默认No]" && read -r input
+        case $input in
+            [yY][eE][sS]|[Yy])
+                rm -rf /usr/local/bin/ffuf > /dev/null 2>&1
+                rm -rf /usr/bin/ffuf > /dev/null 2>&1
+                Pentest_ffuf_Install
+                ;;
+            *)
+                sleep 0.001
+                ;;
+        esac
+    else
+        Echo_ERROR "ffuf 未安装"
+        Pentest_ffuf_Install
+    fi
+
     nuclei -version > /dev/null 2>&1
     if [ $? == 0 ]
     then
@@ -8564,6 +8583,29 @@ pentest_tool_upgrade(){
     else
         Echo_ERROR "naabu 未安装"
         Pentest_naabu_Install
+    fi
+
+    which katana > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        if test -e /tmp/IS_CI
+        then
+            input="y"
+        else
+            Echo_ALERT "katana 已安装,是否需要覆盖更新 katana $katana_Ver ? [y/N,默认No]" && read -r input
+        fi
+        case $input in
+            [yY][eE][sS]|[Yy])
+                rm -rf /usr/local/bin/katana
+                Pentest_katana_Install
+                ;;
+            *)
+                sleep 0.001
+                ;;
+        esac
+    else
+        Echo_ERROR "katana 未安装"
+        Pentest_katana_Install
     fi
 
 }
