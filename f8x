@@ -3009,8 +3009,8 @@ Pentest_ksubdomain_Install(){
                 ksubdomain > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $ksubdomain_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
-                go install github.com/boy-hack/ksubdomain/cmd/ksubdomain@latest
-                mv $GOPATH/bin/ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain
+                cd /tmp && go install github.com/boy-hack/ksubdomain/cmd/ksubdomain@latest
+                mv $GOPATH/bin/ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain || { mv /root/go/bin/ksubdomain /usr/local/bin/ksubdomain; chmod +x /usr/local/bin/ksubdomain; }
                 which ksubdomain > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -3188,7 +3188,7 @@ Pentest_csprecon_Install(){
         Echo_ALERT "$name installed"
     else
         cd /tmp && go install github.com/edoardottt/csprecon/cmd/csprecon@latest
-        mv $GOPATH/bin/csprecon /usr/local/bin/csprecon && chmod +x /usr/local/bin/csprecon
+        mv $GOPATH/bin/csprecon /usr/local/bin/csprecon && chmod +x /usr/local/bin/csprecon || { mv /root/go/bin/csprecon /usr/local/bin/csprecon; chmod +x /usr/local/bin/csprecon; }
         which csprecon > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
 
@@ -3357,7 +3357,7 @@ Pentest_naabu_Install(){
                         ;;
                     *) ;;
                 esac
-                go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
+                cd /tmp && go install -v github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
                 mv $GOPATH/bin/naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu || { mv /root/go/bin/naabu /usr/local/bin/naabu; chmod +x /usr/local/bin/naabu; }
                 which naabu > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
@@ -3440,7 +3440,7 @@ Pentest_gau_Install(){
                 which gau > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $gau_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
-                go install github.com/lc/gau/v2/cmd/gau@latest
+                cd /tmp && go install github.com/lc/gau/v2/cmd/gau@latest
                 mv $GOPATH/bin/gau /usr/local/bin/gau && chmod +x /usr/local/bin/gau || { mv /root/go/bin/gau /usr/local/bin/gau; chmod +x /usr/local/bin/gau; }
                 which gau > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
@@ -3496,7 +3496,7 @@ Pentest_ApkAnalyser_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Install_Switch4 "apkutils"
+        Install_Switch4 "apkutils" > /dev/null 2>&1
         $Proxy_OK curl -o $P_Dir/apkAnalyser.py https://cdn.jsdelivr.net/gh/TheKingOfDuck/ApkAnalyser/apkAnalyser.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3707,8 +3707,8 @@ Pentest_zscan_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        go install github.com/zyylhn/zscan@latest
-        mv $GOPATH/bin/zscan /usr/local/bin/zscan && chmod +x /usr/local/bin/zscan
+        cd /tmp && go install github.com/zyylhn/zscan@latest
+        mv $GOPATH/bin/zscan /usr/local/bin/zscan && chmod +x /usr/local/bin/zscan || { mv /root/go/bin/zscan /usr/local/bin/zscan; chmod +x /usr/local/bin/zscan; }
         which zscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
 
@@ -4994,7 +4994,7 @@ Pentest_unfurl_Install(){
                 rm -rf /tmp/unfurl
                 ;;
             *"linux-arm64"*)
-                go install github.com/tomnomnom/unfurl@latest
+                cd /tmp && go install github.com/tomnomnom/unfurl@latest
                 mv $GOPATH/bin/unfurl /usr/local/bin/unfurl && chmod +x /usr/local/bin/unfurl || { mv /root/go/bin/unfurl /usr/local/bin/unfurl; chmod +x /usr/local/bin/unfurl; }
                 which unfurl > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
@@ -5022,7 +5022,7 @@ Pentest_qsreplace_Install(){
                 rm -rf /tmp/qsreplace
                 ;;
             *"linux-arm64"*)
-                go install github.com/tomnomnom/qsreplace@latest
+                cd /tmp && go install github.com/tomnomnom/qsreplace@latest
                 mv $GOPATH/bin/qsreplace /usr/local/bin/qsreplace && chmod +x /usr/local/bin/qsreplace || { mv /root/go/bin/qsreplace /usr/local/bin/qsreplace; chmod +x /usr/local/bin/qsreplace; }
                 which qsreplace > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
@@ -5113,7 +5113,7 @@ Pentest_gojwtcrack_Install(){
                 rm -rf /tmp/gojwtcrack
                 ;;
             *"linux-arm64"*)
-                go install github.com/x1sec/gojwtcrack@latest
+                cd /tmp && go install github.com/x1sec/gojwtcrack@latest
                 mv $GOPATH/bin/gojwtcrack /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack || { mv /root/go/bin/gojwtcrack /usr/local/bin/gojwtcrack; chmod +x /usr/local/bin/gojwtcrack; }
                 which gojwtcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
@@ -5207,8 +5207,8 @@ Pentest_jaeles_Install(){
                 which jaeles > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $jaeles_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
-                go install github.com/jaeles-project/jaeles@latest
-                mv $GOPATH/bin/jaeles /usr/local/bin/jaeles && chmod +x /usr/local/bin/jaeles
+                cd /tmp && go install github.com/jaeles-project/jaeles@latest
+                mv $GOPATH/bin/jaeles /usr/local/bin/jaeles && chmod +x /usr/local/bin/jaeles || { mv /root/go/bin/jaeles /usr/local/bin/jaeles; chmod +x /usr/local/bin/jaeles; }
                 which jaeles > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -5278,8 +5278,8 @@ Pentest_subjs_Install(){
                 which subjs > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $subjs_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
-                go install github.com/lc/subjs@latest
-                mv $GOPATH/bin/subjs /usr/local/bin/subjs && chmod +x /usr/local/bin/subjs
+                cd /tmp && go install github.com/lc/subjs@latest
+                mv $GOPATH/bin/subjs /usr/local/bin/subjs && chmod +x /usr/local/bin/subjs || { mv /root/go/bin/subjs /usr/local/bin/subjs; chmod +x /usr/local/bin/subjs; }
                 which subjs > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -5307,8 +5307,8 @@ Pentest_assetfinder_Install(){
                 which assetfinder > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $assetfinder_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
-                go install github.com/tomnomnom/assetfinder@latest
-                mv $GOPATH/bin/assetfinder /usr/local/bin/assetfinder && chmod +x /usr/local/bin/assetfinder
+                cd /tmp && go install github.com/tomnomnom/assetfinder@latest
+                mv $GOPATH/bin/assetfinder /usr/local/bin/assetfinder && chmod +x /usr/local/bin/assetfinder || { mv /root/go/bin/assetfinder /usr/local/bin/assetfinder; chmod +x /usr/local/bin/assetfinder; }
                 which assetfinder > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
@@ -6060,7 +6060,8 @@ bat_Install(){
     else
         mkdir -p /tmp/batinstall && cd $_
         $Proxy_OK wget ${GitProxy}https://github.com/sharkdp/bat/releases/download/$bat_Ver/$bat_bin > /dev/null 2>&1 || Echo_ERROR2
-        dpkg -i $bat_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $bat_Ver" || Echo_ERROR3
+        dpkg -i $bat_bin > /dev/null 2>&1
+        which bat > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $bat_Ver" || Echo_ERROR3
         rm -rf /tmp/batinstall
     fi
 
