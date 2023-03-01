@@ -342,3 +342,7 @@ yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
 yq_File_arm64="yq_linux_arm64.tar.gz"
+# https://github.com/Dreamacro/clash
+clash_Ver="v1.13.0"
+clash_bin_amd64="clash-linux-amd64-v1.13.0.gz"
+clash_bin_arm64="clash-linux-arm64-v1.13.0.gz"
