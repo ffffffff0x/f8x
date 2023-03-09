@@ -282,9 +282,14 @@ HostCollision_dir="HostCollision-2.2.7"
 asnmap_Ver="v1.0.0"
 asnmap_bin_amd64="asnmap_1.0.0_linux_amd64.zip"
 asnmap_bin_arm64="asnmap_1.0.0_linux_arm64.zip"
+# https://github.com/projectdiscovery/tlsx
 tlsx_Ver="v1.0.5"
 tlsx_bin_amd64="tlsx_1.0.5_linux_amd64.zip"
 tlsx_bin_arm64="tlsx_1.0.5_linux_arm64.zip"
+# https://github.com/chainreactors/gogo
+gogo_Ver="v2.10.7"
+gogo_File_amd64="gogo_linux_amd64"
+gogo_File_arm64="gogo_linux_arm64"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases

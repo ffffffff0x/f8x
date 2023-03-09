@@ -312,9 +312,14 @@ HostCollision_dir="HostCollision-2.2.7"
 asnmap_Ver="v1.0.0"
 asnmap_bin_amd64="asnmap_1.0.0_linux_amd64.zip"
 asnmap_bin_arm64="asnmap_1.0.0_linux_arm64.zip"
+# https://github.com/projectdiscovery/tlsx
 tlsx_Ver="v1.0.5"
 tlsx_bin_amd64="tlsx_1.0.5_linux_amd64.zip"
 tlsx_bin_arm64="tlsx_1.0.5_linux_arm64.zip"
+# https://github.com/chainreactors/gogo
+gogo_Ver="v2.10.7"
+gogo_File_amd64="gogo_linux_amd64"
+gogo_File_arm64="gogo_linux_arm64"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
@@ -3177,6 +3182,34 @@ Pentest_tlsx_Install(){
         mv --force tlsx /usr/local/bin/tlsx && chmod +x /usr/local/bin/tlsx
         which tlsx > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $tlsx_Ver in the /usr/local/bin/" || Echo_ERROR3
         rm -rf /tmp/tlsx
+    fi
+
+}
+
+# ===================== Install gogo =====================
+Pentest_gogo_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            gogo_File=$gogo_File_amd64
+            ;;
+        *"linux-arm64"*)
+            gogo_File=$gogo_File_arm64
+            ;;
+    esac
+
+    name="gogo"
+
+    which gogo > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/gogo && cd /tmp/gogo && rm -f $gogo_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/chainreactors/gogo/releases/download/$gogo_Ver/$gogo_File > /dev/null 2>&1 || Echo_ERROR2
+        mv --force $gogo_File /usr/local/bin/gogo && chmod +x /usr/local/bin/gogo
+        which gogo > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $gogo_Ver in the /usr/local/bin/" || Echo_ERROR3
+        rm -rf /tmp/gogo
     fi
 
 }
@@ -8860,6 +8893,8 @@ kali_Tools_TypeA(){
     Pentest_asnmap_Install
     echo -e "\033[1;33m\n>> Installing tlsx\n\033[0m"
     Pentest_tlsx_Install
+    echo -e "\033[1;33m\n>> Installing gogo\n\033[0m"
+    Pentest_gogo_Install
 
     # Pentest_gospider_Install
     # Pentest_dismap_Install
