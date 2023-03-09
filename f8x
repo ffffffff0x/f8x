@@ -3346,10 +3346,24 @@ Pentest_naabu_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
-                cd /tmp && rm -f $naabu_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/naabu/releases/download/$naabu_Ver/$naabu_bin > /dev/null 2>&1 || Echo_ERROR2
-                unzip $naabu_bin > /dev/null 2>&1
-                mv --force naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu && rm -f /tmp/$naabu_bin > /dev/null 2>&1
-                naabu -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $naabu_Ver in the /usr/local/bin/" || Echo_ERROR3
+                Rm_Lock
+                case $Linux_Version in
+                    *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                        Install_Switch "libpcap"
+                        Install_Switch "libpcap-devel"
+                        ;;
+                    *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                        Install_Switch "libpcap-dev"
+                        ;;
+                    *) ;;
+                esac
+                cd /tmp && go install github.com/projectdiscovery/naabu/v2/cmd/naabu@latest
+                mv $GOPATH/bin/naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu || { mv /root/go/bin/naabu /usr/local/bin/naabu; chmod +x /usr/local/bin/naabu; }
+                which naabu > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+                # cd /tmp && rm -f $naabu_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/naabu/releases/download/$naabu_Ver/$naabu_bin > /dev/null 2>&1 || Echo_ERROR2
+                # unzip $naabu_bin > /dev/null 2>&1
+                # mv --force naabu /usr/local/bin/naabu && chmod +x /usr/local/bin/naabu && rm -f /tmp/$naabu_bin > /dev/null 2>&1
+                # naabu -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $naabu_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
                 Rm_Lock
