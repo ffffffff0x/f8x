@@ -7911,7 +7911,6 @@ sliver-client_Install(){
         mkdir -p /tmp/sliver-client && cd /tmp/sliver-client && $Proxy_OK wget ${GitProxy}https://github.com/BishopFox/sliver/releases/download/$sliver_Ver/$sliver_bin_Client ${wget_option} || Echo_ERROR2
         mv --force $sliver_bin_Client /usr/local/bin/sliver && chmod 755 /usr/local/bin/sliver
         which sliver > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/sliver" || Echo_ERROR3
-        rm -f /tmp/sliver-client > /dev/null 2>&1
     fi
 
 }
@@ -7927,7 +7926,7 @@ yakit_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        cd /tmp && rm -f yak_linux_amd64 && $Proxy_OK wget ${GitProxy}https://yaklang.oss-cn-beijing.aliyuncs.com/yak/latest/yak_linux_amd64 ${wget_option} || Echo_ERROR2
+        cd /tmp && rm -f yak_linux_amd64 && $Proxy_OK wget ${GitProxy2}https://yaklang.oss-cn-beijing.aliyuncs.com/yak/latest/yak_linux_amd64 ${wget_option} || Echo_ERROR2
         mv --force yak_linux_amd64 /usr/local/bin/yak && chmod +x /usr/local/bin/yak
         which yak > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
@@ -7948,6 +7947,36 @@ wpscan_Install(){
         gem update --system
         gem install wpscan
     fi
+
+}
+
+# -wx
+wx_Install(){
+
+    name="wxappUnpacker"
+    dir="$P_Dir/wxappUnpacker"
+    echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        mkdir -p $dir
+        mkdir -p /tmp/wxappUnpacker && cd $dir && $Proxy_OK wget ${GitProxy}https://github.com/No-Github/Archive/releases/download/wx/wxappUnpacker.zip ${wget_option} || Echo_ERROR2
+        unzip wxappUnpacker.zip > /dev/null 2>&1
+        mv wxappUnpacker/* $dir && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        rm -rf /tmp/wxappUnpacker > /dev/null 2>&1
+    fi
+
+    echo -e "\033[1;33m\n>> Installing npm package\n\033[0m"
+    cd $dir
+    npm install
+    npm install esprima
+    npm install css-tree
+    npm install cssbeautify
+    npm install vm2
+    npm install uglify-es
+    npm install js-beautify
 
 }
 
@@ -9177,6 +9206,7 @@ Help(){
     echo -e "  \033[1;34m-bypass\033[0m \033[0;34m          : install Bypass\033[0m"
     echo -e "  \033[1;34m-goby\033[0m \033[0;34m            : install Goby\033[0m                       \033[1;33m(Requires GUI environment)\033[0m"
     echo -e "  \033[1;34m-wpscan\033[0m \033[0;34m          : install wpscan\033[0m"
+    echo -e "  \033[1;34m-wx\033[0m \033[0;34m              : install wxappUnpacker\033[0m"
     echo -e "  \033[1;34m-yakit\033[0m \033[0;34m           : install yakit\033[0m"
     echo -e ""
     echo -e "\033[1;34mRed Team Infrastructure \033[0m"
@@ -9697,6 +9727,13 @@ do
             Base_Check
             Ruby_Check
             wpscan_Install
+            ;;
+        -wx)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            nn_Check
+            wx_Install
             ;;
         -yakit)
             mac_Check || exit 1
