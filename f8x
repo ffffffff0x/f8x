@@ -65,11 +65,11 @@ ttyd_Ver="1.7.3"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
 # https://github.com/coder/code-server
-code_server_Ver="v4.10.1"
-code_server_bin1_amd64="code-server-4.10.1-amd64.rpm"
-code_server_bin2_amd64="code-server_4.10.1_amd64.deb"
-code_server_bin1_arm64="code-server-4.10.1-arm64.rpm"
-code_server_bin2_arm64="code-server_4.10.1_arm64.deb"
+code_server_Ver="v4.11.0"
+code_server_bin1_amd64="code-server-4.11.0-amd64.rpm"
+code_server_bin2_amd64="code-server_4.11.0_amd64.deb"
+code_server_bin1_arm64="code-server-4.11.0-arm64.rpm"
+code_server_bin2_arm64="code-server_4.11.0_arm64.deb"
 # https://www.python.org/downloads/
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -128,9 +128,9 @@ ffuf_Ver="v2.0.0"
 ffuf_Install_amd64="ffuf_2.0.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.0.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v2.8.9"
-Nuclei_Install_amd64="nuclei_2.8.9_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.8.9_linux_arm64.zip"
+Nuclei_Ver="v2.9.0"
+Nuclei_Install_amd64="nuclei_2.9.0_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.9.0_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -148,7 +148,7 @@ crawlergo_Ver="v0.4.4"
 crawlergo_File_amd64="crawlergo_linux_amd64"
 crawlergo_File_arm64="crawlergo_linux_arm64"
 # https://github.com/gloxec/CrossC2/releases
-CrossC2_Ver="v3.1.0"
+CrossC2_Ver="v3.1.1"
 # https://github.com/nodauf/Girsh/releases
 Girsh_Ver="v0.40"
 Girsh_bin_amd64="Girsh_0.40_linux_amd64.tar.gz"
@@ -161,8 +161,8 @@ bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
 mitmproxy_Ver="9.0.1"
 mitmproxy_bin="mitmproxy-9.0.1-linux.tar.gz"
 # https://github.com/projectdiscovery/naabu/releases
-naabu_Ver="v2.1.2"
-naabu_bin="naabu_2.1.2_linux_amd64.zip"
+naabu_Ver="v2.1.4"
+naabu_bin="naabu_2.1.4_linux_amd64.zip"
 # https://github.com/projectdiscovery/proxify/releases
 proxify_Ver="v0.0.8"
 proxify_bin_amd64="proxify_0.0.8_linux_amd64.zip"
@@ -170,25 +170,25 @@ proxify_bin_arm64="proxify_0.0.8_linux_arm64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="hashcat-6.2.6"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.5.6"
-subfinder_bin_amd64="subfinder_2.5.6_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.5.6_linux_arm64.zip"
+subfinder_Ver="v2.5.7"
+subfinder_bin_amd64="subfinder_2.5.7_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.5.7_linux_arm64.zip"
 # https://github.com/projectdiscovery/httpx/releases
-httpx_Ver="v1.2.7"
-httpx_bin_amd64="httpx_1.2.7_linux_amd64.zip"
-httpx_bin_arm64="httpx_1.2.7_linux_arm64.zip"
+httpx_Ver="v1.2.9"
+httpx_bin_amd64="httpx_1.2.9_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.2.9_linux_arm64.zip"
 # https://github.com/projectdiscovery/mapcidr/releases
-mapcidr_Ver="v1.1.0"
-mapcidr_bin_amd64="mapcidr_1.1.0_linux_amd64.zip"
-mapcidr_bin_arm64="mapcidr_1.1.0_linux_arm64.zip"
+mapcidr_Ver="v1.1.1"
+mapcidr_bin_amd64="mapcidr_1.1.1_linux_amd64.zip"
+mapcidr_bin_arm64="mapcidr_1.1.1_linux_arm64.zip"
 # https://github.com/ffffffff0x/iprange/releases
 iprange_Ver="v1.0.1"
 iprange_bin_amd64="iprange_1.0.1_linux_amd64.tar.gz"
 iprange_bin_arm64="iprange_1.0.1_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/dnsx/releases
-dnsx_Ver="v1.1.2"
-dnsx_bin_amd64="dnsx_1.1.2_linux_amd64.zip"
-dnsx_bin_arm64="dnsx_1.1.2_linux_arm64.zip"
+dnsx_Ver="v1.1.3"
+dnsx_bin_amd64="dnsx_1.1.3_linux_amd64.zip"
+dnsx_bin_arm64="dnsx_1.1.3_linux_arm64.zip"
 # https://github.com/iBotPeaches/Apktool/releases
 apktool_Ver="v2.7.0"
 apktool_bin="apktool_2.7.0.jar"
@@ -220,7 +220,7 @@ Platypus_Ver="v1.5.1"
 Platypus_bin_amd64="Platypus_linux_amd64"
 Platypus_bin_arm64="Platypus_linux_arm64"
 # https://github.com/OWASP/Amass/releases
-Amass_Ver="v3.22.0"
+Amass_Ver="v3.22.2"
 Amass_bin_amd64="amass_linux_amd64.zip"
 Amass_bin_arm64="amass_linux_arm64.zip"
 # https://github.com/OJ/gobuster/releases
@@ -270,15 +270,15 @@ netspy_Ver="v0.0.5"
 netspy_bin_amd64="netspy_linux_amd64.zip"
 netspy_bin_arm64="netspy_linux_arm64.zip"
 # https://github.com/cdk-team/CDK/releases
-cdk_Ver="v1.5.1"
+cdk_Ver="v1.5.2"
 cdk_bin_amd64="cdk_linux_amd64"
 cdk_bin_arm64="cdk_linux_arm64"
 # https://github.com/projectdiscovery/interactsh/releases
-interactsh_Ver="v1.1.0"
-interactsh_client_bin_amd64="interactsh-client_1.1.0_Linux_amd64.zip"
-interactsh_server_bin_amd64="interactsh-server_1.1.0_Linux_amd64.zip"
-interactsh_client_bin_arm64="interactsh-client_1.1.0_Linux_arm64.zip"
-interactsh_server_bin_arm64="interactsh-server_1.1.0_Linux_arm64.zip"
+interactsh_Ver="v1.1.2"
+interactsh_client_bin_amd64="interactsh-client_1.1.2_Linux_amd64.zip"
+interactsh_server_bin_amd64="interactsh-server_1.1.2_Linux_amd64.zip"
+interactsh_client_bin_arm64="interactsh-client_1.1.2_Linux_arm64.zip"
+interactsh_server_bin_arm64="interactsh-server_1.1.2_Linux_arm64.zip"
 # https://github.com/BishopFox/sliver/releases
 sliver_Ver="v1.5.35"
 sliver_bin_Server="sliver-server_linux"
@@ -296,34 +296,36 @@ cf_Ver="v0.4.4"
 cf_Install_amd64="cf_v0.4.4_linux_amd64.tar.gz"
 cf_Install_arm64="cf_v0.4.4_linux_arm64.tar.gz"
 # https://github.com/su18/ysoserial
-ysuserial_Ver="v1.3"
-ysuserial_bin="ysuserial-1.3-su18-all.jar"
+ysuserial_Ver="v1.5"
+ysuserial_bin="ysuserial-1.5-su18-all.jar"
 # https://github.com/projectdiscovery/katana
-katana_Ver="v0.0.3"
-katana_bin_amd64="katana_0.0.3_linux_amd64.zip"
-katana_bin_arm64="katana_0.0.3_linux_arm64.zip"
+katana_Ver="v1.0.0"
+katana_bin_amd64="katana_1.0.0_linux_amd64.zip"
+katana_bin_arm64="katana_1.0.0_linux_arm64.zip"
+# https://github.com/projectdiscovery/uncover
 uncover_Ver="v0.0.9"
 uncover_bin_amd64="uncover_0.0.9_linux_amd64.zip"
 uncover_bin_arm64="uncover_0.0.9_linux_arm64.zip"
+# https://github.com/pmiaowu/HostCollision
 HostCollision_Ver="HostCollision-2.2.7"
 HostCollision_Bin="HostCollision-2.2.7.zip"
 HostCollision_dir="HostCollision-2.2.7"
 # https://github.com/projectdiscovery/asnmap
-asnmap_Ver="v1.0.0"
-asnmap_bin_amd64="asnmap_1.0.0_linux_amd64.zip"
-asnmap_bin_arm64="asnmap_1.0.0_linux_arm64.zip"
+asnmap_Ver="v1.0.2"
+asnmap_bin_amd64="asnmap_1.0.2_linux_amd64.zip"
+asnmap_bin_arm64="asnmap_1.0.2_linux_arm64.zip"
 # https://github.com/projectdiscovery/tlsx
 tlsx_Ver="v1.0.5"
 tlsx_bin_amd64="tlsx_1.0.5_linux_amd64.zip"
 tlsx_bin_arm64="tlsx_1.0.5_linux_arm64.zip"
 # https://github.com/chainreactors/gogo
-gogo_Ver="v2.10.7"
+gogo_Ver="v2.11.0"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.25"
+AdGuardHome_Version="v0.107.26"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
@@ -360,9 +362,9 @@ fd_Ver="v8.7.0"
 fd_bin_amd64="fd_8.7.0_amd64.deb"
 fd_bin_arm64="fd_8.7.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.3.9"
-Terraform_bin_amd64="terraform_1.3.9_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.3.9_linux_arm64.zip"
+Terraform_Ver="1.4.2"
+Terraform_bin_amd64="terraform_1.4.2_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.4.2_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
 aliyun_cli_Ver="v3.0.150"
 aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.150-amd64.tgz"
@@ -372,17 +374,17 @@ ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.31.1"
+yq_Ver="v4.32.2"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
 yq_File_arm64="yq_linux_arm64.tar.gz"
 # https://github.com/Dreamacro/clash
-clash_Ver="v1.13.0"
-clash_bin_amd64="clash-linux-amd64-v1.13.0.gz"
-clash_bin_arm64="clash-linux-arm64-v1.13.0.gz"
-clash_File_amd64="clash-linux-amd64-v1.13.0"
-clash_File_arm64="clash-linux-arm64-v1.13.0"
+clash_Ver="v1.14.0"
+clash_bin_amd64="clash-linux-amd64-v1.14.0.gz"
+clash_bin_arm64="clash-linux-arm64-v1.14.0.gz"
+clash_File_amd64="clash-linux-amd64-v1.14.0"
+clash_File_arm64="clash-linux-arm64-v1.14.0"
 
 # ===================== 不可以修改的版本(从我的仓库下载,如果修改版本号,需要同时修改下载链接) =====================
 # https://www.oracle.com/java/technologies/downloads/
@@ -7268,6 +7270,7 @@ mythic_Install(){
         ./mythic-cli install github https://github.com/MythicC2Profiles/http
         ./mythic-cli install github https://github.com/MythicAgents/poseidon
         ./mythic-cli install github https://github.com/MythicC2Profiles/websocket
+        ./mythic-cli install github https://github.com/MythicAgents/apfell
         ./mythic-cli start
 
         ./mythic-cli status
