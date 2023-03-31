@@ -4255,8 +4255,8 @@ Pentest_shiro_rce_tool_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && rm -f shiro_tool.zip && $Proxy_OK wget -O shiro_tool.zip ${GitProxy2}https://raw.githubusercontent.com/No-Github/Archive/master/shiro/shiro_tool.zip > /dev/null 2>&1 || Echo_ERROR2
-        unzip shiro_tool.zip > /dev/null 2>&1 && rm -f shiro_tool.zip && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        mkdir -p $dir && cd $dir && rm -f shiro_tool.jar && $Proxy_OK wget -O shiro_tool.jar ${GitProxy}https://github.com/No-Github/Archive/releases/download/shiro/shiro_tool.jar > /dev/null 2>&1 || Echo_ERROR2
+        Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
