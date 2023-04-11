@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.4 Dev(Beta4)"
+F8x_Version="1.6.4 Dev(Beta5)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -326,6 +326,12 @@ gogo_File_arm64="gogo_linux_arm64"
 simplehttpserver_Ver="v0.0.6"
 simplehttpserver_bin_amd64="simplehttpserver_0.0.6_linux_amd64.zip"
 simplehttpserver_bin_arm64="simplehttpserver_0.0.6_linux_arm64.zip"
+# https://github.com/ropnop/kerbrute
+kerbrute_bin="kerbrute_linux_amd64"
+kerbrute_Ver="v1.0.3"
+# https://github.com/lzzbb/Adinfo
+Adinfo_bin="Adinfo_linux"
+Adinfo_Ver="v0.3"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
@@ -812,6 +818,14 @@ Sys_Version(){
         *"Ubuntu"*|*"ubuntu"*)
             Linux_Version="Ubuntu"
             case $(cat /etc/*-release | head -n 4) in
+                *"lunar"*)
+                    Linux_Version_Num="23.04"
+                    Linux_Version_Name="lunar"
+                    ;;
+                *"kinetic"*)
+                    Linux_Version_Num="22.10"
+                    Linux_Version_Name="kinetic"
+                    ;;
                 *"jammy"*)
                     Linux_Version_Num="22.04"
                     Linux_Version_Name="jammy"
@@ -865,8 +879,9 @@ Sys_Version(){
                     Linux_Version_Name="precise"
                     ;;
                 *)
-                    Echo_ERROR "Unknown Ubuntu Codename"
-                    exit 1
+                    Echo_ALERT "Unknown Ubuntu Codename, attempting automatic adaptation."
+                    Linux_Version_Num=$(cat /etc/*-release | awk -F "=" '/DISTRIB_RELEASE/ {print $2}')
+                    Linux_Version_Name=$(cat /etc/*-release | awk -F "=" '/DISTRIB_CODENAME/ {print $2}')
                     ;;
             esac
             ;;
@@ -4688,6 +4703,80 @@ Pentest_Neo-reGeorg_Install(){
 
 }
 
+# ===================== Install kerbrute =====================
+Pentest_kerbrute_Install(){
+
+    name="kerbrute"
+
+    which kerbrute > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        case $Linux_architecture_Name in
+            *"linux-x86_64"*)
+                mkdir -p /tmp/kerbrute && cd /tmp/kerbrute && rm -f $kerbrute_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/ropnop/kerbrute/releases/download/$kerbrute_Ver/$kerbrute_bin > /dev/null 2>&1 || Echo_ERROR2
+                mv --force $kerbrute_bin /usr/local/bin/kerbrute && chmod +x /usr/local/bin/kerbrute && rm -f /tmp/$kerbrute_bin > /dev/null 2>&1
+                rm -rf /tmp/kerbrute
+                which kerbrute > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $kerbrute_Ver in the /usr/local/bin/" || Echo_ERROR3
+                ;;
+            *"linux-arm64"*)
+                cd /tmp && go install github.com/ropnop/kerbrute@latest
+                mv $GOPATH/bin/kerbrute /usr/local/bin/kerbrute && chmod +x /usr/local/bin/kerbrute || { mv /root/go/bin/kerbrute /usr/local/bin/kerbrute; chmod +x /usr/local/bin/kerbrute; }
+                which kerbrute > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+                ;;
+        esac
+    fi
+
+}
+
+# ===================== Install Adinfo =====================
+Pentest_Adinfo_Install(){
+
+    name="Adinfo"
+
+    which Adinfo > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        case $Linux_architecture_Name in
+            *"linux-x86_64"*)
+                mkdir -p /tmp/Adinfo && cd /tmp/Adinfo && rm -f $Adinfo_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/lzzbb/Adinfo/releases/download/$Adinfo_Ver/$Adinfo_bin > /dev/null 2>&1 || Echo_ERROR2
+                mv --force $Adinfo_bin /usr/local/bin/Adinfo && chmod +x /usr/local/bin/Adinfo && rm -f /tmp/$Adinfo_bin > /dev/null 2>&1
+                rm -rf /tmp/Adinfo
+                which Adinfo > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Adinfo_Ver in the /usr/local/bin/" || Echo_ERROR3
+                ;;
+            *"linux-arm64"*)
+                # fork版更新了go.mod
+                cd /tmp && go install github.com/No-Github/Adinfo@latest
+                mv $GOPATH/bin/Adinfo /usr/local/bin/Adinfo && chmod +x /usr/local/bin/Adinfo || { mv /root/go/bin/Adinfo /usr/local/bin/Adinfo; chmod +x /usr/local/bin/Adinfo; }
+                which Adinfo > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
+                ;;
+        esac
+    fi
+
+}
+
+# ===================== Install PetitPotam =====================
+Pentest_PetitPotam_Install(){
+
+    name="PetitPotam"
+    dir="$P_Dir/PetitPotam"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        Install_Switch4 "impacket"
+        rm -rf $dir > /dev/null 2>&1
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/topotam/PetitPotam.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download the $name dictionary from github"
+    fi
+
+}
+
 # ===================== Install hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
@@ -4696,9 +4785,8 @@ Pentest_hashcat_Install(){
 
     if test -d $dir
     then
-        Echo_ALERT "hashcat is already installed in $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
-        name="hashcat"
         rm -rf /usr/sbin/hashcat
         rm -rf $P_Dir/hashcat-6.2.*
         $Proxy_OK wget -O $P_Dir/${hashcat_Version}.7z ${GitProxy2}https://hashcat.net/files/${hashcat_Version}.7z --no-check-certificate > /dev/null 2>&1 && Echo_INFOR "Downloaded ${hashcat_Version}" || Echo_ERROR2
@@ -5707,32 +5795,6 @@ Secure_fapro_Install(){
         cd /tmp && rm -f $fapro_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/fofapro/fapro/releases/download/$fapro_Ver/$fapro_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $fapro_bin > /dev/null 2>&1
         mv --force fapro /usr/local/bin/ && chmod +x /usr/local/bin/fapro && rm -f /tmp/$fapro_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fapro_Ver in the /usr/local/bin/" || Echo_ERROR3
-    fi
-
-}
-
-# ===================== Install Bash_Insulter =====================
-Bash_Insulter(){
-
-    name="Bash_Insulter"
-
-    if test -e /etc/bash.command-not-found
-    then
-        Echo_ALERT "$name is already installed in /etc/bash.command-not-found"
-    else
-        rm -rf $T_Dir/bash-insulter > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/No-Github/bash-insulter.git $T_Dir/bash-insulter > /dev/null 2>&1 || Echo_ERROR2
-        mv --force $T_Dir/bash-insulter/src/bash.command-not-found /etc/ && rm -rf $T_Dir/bash-insulter > /dev/null 2>&1
-        chmod 777 /etc/bash.command-not-found && Echo_INFOR ":)"
-
-        case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                echo ". /etc/bash.command-not-found" >> /etc/bashrc
-                ;;
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                echo ". /etc/bash.command-not-found" >> /etc/bash.bashrc
-                ;;
-            *) ;;
-        esac
     fi
 
 }
@@ -8908,7 +8970,6 @@ Fun_Tools(){
     echo -e "\033[1;33m\n>> Installing ctop\n\033[0m"
     ctop_Install
 
-    # Bash_Insulter
     # vlmcsd_Install
 
 }
@@ -9098,6 +9159,12 @@ kali_Tools_TypeC(){
     Pentest_CrackMapExec_Install
     echo -e "\033[1;33m\n>> Installing Neo-reGeorg\n\033[0m"
     Pentest_Neo-reGeorg_Install
+    echo -e "\033[1;33m\n>> Installing kerbrute\n\033[0m"
+    Pentest_kerbrute_Install
+    echo -e "\033[1;33m\n>> Installing Adinfo\n\033[0m"
+    Pentest_Adinfo_Install
+    echo -e "\033[1;33m\n>> Installing PetitPotam\n\033[0m"
+    Pentest_PetitPotam_Install
 
 }
 

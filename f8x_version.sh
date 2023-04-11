@@ -294,6 +294,12 @@ gogo_File_arm64="gogo_linux_arm64"
 simplehttpserver_Ver="v0.0.6"
 simplehttpserver_bin_amd64="simplehttpserver_0.0.6_linux_amd64.zip"
 simplehttpserver_bin_arm64="simplehttpserver_0.0.6_linux_arm64.zip"
+# https://github.com/ropnop/kerbrute
+kerbrute_bin="kerbrute_linux_amd64"
+kerbrute_Ver="v1.0.3"
+# https://github.com/lzzbb/Adinfo
+Adinfo_bin="Adinfo_linux"
+Adinfo_Ver="v0.3"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
