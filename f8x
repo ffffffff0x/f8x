@@ -128,9 +128,9 @@ ffuf_Ver="v2.0.0"
 ffuf_Install_amd64="ffuf_2.0.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.0.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v2.9.0"
-Nuclei_Install_amd64="nuclei_2.9.0_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.9.0_linux_arm64.zip"
+Nuclei_Ver="v2.9.1"
+Nuclei_Install_amd64="nuclei_2.9.1_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.9.1_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -299,9 +299,9 @@ cf_Install_arm64="cf_v0.4.4_linux_arm64.tar.gz"
 ysuserial_Ver="v1.5"
 ysuserial_bin="ysuserial-1.5-su18-all.jar"
 # https://github.com/projectdiscovery/katana
-katana_Ver="v1.0.0"
-katana_bin_amd64="katana_1.0.0_linux_amd64.zip"
-katana_bin_arm64="katana_1.0.0_linux_arm64.zip"
+katana_Ver="v1.0.1"
+katana_bin_amd64="katana_1.0.1_linux_amd64.zip"
+katana_bin_arm64="katana_1.0.1_linux_arm64.zip"
 # https://github.com/projectdiscovery/uncover
 uncover_Ver="v0.0.9"
 uncover_bin_amd64="uncover_0.0.9_linux_amd64.zip"
@@ -335,13 +335,13 @@ Adinfo_Ver="v0.3"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.26"
+AdGuardHome_Version="v0.107.27"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="0.38.0"
-fzf_bin_amd64="fzf-0.38.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.38.0-linux_arm64.tar.gz"
+fzf_Ver="0.39.0"
+fzf_bin_amd64="fzf-0.39.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.39.0-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
 lux_Ver="v0.17.2"
 lux_bin_amd64="lux_0.17.2_Linux_x86_64.tar.gz"
@@ -351,9 +351,9 @@ gron_Ver="v0.7.1"
 gron_bin_amd64="gron-linux-amd64-0.7.1.tgz"
 gron_bin_arm64="gron-linux-arm64-0.7.1.tgz"
 # https://github.com/abhimanyu003/sttr/releases
-sttr_Ver="v0.2.17"
-sttr_bin_amd64="sttr_0.2.17_linux_amd64.tar.gz"
-sttr_bin_arm64="sttr_0.2.17_linux_arm64.tar.gz"
+sttr_Ver="v0.2.18"
+sttr_bin_amd64="sttr_0.2.18_linux_amd64.tar.gz"
+sttr_bin_arm64="sttr_0.2.18_linux_arm64.tar.gz"
 # https://github.com/sharkdp/bat/releases
 bat_Ver="v0.23.0"
 bat_bin_amd64="bat-musl_0.23.0_amd64.deb"
@@ -372,9 +372,9 @@ fd_Ver="v8.7.0"
 fd_bin_amd64="fd_8.7.0_amd64.deb"
 fd_bin_arm64="fd_8.7.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.4.2"
-Terraform_bin_amd64="terraform_1.4.2_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.4.2_linux_arm64.zip"
+Terraform_Ver="1.4.4"
+Terraform_bin_amd64="terraform_1.4.4_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.4.4_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
 aliyun_cli_Ver="v3.0.160"
 aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.160-amd64.tgz"
@@ -384,7 +384,7 @@ ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.33.1"
+yq_Ver="v4.33.3"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
@@ -8771,6 +8771,7 @@ pentest_tool_upgrade(){
         then
             input="y"
         else
+            nuclei -version
             Echo_ALERT "Nuclei 已安装,是否需要覆盖更新 nuclei $Nuclei_Ver ? [y/N,默认No]" && read -r input
         fi
         case $input in
@@ -8794,6 +8795,7 @@ pentest_tool_upgrade(){
         then
             input="y"
         else
+            httpx -version
             Echo_ALERT "httpx 已安装,是否需要覆盖更新 httpx $httpx_Ver ? [y/N,默认No]" && read -r input
         fi
         case $input in
@@ -8817,6 +8819,7 @@ pentest_tool_upgrade(){
         then
             input="y"
         else
+            naabu -version
             Echo_ALERT "naabu 已安装,是否需要覆盖更新 naabu $naabu_Ver ? [y/N,默认No]" && read -r input
         fi
         case $input in
@@ -8840,6 +8843,7 @@ pentest_tool_upgrade(){
         then
             input="y"
         else
+            katana -version
             Echo_ALERT "katana 已安装,是否需要覆盖更新 katana $katana_Ver ? [y/N,默认No]" && read -r input
         fi
         case $input in
@@ -8863,6 +8867,7 @@ pentest_tool_upgrade(){
         then
             input="y"
         else
+            subfinder -version
             Echo_ALERT "subfinder 已安装,是否需要覆盖更新 subfinder $subfinder_Ver ? [y/N,默认No]" && read -r input
         fi
         case $input in
