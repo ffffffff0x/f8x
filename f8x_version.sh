@@ -302,6 +302,10 @@ kerbrute_Ver="v1.0.3"
 # https://github.com/lzzbb/Adinfo
 Adinfo_bin="Adinfo_linux"
 Adinfo_Ver="v0.3"
+# https://github.com/zema1/suo5
+suo5_Ver="v0.6.0"
+suo5_bin_amd64="suo5-linux-amd64"
+suo5_bin_arm64="suo5-linux-arm64"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
