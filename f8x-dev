@@ -12,7 +12,8 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_dev_Version="0.1.1 Dev"
+F8x_dev_Version="0.1.2 Dev"
+ran=$RANDOM
 
 # ===================== Software version variable setting =====================
 
@@ -123,7 +124,7 @@ mariadb_docker_Install(){
 
     # https://hub.docker.com/_/mariadb
     docker pull mariadb
-    docker run -d -p $mariadb_port:3306 --name f8x-mariadb -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker run -d -p $mariadb_port:3306 --name f8x-mariadb-$ran -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:latest || { Echo_ERROR "Deployment failed"; exit 1; }
     # Error : Can't initialize timers
     # Use : docker run -d -p $mariadb_port:3306 -e MYSQL_ROOT_PASSWORD=$mariadb_pass mariadb:10.7
     docker ps
@@ -636,8 +637,8 @@ php72_nginx_Install(){
     nginx_Install_pkg
     php72_Install
 
-    mkdir -p /var/www/f0x && cd $_
-    echo "<?php phpinfo() ?>" > /var/www/f0x/phpinfo.php
+    mkdir -p /var/www/php && cd $_
+    echo "<?php phpinfo() ?>" > /var/www/php/phpinfo.php
 
     # nginx 配置
     cd /etc/nginx/sites-available
@@ -648,14 +649,14 @@ server {
         listen 7777 default_server;
 
         location / {
-                root /var/www/f0x;
+                root /var/www/php;
                 index index.php;
 
                 try_files $uri $uri/ =404;
         }
 
         location ~ \.php$ {
-                root /var/www/f0x;
+                root /var/www/php;
 
                 fastcgi_pass unix:/run/php/php7.2-fpm.sock;
                 fastcgi_index index.php;
@@ -674,10 +675,10 @@ EOF
     systemctl start nginx.service
     ss -tnlp
 
-    chmod -R 777 /var/www/f0x/
+    chmod -R 777 /var/www/php/
 
     Echo_INFOR "config : /etc/nginx/sites-available/default"
-    Echo_INFOR "www    : /var/www/f0x"
+    Echo_INFOR "www    : /var/www/php"
     Echo_INFOR "test   : curl http://127.0.0.1:7777/phpinfo.php"
 
 }
