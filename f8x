@@ -9139,8 +9139,8 @@ kali_Tools_TypeB(){
     Pentest_swagger-hack_Install
     echo -e "\033[1;33m\n>> Installing ysoserial\n\033[0m"
     Pentest_ysoserial_Install
-    echo -e "\033[1;33m\n>> Installing ysuserial\n\033[0m"
-    Pentest_ysuserial_Install
+    # echo -e "\033[1;33m\n>> Installing ysuserial\n\033[0m"
+    # Pentest_ysuserial_Install
     echo -e "\033[1;33m\n>> Installing JNDI-Injection-Exploit\n\033[0m"
     Pentest_JNDI-Injection-Exploit_Install
     echo -e "\033[1;33m\n>> Installing marshalsec\n\033[0m"
