@@ -111,7 +111,7 @@ RustScan_Install="rustscan_2.0.1_amd64.deb"
 ksubdomain_Ver="v1.9.5"
 ksubdomain_Install="KSubdomain-v1.9.5-linux.tar"
 # https://github.com/chaitin/xray/releases
-xray_Ver="1.9.4"
+xray_Ver="1.9.7"
 xray_File_amd64="xray_linux_amd64.zip"
 xray_bin_amd64="xray_linux_amd64"
 xray_File_arm64="xray_linux_arm64.zip"
@@ -196,8 +196,8 @@ apktool_bin="apktool_2.7.0.jar"
 gau_Ver="v2.1.2"
 gau_bin="gau_2.1.2_linux_amd64.tar.gz"
 # https://github.com/skylot/jadx/releases
-jadx_Ver="v1.4.6"
-jadx_bin="jadx-1.4.6.zip"
+jadx_Ver="v1.4.7"
+jadx_bin="jadx-1.4.7.zip"
 # https://github.com/qtc-de/remote-method-guesser/releases
 rmg_Ver="v4.4.0"
 rmg_bin="rmg-4.4.0-jar-with-dependencies.jar"
@@ -280,7 +280,7 @@ interactsh_server_bin_amd64="interactsh-server_1.1.2_Linux_amd64.zip"
 interactsh_client_bin_arm64="interactsh-client_1.1.2_Linux_arm64.zip"
 interactsh_server_bin_arm64="interactsh-server_1.1.2_Linux_arm64.zip"
 # https://github.com/BishopFox/sliver/releases
-sliver_Ver="v1.5.36"
+sliver_Ver="v1.5.37"
 sliver_bin_Server="sliver-server_linux"
 sliver_bin_Client="sliver-client_linux"
 # https://github.com/mstxq17/MoreFind/releases
@@ -288,9 +288,9 @@ MoreFind_Ver="v1.2.8"
 MoreFind_bin_amd64="MoreFind_1.2.8_Linux_x86_64.tar.gz"
 MoreFind_bin_arm64="MoreFind_1.2.8_Linux_arm64.tar.gz"
 # https://github.com/praetorian-inc/fingerprintx
-fingerprintx_Ver="v1.1.7"
-fingerprintx_Install_amd64="fingerprintx_1.1.7_linux_amd64.tar.gz"
-fingerprintx_Install_arm64="fingerprintx_1.1.7_linux_arm64.tar.gz"
+fingerprintx_Ver="v1.1.8"
+fingerprintx_Install_amd64="fingerprintx_1.1.8_linux_amd64.tar.gz"
+fingerprintx_Install_arm64="fingerprintx_1.1.8_linux_arm64.tar.gz"
 # https://github.com/teamssix/cf
 cf_Ver="v0.4.4"
 cf_Install_amd64="cf_v0.4.4_linux_amd64.tar.gz"
@@ -339,7 +339,7 @@ suo5_bin_arm64="suo5-linux-arm64"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.27"
+AdGuardHome_Version="v0.107.29"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
@@ -347,9 +347,9 @@ fzf_Ver="0.39.0"
 fzf_bin_amd64="fzf-0.39.0-linux_amd64.tar.gz"
 fzf_bin_arm64="fzf-0.39.0-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
-lux_Ver="v0.17.2"
-lux_bin_amd64="lux_0.17.2_Linux_x86_64.tar.gz"
-lux_bin_arm64="lux_0.17.2_Linux_ARM64.tar.gz"
+lux_Ver="v0.18.0"
+lux_bin_amd64="lux_0.18.0_Linux_x86_64.tar.gz"
+lux_bin_arm64="lux_0.18.0_Linux_ARM64.tar.gz"
 # https://github.com/tomnomnom/gron/releases
 gron_Ver="v0.7.1"
 gron_bin_amd64="gron-linux-amd64-0.7.1.tgz"
@@ -376,13 +376,13 @@ fd_Ver="v8.7.0"
 fd_bin_amd64="fd_8.7.0_amd64.deb"
 fd_bin_arm64="fd_8.7.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.4.4"
-Terraform_bin_amd64="terraform_1.4.4_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.4.4_linux_arm64.zip"
+Terraform_Ver="1.4.5"
+Terraform_bin_amd64="terraform_1.4.5_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.4.5_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.0.160"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.160-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.160-arm64.tgz"
+aliyun_cli_Ver="v3.0.161"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.161-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.161-arm64.tgz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
