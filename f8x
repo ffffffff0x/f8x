@@ -9496,13 +9496,6 @@ Debug_Fun(){
 
 }
 
-# -mock
-Mock_Test(){
-
-    $1
-
-}
-
 # Main
 Main(){
 
