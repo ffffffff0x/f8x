@@ -91,7 +91,7 @@ influxdb_docker_Install(){
 
     # https://hub.docker.com/_/influxdb
     docker pull influxdb
-    docker run -d -p $influxdb_port:8086 --name f8x-influxdb influxdb:latest || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker run -d -p $influxdb_port:8086 --name f8x-influxdb-$ran influxdb:latest || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$influxdb_port, please do not deploy in public network environment"
@@ -150,7 +150,7 @@ memcached_docker_Install(){
 
     # https://hub.docker.com/_/memcached
     docker pull memcached
-    docker run -d -p $memcached_port:11211 --name f8x-memcached memcached || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker run -d -p $memcached_port:11211 --name f8x-memcached-$ran memcached || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$memcached_port, please do not deploy in public network environment"
@@ -173,7 +173,7 @@ mongodb_docker_Install(){
 
     # https://hub.docker.com/_/mongo
     docker pull mongo
-    docker run -d -p $mongodb_port:27017 --name f8x-mongodb mongo || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker run -d -p $mongodb_port:27017 --name f8x-mongodb-$ran mongo || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mongodb_port, please do not deploy in public network environment"
@@ -238,7 +238,7 @@ mysql_docker_Install(){
 
     # https://hub.docker.com/_/mysql
     docker pull mysql:latest
-    docker run -d -p $mysql_port:3306 --name f8x-mysql -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker run -d -p $mysql_port:3306 --name f8x-mysql-$ran -e MYSQL_ROOT_PASSWORD=$mysql_pass mysql:latest || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$mysql_port, please do not deploy in public network environment"
@@ -271,7 +271,7 @@ oracle11_docker_Install(){
 
     # https://hub.docker.com/r/gvenzl/oracle-xe
     docker pull gvenzl/oracle-xe:11
-    docker run -d -p $oracle11_port:1521 --name f8x-oracle11 -e ORACLE_PASSWORD=$oracle11_pass gvenzl/oracle-xe:11 || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker run -d -p $oracle11_port:1521 --name f8x-oracle11-$ran -e ORACLE_PASSWORD=$oracle11_pass gvenzl/oracle-xe:11 || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$oracle11_port, please do not deploy in public network environment"
@@ -303,8 +303,8 @@ postgres_docker_Install(){
     fi
 
     # https://hub.docker.com/_/postgres
-    docker pull postgres
-    docker run -d -p $postgres_port:5432 --name f8x-postgres -e POSTGRES_PASSWORD=$postgres_pass postgres || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker pull postgres:14.7
+    docker run -d -p $postgres_port:5432 --name f8x-postgres-$ran -e POSTGRES_PASSWORD=$postgres_pass postgres:14.7 || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$postgres_port, please do not deploy in public network environment"
@@ -328,7 +328,7 @@ redis_docker_Install(){
 
     # https://hub.docker.com/_/redis
     docker pull redis
-    docker run -d -p $redis_port:6379 --name f8x-redis redis || { Echo_ERROR "Deployment failed"; exit 1; }
+    docker run -d -p $redis_port:6379 --name f8x-redis-$ran redis || { Echo_ERROR "Deployment failed"; exit 1; }
     docker ps
 
     Echo_ALERT "Already listening to 0.0.0.0:$redis_port, please do not deploy in public network environment!!!!"
