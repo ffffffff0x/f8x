@@ -2902,7 +2902,7 @@ Pentest_pip_Install(){
         Install_Switch4 "pyzbar"
         Install_Switch4 "bs4"
         Install_Switch4 "ftfy"
-        Install_Switch4 "updog"
+        pip3 install updog > /dev/null 2>&1
         pip3 install pefile > /dev/null 2>&1
         Install_Switch3 "yara"
         Install_Switch3 "pycrypto"
@@ -4804,6 +4804,39 @@ Pentest_PetitPotam_Install(){
         Install_Switch4 "impacket"
         rm -rf $dir > /dev/null 2>&1
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/topotam/PetitPotam.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download the $name dictionary from github"
+    fi
+
+}
+
+# ===================== Install Certipy =====================
+Pentest_Certipy_Install(){
+
+    name="Certipy"
+    which certipy > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch4 "certipy-ad"
+    fi
+
+}
+
+# ===================== Install PKINITtools =====================
+Pentest_PKINITtools_Install(){
+
+    name="PKINITtools"
+    dir="$P_Dir/PKINITtools"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        Install_Switch4 "impacket"
+        Install_Switch4 "minikerberos"
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/dirkjanm/PKINITtools.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download the $name dictionary from github"
+        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
     fi
 
 }
@@ -9285,6 +9318,40 @@ kali_Tools_TypeE(){
 
 }
 
+# -ad
+Ad_Tools(){
+
+    echo -e "\033[1;33m\n>> Installing impacket\n\033[0m"
+    Pentest_Impacket_Install
+    echo -e "\033[1;33m\n>> Installing Responder\n\033[0m"
+    Pentest_Responder_Install
+    echo -e "\033[1;33m\n>> Installing krbrelayx\n\033[0m"
+    Pentest_krbrelayx_Install
+    echo -e "\033[1;33m\n>> Installing bettercap\n\033[0m"
+    Pentest_bettercap_Install
+    echo -e "\033[1;33m\n>> Installing mitmproxy\n\033[0m"
+    Pentest_mitmproxy_Install
+    echo -e "\033[1;33m\n>> Installing pypykatz\n\033[0m"
+    Pentest_pypykatz_Install
+    echo -e "\033[1;33m\n>> Installing CrackMapExec\n\033[0m"
+    Pentest_CrackMapExec_Install
+    echo -e "\033[1;33m\n>> Installing Neo-reGeorg\n\033[0m"
+    Pentest_Neo-reGeorg_Install
+    echo -e "\033[1;33m\n>> Installing suo5\n\033[0m"
+    Pentest_suo5_Install
+    echo -e "\033[1;33m\n>> Installing kerbrute\n\033[0m"
+    Pentest_kerbrute_Install
+    echo -e "\033[1;33m\n>> Installing Adinfo\n\033[0m"
+    Pentest_Adinfo_Install
+    echo -e "\033[1;33m\n>> Installing PetitPotam\n\033[0m"
+    Pentest_PetitPotam_Install
+    echo -e "\033[1;33m\n>> Installing Certipy\n\033[0m"
+    Pentest_Certipy_Install
+    echo -e "\033[1;33m\n>> Installing PKINITtools\n\033[0m"
+    Pentest_PKINITtools_Install
+
+}
+
 # -b
 Base_Install(){
 
@@ -9569,6 +9636,15 @@ do
             Proxy_Switch
             Base_Check
             Dev_Tools
+            ;;
+        -ad | ad)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Py_Check
+            pip2_Check
+            GO_Check
+            Ad_Tools
             ;;
         -k | k)
             mac_Check || exit 1
