@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.4 Dev(Beta6)"
+F8x_Version="1.6.5 Dev(2023/06/15)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -92,11 +92,11 @@ phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
 
 # ===================== Software version variable setting (pentest) =====================
 # https://github.com/fatedier/frp/releases
-frp_Ver="v0.48.0"
-frp_File_amd64="frp_0.48.0_linux_amd64.tar.gz"
-frp_File_arm64="frp_0.48.0_linux_arm64.tar.gz"
-frp_Dir_amd64="frp_0.48.0_linux_amd64"
-frp_Dir_arm64="frp_0.48.0_linux_arm64"
+frp_Ver="v0.49.0"
+frp_File_amd64="frp_0.49.0_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.49.0_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.49.0_linux_amd64"
+frp_Dir_arm64="frp_0.49.0_linux_arm64"
 # https://github.com/ehang-io/nps/releases
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
@@ -128,9 +128,9 @@ ffuf_Ver="v2.0.0"
 ffuf_Install_amd64="ffuf_2.0.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.0.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v2.9.4"
-Nuclei_Install_amd64="nuclei_2.9.4_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.9.4_linux_arm64.zip"
+Nuclei_Ver="v2.9.6"
+Nuclei_Install_amd64="nuclei_2.9.6_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.9.6_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -170,13 +170,13 @@ proxify_bin_arm64="proxify_0.0.9_linux_arm64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="hashcat-6.2.6"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.5.8"
-subfinder_bin_amd64="subfinder_2.5.8_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.5.8_linux_arm64.zip"
+subfinder_Ver="v2.6.0"
+subfinder_bin_amd64="subfinder_2.6.0_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.6.0_linux_arm64.zip"
 # https://github.com/projectdiscovery/httpx/releases
-httpx_Ver="v1.3.1"
-httpx_bin_amd64="httpx_1.3.1_linux_amd64.zip"
-httpx_bin_arm64="httpx_1.3.1_linux_arm64.zip"
+httpx_Ver="v1.3.2"
+httpx_bin_amd64="httpx_1.3.2_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.3.2_linux_arm64.zip"
 # https://github.com/projectdiscovery/mapcidr/releases
 mapcidr_Ver="v1.1.2"
 mapcidr_bin_amd64="mapcidr_1.1.2_linux_amd64.zip"
@@ -299,9 +299,9 @@ cf_Install_arm64="cf_v0.4.5_linux_arm64.tar.gz"
 ysuserial_Ver="v1.5"
 ysuserial_bin="ysuserial-1.5-su18-all.jar"
 # https://github.com/projectdiscovery/katana
-katana_Ver="v1.0.1"
-katana_bin_amd64="katana_1.0.1_linux_amd64.zip"
-katana_bin_arm64="katana_1.0.1_linux_arm64.zip"
+katana_Ver="v1.0.2"
+katana_bin_amd64="katana_1.0.2_linux_amd64.zip"
+katana_bin_arm64="katana_1.0.2_linux_arm64.zip"
 # https://github.com/projectdiscovery/uncover
 uncover_Ver="v0.0.9"
 uncover_bin_amd64="uncover_0.0.9_linux_amd64.zip"
@@ -339,7 +339,7 @@ suo5_bin_arm64="suo5-linux-arm64"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.29"
+AdGuardHome_Version="v0.107.32"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
@@ -376,9 +376,9 @@ fd_Ver="v8.7.0"
 fd_bin_amd64="fd_8.7.0_amd64.deb"
 fd_bin_arm64="fd_8.7.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.4.6"
-Terraform_bin_amd64="terraform_1.4.6_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.4.6_linux_arm64.zip"
+Terraform_Ver="1.5.0"
+Terraform_bin_amd64="terraform_1.5.0_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.5.0_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
 aliyun_cli_Ver="v3.0.165"
 aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.165-amd64.tgz"
@@ -9784,7 +9784,6 @@ do
             ;;
         -k8s)
             mac_Check || exit 1
-            linux_arm64_Check || exit 1
             Proxy_Switch
             Base_Check
             k8s_Install
