@@ -6928,19 +6928,10 @@ kubectl_Install(){
                 which kubectl > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $kubectl_version in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
-                case $Linux_Version in
-                    *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                        Echo_ERROR "The script currently supports only Debian installations of kubectl,bye bye~\n"
-                        exit 1
-                        ;;
-                    *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                        $Proxy_OK curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-                        echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-                        apt-get update
-                        apt-get install -y kubectl
-                        ;;
-                    *) ;;
-                esac
+                kubectl_version=$($Proxy_OK curl -L -s https://dl.k8s.io/release/stable.txt)
+                mkdir -p /tmp/kubectl && cd $_ && rm -rf kubectl > /dev/null 2>&1 && $Proxy_OK wget https://dl.k8s.io/release/$kubectl_version/bin/linux/arm64/kubectl ${wget_option} || Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct"
+                mv /tmp/kubectl/kubectl /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl && rm -rf /tmp/kubectl
+                which kubectl > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $kubectl_version in the /usr/local/bin/" || Echo_ERROR3
                 ;;
         esac
     fi
