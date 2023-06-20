@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.5 Dev(2023/06/15)"
+F8x_Version="1.6.6 Dev(2023/06/20)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -2676,13 +2676,33 @@ Docker_Install(){
         systemctl enable docker > /dev/null 2>&1 && Echo_INFOR "Configure the docker service to start on boot" || Echo_ERROR "Failed to configure boot items"
     fi
 
-    docker-compose -version > /dev/null 2>&1
+    # new
+    docker_compose_Install
+
+    # old
+    #docker-compose -version > /dev/null 2>&1
+    #if [ $? == 0 ]
+    #then
+    #    Echo_ALERT "docker-compose installed"
+    #else
+    #    pip3_Check && pip3 install --upgrade pip > /dev/null 2>&1
+    #    Install_Switch4 "docker-compose"
+    #fi
+
+}
+
+# ===================== Install docker_compose =====================
+docker_compose_Install(){
+
+    name="docker compose"
+    docker compose version > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "docker-compose installed"
+        Echo_ALERT "$name installed"
     else
-        pip3_Check && pip3 install --upgrade pip > /dev/null 2>&1
-        Install_Switch4 "docker-compose"
+        Rm_Lock
+        # ref https://docs.docker.com/compose/install/linux/
+        Install_Switch "docker-compose-plugin"
     fi
 
 }
