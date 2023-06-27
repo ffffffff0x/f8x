@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.6 Dev(2023/06/26)"
+F8x_Version="1.6.6 Dev(2023/06/27)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -65,11 +65,11 @@ ttyd_Ver="1.7.3"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
 # https://github.com/coder/code-server
-code_server_Ver="v4.14.0"
-code_server_bin1_amd64="code-server-4.14.0-amd64.rpm"
-code_server_bin2_amd64="code-server_4.14.0_amd64.deb"
-code_server_bin1_arm64="code-server-4.14.0-arm64.rpm"
-code_server_bin2_arm64="code-server_4.14.0_arm64.deb"
+code_server_Ver="v4.14.1"
+code_server_bin1_amd64="code-server-4.14.1-amd64.rpm"
+code_server_bin2_amd64="code-server_4.14.1_amd64.deb"
+code_server_bin1_arm64="code-server-4.14.1-arm64.rpm"
+code_server_bin2_arm64="code-server_4.14.1_arm64.deb"
 # https://www.python.org/downloads/
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -128,9 +128,9 @@ ffuf_Ver="v2.0.0"
 ffuf_Install_amd64="ffuf_2.0.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.0.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v2.9.6"
-Nuclei_Install_amd64="nuclei_2.9.6_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.9.6_linux_arm64.zip"
+Nuclei_Ver="v2.9.7"
+Nuclei_Install_amd64="nuclei_2.9.7_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.9.7_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -284,9 +284,9 @@ sliver_Ver="v1.5.39"
 sliver_bin_Server="sliver-server_linux"
 sliver_bin_Client="sliver-client_linux"
 # https://github.com/mstxq17/MoreFind/releases
-MoreFind_Ver="v1.3.0"
-MoreFind_bin_amd64="MoreFind_1.3.0_Linux_x86_64.tar.gz"
-MoreFind_bin_arm64="MoreFind_1.3.0_Linux_arm64.tar.gz"
+MoreFind_Ver="v1.3.1"
+MoreFind_bin_amd64="MoreFind_1.3.1_Linux_x86_64.tar.gz"
+MoreFind_bin_arm64="MoreFind_1.3.1_Linux_arm64.tar.gz"
 # https://github.com/praetorian-inc/fingerprintx
 fingerprintx_Ver="v1.1.9"
 fingerprintx_Install_amd64="fingerprintx_1.1.9_linux_amd64.tar.gz"
