@@ -308,6 +308,10 @@ Adinfo_Ver="v0.3"
 suo5_Ver="v0.8.0"
 suo5_bin_amd64="suo5-linux-amd64"
 suo5_bin_arm64="suo5-linux-arm64"
+# https://github.com/projectdiscovery/alterx
+alterx_Ver="v0.0.2"
+alterx_bin_amd64="alterx_0.0.2_linux_amd64.zip"
+alterx_bin_arm64="alterx_0.0.2_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
