@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.7 Dev(2023/06/28)"
+F8x_Version="1.6.7 Dev(2023/07/18)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -92,11 +92,11 @@ phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
 
 # ===================== Software version variable setting (pentest) =====================
 # https://github.com/fatedier/frp/releases
-frp_Ver="v0.50.0"
-frp_File_amd64="frp_0.50.0_linux_amd64.tar.gz"
-frp_File_arm64="frp_0.50.0_linux_arm64.tar.gz"
-frp_Dir_amd64="frp_0.50.0_linux_amd64"
-frp_Dir_arm64="frp_0.50.0_linux_arm64"
+frp_Ver="v0.51.0"
+frp_File_amd64="frp_0.51.0_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.51.0_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.51.0_linux_amd64"
+frp_Dir_arm64="frp_0.51.0_linux_arm64"
 # https://github.com/ehang-io/nps/releases
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
@@ -128,9 +128,9 @@ ffuf_Ver="v2.0.0"
 ffuf_Install_amd64="ffuf_2.0.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.0.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v2.9.7"
-Nuclei_Install_amd64="nuclei_2.9.7_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_2.9.7_linux_arm64.zip"
+Nuclei_Ver="v2.9.9"
+Nuclei_Install_amd64="nuclei_2.9.9_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_2.9.9_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -274,25 +274,25 @@ cdk_Ver="v1.5.2"
 cdk_bin_amd64="cdk_linux_amd64"
 cdk_bin_arm64="cdk_linux_arm64"
 # https://github.com/projectdiscovery/interactsh/releases
-interactsh_Ver="v1.1.4"
-interactsh_client_bin_amd64="interactsh-client_1.1.4_Linux_amd64.zip"
-interactsh_server_bin_amd64="interactsh-server_1.1.4_Linux_amd64.zip"
-interactsh_client_bin_arm64="interactsh-client_1.1.4_Linux_arm64.zip"
-interactsh_server_bin_arm64="interactsh-server_1.1.4_Linux_arm64.zip"
+interactsh_Ver="v1.1.5"
+interactsh_client_bin_amd64="interactsh-client_1.1.5_Linux_amd64.zip"
+interactsh_server_bin_amd64="interactsh-server_1.1.5_Linux_amd64.zip"
+interactsh_client_bin_arm64="interactsh-client_1.1.5_Linux_arm64.zip"
+interactsh_server_bin_arm64="interactsh-server_1.1.5_Linux_arm64.zip"
 # https://github.com/BishopFox/sliver/releases
-sliver_Ver="v1.5.39"
+sliver_Ver="v1.5.41"
 sliver_bin_Server="sliver-server_linux"
 sliver_bin_Client="sliver-client_linux"
 # https://github.com/mstxq17/MoreFind/releases
-MoreFind_Ver="v1.3.1"
-MoreFind_bin_amd64="MoreFind_1.3.1_Linux_x86_64.tar.gz"
-MoreFind_bin_arm64="MoreFind_1.3.1_Linux_arm64.tar.gz"
+MoreFind_Ver="v1.3.2"
+MoreFind_bin_amd64="MoreFind_Linux_x86_64.tar.gz"
+MoreFind_bin_arm64="MoreFind_Linux_arm64.tar.gz"
 # https://github.com/praetorian-inc/fingerprintx
 fingerprintx_Ver="v1.1.9"
 fingerprintx_Install_amd64="fingerprintx_1.1.9_linux_amd64.tar.gz"
 fingerprintx_Install_arm64="fingerprintx_1.1.9_linux_arm64.tar.gz"
 # https://github.com/teamssix/cf
-cf_Ver="v0.4.5"
+cf_Ver="v0.5.0"
 cf_Install_amd64="cf_v0.4.5_linux_amd64.tar.gz"
 cf_Install_arm64="cf_v0.4.5_linux_arm64.tar.gz"
 # https://github.com/su18/ysoserial
@@ -315,11 +315,11 @@ asnmap_Ver="v1.0.4"
 asnmap_bin_amd64="asnmap_1.0.4_linux_amd64.zip"
 asnmap_bin_arm64="asnmap_1.0.4_linux_arm64.zip"
 # https://github.com/projectdiscovery/tlsx
-tlsx_Ver="v1.1.0"
-tlsx_bin_amd64="tlsx_1.1.0_linux_amd64.zip"
-tlsx_bin_arm64="tlsx_1.1.0_linux_arm64.zip"
+tlsx_Ver="v1.1.1"
+tlsx_bin_amd64="tlsx_1.1.1_linux_amd64.zip"
+tlsx_bin_arm64="tlsx_1.1.1_linux_arm64.zip"
 # https://github.com/chainreactors/gogo
-gogo_Ver="v2.11.3"
+gogo_Ver="v2.11.4"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
 # https://github.com/projectdiscovery/simplehttpserver
@@ -333,7 +333,7 @@ kerbrute_Ver="v1.0.3"
 Adinfo_bin="Adinfo_linux"
 Adinfo_Ver="v0.3"
 # https://github.com/zema1/suo5
-suo5_Ver="v0.8.0"
+suo5_Ver="v0.9.0"
 suo5_bin_amd64="suo5-linux-amd64"
 suo5_bin_arm64="suo5-linux-arm64"
 # https://github.com/projectdiscovery/alterx
@@ -343,7 +343,7 @@ alterx_bin_arm64="alterx_0.0.2_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.32"
+AdGuardHome_Version="v0.107.34"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
@@ -380,29 +380,29 @@ fd_Ver="v8.7.0"
 fd_bin_amd64="fd_8.7.0_amd64.deb"
 fd_bin_arm64="fd_8.7.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.5.1"
-Terraform_bin_amd64="terraform_1.5.1_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.5.1_linux_arm64.zip"
+Terraform_Ver="1.5.3"
+Terraform_bin_amd64="terraform_1.5.3_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.5.3_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.0.165"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.165-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.165-arm64.tgz"
+aliyun_cli_Ver="v3.0.169"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.169-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.169-arm64.tgz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.33.3"
+yq_Ver="v4.34.2"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
 yq_File_arm64="yq_linux_arm64.tar.gz"
 # https://github.com/Dreamacro/clash
-clash_Ver="v1.14.0"
-clash_bin_amd64="clash-linux-amd64-v1.14.0.gz"
-clash_bin_arm64="clash-linux-arm64-v1.14.0.gz"
-clash_File_amd64="clash-linux-amd64-v1.14.0"
-clash_File_arm64="clash-linux-arm64-v1.14.0"
+clash_Ver="v1.17.0"
+clash_bin_amd64="clash-linux-amd64-v1.17.0.gz"
+clash_bin_arm64="clash-linux-arm64-v1.17.0.gz"
+clash_File_amd64="clash-linux-amd64-v1.17.0"
+clash_File_arm64="clash-linux-arm64-v1.17.0"
 
 # ===================== 不可以修改的版本(从我的仓库下载,如果修改版本号,需要同时修改下载链接) =====================
 # https://www.oracle.com/java/technologies/downloads/
