@@ -162,8 +162,8 @@ dnsx_Ver="v1.1.4"
 dnsx_bin_amd64="dnsx_1.1.4_linux_amd64.zip"
 dnsx_bin_arm64="dnsx_1.1.4_linux_arm64.zip"
 # https://github.com/iBotPeaches/Apktool/releases
-apktool_Ver="v2.7.0"
-apktool_bin="apktool_2.7.0.jar"
+apktool_Ver="v2.8.0"
+apktool_bin="apktool_2.8.0.jar"
 # https://github.com/lc/gau/releases
 gau_Ver="v2.1.2"
 gau_bin="gau_2.1.2_linux_amd64.tar.gz"
@@ -265,8 +265,8 @@ fingerprintx_Install_amd64="fingerprintx_1.1.9_linux_amd64.tar.gz"
 fingerprintx_Install_arm64="fingerprintx_1.1.9_linux_arm64.tar.gz"
 # https://github.com/teamssix/cf
 cf_Ver="v0.5.0"
-cf_Install_amd64="cf_v0.4.5_linux_amd64.tar.gz"
-cf_Install_arm64="cf_v0.4.5_linux_arm64.tar.gz"
+cf_Install_amd64="cf_v0.5.0_linux_amd64.tar.gz"
+cf_Install_arm64="cf_v0.5.0_linux_arm64.tar.gz"
 # https://github.com/su18/ysoserial
 ysuserial_Ver="v1.5"
 ysuserial_bin="ysuserial-1.5-su18-all.jar"
