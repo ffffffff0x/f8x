@@ -130,8 +130,8 @@ bettercap_Ver="v2.31.1"
 bettercap_bin_amd64="bettercap_linux_amd64_v2.31.1.zip"
 bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
 # https://github.com/mitmproxy/mitmproxy/releases
-mitmproxy_Ver="9.0.1"
-mitmproxy_bin="mitmproxy-9.0.1-linux.tar.gz"
+mitmproxy_Ver="10.0.0"
+mitmproxy_bin="mitmproxy-10.0.0-linux.tar.gz"
 # https://github.com/projectdiscovery/naabu/releases
 naabu_Ver="v2.1.5"
 naabu_bin="naabu_2.1.5_linux_amd64.zip"
