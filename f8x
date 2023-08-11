@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.7 Dev(2023/08/08)"
+F8x_Version="1.6.7 Dev(2023/08/11)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -7679,7 +7679,7 @@ viper_Install(){
     echo -e "\033[5;33m\nPlease enter your Viper password(Password needs to be greater than 8 digits)\033[0m" && read -r input
     Viper_Pass=$input
     cat docker-compose.yml.bak | sed "s/diypassword/$Viper_Pass/" >> docker-compose.yml
-    cd /root/VIPER && docker-compose up -d
+    cd /root/VIPER && docker compose up -d
 
     Echo_INFOR "Waiting for the system to start(15s), access https://vpsip:60000 Login to the server. Username : root Password : $Viper_Pass"
 
@@ -7715,7 +7715,7 @@ arl_Install(){
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
     cd $P_Dir && rm -rf ARL > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/TophantTechnology/ARL > /dev/null 2>&1 || Echo_ERROR4 "TophantTechnology/ARL"
     # docker pull tophant/arl && Echo_INFOR "Pulled the latest ARL image" || Echo_ERROR3
-    Echo_INFOR "Please run through the following command:\ncd $P_Dir/ARL/docker/ && docker volume create arl_db && docker-compose up -d\nDefault port: 5003\nDefault username: admin\n/Default password: arlpass"
+    Echo_INFOR "Please run through the following command:\ncd $P_Dir/ARL/docker/ && docker volume create arl_db && docker compose up -d\nDefault port: 5003\nDefault username: admin\n/Default password: arlpass"
 
 }
 
