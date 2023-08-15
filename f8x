@@ -7680,7 +7680,7 @@ viper_Install(){
     Viper_Pass=$input
     cat docker-compose.yml.bak | sed "s/diypassword/$Viper_Pass/" >> docker-compose.yml
     cd /root/VIPER && docker compose up -d
-
+    rm /root/VIPER/docker-compose.yml.bak
     Echo_INFOR "Waiting for the system to start(15s), access https://vpsip:60000 Login to the server. Username : root Password : $Viper_Pass"
 
 }
