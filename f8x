@@ -9315,8 +9315,8 @@ kali_Tools_TypeB(){
     Pentest_Gopherus_Install
     echo -e "\033[1;33m\n>> Installing CDK\n\033[0m"
     Pentest_CDK_Install
-    echo -e "\033[1;33m\n>> Installing cf\n\033[0m"
-    Pentest_cf_Install
+    # echo -e "\033[1;33m\n>> Installing cf\n\033[0m"
+    # Pentest_cf_Install
 
     # echo -e "\033[1;33m\n>> Installing dalfox\n\033[0m"
     # Pentest_dalfox_Install
@@ -10323,6 +10323,10 @@ do
             GO_Check
             Pentest_Base_Install
             pentest_tool_upgrade
+            ;;
+        -proxy)
+            mac_Check || exit 1
+            Proxychains_Install
             ;;
         -debug)
             mac_Check || exit 1
