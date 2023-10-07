@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.7 Dev(2023/10/04)"
+F8x_Version="1.6.8 Dev(2023/10/07)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -2652,6 +2652,15 @@ Docker_Install(){
                 Rm_Lock
                 # https://docs.docker.com/engine/install/centos/#install-docker-engine
                 Echo_ALERT "Installing docker" && $Proxy_OK yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
+
+                which docker > /dev/null 2>&1
+                if [ $? == 0 ]
+                then
+                    service docker start > /dev/null 2>&1
+                    systemctl start docker > /dev/null 2>&1
+                else
+                    Echo_ALERT "Installing docker(podman emulate)" && $Proxy_OK yum install -y docker docker-buildx-plugin docker-compose-plugin > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
+                fi
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Echo_INFOR "Uninstalling the Docker environment"
