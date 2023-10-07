@@ -345,16 +345,16 @@ duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
 duf_bin1_arm64="duf_0.8.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
 # https://github.com/dalance/procs/releases
-procs_Ver="v0.14.0"
-procs_bin="procs-v0.14.0-x86_64-linux.zip"
+procs_Ver="v0.14.1"
+procs_bin="procs-v0.14.1-x86_64-linux.zip"
 # https://github.com/sharkdp/fd/releases
 fd_Ver="v8.7.0"
 fd_bin_amd64="fd_8.7.0_amd64.deb"
 fd_bin_arm64="fd_8.7.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.5.7"
-Terraform_bin_amd64="terraform_1.5.7_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.5.7_linux_arm64.zip"
+Terraform_Ver="1.6.0"
+Terraform_bin_amd64="terraform_1.6.0_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.6.0_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
 aliyun_cli_Ver="v3.0.181"
 aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.181-amd64.tgz"
