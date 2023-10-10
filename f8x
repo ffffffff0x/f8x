@@ -940,8 +940,9 @@ Sys_Version(){
                     Linux_Version_Name="wheezy"
                     ;;
                 *)
-                    Echo_ERROR "Unknown Debian Codename"
-                    exit 1
+                    Echo_ALERT "Unknown Debian Codename, attempting automatic adaptation."
+                    Linux_Version_Num=$(grep -Po '(?<=VERSION_ID=")\d+' /etc/*-release)
+                    Linux_Version_Name=$(cat /etc/*-release | awk -F "=" '/VERSION_CODENAME/ {print $2}')
                     ;;
             esac
             ;;
@@ -982,6 +983,10 @@ Sys_Version(){
         *"Fedora"*|*"fedora"*)
             Linux_Version="Fedora"
             case $(cat /etc/*-release | head -n 1) in
+                *"release 38"*)
+                    Linux_Version_Num="38"
+                    Linux_Version_Name=""
+                    ;;
                 *"release 37"*)
                     Linux_Version_Num="37"
                     Linux_Version_Name=""
@@ -1007,8 +1012,9 @@ Sys_Version(){
                     Linux_Version_Name=""
                     ;;
                 *)
-                    Echo_ERROR "Unknown Fedora Codename"
-                    exit 1
+                    Echo_ALERT "Unknown Fedora Codename, attempting automatic adaptation."
+                    Linux_Version_Num=$(cat /etc/*-release | awk -F "=" '/VERSION_ID/ {print $2}')
+                    Linux_Version_Name=""
                     ;;
             esac
             ;;
