@@ -3280,7 +3280,7 @@ Pentest_fscan_Install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/fscan && cd /tmp/fscan && rm -f $fscan_Install && $Proxy_OK wget ${GitProxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
-        mv $fscan_Install fscan && mv --force fscan /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
+        mv --force $fscan_Install /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
         fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
         rm -rf /tmp/fscan && cd /tmp
     fi
