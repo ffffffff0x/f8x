@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.6.9 Dev(2023/11/22)"
+F8x_Version="1.7.0 Dev(2023/11/22)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -121,7 +121,7 @@ goby_Ver="Beta1.9.325"
 goby_File="goby-linux-x64-1.9.325.zip"
 # https://github.com/shadow1ng/fscan/releases
 fscan_Ver="1.8.3"
-fscan_Install_amd64="fscan_amd64"
+fscan_Install_amd64="fscan"
 fscan_Install_arm64="fscan_arm64"
 # https://github.com/ffuf/ffuf/releases
 ffuf_Ver="v2.1.0"
@@ -531,14 +531,25 @@ Py_Check(){
 
 pip2_Check(){
 
-    which pip2 > /dev/null 2>&1
+    case $Linux_Version in
+        *"Debian"*)
+            case $Linux_Version_Num in
+                "12")
+                    python2 -m pip --version > /dev/null 2>&1
+                    ;;
+                *)
+                    which pip2 > /dev/null 2>&1
+                    ;;
+            esac
+    esac
 
     if [ $? == 0 ]
     then
         Echo_INFOR "pip2 dependencies are normal"
     else
         Echo_ALERT "Dependencies not passed, start automatic installation of pip2"
-        Python2_Install
+        pip2_Install
+        #Python2_Install
     fi
 }
 
@@ -757,13 +768,66 @@ Install_Switch3(){
 
 Install_Switch4(){
 
-    pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+    case $Linux_Version in
+        *"Debian"*)
+            case $Linux_Version_Num in
+                "12")
+                    python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+                    ;;
+                *)
+                    pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+                    ;;
+            esac
+    esac
 
 }
 
 Install_Switch5(){
 
-    python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+
+    case $Linux_Version in
+        *"Debian"*)
+            case $Linux_Version_Num in
+                "12")
+                    python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+                    ;;
+                *)
+                    python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+                    ;;
+            esac
+    esac
+
+}
+
+Install_Switch6(){
+
+    case $Linux_Version in
+        *"Debian"*)
+            case $Linux_Version_Num in
+                "12")
+                    python3 -m pip install -r $1 --break-system-packages > /dev/null 2>&1
+                    ;;
+                *)
+                    python3 -m pip install -r $1 > /dev/null 2>&1
+                    ;;
+            esac
+    esac
+
+}
+
+Install_Switch7(){
+
+    case $Linux_Version in
+        *"Debian"*)
+            case $Linux_Version_Num in
+                "12")
+                    python3 -m pip install -r $1 --break-system-packages > /dev/null 2>&1
+                    ;;
+                *)
+                    pip3 install -r $1 > /dev/null 2>&1
+                    ;;
+            esac
+    esac
 
 }
 
@@ -919,6 +983,10 @@ Sys_Version(){
         *"Debian"*|*"debian"*)
             Linux_Version="Debian"
             case $(cat /etc/*-release | head -n 4) in
+                *"bookworm"*)
+                    Linux_Version_Num="12"
+                    Linux_Version_Name="bookworm"
+                    ;;
                 *"bullseye"*)
                     Linux_Version_Num="11"
                     Linux_Version_Name="bullseye"
@@ -1216,6 +1284,11 @@ Update_APT_Mirror(){
             ;;
         *"Debian"*)
             case $Linux_Version_Num in
+                "12")
+                    Echo_INFOR "Debian12"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Debian12_Mirror "$1" > /dev/null
+                    ;;
                 "11")
                     Echo_INFOR "Debian11"
                     Echo_INFOR "Backed up apt source"
@@ -1565,6 +1638,32 @@ fi
 }
 
 # ===================== 修改 Debian apt 源 (Modifying Debian apt sources) =====================
+Update_Debian12_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+
+if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+then
+
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/debian/ bookworm main non-free contrib
+deb http://mirrors.aliyun.com/debian/ bookworm-updates main non-free contrib
+deb http://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib
+deb http://mirrors.aliyun.com/debian-security bookworm/updates main
+EOF
+
+else
+
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-updates main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm-backports main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security main contrib non-free
+EOF
+
+fi
+
+}
+
 Update_Debian11_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 
@@ -2554,6 +2653,7 @@ Go_Option(){
 
                 rm -rf /usr/bin/go > /dev/null 2>&1
                 rm -rf /usr/local/go > /dev/null 2>&1
+                cd /tmp
                 Echo_ALERT "Downloading Go (~120M)" && $Proxy_OK wget -O $T_Dir/$Go_Bin ${GitProxy2}https://golang.org/dl/$Go_Bin ${wget_option} && tar -C /usr/local -xzf $T_Dir/$Go_Bin && Echo_INFOR "Downloaded from golang.org" || { Echo_ERROR "download failed, please check if the network is reachable, proxychains4 configuration is correct" ; rm -f ${T_Dir:?}/${Go_Bin} > /dev/null 2>&1; }
                 ln -s /usr/local/go/bin/go /usr/bin/go > /dev/null 2>&1
                 Echo_INFOR "$(go version)" || Echo_ERROR3
@@ -3055,7 +3155,7 @@ Pentest_SecretFinder_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone ${GitProxy}https://github.com/m4ll0k/SecretFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Installed dependency modules" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
+        Install_Switch7 "requirements.txt" && Echo_INFOR "Installed dependency modules" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
         python3 SecretFinder.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3074,7 +3174,7 @@ Pentest_OneForAll_Install(){
         Install_Switch5 "setuptools"
         Install_Switch5 "wheel"
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/shmilylty/OneForAll.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name download failed, please check if the network is reachable, proxychains4 configuration is correct, or download using gitee git clone https://gitee.com/shmilylty/OneForAll.git "
-        Echo_ALERT "Installing dependency modules\033[0m" && pip3 install -r requirements.txt > /dev/null 2>&1 || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
+        Echo_ALERT "Installing dependency modules\033[0m" && Install_Switch7 "requirements.txt" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
         python3 oneforall.py version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" && aarch64_massdns_Install || Echo_ERROR3
     fi
 
@@ -3683,7 +3783,7 @@ Pentest_AppInfoScanner_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone ${GitProxy}https://github.com/kelvinBen/AppInfoScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && python3 -m pip install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir && Install_Switch6 "requirements.txt" && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3756,7 +3856,7 @@ Pentest_dirsearch_Install(){
         Echo_ALERT "$name installed"
     else
         cd $P_Dir && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/maurosoria/dirsearch.git > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
+        cd $dir && Install_Switch7 "requirements.txt"
         if test -d $dir
         then
             Echo_INFOR "Successfully installed $name in the $dir"
@@ -3805,7 +3905,7 @@ Pentest_htpwdScan_Install(){
         Echo_ALERT "$name installed"
     else
         cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/lijiejie/htpwdScan.git > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir && Install_Switch7 "requirements.txt" && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -3821,7 +3921,7 @@ Pentest_WebCrack_Install(){
         Echo_ALERT "$name installed"
     else
         cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/yzddmr6/WebCrack.git > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir && Install_Switch7 "requirements.txt" && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -4007,7 +4107,7 @@ Pentest_w13scan_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/w-digital-scanner/w13scan.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && Install_Switch4 "cowpy" && cd W13SCAN && python3 w13scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
+        cd $dir && Install_Switch7 "requirements.txt" && Install_Switch4 "cowpy" && cd W13SCAN && python3 w13scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
     fi
 
 }
@@ -4071,7 +4171,7 @@ Pentest_CORScanner_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/chenjj/CORScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && python3 cors_scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
+        cd $dir && Install_Switch7 "requirements.txt" && python3 cors_scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
     fi
 
 }
@@ -4180,7 +4280,7 @@ Pentest_SSRFmap_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone ${GitProxy}https://github.com/swisskyrepo/SSRFmap.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1 && python3 ssrfmap.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
+        cd $dir && Install_Switch7 "requirements.txt" && python3 ssrfmap.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
     fi
 
 }
@@ -4929,7 +5029,7 @@ Pentest_PKINITtools_Install(){
         Install_Switch4 "impacket"
         Install_Switch4 "minikerberos"
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/dirkjanm/PKINITtools.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download the $name dictionary from github"
-        cd $dir && pip3 install -r requirements.txt > /dev/null 2>&1
+        cd $dir && Install_Switch7 "requirements.txt"
     fi
 
 }
@@ -5423,7 +5523,7 @@ Pentest_jwtcat_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && python3 -m pip install -r requirements.txt > /dev/null 2>&1
+        cd $dir && Install_Switch6 "requirements.txt"
         python3 jwtcat.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -5688,7 +5788,7 @@ Pentest_routersploit_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/threat9/routersploit.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        Echo_ALERT "Installing dependency modules" && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        Echo_ALERT "Installing dependency modules" && Install_Switch7 "requirements.txt" && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Echo_ALERT "Installing Bluetooth Low Energy support"
@@ -5805,7 +5905,7 @@ Pentest_WebAliveScan_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/broken5/WebAliveScan.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Installed dependency modules" && Install_Switch4 "gevent" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
+        Install_Switch7 "requirements.txt" && Echo_INFOR "Installed dependency modules" && Install_Switch4 "gevent" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
         python3 webscan.py --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -6806,42 +6906,63 @@ Python2_Install(){
     name="python2"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    Rm_Lock
-    case $Linux_Version in
-        *"CentOS"*|*"RedHat"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+    python2 -V > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Rm_Lock
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
 
-            ( (python -h > /dev/null 2>&1 || python2 -h > /dev/null 2>&1) && Echo_INFOR "Successfully installed python2" ) || ( ( (yum install -y python > /dev/null 2>&1 || yum install -y python2 > /dev/null 2>&1) && Echo_INFOR "Successfully installed python2") || Echo_ERROR "python installation failed")
+                ( (python -h > /dev/null 2>&1 || python2 -h > /dev/null 2>&1) && Echo_INFOR "Successfully installed python2" ) || ( ( (yum install -y python > /dev/null 2>&1 || yum install -y python2 > /dev/null 2>&1) && Echo_INFOR "Successfully installed python2") || Echo_ERROR "python installation failed")
 
-            ( yum install -y python-devel > /dev/null 2>&1 || yum install -y python2-devel > /dev/null 2>&1) && Echo_INFOR "Successfully installed python-devel" || Echo_ERROR "python-devel installation failed"
-            yum install -y python2-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pipinstallation failed, start autorun -pip2-force option"; pip2_Install; }
-            ;;
-        *"Fedora"*)
-            yum install -y python > /dev/null 2>&1
-            yum install -y python2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2" || Echo_ERROR "python2 installation failed"
-            yum install -y python-devel > /dev/null 2>&1
-            yum install -y python2-devel > /dev/null 2>&1
-            yum install -y python2-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option"; pip2_Install; }
-            ;;
-        *"Kali"*|*"Debian"*)
-            Install_Switch "python"
-            Install_Switch "python-dev"
-            apt-get install -y python-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option"; pip2_Install; }
-            Install_Switch3 "setuptools"
-            ;;
-        *"Ubuntu"*)
-            Install_Switch "python"
-            Install_Switch "python-dev"
-            apt-get install -y python-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option"; pip2_Install; }
-            Install_Switch3 "setuptools"
-            case $Linux_Version_Num in
-                "16.04")
-                    mkdir -p /tmp/get-pip && cd /tmp/get-pip && rm -rf get-pip.py && $Proxy_OK wget https://bootstrap.pypa.io/pip/2.7/get-pip.py > /dev/null 2>&1
-                    $Proxy_OK python2 get-pip.py > /dev/null 2>&1 && rm -rf /tmp/get-pip && cd /tmp
-                    ;;
-            esac
-            ;;
-        *) ;;
-    esac
+                ( yum install -y python-devel > /dev/null 2>&1 || yum install -y python2-devel > /dev/null 2>&1) && Echo_INFOR "Successfully installed python-devel" || Echo_ERROR "python-devel installation failed"
+                yum install -y python2-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pipinstallation failed, start autorun -pip2-force option"; pip2_Install; }
+                ;;
+            *"Fedora"*)
+                yum install -y python > /dev/null 2>&1
+                yum install -y python2 > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2" || Echo_ERROR "python2 installation failed"
+                yum install -y python-devel > /dev/null 2>&1
+                yum install -y python2-devel > /dev/null 2>&1
+                yum install -y python2-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option"; pip2_Install; }
+                ;;
+            *"Kali"*|*"Debian"*)
+                case $Linux_Version_Num in
+                    "12")
+                        Echo_INFOR "Debian12"
+                        mkdir -p /usr/local/py2713 && cd /usr/local/py2713 && $Proxy_OK wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz ${wget_option}
+                        tar -xf Python-2.7.13.tgz > /dev/null 2>&1
+                        cd Python-2.7.13 && ./configure --with-pydebug
+                        # make -s -j16
+                        make install
+                        ln -s /usr/local/py2713/Python-2.7.13/python /usr/bin/python2
+                        python2 -V
+                        cd /tmp
+                        ;;
+                    *)
+                        Install_Switch "python"
+                        Install_Switch "python-dev"
+                        apt-get install -y python-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option"; pip2_Install; }
+                        Install_Switch3 "setuptools"
+                        ;;
+                esac
+                ;;
+            *"Ubuntu"*)
+                Install_Switch "python"
+                Install_Switch "python-dev"
+                apt-get install -y python-pip > /dev/null 2>&1 && Echo_INFOR "Successfully installed python2-pip" || { Echo_ERROR "python2-pip installation failed, start autorun -pip2-force option"; pip2_Install; }
+                Install_Switch3 "setuptools"
+                case $Linux_Version_Num in
+                    "16.04")
+                        mkdir -p /tmp/get-pip && cd /tmp/get-pip && rm -rf get-pip.py && $Proxy_OK wget https://bootstrap.pypa.io/pip/2.7/get-pip.py > /dev/null 2>&1
+                        $Proxy_OK python2 get-pip.py > /dev/null 2>&1 && rm -rf /tmp/get-pip && cd /tmp
+                        ;;
+                esac
+                ;;
+            *) ;;
+        esac
+    fi
 
 }
 
@@ -6849,9 +6970,22 @@ Python2_Install(){
 pip2_Install(){
 
     echo -e "\033[1;33m\n>> Installing pip2\n\033[0m"
-    cd $T_Dir && $Proxy_OK curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py > /dev/null 2>&1 || Echo_ERROR "https://bootstrap.pypa.io/get-pip.py download failed, please check if the network is reachable, proxychains4 configuration is correct"
-    $Proxy_OK python2 get-pip.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed python-pip" || Echo_ERROR "python-pip installation failed"
-    rm -f get-pip.py > /dev/null 2>&1
+
+
+    case $Linux_Version in
+        *"Debian"*)
+            case $Linux_Version_Num in
+                "12")
+                    python2 -m ensurepip --upgrade
+                    python2 -m pip install --upgrade pip
+                    ;;
+                *)
+                    cd $T_Dir && $Proxy_OK curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py > /dev/null 2>&1 || Echo_ERROR "https://bootstrap.pypa.io/get-pip.py download failed, please check if the network is reachable, proxychains4 configuration is correct"
+                    $Proxy_OK python2 get-pip.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed python-pip" || Echo_ERROR "python-pip installation failed"
+                    rm -f get-pip.py > /dev/null 2>&1
+                    ;;
+            esac
+    esac
 
     Install_Switch3 "setuptools"
 
@@ -7448,7 +7582,7 @@ metarget_Install(){
         echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
         cd $P_Dir && rm -rf metarget > /dev/null 2>&1 && Echo_ALERT "Downloading $name" && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/brant-ruan/metarget || Echo_ERROR2
-        cd metarget && pip3 install -r requirements.txt > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR3
+        cd metarget && Install_Switch7 "requirements.txt" && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR3
     fi
 
 }

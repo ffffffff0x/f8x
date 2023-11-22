@@ -93,7 +93,7 @@ goby_Ver="Beta1.9.325"
 goby_File="goby-linux-x64-1.9.325.zip"
 # https://github.com/shadow1ng/fscan/releases
 fscan_Ver="1.8.3"
-fscan_Install_amd64="fscan_amd64"
+fscan_Install_amd64="fscan"
 fscan_Install_arm64="fscan_arm64"
 # https://github.com/ffuf/ffuf/releases
 ffuf_Ver="v2.1.0"
