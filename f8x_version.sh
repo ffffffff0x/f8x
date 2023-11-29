@@ -13,9 +13,9 @@ Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
 Ruby_bin="ruby-3.0.0.tar.gz"
 # https://go.dev/dl/
-Go_Version="go1.20.1"
-Go_Bin_amd64="go1.20.1.linux-amd64.tar.gz"
-Go_Bin_arm64="go1.20.1.linux-arm64.tar.gz"
+Go_Version="go1.21.4"
+Go_Bin_amd64="go1.21.4.linux-amd64.tar.gz"
+Go_Bin_arm64="go1.21.4.linux-arm64.tar.gz"
 # https://nodejs.org/dist/
 node_Ver="v17.4.0"
 node_bin_amd64="node-v17.4.0-linux-x64.tar.xz"
