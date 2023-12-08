@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.0 Dev(2023/11/29)"
+F8x_Version="1.7.0 Dev(2023/12/08)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -45,11 +45,11 @@ Go_Version="go1.21.4"
 Go_Bin_amd64="go1.21.4.linux-amd64.tar.gz"
 Go_Bin_arm64="go1.21.4.linux-arm64.tar.gz"
 # https://nodejs.org/dist/
-node_Ver="v17.4.0"
-node_bin_amd64="node-v17.4.0-linux-x64.tar.xz"
-node_bin_arm64="node-v17.4.0-linux-arm64.tar.xz"
-node_Dir_amd64="node-v17.4.0-linux-x64"
-node_Dir_arm64="node-v17.4.0-linux-arm64"
+node_Ver="v20.10.0"
+node_bin_amd64="node-v20.10.0-linux-x64.tar.xz"
+node_bin_arm64="node-v20.10.0-linux-arm64.tar.xz"
+node_Dir_amd64="node-v20.10.0-linux-x64"
+node_Dir_arm64="node-v20.10.0-linux-arm64"
 # http://nginx.org/en/download.html
 nginx_Ver="1.18.0"
 nginx_bin="nginx-1.18.0.tar.gz"
