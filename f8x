@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.0 Dev(2023/12/11)"
+F8x_Version="1.7.0 Dev(2023/12/12)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -7142,6 +7142,80 @@ chromium_Install(){
 
 }
 
+# -crawl
+crawl_Install(){
+
+    Rm_Lock
+    case $Linux_Version in
+        *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+            Install_Switch "pango.x86_64"
+            Install_Switch "libXcomposite.x86_64"
+            Install_Switch "libXcursor.x86_64"
+            Install_Switch "libXdamage.x86_64"
+            Install_Switch "libXext.x86_64"
+            Install_Switch "libXi.x86_64"
+            Install_Switch "libXtst.x86_64"
+            Install_Switch "cups-libs.x86_64"
+            Install_Switch "libXScrnSaver.x86_64"
+            Install_Switch "libXrandr.x86_64"
+            Install_Switch "libX11-xcb.x86_64"
+            Install_Switch "GConf2.x86_64"
+            Install_Switch "alsa-lib.x86_64"
+            Install_Switch "atk.x86_64"
+            Install_Switch "gtk3.x86_64"
+            Install_Switch "ipa-gothic-fonts"
+            Install_Switch "xorg-x11-fonts-100dpi"
+            Install_Switch "xorg-x11-fonts-75dpi"
+            Install_Switch "xorg-x11-utils"
+            Install_Switch "xorg-x11-fonts-cyrillic"
+            Install_Switch "xorg-x11-fonts-Type1"
+            Install_Switch "xorg-x11-fonts-misc"
+            ;;
+        *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            Install_Switch2 "libasound2"
+            Install_Switch2 "libatk1.0-0"
+            Install_Switch2 "libc6"
+            Install_Switch2 "libcairo2"
+            Install_Switch2 "libcups2"
+            Install_Switch2 "libdbus-1-3"
+            Install_Switch2 "libexpat1"
+            Install_Switch2 "libfontconfig1"
+            Install_Switch2 "libgcc1"
+            Install_Switch2 "libgconf-2-4"
+            Install_Switch2 "libgdk-pixbuf2.0-0"
+            Install_Switch2 "libglib2.0-0"
+            Install_Switch2 "libgtk-3-0"
+            Install_Switch2 "libnspr4"
+            Install_Switch2 "libpango-1.0-0"
+            Install_Switch2 "libpangocairo-1.0-0"
+            Install_Switch2 "libstdc++6"
+            Install_Switch2 "libx11-6"
+            Install_Switch2 "libx11-xcb1"
+            Install_Switch2 "libxcb1"
+            Install_Switch2 "libxcursor1"
+            Install_Switch2 "libxdamage1"
+            Install_Switch2 "libxext6"
+            Install_Switch2 "libxfixes3"
+            Install_Switch2 "libxi6"
+            Install_Switch2 "libxrandr2"
+            Install_Switch2 "libxrender1"
+            Install_Switch2 "libxss1"
+            Install_Switch2 "libxtst6"
+            Install_Switch2 "libnss3"
+            Install_Switch2 "libgbm-dev"
+            ;;
+        *) ;;
+    esac
+
+    linux_arm64_Check || exit 1
+
+    Pentest_crawlergo_Install
+    Pentest_katana_Install
+    Echo_ALERT "安装 chromium ,出现报错是正常的,可以忽略"
+    katana -headless -u http://127.0.0.1
+
+}
+
 # -phantomjs
 phantomjs_Install(){
 
@@ -7995,7 +8069,7 @@ nginx_Install(){
         esac
 
         mkdir -p /tmp/nginx && cd /tmp/nginx && rm -f $nginx_bin > /dev/null 2>&1 && $Proxy_OK wget -O $nginx_bin https://nginx.org/download/$nginx_bin > /dev/null 2>&1 || Echo_ERROR "$nginx_bin download failed"
-        tar -zxvf $nginx_bin > /dev/null 2>&1 && cd nginx-*
+        tar -zxvf $nginx_bin > /dev/null 2>&1 && rm -f $nginx_bin && cd nginx-*
         ./configure && make && make install && Echo_INFOR "Compile successfully" || Echo_ERROR "Compile failure"
         rm -rf /tmp/nginx && cd /tmp
         mv --force /usr/local/nginx/sbin/nginx /usr/local/bin/nginx && chmod +x /usr/local/bin/nginx && nginx -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name, the configuration file is located in /usr/local/nginx/conf/" || Echo_ERROR3
@@ -9816,6 +9890,7 @@ Help(){
     echo -e "  \033[1;34m-rust\033[0m \033[0;34m            : install rust\033[0m"
     echo -e "  \033[1;34m-code\033[0m \033[0;34m            : install code-server\033[0m"
     echo -e "  \033[1;34m-chromium\033[0m \033[0;34m        : install Chromium\033[0m                   \033[1;33m(Used with rad, crawlergo in the -k option) \033[0m"
+    echo -e "  \033[1;34m-crawl\033[0m \033[0;34m           : install crawl tools\033[0m"
     echo -e "  \033[1;34m-phantomjs\033[0m \033[0;34m       : install PhantomJS\033[0m"
     #echo -e "  \033[1;34m-k8s\033[0m \033[0;34m             : install k8s\033[0m"
     echo -e ""
@@ -10206,6 +10281,12 @@ do
             Proxy_Switch
             Base_Check
             code-server_Install
+            ;;
+        -crawl)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            crawl_Install
             ;;
         -chromium)
             mac_Check || exit 1
