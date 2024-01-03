@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.0 Dev(2024/01/02)"
+F8x_Version="1.7.1 Dev(2024/01/03)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -10590,6 +10590,12 @@ do
             Base_Check
             pip3_Check
             zsh_Install
+            ;;
+        -jq)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            jq_Install
             ;;
         -clear)
             mac_Check || exit 1
