@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.2 Dev(2024/02/20)"
+F8x_Version="1.7.3 Dev(2024/02/21)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -159,7 +159,7 @@ bettercap_bin_amd64="bettercap_linux_amd64_v2.31.1.zip"
 bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
 # https://github.com/mitmproxy/mitmproxy/releases
 mitmproxy_Ver="10.2.2"
-mitmproxy_bin="mitmproxy-10.2.2-linux.tar.gz"
+mitmproxy_bin="mitmproxy-10.2.2-linux-x86_64.tar.gz"
 # https://github.com/projectdiscovery/naabu/releases
 naabu_Ver="v2.2.0"
 naabu_bin="naabu_2.2.0_linux_amd64.zip"
@@ -933,6 +933,10 @@ Sys_Version(){
         *"Ubuntu"*|*"ubuntu"*)
             Linux_Version="Ubuntu"
             case $(cat /etc/*-release | head -n 4) in
+                *"mantic"*)
+                    Linux_Version_Num="23.10"
+                    Linux_Version_Name="mantic"
+                    ;;
                 *"lunar"*)
                     Linux_Version_Num="23.04"
                     Linux_Version_Name="lunar"
@@ -1071,6 +1075,10 @@ Sys_Version(){
         *"Fedora"*|*"fedora"*)
             Linux_Version="Fedora"
             case $(cat /etc/*-release | head -n 1) in
+                *"release 39"*)
+                    Linux_Version_Num="39"
+                    Linux_Version_Name=""
+                    ;;
                 *"release 38"*)
                     Linux_Version_Num="38"
                     Linux_Version_Name=""
@@ -4854,7 +4862,7 @@ Pentest_mitmproxy_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/mitmproxy && cd /tmp/mitmproxy && rm -f $mitmproxy_bin && $Proxy_OK wget -O $mitmproxy_bin https://snapshots.mitmproxy.org/$mitmproxy_Ver/$mitmproxy_bin > /dev/null 2>&1 || Echo_ERROR2
+        mkdir -p /tmp/mitmproxy && cd /tmp/mitmproxy && rm -f $mitmproxy_bin && $Proxy_OK wget -O $mitmproxy_bin https://downloads.mitmproxy.org/$mitmproxy_Ver/$mitmproxy_bin > /dev/null 2>&1 || Echo_ERROR2
         tar -zxvf $mitmproxy_bin > /dev/null 2>&1
         mv --force mitmproxy /usr/local/bin/ && chmod +x /usr/local/bin/mitmproxy && rm -f /tmp/$mitmproxy_bin > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $mitmproxy_Ver in the /usr/local/bin/" || Echo_ERROR3
         mv --force mitmdump /usr/local/bin/ && chmod +x /usr/local/bin/mitmdump && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR "mitmdump installation failed"
