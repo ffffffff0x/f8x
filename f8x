@@ -4009,10 +4009,11 @@ Pentest_Metasploit_Install(){
     if [ $? == 0 ]
     then
         Echo_ALERT "$name installed , consider running 'msfupdate' to update to the latest version."
+        Echo_INFOR "Before running msfconsole for the first time, it is necessary to start the database by running: msfdb init && msfdb start."
     else
         Rm_Lock
         mkdir -p /tmp/Metasploit && cd /tmp/Metasploit && rm -f msfinstall && $Proxy_OK curl -o msfinstall https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > /dev/null 2>&1 && chmod 777 msfinstall
-        Echo_ALERT "Downloading Metasploit" && $Proxy_OK ./msfinstall > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+        Echo_ALERT "Downloading Metasploit" && $Proxy_OK ./msfinstall > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" && Echo_INFOR "Before running msfconsole for the first time, it is necessary to start the database by running: msfdb init && msfdb start." || Echo_ERROR3
         rm -rf /tmp/Metasploit && cd /tmp
     fi
 
