@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.3 Dev(2024/03/14)"
+F8x_Version="1.7.4 Dev(2024/03/25)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -7792,23 +7792,21 @@ Goby_Install(){
 
 }
 
-# -awvs14
-awvs14_Install(){
+awvs15_Install_secfa(){
 
     Docker_Check
     Docker_Compose_Check
-    name="awvs14"
+    name="awvs"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
-    docker pull secfa/docker-awvs && Echo_INFOR "Pulled the latest awvs14 image, Please run through the following command:\ndocker run -it -d -p 13443:3443 secfa/docker-awvs\n\n-awvs14 username: admin@admin.com\n-awvs14 password: Admin123\n-AWVS Version：14.2.210503151\n-browser access：https://127.0.0.1:13443/\n" || Echo_ERROR3
+    docker pull secfa/docker-awvs:beta && Echo_INFOR "Pulled the latest awvs image, Please run through the following command:\ndocker run -it -d -p 13443:3443 secfa/docker-awvs:beta\n\n- awvs username: admin@admin.com\n- awvs password: Admin123\n- browser access：https://127.0.0.1:13443/\n" || Echo_ERROR3
 
-    Echo_INFOR "Recommended Projects : https://github.com/test502git/awvs13_batch_py3"
+    # Echo_INFOR "Recommended Projects : https://github.com/test502git/awvs13_batch_py3"
 
 }
 
-# -awvs15
 # https://www.fahai.org/index.php/archives/31/
-awvs15_Install(){
+awvs15_Install_fahai(){
 
     Docker_Check
     Docker_Compose_Check
@@ -7816,7 +7814,7 @@ awvs15_Install(){
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
     bash <(curl -sLk https://www.fahai.org/aDisk/Awvs/check.sh) xrsec/awvs:v15
-    # docker pull xrsec/awvs:v15 && Echo_INFOR "Pulled the latest awvs15 image, Please run through the following command:\ndocker run -it -d -p 13443:3443 xrsec/awvs:v15\n\n-awvs14 username: awvs@awvs.lan\n-awvs14 password: Awvs@awvs.lan\n-browser access：https://127.0.0.1:13443/\n" || Echo_ERROR3
+    # docker pull xrsec/awvs:v15 && Echo_INFOR "Pulled the latest awvs15 image, Please run through the following command:\ndocker run -it -d -p 13443:3443 xrsec/awvs:v15\n\n-awvs username: awvs@awvs.lan\n-awvs password: Awvs@awvs.lan\n-browser access：https://127.0.0.1:13443/\n" || Echo_ERROR3
 
 }
 
@@ -9922,7 +9920,7 @@ Help(){
     echo -e ""
     echo -e "\033[1;34mRed Team Infrastructure \033[0m"
     echo -e "  \033[1;34m-arl\033[0m \033[0;34m             : install ARL (~872 MB)\033[0m              \033[1;33m(https://github.com/TophantTechnology/ARL)\033[0m"
-    echo -e "  \033[1;34m-awvs14\033[0m \033[0;34m          : install AWVS14 (~1.04 GB)\033[0m"
+    echo -e "  \033[1;34m-awvs15\033[0m \033[0;34m          : install AWVS15\033[0m"
     # echo -e "  \033[1;34m-cs\033[0m \033[0;34m              : install CobaltStrike 4.3\033[0m"
     echo -e "  \033[1;34m-cs45\033[0m \033[0;34m            : install CobaltStrike 4.5\033[0m"
     echo -e "  \033[1;34m-frp\033[0m \033[0;34m             : install frp\033[0m"
@@ -10486,15 +10484,10 @@ do
             Pentest_Base_Install
             arl_Install
             ;;
-        -awvs14)
+        -awvs | -awvs14 | -awvs15)
             mac_Check || exit 1
             Proxy_Switch
-            awvs14_Install
-            ;;
-        -awvs15)
-            mac_Check || exit 1
-            Proxy_Switch
-            awvs15_Install
+            awvs15_Install_secfa
             ;;
         -mobsf)
             mac_Check || exit 1
