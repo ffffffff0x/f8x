@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.4 Dev(2024/05/31)"
+F8x_Version="1.7.5 Dev(2024/05/31)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -7913,6 +7913,26 @@ pupy_Install(){
         pupy_https_port="443"
     fi
 
+    # echo -e "\033[5;33m\n输入 pupy 容器 WebServer 端口 (默认 9000)\033[0m" && read -r input
+    # pupy_WebServer_port=$input
+
+    # if [ $pupy_WebServer_port ==  ] 2>> /tmp/f8x_error.log
+    # then
+    #     echo -e "输入为空,默认监听端口为 9000"
+    #     pupy_WebServer_port="9000"
+    # fi
+
+    echo -e "\033[5;33m\n输入 pupy 容器 自定义映射端口范围 (默认 8000-8100)(端口映射范围过多会导致资源占用率提升,建议 100 以内)\033[0m" && read -r input
+    pupy_custom_port=$input
+
+    if [ $pupy_custom_port ==  ] 2>> /tmp/f8x_error.log
+    then
+        echo -e "输入为空,默认映射端口范围为 8000-8100"
+        pupy_custom_port="-p 8000-8100:8000-8100"
+    else
+        pupy_custom_port="-p $pupy_custom_port:$pupy_custom_port"
+    fi
+
     echo -e "\033[5;33m\npupy 容器是否监听 53 端口 [y/N,Default N] (注意: 如果监听 53 会关闭系统自带 systemd-resolved,请知晓这个选项的用意)\033[0m" && read -r input
     case $input in
         [yY][eE][sS]|[Yy])
@@ -7924,8 +7944,8 @@ pupy_Install(){
         ;;
     esac
 
-    echo -e "" && Echo_INFOR "docker run -d --name pupy-server -p $pupy_ssh_port:22 $pupy_dns-p $pupy_http_port:80 -p $pupy_https_port:443 -v /tmp/projects:/projects alxchk/pupy:unstable"
-    docker run -d --name pupy-server -p $pupy_ssh_port:22 $pupy_dns-p $pupy_http_port:80 -p $pupy_https_port:443 -v /tmp/projects:/projects alxchk/pupy:unstable
+    echo -e "" && Echo_INFOR "docker run -d --name pupy-server -p $pupy_ssh_port:22 $pupy_dns-p $pupy_http_port:80 -p $pupy_https_port:443 $pupy_custom_port -v /tmp/projects:/projects alxchk/pupy:unstable"
+    docker run -d --name pupy-server -p $pupy_ssh_port:22 $pupy_dns-p $pupy_http_port:80 -p $pupy_https_port:443 $pupy_custom_port -v /tmp/projects:/projects alxchk/pupy:unstable
 
     # ssh-keygen 免交互
     yes | ssh-keygen -t rsa -N "" -C "test@email.com" -f ~/.ssh/id_rsa_pupy
@@ -7933,7 +7953,7 @@ pupy_Install(){
 
     # ssh首次交互免输入yes
     # ssh -i ~/.ssh/id_rsa_pupy -p 2022 -o stricthostkeychecking=no pupy@127.0.0.1
-    Echo_INFOR "pupy 交互命令:\nssh -i ~/.ssh/id_rsa_pupy -p 2022 -o stricthostkeychecking=no pupy@127.0.0.1"
+    Echo_INFOR "pupy 交互命令:\nssh -i ~/.ssh/id_rsa_pupy -p $pupy_ssh_port -o stricthostkeychecking=no pupy@127.0.0.1"
     Echo_INFOR "如果提示 ssh: connect to host 127.0.0.1 port 2022: Connection timed out 的报错,重启机器,删除创建的pupy docker容器,重新 f8x -pupy 即可"
 
 }
