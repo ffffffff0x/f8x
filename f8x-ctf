@@ -16,9 +16,9 @@ F8x_ctf_Version="0.1.2 Dev(2024/01/03)"
 
 # ===================== Software version variable setting =====================
 
-bkcrack_Ver="v1.6.1"
-bkcrack_bin="bkcrack-1.6.1-Linux.tar.gz"
-bkcrack_dir="bkcrack-1.6.1-Linux"
+bkcrack_Ver="v1.7.0"
+bkcrack_bin="bkcrack-1.7.0-Linux.tar.gz"
+bkcrack_dir="bkcrack-1.7.0-Linux"
 upx_Ver="v3.96"
 upx_bin_amd64="upx-3.96-amd64_linux.tar.xz"
 upx_dir_amd64="upx-3.96-amd64_linux"
