@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.5 Dev(2024/05/31)"
+F8x_Version="1.7.5 Dev(2024/09/02)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -65,11 +65,11 @@ ttyd_Ver="1.7.7"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
 # https://github.com/coder/code-server
-code_server_Ver="v4.89.1"
-code_server_bin1_amd64="code-server-4.89.1-amd64.rpm"
-code_server_bin2_amd64="code-server_4.89.1_amd64.deb"
-code_server_bin1_arm64="code-server-4.89.1-arm64.rpm"
-code_server_bin2_arm64="code-server_4.89.1_arm64.deb"
+code_server_Ver="v4.92.2"
+code_server_bin1_amd64="code-server-4.92.2-amd64.rpm"
+code_server_bin2_amd64="code-server_4.92.2_amd64.deb"
+code_server_bin1_arm64="code-server-4.92.2-arm64.rpm"
+code_server_bin2_arm64="code-server_4.92.2_arm64.deb"
 # https://www.python.org/downloads/
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -92,24 +92,24 @@ phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
 
 # ===================== Software version variable setting (pentest) =====================
 # https://github.com/fatedier/frp/releases
-frp_Ver="v0.58.1"
-frp_File_amd64="frp_0.58.1_linux_amd64.tar.gz"
-frp_File_arm64="frp_0.58.1_linux_arm64.tar.gz"
-frp_Dir_amd64="frp_0.58.1_linux_amd64"
-frp_Dir_arm64="frp_0.58.1_linux_arm64"
+frp_Ver="v0.60.0"
+frp_File_amd64="frp_0.60.0_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.60.0_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.60.0_linux_amd64"
+frp_Dir_arm64="frp_0.60.0_linux_arm64"
 # https://github.com/ehang-io/nps/releases
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
 nps_File_arm64="linux_arm64_server.tar.gz"
 # https://github.com/wikiZ/RedGuard/releases
-RedGuard_Ver="23.08.21"
+RedGuard_Ver="24.06.18"
 RedGuard_File_amd64="RedGuard_64"
 # https://github.com/RustScan/RustScan/releases
 RustScan_Version="2.0.1"
 RustScan_Install="rustscan_2.0.1_amd64.deb"
 # https://github.com/boy-hack/ksubdomain/releases
-ksubdomain_Ver="v1.9.5"
-ksubdomain_Install="KSubdomain-v1.9.5-linux.tar"
+ksubdomain_Ver="v1.9.9"
+ksubdomain_Install="KSubdomain-v1.9.9-linux-amd64.tar"
 # https://github.com/chaitin/xray/releases
 xray_Ver="1.9.11"
 xray_File_amd64="xray_linux_amd64.zip"
@@ -128,9 +128,9 @@ ffuf_Ver="v2.1.0"
 ffuf_Install_amd64="ffuf_2.1.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.1.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v3.2.8"
-Nuclei_Install_amd64="nuclei_3.2.8_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_3.2.8_linux_arm64.zip"
+Nuclei_Ver="v3.3.1"
+Nuclei_Install_amd64="nuclei_3.3.1_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_3.3.1_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -158,8 +158,8 @@ bettercap_Ver="v2.31.1"
 bettercap_bin_amd64="bettercap_linux_amd64_v2.31.1.zip"
 bettercap_bin_arm64="bettercap_linux_aarch64_v2.31.1.zip"
 # https://github.com/mitmproxy/mitmproxy/releases
-mitmproxy_Ver="10.3.0"
-mitmproxy_bin="mitmproxy-10.3.0-linux-x86_64.tar.gz"
+mitmproxy_Ver="10.4.2"
+mitmproxy_bin="mitmproxy-10.4.2-linux-x86_64.tar.gz"
 # https://github.com/projectdiscovery/naabu/releases
 naabu_Ver="v2.3.1"
 naabu_bin="naabu_2.3.1_linux_amd64.zip"
@@ -174,9 +174,9 @@ subfinder_Ver="v2.6.6"
 subfinder_bin_amd64="subfinder_2.6.6_linux_amd64.zip"
 subfinder_bin_arm64="subfinder_2.6.6_linux_arm64.zip"
 # https://github.com/projectdiscovery/httpx/releases
-httpx_Ver="v1.6.2"
-httpx_bin_amd64="httpx_1.6.2_linux_amd64.zip"
-httpx_bin_arm64="httpx_1.6.2_linux_arm64.zip"
+httpx_Ver="v1.6.8"
+httpx_bin_amd64="httpx_1.6.8_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.6.8_linux_arm64.zip"
 # https://github.com/projectdiscovery/mapcidr/releases
 mapcidr_Ver="v1.1.34"
 mapcidr_bin_amd64="mapcidr_1.1.34_linux_amd64.zip"
@@ -199,8 +199,8 @@ gau_bin="gau_2.2.3_linux_amd64.tar.gz"
 jadx_Ver="v1.5.0"
 jadx_bin="jadx-1.5.0.zip"
 # https://github.com/qtc-de/remote-method-guesser/releases
-rmg_Ver="v4.4.0"
-rmg_bin="rmg-4.4.0-jar-with-dependencies.jar"
+rmg_Ver="v5.1.0"
+rmg_bin="rmg-5.1.0-jar-with-dependencies.jar"
 # https://github.com/No-Github/anew/releases
 anew_Ver="v1.0.3"
 anew_bin_amd64="anew_1.0.3_linux_amd64.tar.gz"
@@ -274,19 +274,19 @@ cdk_Ver="v1.5.3"
 cdk_bin_amd64="cdk_linux_amd64"
 cdk_bin_arm64="cdk_linux_arm64"
 # https://github.com/projectdiscovery/interactsh/releases
-interactsh_Ver="v1.1.9"
-interactsh_client_bin_amd64="interactsh-client_1.1.9_Linux_amd64.zip"
-interactsh_server_bin_amd64="interactsh-server_1.1.9_Linux_amd64.zip"
-interactsh_client_bin_arm64="interactsh-client_1.1.9_Linux_arm64.zip"
-interactsh_server_bin_arm64="interactsh-server_1.1.9_Linux_arm64.zip"
+interactsh_Ver="v1.2.0"
+interactsh_client_bin_amd64="interactsh-client_1.2.0_Linux_amd64.zip"
+interactsh_server_bin_amd64="interactsh-server_1.2.0_Linux_amd64.zip"
+interactsh_client_bin_arm64="interactsh-client_1.2.0_Linux_arm64.zip"
+interactsh_server_bin_arm64="interactsh-server_1.2.0_Linux_arm64.zip"
 # https://github.com/BishopFox/sliver/releases
 sliver_Ver="v1.5.42"
 sliver_bin_Server="sliver-server_linux"
 sliver_bin_Client="sliver-client_linux"
 # https://github.com/mstxq17/MoreFind/releases
-MoreFind_Ver="v1.5.6"
-MoreFind_bin_amd64="MoreFind_v1.5.6_linux_x86_64.tar.gz"
-MoreFind_bin_arm64="MoreFind_v1.5.6_Linux_arm64.tar.gz"
+MoreFind_Ver="v1.5.7"
+MoreFind_bin_amd64="MoreFind_v1.5.7_linux_x86_64.tar.gz"
+MoreFind_bin_arm64="MoreFind_v1.5.7_Linux_arm64.tar.gz"
 # https://github.com/praetorian-inc/fingerprintx
 fingerprintx_Ver="v1.1.13"
 fingerprintx_Install_amd64="fingerprintx_1.1.13_linux_amd64.tar.gz"
@@ -311,15 +311,15 @@ HostCollision_Ver="HostCollision-2.2.8"
 HostCollision_Bin="HostCollision-2.2.8.zip"
 HostCollision_dir="HostCollision-2.2.8"
 # https://github.com/projectdiscovery/asnmap
-asnmap_Ver="v1.1.0"
-asnmap_bin_amd64="asnmap_1.1.0_linux_amd64.zip"
-asnmap_bin_arm64="asnmap_1.1.0_linux_arm64.zip"
+asnmap_Ver="v1.1.1"
+asnmap_bin_amd64="asnmap_1.1.1_linux_amd64.zip"
+asnmap_bin_arm64="asnmap_1.1.1_linux_arm64.zip"
 # https://github.com/projectdiscovery/tlsx
-tlsx_Ver="v1.1.6"
-tlsx_bin_amd64="tlsx_1.1.6_linux_amd64.zip"
-tlsx_bin_arm64="tlsx_1.1.6_linux_arm64.zip"
+tlsx_Ver="v1.1.7"
+tlsx_bin_amd64="tlsx_1.1.7_linux_amd64.zip"
+tlsx_bin_arm64="tlsx_1.1.7_linux_arm64.zip"
 # https://github.com/chainreactors/gogo
-gogo_Ver="v2.12.2"
+gogo_Ver="v2.13.3"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
 # https://github.com/projectdiscovery/simplehttpserver
@@ -333,7 +333,7 @@ kerbrute_Ver="v1.0.3"
 Adinfo_bin="Adinfo_linux"
 Adinfo_Ver="v0.3"
 # https://github.com/zema1/suo5
-suo5_Ver="v1.2.0"
+suo5_Ver="v1.3.0"
 suo5_bin_amd64="suo5-linux-amd64"
 suo5_bin_arm64="suo5-linux-arm64"
 # https://github.com/projectdiscovery/alterx
@@ -343,13 +343,13 @@ alterx_bin_arm64="alterx_0.0.4_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.50"
+AdGuardHome_Version="v0.107.52"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="0.52.1"
-fzf_bin_amd64="fzf-0.52.1-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.52.1-linux_arm64.tar.gz"
+fzf_Ver="0.55.0"
+fzf_bin_amd64="fzf-0.55.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.55.0-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
 lux_Ver="v0.24.1"
 lux_bin_amd64="lux_0.24.1_Linux_x86_64.tar.gz"
@@ -359,9 +359,9 @@ gron_Ver="v0.7.1"
 gron_bin_amd64="gron-linux-amd64-0.7.1.tgz"
 gron_bin_arm64="gron-linux-arm64-0.7.1.tgz"
 # https://github.com/abhimanyu003/sttr/releases
-sttr_Ver="v0.2.21"
-sttr_bin_amd64="sttr_0.2.21_linux_amd64.tar.gz"
-sttr_bin_arm64="sttr_0.2.21_linux_arm64.tar.gz"
+sttr_Ver="v0.2.23"
+sttr_bin_amd64="sttr_0.2.23_linux_amd64.tar.gz"
+sttr_bin_arm64="sttr_0.2.23_linux_arm64.tar.gz"
 # https://github.com/sharkdp/bat/releases
 bat_Ver="v0.24.0"
 bat_bin_amd64="bat-musl_0.24.0_amd64.deb"
@@ -373,26 +373,26 @@ duf_bin2_amd64="duf_0.8.1_linux_amd64.deb"
 duf_bin1_arm64="duf_0.8.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.8.1_linux_arm64.deb"
 # https://github.com/dalance/procs/releases
-procs_Ver="v0.14.5"
-procs_bin="procs-v0.14.5-x86_64-linux.zip"
+procs_Ver="v0.14.6"
+procs_bin="procs-v0.14.6-x86_64-linux.zip"
 # https://github.com/sharkdp/fd/releases
-fd_Ver="v10.1.0"
-fd_bin_amd64="fd_10.1.0_amd64.deb"
-fd_bin_arm64="fd_10.1.0_arm64.deb"
+fd_Ver="v10.2.0"
+fd_bin_amd64="fd_10.2.0_amd64.deb"
+fd_bin_arm64="fd_10.2.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.8.4"
-Terraform_bin_amd64="terraform_1.8.4_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.8.4_linux_arm64.zip"
+Terraform_Ver="1.9.5"
+Terraform_bin_amd64="terraform_1.9.5_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.9.5_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.0.207"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.207-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.207-arm64.tgz"
+aliyun_cli_Ver="v3.0.221"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.221-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.221-arm64.tgz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.44.1"
+yq_Ver="v4.44.3"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
@@ -933,6 +933,10 @@ Sys_Version(){
         *"Ubuntu"*|*"ubuntu"*)
             Linux_Version="Ubuntu"
             case $(cat /etc/*-release | head -n 4) in
+                *"noble"*)
+                    Linux_Version_Num="24.04"
+                    Linux_Version_Name="noble"
+                    ;;
                 *"mantic"*)
                     Linux_Version_Num="23.10"
                     Linux_Version_Name="mantic"
@@ -1075,6 +1079,10 @@ Sys_Version(){
         *"Fedora"*|*"fedora"*)
             Linux_Version="Fedora"
             case $(cat /etc/*-release | head -n 1) in
+                *"release 40"*)
+                    Linux_Version_Num="40"
+                    Linux_Version_Name=""
+                    ;;
                 *"release 39"*)
                     Linux_Version_Num="39"
                     Linux_Version_Name=""
