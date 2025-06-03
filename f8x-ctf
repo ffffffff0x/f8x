@@ -129,7 +129,7 @@ CTF_Misc_py3_module_install(){
     Install_Switch4 "Plaso"
     Install_Switch4 "matplotlib"
     Install_Switch4 "tqdm"
-    python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name"
+    python3 -m pip install --upgrade Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed Pillow"
 
 }
 
@@ -137,7 +137,7 @@ CTF_Misc_py2_module_install(){
 
     Install_Switch3 "pybase62"
     Install_Switch3 "base92"
-    python2 -m pip install Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name"
+    python2 -m pip install Pillow > /dev/null 2>&1 && Echo_INFOR "Successfully installed Pillow"
 
 }
 
