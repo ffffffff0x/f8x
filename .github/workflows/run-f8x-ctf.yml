@@ -5,8 +5,8 @@ on:
     - 'f8x-ctf'
 
 jobs:
-  ubuntu-2004-build:
-    runs-on: ubuntu-20.04
+  ubuntu-latest-build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout codes
         uses: actions/checkout@v2
