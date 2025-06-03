@@ -126,9 +126,9 @@ Girsh_Ver="v0.40"
 Girsh_bin_amd64="Girsh_0.40_linux_amd64.tar.gz"
 Girsh_bin_arm64="Girsh_0.40_linux_arm64.tar.gz"
 # https://github.com/bettercap/bettercap/releases
-bettercap_Ver="v2.41.0"
-bettercap_bin_amd64="bettercap_linux_amd64_v2.41.0.zip"
-bettercap_bin_arm64="bettercap_linux_aarch64_v2.41.0.zip"
+#bettercap_Ver="v2.41.0"
+#bettercap_bin_amd64="bettercap_linux_amd64_v2.41.0.zip"
+#bettercap_bin_arm64="bettercap_linux_aarch64_v2.41.0.zip"
 # https://github.com/mitmproxy/mitmproxy/releases
 mitmproxy_Ver="12.1.1"
 mitmproxy_bin="mitmproxy-12.1.1-linux-x86_64.tar.gz"
@@ -319,7 +319,7 @@ AdGuardHome_Version="v0.107.62"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="0.62.0"
+fzf_Ver="v0.62.0"
 fzf_bin_amd64="fzf-0.62.0-linux_amd64.tar.gz"
 fzf_bin_arm64="fzf-0.62.0-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
