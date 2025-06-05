@@ -1,3 +1,5 @@
+> Please replace all links involving the f8x.io address before 2026-06-01, as the domain will not be renewed thereafter.
+
 <h1 align="center">
   <br>
   <img src="./assets/img/banner2.png" width="300px" alt="f8x">
@@ -27,15 +29,12 @@ English | [简体中文](README.zh-cn.md)
 ## Start
 
 **Download**
-- Download via CF Workers [Recommend]
-  - wget : `wget -O f8x https://f8x.io/`
-  - curl : `curl -o f8x https://f8x.io/`
-
 - github raw
   - wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
   - curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
 
 > Subsequent releases will not be updated, so it is recommended not to download old versions of f8x from releases.
+> The f8x.io domain will not be renewed after 2026-06-01; it is strongly advised not to download from the f8x.io domain.
 
 **usage**
 ```bash
@@ -43,9 +42,9 @@ bash f8x -h
 ```
 
 Recommended to add to environment variables
-- wget : `wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+- wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
   - `f8x -h`
-- curl : `curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+- curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
   - `f8x -h`
 
 **System Dependency**
@@ -56,18 +55,18 @@ f8x basically doesn't need any dependencies, it is made to help you install vari
 
 This script is used to deploy CTF environments (Web、Misc、Crypto、Pwn、Iot)
 
-- wget : `wget -O f8x-ctf https://f8x.io/ctf`
+- wget : `wget -O f8x-ctf https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-ctf`
   - `bash f8x-ctf -help`
-- curl : `curl -o f8x-ctf https://f8x.io/ctf`
+- curl : `curl -o f8x-ctf https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-ctf`
   - `bash f8x-ctf -help`
 
 **f8x-dev**
 
 Deployment of middleware, database (apache、nginx、tomcat、Database、php)
 
-- wget : `wget -O f8x-dev https://f8x.io/dev`
+- wget : `wget -O f8x-dev https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-dev`
   - `bash f8x-dev -help`
-- curl : `curl -o f8x-dev https://f8x.io/dev`
+- curl : `curl -o f8x-dev https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-dev`
   - `bash f8x-dev -help`
 
 ---
@@ -200,7 +199,7 @@ Take vultr vps as an example
 Just create an empty file `IS_CI` in `/tmp`
 ```bash
 touch /tmp/IS_CI
-wget -O f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x
+wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x
 f8x -k
 ```
 
