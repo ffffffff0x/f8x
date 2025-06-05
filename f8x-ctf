@@ -7,7 +7,7 @@ then
     sleep 0.001
     # f8x -update
 else
-    curl -o f8x https://f8x.io/ && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mInstalled f8x tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x installation failed\n\033[0m"
+    curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;32m[INFOR]\033[0m - \033[1;32mInstalled f8x tools\033[0m" || echo -e "\033[1;36m$(date +"%H:%M:%S")\033[0m \033[1;31m[ERROR]\033[0m - \033[1;31mf8x installation failed\n\033[0m"
 fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1

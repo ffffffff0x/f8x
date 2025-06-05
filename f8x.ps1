@@ -12,7 +12,7 @@
 # To execute this script:
 # 1) Open powershell window as administrator
 # 2) Allow script execution by running command "set-ExecutionPolicy Unrestricted"
-# 3) running "curl -o f8x.ps1 https://f8x.io/ps1"
+# 3) running "curl -o f8x.ps1 https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x.ps1"
 # 4) Unblock the install script by running "Unblock-File .\f8x.ps1"
 # 5) Execute the script by running ".\f8x.ps1"
 

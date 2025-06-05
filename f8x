@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.5 Dev(2025/06/03)"
+F8x_Version="1.7.5 Dev(2025/06/05)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -1852,12 +1852,12 @@ Update_YUM_Mirror(){
                 curl -o /etc/yum.repos.d/fedora-updates.repo http://mirrors.aliyun.com/repo/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum update sources" || Echo_ERROR "aliyun Yum update sources download failed"
             elif [ $1 == huawei ] 2>> /tmp/f8x_error.log
             then
-                curl -o /etc/yum.repos.d/fedora.repo https://f8x.io/repo/fedora.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum sources" || Echo_ERROR "huaweicloud Yum sources download failed"
-                curl -o /etc/yum.repos.d/fedora-updates.repo https://f8x.io/repo/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum update sources" || Echo_ERROR "huaweicloud Yum update sources download failed"
+                curl -o /etc/yum.repos.d/fedora.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/fedora.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum sources" || Echo_ERROR "huaweicloud Yum sources download failed"
+                curl -o /etc/yum.repos.d/fedora-updates.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum update sources" || Echo_ERROR "huaweicloud Yum update sources download failed"
             elif [ $1 == tuna ] 2>> /tmp/f8x_error.log
             then
-                curl -o /etc/yum.repos.d/fedora.repo https://f8x.io/tuna/fedora.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
-                curl -o /etc/yum.repos.d/fedora-updates.repo https://f8x.io/tuna/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum update sources" || Echo_ERROR "tuna Yum update sources download failed"
+                curl -o /etc/yum.repos.d/fedora.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/fedora.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
+                curl -o /etc/yum.repos.d/fedora-updates.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/fedora-updates.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum update sources" || Echo_ERROR "tuna Yum update sources download failed"
             fi
             ;;
     esac
@@ -1904,7 +1904,7 @@ Update_EPEL_Mirror(){
                     yum install -y https://mirrors.huaweicloud.com/epel/epel-release-latest-8.noarch.rpm > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud EPEL sources" || Echo_ERROR "huaweicloud EPEL sources download failed"
                 elif [ $1 == tuna ] 2>> /tmp/f8x_error.log
                 then
-                    curl -o /etc/yum.repos.d/epel.repo https://f8x.io/tuna/epel-8.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna EPEL sources" || Echo_ERROR "tuna EPEL sources download failed"
+                    curl -o /etc/yum.repos.d/epel.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/tuna/epel-8.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna EPEL sources" || Echo_ERROR "tuna EPEL sources download failed"
                 fi
                 ;;
             7)
@@ -1913,10 +1913,10 @@ Update_EPEL_Mirror(){
                     curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed"
                 elif [ $1 == huawei ] 2>> /tmp/f8x_error.log
                 then
-                    curl -o /etc/yum.repos.d/epel.repo https://f8x.io/repo/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud EPEL sources" || Echo_ERROR "huaweicloud EPEL sources download failed"
+                    curl -o /etc/yum.repos.d/epel.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/tuna/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud EPEL sources" || Echo_ERROR "huaweicloud EPEL sources download failed"
                 elif [ $1 == tuna ] 2>> /tmp/f8x_error.log
                 then
-                    curl -o /etc/yum.repos.d/epel.repo https://f8x.io/tuna/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna EPEL sources" || Echo_ERROR "tuna EPEL sources download failed"
+                    curl -o /etc/yum.repos.d/epel.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/tuna/epel-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna EPEL sources" || Echo_ERROR "tuna EPEL sources download failed"
                 fi
                 ;;
             6)
@@ -1924,7 +1924,7 @@ Update_EPEL_Mirror(){
                 then
                     curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun EPEL sources" || Echo_ERROR "aliyun EPEL sources download failed"
                 else
-                    curl -o /etc/yum.repos.d/epel.repo https://f8x.io/tuna/epel-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna EPEL sources" || Echo_ERROR "tuna EPEL sources download failed"
+                    curl -o /etc/yum.repos.d/epel.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/tuna/epel-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna EPEL sources" || Echo_ERROR "tuna EPEL sources download failed"
                 fi
                 ;;
             *)
@@ -1952,7 +1952,7 @@ Update_CentOS_Mirror(){
             then
                 curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-8.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed"
             else
-                curl -o /etc/yum.repos.d/CentOS-Base.repo https://f8x.io/tuna/Centos-8.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
+                curl -o /etc/yum.repos.d/CentOS-Base.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/tuna/Centos-8.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
             fi
             ;;
         7)
@@ -1963,10 +1963,10 @@ Update_CentOS_Mirror(){
                 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed"
             elif [ $1 == huawei ] 2>> /tmp/f8x_error.log
             then
-                curl -o /etc/yum.repos.d/CentOS-Base.repo https://f8x.io/repo/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum sources" || Echo_ERROR "huaweicloud Yum sources download failed"
+                curl -o /etc/yum.repos.d/CentOS-Base.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded huaweicloud Yum sources" || Echo_ERROR "huaweicloud Yum sources download failed"
             elif [ $1 == tuna ] 2>> /tmp/f8x_error.log
             then
-                curl -o /etc/yum.repos.d/CentOS-Base.repo https://f8x.io/tuna/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
+                curl -o /etc/yum.repos.d/CentOS-Base.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/tuna/Centos-7.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
             fi
             ;;
         6)
@@ -1976,7 +1976,7 @@ Update_CentOS_Mirror(){
             then
                 curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded aliyun Yum sources" || Echo_ERROR "aliyun Yum sources download failed"
             else
-                curl -o /etc/yum.repos.d/CentOS-Base.repo https://f8x.io/tuna/Centos-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
+                curl -o /etc/yum.repos.d/CentOS-Base.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/tuna/Centos-6.repo > /dev/null 2>&1 && Echo_INFOR "Downloaded tuna Yum sources" || Echo_ERROR "tuna Yum sources download failed"
             fi
             ;;
         *)
@@ -2795,7 +2795,7 @@ Docker_Install(){
 
                 if [ $1 == tuna ] 2>> /tmp/f8x_error.log
                 then
-                    $Proxy_OK curl -o /etc/yum.repos.d/docker-ce.repo https://f8x.io/docker-ce.repo > /dev/null 2>&1 && Echo_INFOR "Finished downloading the docker yum source from mirrors.tuna.tsinghua.edu.cn" || Echo_ERROR "Failed to download docker yum source"
+                    $Proxy_OK curl -o /etc/yum.repos.d/docker-ce.repo https://raw.githubusercontent.com/No-Github/Archive/master/cdn/docker-ce.repo > /dev/null 2>&1 && Echo_INFOR "Finished downloading the docker yum source from mirrors.tuna.tsinghua.edu.cn" || Echo_ERROR "Failed to download docker yum source"
                 else
                     # https://docs.docker.com/engine/install/centos/#set-up-the-repository
                     $Proxy_OK yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -10699,9 +10699,9 @@ do
             Proxy_Switch
             if test -e /usr/local/bin/f8x
             then
-                rm -f /usr/local/bin/f8x && $Proxy_OK curl -o /usr/local/bin/f8x https://f8x.io && chmod +x /usr/local/bin/f8x && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
+                rm -f /usr/local/bin/f8x && $Proxy_OK curl -o /usr/local/bin/f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && chmod +x /usr/local/bin/f8x && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
             else
-                rm -f f8x && $Proxy_OK curl -o f8x https://f8x.io > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
+                rm -f f8x && $Proxy_OK curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x > /dev/null 2>&1 && Echo_INFOR "Update successful" || Echo_ERROR "Update failed"
             fi
             ;;
         -upgrade)
