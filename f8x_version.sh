@@ -100,9 +100,9 @@ ffuf_Ver="v2.1.0"
 ffuf_Install_amd64="ffuf_2.1.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.1.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v3.4.4"
-Nuclei_Install_amd64="nuclei_3.4.4_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_3.4.4_linux_arm64.zip"
+Nuclei_Ver="v3.4.5"
+Nuclei_Install_amd64="nuclei_3.4.5_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_3.4.5_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -142,9 +142,19 @@ proxify_bin_arm64="proxify_0.0.15_linux_arm64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="hashcat-6.2.6"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.7.1"
-subfinder_bin_amd64="subfinder_2.7.1_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.7.1_linux_arm64.zip"
+subfinder_Ver="v2.8.0"
+subfinder_bin_amd64="subfinder_2.8.0_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.8.0_linux_arm64.zip"
+# https://github.com/zan8in/afrog
+afrog_Ver="v3.1.7"
+afrog_File_amd64="afrog_3.1.7_linux_amd64.zip"
+afrog_File_arm64="afrog_3.1.7_linux_arm64.zip"
+afrog_bin_amd64="afrog"
+afrog_bin_arm64="afrog"
+# https://github.com/SleepingBag945/dddd
+dddd_Ver="v2.0.1"
+dddd_bin_amd64="dddd_linux64"
+dddd_bin_arm64="dddd_linux_arm64"
 # https://github.com/projectdiscovery/httpx/releases
 httpx_Ver="v1.7.0"
 httpx_bin_amd64="httpx_1.7.0_linux_amd64.zip"

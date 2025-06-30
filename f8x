@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.5 Dev(2025/06/05)"
+F8x_Version="1.7.6 Dev(2025/06/30)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -128,9 +128,9 @@ ffuf_Ver="v2.1.0"
 ffuf_Install_amd64="ffuf_2.1.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.1.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v3.4.4"
-Nuclei_Install_amd64="nuclei_3.4.4_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_3.4.4_linux_arm64.zip"
+Nuclei_Ver="v3.4.5"
+Nuclei_Install_amd64="nuclei_3.4.5_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_3.4.5_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v1.5.0"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -170,9 +170,19 @@ proxify_bin_arm64="proxify_0.0.15_linux_arm64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="hashcat-6.2.6"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.7.1"
-subfinder_bin_amd64="subfinder_2.7.1_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.7.1_linux_arm64.zip"
+subfinder_Ver="v2.8.0"
+subfinder_bin_amd64="subfinder_2.8.0_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.8.0_linux_arm64.zip"
+# https://github.com/zan8in/afrog
+afrog_Ver="v3.1.7"
+afrog_File_amd64="afrog_3.1.7_linux_amd64.zip"
+afrog_File_arm64="afrog_3.1.7_linux_arm64.zip"
+afrog_bin_amd64="afrog"
+afrog_bin_arm64="afrog"
+# https://github.com/SleepingBag945/dddd
+dddd_Ver="v2.0.1"
+dddd_bin_amd64="dddd_linux64"
+dddd_bin_arm64="dddd_linux_arm64"
 # https://github.com/projectdiscovery/httpx/releases
 httpx_Ver="v1.7.0"
 httpx_bin_amd64="httpx_1.7.0_linux_amd64.zip"
@@ -2252,7 +2262,6 @@ Base_Tools(){
     Install_Switch "p7zip"
     Install_Switch "jq"
     Install_Switch "openssl"
-    Install_Switch "unhide"
     Install_Switch "net-tools"
     Install_Switch "dos2unix"
     Install_Switch "tmux"
@@ -3715,6 +3724,63 @@ Pentest_subfinder_Install(){
         mv --force subfinder /usr/local/bin/subfinder && chmod +x /usr/local/bin/subfinder
         rm -rf /tmp/subfinder && cd /tmp
         subfinder -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $subfinder_Ver in the /usr/local/bin/" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install afrog =====================
+Pentest_afrog_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            afrog_File=$afrog_File_amd64
+            afrog_bin=$afrog_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            afrog_File=$afrog_File_arm64
+            afrog_bin=$afrog_bin_arm64
+            ;;
+    esac
+
+    name="afrog"
+    which afrog > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/afrog && cd /tmp/afrog && rm -f $afrog_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/zan8in/afrog/releases/download/$afrog_Ver/$afrog_File > /dev/null 2>&1 || Echo_ERROR2
+        unzip $afrog_File > /dev/null 2>&1
+        mv --force $afrog_bin /usr/local/bin/afrog && chmod +x /usr/local/bin/afrog
+        rm -rf /tmp/afrog && cd /tmp
+        afrog -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $afrog_Ver in the /usr/local/bin/" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install dddd =====================
+Pentest_dddd_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            dddd_bin=$dddd_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            dddd_bin=$dddd_bin_arm64
+            ;;
+    esac
+
+    name="dddd"
+    which dddd > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/dddd && cd /tmp/dddd && rm -f $subfinder_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/SleepingBag945/dddd/releases/download/$dddd_Ver/$dddd_bin > /dev/null 2>&1 || Echo_ERROR2
+        mv --force $dddd_bin /usr/local/bin/dddd && chmod +x /usr/local/bin/dddd
+        rm -rf /tmp/dddd && cd /tmp
+        dddd -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $dddd_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -9611,6 +9677,10 @@ kali_Tools_TypeA(){
     Pentest_httpx_Install
     echo -e "\033[1;33m\n>> Installing subfinder\n\033[0m"
     Pentest_subfinder_Install
+    echo -e "\033[1;33m\n>> Installing afrog\n\033[0m"
+    Pentest_afrog_Install
+    echo -e "\033[1;33m\n>> Installing dddd\n\033[0m"
+    Pentest_dddd_Install
     echo -e "\033[1;33m\n>> Installing apktool\n\033[0m"
     Pentest_apktool_Install
     echo -e "\033[1;33m\n>> Installing ApkAnalyser\n\033[0m"
@@ -9862,6 +9932,7 @@ Base_Install(){
 
 # -s
 Secure(){
+    Install_Switch "unhide"
 
     echo -e "\033[1;33m\n>> Installing Fail2Ban\n\033[0m"
     Secure_Fail2Ban_Install
