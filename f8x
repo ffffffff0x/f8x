@@ -1727,10 +1727,14 @@ if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
 then
 
 tee /etc/apt/sources.list <<-'EOF'
-deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib
-deb http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib
-deb http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib
-deb http://mirrors.aliyun.com/debian-security bullseye/updates main
+deb https://mirrors.aliyun.com/debian/ bullseye main non-free contrib
+deb-src https://mirrors.aliyun.com/debian/ bullseye main non-free contrib
+deb https://mirrors.aliyun.com/debian-security/ bullseye-security main
+deb-src https://mirrors.aliyun.com/debian-security/ bullseye-security main
+deb https://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib
+deb-src https://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib
+#deb https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib
+#deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib
 EOF
 
 else
@@ -1753,10 +1757,12 @@ if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
 then
 
 tee /etc/apt/sources.list <<-'EOF'
-deb http://mirrors.aliyun.com/debian/ buster main non-free contrib
-deb http://mirrors.aliyun.com/debian/ buster-updates main non-free contrib
-deb http://mirrors.aliyun.com/debian/ buster-backports main non-free contrib
-deb http://mirrors.aliyun.com/debian-security buster/updates main
+deb http://mirrors.cloud.aliyuncs.com/debian-archive/debian/ buster main non-free contrib
+deb http://mirrors.cloud.aliyuncs.com/debian-archive/debian-security buster/updates main
+deb http://mirrors.cloud.aliyuncs.com/debian-archive/debian/ buster-updates main non-free contrib
+deb-src http://mirrors.cloud.aliyuncs.com/debian-archive/debian/ buster main non-free contrib
+deb-src http://mirrors.cloud.aliyuncs.com/debian-archive/debian-security buster/updates main
+deb-src http://mirrors.cloud.aliyuncs.com/debian-archive/debian/ buster-updates main non-free contrib
 EOF
 
 else
@@ -1779,10 +1785,14 @@ if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
 then
 
 tee /etc/apt/sources.list <<-'EOF'
-deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib
-deb http://mirrors.aliyun.com/debian/ stretch-updates main non-free contrib
-deb http://mirrors.aliyun.com/debian/ stretch-backports main non-free contrib
-deb http://mirrors.aliyun.com/debian-security stretch/updates main
+deb https://mirrors.aliyun.com/debian-archive/debian stretch main contrib non-free
+#deb https://mirrors.aliyun.com/debian-archive/debian stretch-proposed-updates main non-free contrib
+#deb https://mirrors.aliyun.com/debian-archive/debian stretch-backports main non-free contrib
+deb https://mirrors.aliyun.com/debian-archive/debian-security stretch/updates main contrib non-free
+deb-src https://mirrors.aliyun.com/debian-archive/debian stretch main contrib non-free
+#deb-src https://mirrors.aliyun.com/debian-archive/debian stretch-proposed-updates main contrib non-free
+#deb-src https://mirrors.aliyun.com/debian-archive/debian stretch-backports main contrib non-free
+deb-src https://mirrors.aliyun.com/debian-archive/debian-security stretch/updates main contrib non-free
 EOF
 
 else
@@ -1805,8 +1815,8 @@ if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
 then
 
 tee /etc/apt/sources.list <<-'EOF'
-deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib
-deb http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
+deb https://mirrors.aliyun.com/debian-archive/debian/ jessie main non-free contrib
+deb-src https://mirrors.aliyun.com/debian-archive/debian/ jessie main non-free contrib
 EOF
 
 else
@@ -1824,8 +1834,10 @@ fi
 Update_Debian7_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 tee /etc/apt/sources.list <<-'EOF'
-deb http://mirrors.aliyun.com/debian/ wheezy main non-free contrib
-deb http://mirrors.aliyun.com/debian/ wheezy-proposed-updates main non-free contrib
+deb https://mirrors.aliyun.com/debian-archive/debian/ wheezy main non-free contrib
+#deb https://mirrors.aliyun.com/debian-archive/debian/ wheezy-proposed-updates main non-free contrib
+deb-src https://mirrors.aliyun.com/debian-archive/debian/ wheezy main non-free contrib
+#deb-src https://mirrors.aliyun.com/debian-archive/debian/ wheezy-proposed-updates main non-free contrib
 EOF
 
 }
