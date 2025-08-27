@@ -789,12 +789,12 @@ Install_Switch4(){
                     python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
                     ;;
                 *)
-                    pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+                    pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
                     ;;
             esac
             ;;
         *)
-            pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+            pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
         ;;
     esac
 
