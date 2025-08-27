@@ -621,6 +621,16 @@ CTF_PWN_install(){
 
     case $Linux_Version in
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
+
+            which gdb > /dev/null 2>&1
+
+            if [ $? == 0 ]
+            then
+                Echo_ALERT "gdb installed"
+            else
+                Echo_ALERT "Please use [aptitude install gdb]"
+            fi
+
             Install_Switch "libssl-dev"
             Install_Switch "libffi-dev"
             Install_Switch "build-essential"

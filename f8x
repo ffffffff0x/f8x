@@ -953,6 +953,10 @@ Sys_Version(){
         *"Ubuntu"*|*"ubuntu"*)
             Linux_Version="Ubuntu"
             case $(cat /etc/*-release | head -n 4) in
+                *"oracular"*)
+                    Linux_Version_Num="24.10"
+                    Linux_Version_Name="oracular"
+                    ;;
                 *"noble"*)
                     Linux_Version_Num="24.04"
                     Linux_Version_Name="noble"
@@ -1268,6 +1272,31 @@ Update_APT_Mirror(){
             ;;
         *"Ubuntu"*)
             case $Linux_Version_Num in
+                "24.10")
+                    Echo_INFOR "Ubuntu24.10"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu2410_Mirror "$1" > /dev/null
+                    ;;
+                "24.04")
+                    Echo_INFOR "Ubuntu24.04"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu2404_Mirror "$1" > /dev/null
+                    ;;
+                "23.10")
+                    Echo_INFOR "Ubuntu23.10"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu2310_Mirror "$1" > /dev/null
+                    ;;
+                "23.04")
+                    Echo_INFOR "Ubuntu23.04"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu2304_Mirror "$1" > /dev/null
+                    ;;
+                "22.10")
+                    Echo_INFOR "Ubuntu22.10"
+                    Echo_INFOR "Backed up apt source"
+                    Update_Ubuntu2210_Mirror "$1" > /dev/null
+                    ;;
                 "22.04")
                     Echo_INFOR "Ubuntu22.04"
                     Echo_INFOR "Backed up apt source"
@@ -1407,6 +1436,136 @@ fi
 }
 
 # ===================== Modify Ubuntu apt sources =====================
+Update_Ubuntu2410_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+
+if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+then
+
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ oracular main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ oracular-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ oracular-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ oracular-security main restricted universe multiverse
+EOF
+
+else
+
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ oracular main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ oracular-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ oracular-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ oracular-security main restricted universe multiverse
+EOF
+
+fi
+
+}
+
+Update_Ubuntu2404_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+
+if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+then
+
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ noble main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ noble-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ noble-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ noble-security main restricted universe multiverse
+EOF
+
+else
+
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-security main restricted universe multiverse
+EOF
+
+fi
+
+}
+
+Update_Ubuntu2310_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+
+if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+then
+
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ mantic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ mantic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ mantic-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ mantic-security main restricted universe multiverse
+EOF
+
+else
+
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ mantic main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ mantic-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ mantic-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ mantic-security main restricted universe multiverse
+EOF
+
+fi
+
+}
+
+Update_Ubuntu2304_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+
+if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+then
+
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ lunar main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ lunar-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ lunar-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ lunar-security main restricted universe multiverse
+EOF
+
+else
+
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ lunar main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ lunar-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ lunar-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ lunar-security main restricted universe multiverse
+EOF
+
+fi
+
+}
+
+Update_Ubuntu2210_Mirror(){
+rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
+
+if [ $1 == aliyun ] 2>> /tmp/f8x_error.log
+then
+
+tee /etc/apt/sources.list <<-'EOF'
+deb http://mirrors.aliyun.com/ubuntu/ kinetic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ kinetic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ kinetic-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ kinetic-security main restricted universe multiverse
+EOF
+
+else
+
+tee /etc/apt/sources.list <<-'EOF'
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ kinetic main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ kinetic-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ kinetic-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ kinetic-security main restricted universe multiverse
+EOF
+
+fi
+
+}
+
 Update_Ubuntu2204_Mirror(){
 rm -f /etc/apt/sources.list.bak > /dev/null 2>&1 && cp /etc/apt/sources.list /etc/apt/sources.list.bak > /dev/null 2>&1
 
@@ -7173,7 +7332,7 @@ Ruby_Install_f(){
     echo -e "\033[1;33m\n>> Installing Ruby\n\033[0m"
     cd $T_Dir && rm -f $Ruby_bin > /dev/null 2>&1 && $Proxy_OK wget https://cache.ruby-lang.org/pub/ruby/$Ruby_Ver/$Ruby_bin ${wget_option} || Echo_ERROR2
     tar xvfvz $Ruby_bin > /dev/null 2>&1
-    cd $Ruby_Dir && ./configure > /dev/null 2>&1 && make > /dev/null 2>&1 && make install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $(ruby -v) in the /usr/local/bin/" || Echo_ERROR3
+    cd $Ruby_Dir && ./configure && make && make install && Echo_INFOR "Successfully installed $(ruby -v) in the /usr/local/bin/" || Echo_ERROR3
     rm -f $T_Dir/$Ruby_bin
 
 }
