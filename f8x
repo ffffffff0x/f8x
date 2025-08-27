@@ -10221,6 +10221,7 @@ Help(){
     echo -e "  \033[1;34m-py2\033[0m \033[0;34m             : install python2\033[0m                    \033[1;33m(Based on package manager)\033[0m"
     echo -e "  \033[1;34m-py2-f\033[0m \033[0;34m           : force install python2\033[0m              \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
     echo -e "  \033[1;34m-pip2-f\033[0m \033[0;34m          : force install pip2\033[0m                 \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
+    echo -e "  \033[1;34m-pyenv\033[0m\033[0;34m            : install pyenv\033[0m"
     echo -e "  \033[1;34m-perl\033[0m \033[0;34m            : install perl\033[0m"
     echo -e "  \033[1;34m-ruby\033[0m \033[0;34m            : install ruby\033[0m                       \033[1;33m(If that fails, try -ruby-f)\033[0m"
     echo -e "  \033[1;34m-rust\033[0m \033[0;34m            : install rust\033[0m"
@@ -10591,6 +10592,10 @@ do
             Proxy_Switch
             Base_Check
             pip2_Install
+            ;;
+        -pyenv)
+            mac_Check || exit 1
+            pyenv_Install
             ;;
         -perl)
             mac_Check || exit 1
