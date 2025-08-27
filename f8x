@@ -10595,6 +10595,8 @@ do
             ;;
         -pyenv)
             mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
             pyenv_Install
             ;;
         -perl)
