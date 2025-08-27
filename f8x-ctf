@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_ctf_Version="0.1.2 Dev(2024/01/03)"
+F8x_ctf_Version="0.1.2 Dev(2025/08/27)"
 
 # ===================== Software version variable setting =====================
 
