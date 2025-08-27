@@ -7205,7 +7205,7 @@ clamav_Install(){
 
 }
 
-# -python2
+# -py2
 Python2_Install(){
 
     name="python2"
@@ -7271,7 +7271,30 @@ Python2_Install(){
 
 }
 
-# -pip2-force
+# -py2-f
+Python2_force_Install(){
+
+    name="python2"
+    echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
+
+    python2 -V > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Rm_Lock
+        mkdir -p /usr/local/py2713 && cd /usr/local/py2713 && $Proxy_OK wget https://www.python.org/ftp/python/2.7.13/Python-2.7.13.tgz ${wget_option}
+        tar -xf Python-2.7.13.tgz > /dev/null 2>&1
+        cd Python-2.7.13 && ./configure --with-pydebug
+        # make -s -j16
+        make install
+        ln -s /usr/local/py2713/Python-2.7.13/python /usr/bin/python2
+        python2 -V
+    fi
+
+}
+
+# -pip2-f
 pip2_Install(){
 
     echo -e "\033[1;33m\n>> Installing pip2\n\033[0m"
@@ -10196,6 +10219,7 @@ Help(){
     echo -e "  \033[1;34m-openjdk\033[0m \033[0;34m         : install openjdk\033[0m"
     echo -e "  \033[1;34m-py3(7/8/9/10)\033[0m\033[0;34m    : install python3\033[0m                    \033[1;33m(Based on package manager)\033[0m"
     echo -e "  \033[1;34m-py2\033[0m \033[0;34m             : install python2\033[0m                    \033[1;33m(Based on package manager)\033[0m"
+    echo -e "  \033[1;34m-py2-f\033[0m \033[0;34m           : force install python2\033[0m              \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
     echo -e "  \033[1;34m-pip2-f\033[0m \033[0;34m          : force install pip2\033[0m                 \033[1;33m(It is recommended to run with the -python2 option failing)\033[0m"
     echo -e "  \033[1;34m-perl\033[0m \033[0;34m            : install perl\033[0m"
     echo -e "  \033[1;34m-ruby\033[0m \033[0;34m            : install ruby\033[0m                       \033[1;33m(If that fails, try -ruby-f)\033[0m"
@@ -10557,6 +10581,10 @@ do
         -py2 | py2)
             mac_Check || exit 1
             Python2_Install
+            ;;
+        -py2-f)
+            mac_Check || exit 1
+            Python2_force_Install
             ;;
         -pip2-f)
             mac_Check || exit 1

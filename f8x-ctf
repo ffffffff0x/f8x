@@ -690,7 +690,9 @@ CTF_PWN_pwndbg_install(){
 CTF_PWN_one_gadget_install(){
 
     name="one_gadget"
-    gem install one_gadget > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || one_gadget_install2
+    Install_Switch "ruby"
+    gem install one_gadget > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    # one_gadget_install2
 
 }
 
