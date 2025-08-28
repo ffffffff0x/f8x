@@ -731,7 +731,7 @@ CTF_PWN_Pwngdb_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone https://github.com/scwuaptx/Pwngdb.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/scwuaptx/Pwngdb.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
 
         grep -qxF "source $dir/pwngdb.py" ~/.gdbinit || {
             echo "source $dir/pwngdb.py" >> ~/.gdbinit
@@ -756,7 +756,7 @@ CTF_PWN_peda_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone https://github.com/No-Github/peda.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/No-Github/peda.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir
         grep -qxF "source $dir/peda.py" ~/.gdbinit || echo "source $dir/peda.py" >> ~/.gdbinit
 
@@ -775,7 +775,7 @@ CTF_PWN_gef_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone https://github.com/hugsy/gef.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/hugsy/gef.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir
         grep -qxF "source $dir/gef.py" ~/.gdbinit || echo "source $dir/gef.py" >> ~/.gdbinit
 
@@ -792,6 +792,9 @@ CTF_PWN_gef_install(){
                 ;;
             *) ;;
         esac
+
+        grep -qxF "[gef]" ~/.gef.rc || echo "[gef]" >> ~/.gef.rc
+        grep -qxF "show_deprecation_warnings = False" ~/.gef.rc || echo "show_deprecation_warnings = False" >> ~/.gef.rc
     fi
 
 }
@@ -805,7 +808,7 @@ CTF_PWN_peda-heap_install(){
     then
         Echo_ALERT "$name is already download in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone https://github.com/No-Github/peda-heap.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/No-Github/peda-heap.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir
         grep -qxF "source $dir/peda.py" ~/.gdbinit || echo "source $dir/peda.py" >> ~/.gdbinit
 
