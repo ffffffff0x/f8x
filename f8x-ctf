@@ -894,6 +894,8 @@ CTF_PWN_tools(){
     CTF_PWN_pwntools_install
     echo -e "\033[1;33m\n>> Installing pwndbg\n\033[0m"
     CTF_PWN_pwndbg_install
+    echo -e "\033[1;33m\n>> Installing peda\n\033[0m"
+    CTF_PWN_peda_install
     echo -e "\033[1;33m\n>> Installing one_gadget\n\033[0m"
     CTF_PWN_one_gadget_install
 
