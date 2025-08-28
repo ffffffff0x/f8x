@@ -679,7 +679,7 @@ CTF_PWN_pwndbg_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name is already installed in $dir"
+        Echo_ALERT "$name is already download in $dir"
     else
         # cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully Download $name in the $dir" || Echo_ERROR3
         # cd $dir && echo "source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
@@ -697,6 +697,21 @@ CTF_PWN_pwndbg_install(){
         $Proxy_OK curl -o install.sh -qsL 'https://install.pwndbg.re'
         $Proxy_OK bash -xv install.sh -t pwndbg-gdb
 
+    fi
+
+}
+
+CTF_PWN_peda_install(){
+
+    name="peda"
+    dir="$P_Dir/peda"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already download in $dir"
+    else
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/longld/peda.git > /dev/null 2>&1 && Echo_INFOR "Successfully download $name in the $dir" || Echo_ERROR3
+        cd $dir && echo "source /pentest/peda/peda.py" >> ~/.gdbinit
     fi
 
 }
