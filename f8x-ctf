@@ -68,7 +68,7 @@ CTF_dumpall_install(){
 
     name="dumpall"
     which dumpall > /dev/null 2>&1
-    if [ $? == 0 ]
+    if [ $? -eq 0 ]
     then
         Echo_ALERT "$name installed"
     else
@@ -145,7 +145,7 @@ CTF_stegoveritas_install(){
 
     name="stegoveritas"
     which stegoveritas > /dev/null 2>&1
-    if [ $? == 0 ]
+    if [ $? -eq 0 ]
     then
         Echo_ALERT "$name installed"
     else
@@ -679,7 +679,7 @@ CTF_PWN_pwndbg_install(){
 
     if test -d $dir
     then
-        Echo_ALERT "$name is already download in $dir"
+        Echo_ALERT "$name is already installed in $dir"
     else
         # cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully Download $name in the $dir" || Echo_ERROR3
         # cd $dir && echo "source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
@@ -710,8 +710,9 @@ CTF_PWN_peda_install(){
     then
         Echo_ALERT "$name is already download in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/longld/peda.git > /dev/null 2>&1 && Echo_INFOR "Successfully download $name in the $dir" || Echo_ERROR3
-        cd $dir && echo "source /pentest/peda/peda.py" >> ~/.gdbinit
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/longld/peda.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir
+        grep -qxF "source $dir/peda.py" ~/.gdbinit || echo "source $dir/peda.py" >> ~/.gdbinit
     fi
 
 }
@@ -972,7 +973,7 @@ do
         -help | help)
             printf "\033c"
             Help_Info
-            exit 1
+            exit 0
             ;;
     esac
 done
