@@ -694,16 +694,18 @@ CTF_PWN_pwndbg_install(){
         $Proxy_OK bash -xv install.sh -t pwndbg-gdb
     fi
 
-    # dir="$P_Dir/pwndbg"
+    dir="$P_Dir/pwndbg"
 
-    # if test -d $dir
-    # then
-    #     Echo_ALERT "$name is already installed in $dir"
-    # else
-    #     # cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully Download $name in the $dir" || Echo_ERROR3
-    #     # cd $dir && echo "source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
-    #     # chmod setup.sh
-    #     # ./setup.sh
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully Download $name in the $dir" || Echo_ERROR3
+        cd $dir && $Proxy_OK bash -xv setup.sh
+        echo "这块 pwndbg 和其他几个会冲突,使用时请自行对 ~/.gdbinit 里的插件进行注释"
+        # echo "# source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
+        # chmod setup.sh
+        # ./setup.sh
 
     #     case $Linux_Version in
     #         *"Kali"*|*"Ubuntu"*|*"Debian"*)
@@ -717,6 +719,31 @@ CTF_PWN_pwndbg_install(){
     #     $Proxy_OK bash -xv install.sh -t pwndbg-gdb
 
     # fi
+
+}
+
+CTF_PWN_Pwngdb_install(){
+
+    name="Pwngdb"
+    dir="$P_Dir/Pwngdb"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        cd $P_Dir && $Proxy_OK git clone https://github.com/scwuaptx/Pwngdb.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+
+        grep -qxF "source $dir/pwngdb.py" ~/.gdbinit || {
+            echo "source $dir/pwngdb.py" >> ~/.gdbinit
+            echo "source $dir/angelheap/gdbinit.py" >> ~/.gdbinit
+            echo "define hook-run" >> ~/.gdbinit
+            echo "python" >> ~/.gdbinit
+            echo "import angelheap" >> ~/.gdbinit
+            echo "angelheap.init_angelheap()" >> ~/.gdbinit
+            echo "end" >> ~/.gdbinit
+            echo "end" >> ~/.gdbinit
+        }
+    fi
 
 }
 
@@ -781,6 +808,9 @@ CTF_PWN_peda-heap_install(){
         cd $P_Dir && $Proxy_OK git clone https://github.com/No-Github/peda-heap.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir
         grep -qxF "source $dir/peda.py" ~/.gdbinit || echo "source $dir/peda.py" >> ~/.gdbinit
+
+        # https://github.com/longld/peda/issues/177#issuecomment-2441751341
+        cp /usr/lib/python3/dist-packages/six.py $dir/lib/six.py
     fi
 
 }
