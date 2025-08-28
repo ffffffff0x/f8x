@@ -681,8 +681,22 @@ CTF_PWN_pwndbg_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
-        cd $dir && echo "source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
+        # cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/pwndbg/pwndbg.git > /dev/null 2>&1 && Echo_INFOR "Successfully Download $name in the $dir" || Echo_ERROR3
+        # cd $dir && echo "source /pentest/pwndbg/gdbinit.py" > ~/.gdbinit
+        # chmod setup.sh
+        # ./setup.sh
+
+        case $Linux_Version in
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                $Proxy_OK wget -O pwndbg_2025.05.30_amd64.deb https://github.com/pwndbg/pwndbg/releases/download/2025.05.30/pwndbg_2025.05.30_amd64.deb
+                apt install ./pwndbg_2025.05.30_amd64.deb
+                ;;
+            *) ;;
+        esac
+
+        $Proxy_OK curl -o install.sh -qsL 'https://install.pwndbg.re'
+        $Proxy_OK bash -xv install.sh -t pwndbg-gdb
+
     fi
 
 }
