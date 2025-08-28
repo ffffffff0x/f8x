@@ -729,9 +729,12 @@ CTF_PWN_peda_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/longld/peda.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone https://github.com/No-Github/peda.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir
         grep -qxF "source $dir/peda.py" ~/.gdbinit || echo "source $dir/peda.py" >> ~/.gdbinit
+
+        # https://github.com/longld/peda/issues/177#issuecomment-2441751341
+        cp /usr/lib/python3/dist-packages/six.py $dir/lib/six.py
     fi
 
 }
@@ -745,9 +748,23 @@ CTF_PWN_gef_install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/hugsy/gef.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone https://github.com/hugsy/gef.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir
         grep -qxF "source $dir/gef.py" ~/.gdbinit || echo "source $dir/gef.py" >> ~/.gdbinit
+
+        case $Linux_Version in
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                echo "export LANG=en_US.UTF-8" >> /etc/bashrc
+                echo "export LC_ALL=en_US.UTF-8" >> /etc/bashrc
+                echo "export PYTHONIOENCODING=utf-8" >> /etc/bashrc
+                ;;
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                echo "export LANG=en_US.UTF-8" >> /etc/bash.bashrc
+                echo "export LC_ALL=en_US.UTF-8" >> /etc/bash.bashrc
+                echo "export PYTHONIOENCODING=utf-8" >> /etc/bash.bashrc
+                ;;
+            *) ;;
+        esac
     fi
 
 }
@@ -761,7 +778,7 @@ CTF_PWN_peda-heap_install(){
     then
         Echo_ALERT "$name is already download in $dir"
     else
-        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/Mipu94/peda-heap.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $P_Dir && $Proxy_OK git clone https://github.com/No-Github/peda-heap.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir
         grep -qxF "source $dir/peda.py" ~/.gdbinit || echo "source $dir/peda.py" >> ~/.gdbinit
     fi
