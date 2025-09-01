@@ -2579,6 +2579,7 @@ pyenv_Install(){
             esac
 
             Install_Switch "pipx"
+            pipx ensurepath
         fi
     fi
 
@@ -2593,6 +2594,7 @@ Python3_def_Install(){
             Install_Switch "python3-devel"
             Install_Switch "python3-pip"
             Install_Switch "pipx"
+            pipx ensurepath
             python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "Update python3-pip failed"
 
             Install_Switch4 "setuptools"
@@ -2605,6 +2607,7 @@ Python3_def_Install(){
             Install_Switch "python3-venv"
             Install_Switch "python3-distutils"
             Install_Switch "pipx"
+            pipx ensurepath
             python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "Update python3-pip failed"
             ;;
         *"Ubuntu"*)
@@ -2614,6 +2617,7 @@ Python3_def_Install(){
             Install_Switch "python3-venv"
             Install_Switch "python3-distutils"
             Install_Switch "pipx"
+            pipx ensurepath
             case $Linux_Version_Num in
                 "16.04")
                     mkdir -p /tmp/get-pip && cd /tmp/get-pip && rm -rf get-pip.py && $Proxy_OK wget https://bootstrap.pypa.io/pip/3.5/get-pip.py > /dev/null 2>&1
