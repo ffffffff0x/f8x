@@ -12,7 +12,7 @@ fi
 
 . /usr/local/bin/f8x > /dev/null 2>&1
 
-F8x_ctf_Version="0.1.3 Dev(2025/09/01)"
+F8x_ctf_Version="0.1.3 Dev(2025/09/02)"
 
 # ===================== Software version variable setting =====================
 
@@ -901,6 +901,40 @@ CTF_PWN_patchelf_install(){
 
 }
 
+CTF_PWN_LibcSearcher_install(){
+
+    name="LibcSearcher"
+    dir="$P_Dir/LibcSearcher"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already download in $dir"
+    else
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/lieanu/LibcSearcher.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir && chmod +x setup.py && python setup.py develop
+        cd $dir && chmod +x setup.py && python3 setup.py develop
+        ln -sf "$P_Dir/libc-database" $dir
+    fi
+
+}
+
+CTF_PWN_LibcSearcher_ng_install(){
+
+    name="LibcSearcher_ng"
+    dir="$P_Dir/LibcSearcher_ng"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already download in $dir"
+    else
+        cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/No-Github/LibcSearcher.git LibcSearcher_ng > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        cd $dir && chmod +x setup.py && python setup.py develop
+        cd $dir && chmod +x setup.py && python3 setup.py develop
+        # ln -sf "$P_Dir/libc-database" $dir
+    fi
+
+}
+
 CTF_PWN_LibcSearcher_plus_install(){
 
     name="LibcSearcher_plus"
@@ -912,7 +946,7 @@ CTF_PWN_LibcSearcher_plus_install(){
     else
         cd $P_Dir && $Proxy_OK git clone --depth 1 https://github.com/lexsd6/LibcSearcher_plus.git > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cd $dir && chmod +x setup.py && python3 setup.py develop
-        # ln -sf "$P_Dir/libc-database" /pentest/libc-database
+        ln -sf "$P_Dir/libc-database" $dir
     fi
 
 }
@@ -1128,6 +1162,10 @@ CTF_PWN_tools(){
     CTF_PWN_glibc-all-in-one_install
     echo -e "\033[1;33m\n>> Installing patchelf\n\033[0m"
     CTF_PWN_patchelf_install
+    echo -e "\033[1;33m\n>> Installing LibcSearcher\n\033[0m"
+    CTF_PWN_LibcSearcher_install
+    echo -e "\033[1;33m\n>> Installing LibcSearcher-ng\n\033[0m"
+    CTF_PWN_LibcSearcher-ng_install
     echo -e "\033[1;33m\n>> Installing LibcSearcher_plus\n\033[0m"
     CTF_PWN_LibcSearcher_plus_install
     echo -e "\033[1;33m\n>> Installing libc-database\n\033[0m"
