@@ -973,7 +973,20 @@ CTF_PWN_libc-database_install(){
             Echo_INFOR "Skipped. You can run './get ubuntu debian' manually in $dir when ready."
         ;;
         esac
+
+        CTF_PWN_libc-database_bakdb_install
     fi
+
+}
+
+CTF_PWN_libc-database_bakdb_install(){
+
+    dir="/tmp/libc-database_bakdb"
+
+    mkdir -p $dir
+    $Proxy_OK wget -O $dir/db.zip https://github.com/No-Github/Archive/releases/download/libc-db/db.zip ${wget_option}
+    cd $dir && unzip db.zip > /dev/null 2>&1
+    cp $dir/db/* $P_Dir/libc-database/db
 
 }
 
