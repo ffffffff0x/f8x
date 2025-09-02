@@ -970,6 +970,7 @@ CTF_PWN_libc-database_install(){
             $Proxy_OK ./get ubuntu debian
         ;;
         *)
+            mkdir -p $P_Dir/libc-database/db
             Echo_INFOR "Skipped. You can run './get ubuntu debian' manually in $dir when ready."
         ;;
         esac
