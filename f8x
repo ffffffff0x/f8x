@@ -3454,7 +3454,7 @@ Pentest_ksubdomain_Install(){
                 ksubdomain > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $ksubdomain_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
-                mkdir -p /tmp/ksubdomain && cd /tmp/ksubdomain && go install github.com/boy-hack/ksubdomain/v2/cmd/ksubdomain@latest
+                mkdir -p /tmp/ksubdomain && cd /tmp/ksubdomain && go install github.com/boy-hack/ksubdomain/cmd/ksubdomain@latest
                 mv $GOPATH/bin/ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain || { mv /root/go/bin/ksubdomain /usr/local/bin/ksubdomain; chmod +x /usr/local/bin/ksubdomain; }
                 rm -rf /tmp/ksubdomain && cd /tmp
                 which ksubdomain > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
