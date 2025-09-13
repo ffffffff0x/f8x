@@ -16,9 +16,10 @@ F8x_ctf_Version="0.1.3 Dev(2025/09/02)"
 
 # ===================== Software version variable setting =====================
 
-bkcrack_Ver="v1.7.0"
-bkcrack_bin="bkcrack-1.7.0-Linux.tar.gz"
-bkcrack_dir="bkcrack-1.7.0-Linux"
+bkcrack_Ver="v1.8.0"
+bkcrack_bin_amd64="bkcrack-1.8.0-Linux-x86_64.tar.gz"
+bkcrack_bin_arm64="bkcrack-1.8.0-Linux-aarch64.tar.gz"
+bkcrack_dir="bkcrack-1.8.0-Linux"
 upx_Ver="v3.96"
 upx_bin_amd64="upx-3.96-amd64_linux.tar.xz"
 upx_dir_amd64="upx-3.96-amd64_linux"
@@ -290,6 +291,15 @@ CTF_outguess_install(){
 }
 
 CTF_bkcrack_install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            bkcrack_bin=$bkcrack_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            bkcrack_bin=$bkcrack_bin_arm64
+            ;;
+    esac
 
     name="bkcrack"
     which bkcrack > /dev/null 2>&1
