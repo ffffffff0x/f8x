@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.6 Dev(2025/08/27)"
+F8x_Version="1.7.6 Dev(2025/09/25)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -332,6 +332,14 @@ tlsx_bin_arm64="tlsx_1.2.1_linux_arm64.zip"
 gogo_Ver="v2.14.0"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
+# https://github.com/chainreactors/spray
+spray_Ver="v1.2.2"
+spray_File_amd64="spray_linux_amd64"
+spray_File_arm64="spray_linux_arm64"
+# https://github.com/chainreactors/zombie
+zombie_Ver="v1.2.2"
+zombie_File_amd64="zombie_linux_amd64"
+zombie_File_arm64="zombie_linux_arm64"
 # https://github.com/projectdiscovery/simplehttpserver
 simplehttpserver_Ver="v0.0.6"
 simplehttpserver_bin_amd64="simplehttpserver_0.0.6_linux_amd64.zip"
@@ -3649,6 +3657,62 @@ Pentest_gogo_Install(){
 
 }
 
+# ===================== Install spray =====================
+Pentest_spray_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            spray_File=$spray_File_amd64
+            ;;
+        *"linux-arm64"*)
+            spray_File=$spray_File_arm64
+            ;;
+    esac
+
+    name="spray"
+
+    which spray > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/spray && cd /tmp/spray && rm -f $spray_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/chainreactors/spray/releases/download/$spray_Ver/$spray_File > /dev/null 2>&1 || Echo_ERROR2
+        mv --force $spray_File /usr/local/bin/spray && chmod +x /usr/local/bin/spray
+        which spray > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $spray_Ver in the /usr/local/bin/" || Echo_ERROR3
+        rm -rf /tmp/spray && cd /tmp
+    fi
+
+}
+
+# ===================== Install zombie =====================
+Pentest_zombie_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            zombie_File=$zombie_File_amd64
+            ;;
+        *"linux-arm64"*)
+            zombie_File=$zombie_File_arm64
+            ;;
+    esac
+
+    name="zombie"
+
+    which zombie > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/zombie && cd /tmp/zombie && rm -f $zombie_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/chainreactors/zombie/releases/download/$zombie_Ver/$zombie_File > /dev/null 2>&1 || Echo_ERROR2
+        mv --force $zombie_File /usr/local/bin/zombie && chmod +x /usr/local/bin/zombie
+        which zombie > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $zombie_Ver in the /usr/local/bin/" || Echo_ERROR3
+        rm -rf /tmp/zombie && cd /tmp
+    fi
+
+}
+
 # ===================== Install csprecon =====================
 Pentest_csprecon_Install(){
 
@@ -3883,7 +3947,7 @@ Pentest_httpx_Install(){
         rm -rf /tmp/httpx && cd /tmp
         httpx -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $httpx_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
-
+``
 }
 
 # ===================== Install subfinder =====================
@@ -9926,6 +9990,10 @@ kali_Tools_TypeA(){
     Pentest_tlsx_Install
     echo -e "\033[1;33m\n>> Installing gogo\n\033[0m"
     Pentest_gogo_Install
+    echo -e "\033[1;33m\n>> Installing spray\n\033[0m"
+    Pentest_spray_Install
+    echo -e "\033[1;33m\n>> Installing zombie\n\033[0m"
+    Pentest_zombie_Install
 
     # Pentest_gospider_Install
     # Pentest_dismap_Install

@@ -304,6 +304,10 @@ tlsx_bin_arm64="tlsx_1.2.1_linux_arm64.zip"
 gogo_Ver="v2.14.0"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
+# https://github.com/chainreactors/spray
+spray_Ver="v1.2.2"
+spray_File_amd64="spray_linux_amd64"
+spray_File_arm64="spray_linux_arm64"
 # https://github.com/projectdiscovery/simplehttpserver
 simplehttpserver_Ver="v0.0.6"
 simplehttpserver_bin_amd64="simplehttpserver_0.0.6_linux_amd64.zip"
