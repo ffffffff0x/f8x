@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.6 Dev(2025/09/25)"
+F8x_Version="1.7.7 Dev(2025/09/29)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -231,8 +231,8 @@ Platypus_bin_amd64="Platypus_linux_amd64"
 Platypus_bin_arm64="Platypus_linux_arm64"
 # https://github.com/OWASP/Amass/releases
 Amass_Ver="v5.0.1"
-Amass_bin_amd64="amass_linux_amd64.zip"
-Amass_bin_arm64="amass_linux_arm64.zip"
+Amass_bin_amd64="amass_linux_amd64.tar.gz"
+Amass_bin_arm64="amass_linux_arm64.tar.gz"
 # https://github.com/OJ/gobuster/releases
 gobuster_Ver="v3.8.2"
 gobuster_bin_amd64="gobuster_Linux_x86_64.tar.gz"
@@ -3510,7 +3510,7 @@ Pentest_fscan_Install(){
     else
         mkdir -p /tmp/fscan && cd /tmp/fscan && rm -f $fscan_Install && $Proxy_OK wget ${GitProxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
         mv --force $fscan_Install /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
-        fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
+        which fscan && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
         rm -rf /tmp/fscan && cd /tmp
     fi
 
@@ -4170,7 +4170,7 @@ Pentest_Amass_Install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/Amass && cd /tmp/Amass && rm -rf ${Amass_bin} && $Proxy_OK wget ${GitProxy}https://github.com/owasp-amass/amass/releases/download/$Amass_Ver/$Amass_bin > /dev/null 2>&1 || Echo_ERROR2
-        unzip ${Amass_bin} > /dev/null 2>&1 && rm -rf ${Amass_bin}
+        tar -zxvf ${Amass_bin} > /dev/null 2>&1 && rm -rf ${Amass_bin}
         mv --force amass_*/amass /usr/local/bin/amass && chmod +x /usr/local/bin/amass
         rm -rf /tmp/Amass && cd /tmp
         which amass > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $Amass_Ver in the /usr/local/bin/" || Echo_ERROR3
