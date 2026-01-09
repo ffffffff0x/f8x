@@ -31,12 +31,13 @@
 ## 开始
 
 **下载**
+- Pages 加速
+  - wget : `wget -O f8x https://f8x.wgpsec.org/f8x`
+  - curl : `curl -o f8x https://f8x.wgpsec.org/f8x`
+
 - github 直链
   - wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
   - curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
-
-> 后续不会更新 releases,建议不要下载 releases 的旧版本 f8x
-> 2026-06-01 后不在续期 f8x.io 域名,建议不要从 f8x.io 域名下载
 
 **使用**
 ```bash
@@ -44,9 +45,9 @@ bash f8x -h
 ```
 
 如果你希望方便点使用可以直接加到环境变量中
-- wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+- wget : `wget -O f8x https://f8x.wgpsec.org/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
   - `f8x -h`
-- curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
+- curl : `curl -o f8x https://f8x.wgpsec.org/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x`
   - `f8x -h`
 
 **系统依赖**
@@ -57,18 +58,18 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 
 该脚本用于部署 CTF 环境,支持 (Web、Misc、Crypto、Pwn、Iot) 分类
 
-- wget : `wget -O f8x-ctf https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-ctf`
+- wget : `wget -O f8x-ctf https://f8x.wgpsec.org/f8x-ctf`
   - `bash f8x-ctf -help`
-- curl : `curl -o f8x-ctf https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-ctf`
+- curl : `curl -o f8x-ctf https://f8x.wgpsec.org/f8x-ctf`
   - `bash f8x-ctf -help`
 
 **f8x-dev**
 
 该脚本用于部署中间件和数据库环境,支持 (apache、nginx、tomcat、Database、php) 分类
 
-- wget : `wget -O f8x-dev https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-dev`
+- wget : `wget -O f8x-dev https://f8x.wgpsec.org/f8x-dev`
   - `bash f8x-dev -help`
-- curl : `curl -o f8x-dev https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x-dev`
+- curl : `curl -o f8x-dev https://f8x.wgpsec.org/f8x-dev`
   - `bash f8x-dev -help`
 
 ---
@@ -206,7 +207,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 当然没有问题, f8x 的 GitHub action 就是自动运行每个选项部署环境的。只需要在 /tmp 创建一个名为 IS_CI 的空文件即可
 ```bash
 touch /tmp/IS_CI
-wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x
+wget -O f8x https://f8x.wgpsec.org/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x
 f8x -k
 ```
 

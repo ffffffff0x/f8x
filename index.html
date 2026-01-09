@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>f8x | 红蓝队环境自动化部署</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08111d;
+      --panel: rgba(255, 255, 255, 0.04);
+      --card: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e9f1ff;
+      --muted: #9fb4d6;
+      --accent: #00e6a8;
+      --accent-2: #5fd5ff;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.4);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(120% 120% at 10% 20%, rgba(0, 230, 168, 0.14), transparent 50%),
+                  radial-gradient(100% 100% at 90% 10%, rgba(95, 213, 255, 0.14), transparent 45%),
+                  linear-gradient(135deg, #06101c 0%, #0d1f31 50%, #0a1420 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent-2); text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .page { max-width: 1320px; margin: 0 auto; padding: 28px 22px 100px; position: relative; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--panel);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+      box-shadow: var(--shadow);
+    }
+    header .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .logo-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: conic-gradient(from 160deg, #00e6a8, #5fd5ff, #6f7cff, #00e6a8);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #03101d;
+      font-weight: 800;
+      text-transform: uppercase;
+      box-shadow: 0 10px 28px rgba(0, 230, 168, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      letter-spacing: 0.06em;
+    }
+    nav { display: flex; gap: 16px; flex-wrap: wrap; }
+    nav a {
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    nav a:hover { border-color: var(--accent); color: var(--text); background: rgba(255, 255, 255, 0.06); }
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      align-items: center;
+      margin-top: 34px;
+      padding: 32px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(0,0,0,0.35));
+      box-shadow: var(--shadow);
+    }
+    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; font-size: 12px; }
+    h1 { margin: 10px 0 12px; font-size: clamp(32px, 4vw, 46px); }
+    h2 { margin: 0 0 14px; font-size: clamp(24px, 3vw, 32px); }
+    p.lead { color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 6px; }
+    .btn {
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+      color: var(--text);
+    }
+    .btn-primary { background: linear-gradient(120deg, var(--accent), var(--accent-2)); color: #03101d; box-shadow: 0 12px 38px rgba(0, 230, 168, 0.32); }
+    .btn-outline { border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); }
+    .btn:hover { transform: translateY(-2px); }
+    code, pre { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .code-block {
+      background: #0a1827;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: var(--accent-2);
+      overflow-x: auto;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+    section { margin-top: 56px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .card {
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.5; }
+    .tag { display: inline-block; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); color: var(--muted); font-size: 12px; margin-right: 8px; margin-bottom: 8px; }
+    .list-tight { list-style: none; padding: 0; margin: 0; color: var(--muted); line-height: 1.6; }
+    .list-tight li { margin-bottom: 8px; padding-left: 16px; position: relative; }
+    .list-tight li::before { content: '•'; color: var(--accent); position: absolute; left: 0; }
+    .pill-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .pill { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text); font-weight: 600; }
+    .faq-item { border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; background: var(--card); box-shadow: var(--shadow); }
+    .faq-item + .faq-item { margin-top: 12px; }
+    footer { margin: 70px 0 0; padding: 22px 0 16px; color: var(--muted); text-align: center; font-size: 14px; border-top: 1px solid var(--border); }
+    @media (max-width: 720px) {
+      header { position: static; }
+      .cta-row { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="logo-mark" aria-label="f8x">f8x</div>
+        <span>自动化部署工具</span>
+      </div>
+      <nav>
+        <a href="#start">开始</a>
+        <a href="#options">选项</a>
+        <a href="#examples">示例</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <div class="hero" id="start">
+      <div>
+        <div class="eyebrow">Red/Blue Team Automation</div>
+        <h1>一键部署红蓝队与开发环境</h1>
+        <p class="lead">f8x 是面向渗透、蓝队、防护及日常开发的自动化部署工具。无需预装依赖，覆盖批量化安装、开发栈、红蓝队工具、Docker 场景和杂项服务。</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://f8x.wgpsec.org/f8x" download>下载 f8x (Pages 加速)</a>
+          <a class="btn btn-primary" href="https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x" download>下载 f8x (raw)</a>
+          <a class="btn btn-outline" href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer">查看仓库</a>
+        </div>
+        <div class="code-block">wget -O f8x https://f8x.wgpsec.org/f8x && chmod +x f8x && bash f8x -h</div>
+      </div>
+
+    </div>
+
+    <section id="highlights">
+      <h2>为什么选择 f8x</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>多场景覆盖</h3>
+          <p>红队、蓝队、渗透、云、安全开发、代理环境一套脚本即可完成，无需手工搜集命令。</p>
+        </div>
+        <div class="card">
+          <h3>即装即用</h3>
+          <p>自动检测基础依赖，按需拉起容器或源码编译，支持常见 Linux 发行版与 arm64。</p>
+        </div>
+        <div class="card">
+          <h3>可插拔选项</h3>
+          <p>通过参数自由组合批量化安装、渗透工具集、云工具与杂项服务，减少重复配置。</p>
+        </div>
+        <div class="card">
+          <h3>自动化友好</h3>
+          <p>支持 CI/CD 无交互运行，只需在 /tmp 创建 IS_CI 文件即可批量验证环境。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quickstart">
+      <h2>快速开始</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>下载并执行</h3>
+          <div class="code-block">curl -o f8x https://f8x.wgpsec.org/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && f8x -h</div>
+          <p style="margin-top:10px; color: var(--muted);">或使用 wget，命令保持一致。</p>
+        </div>
+        <div class="card">
+          <h3>常用入口</h3>
+          <ul class="list-tight">
+            <li>-b 安装基础环境 (gcc、make、git、vim 等)</li>
+            <li>-d 安装开发环境 (Python/Go/Docker 等)</li>
+            <li>-k 安装渗透工具集 (-ka/-kb/-kc/-kd/-ke)</li>
+            <li>-s 部署蓝队工具 (Fail2Ban、rkhunter 等)</li>
+            <li>-all 全自动部署 (兼容主流发行版)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>附加脚本</h3>
+          <p>CTF 环境: 下载 f8x-ctf</p>
+          <div class="code-block">wget -O f8x-ctf https://f8x.wgpsec.org/f8x-ctf && bash f8x-ctf -help</div>
+          <p style="margin-top:12px;">中间件/数据库: 下载 f8x-dev</p>
+          <div class="code-block">wget -O f8x-dev https://f8x.wgpsec.org/f8x-dev && bash f8x-dev -help</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="options">
+      <h2>核心选项速览</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>批量化安装</h3>
+          <div class="pill-row">
+            <span class="pill">-b 基础</span>
+            <span class="pill">-p 代理</span>
+            <span class="pill">-d 开发</span>
+            <span class="pill">-k 渗透</span>
+            <span class="pill">-s 蓝队</span>
+            <span class="pill">-f 其他</span>
+            <span class="pill">-cloud 云</span>
+            <span class="pill">-all 全量</span>
+          </div>
+          <p style="margin-top:10px; color: var(--muted);">根据场景选择组合参数，脚本自动完成环境拉起与工具安装。</p>
+        </div>
+        <div class="card">
+          <h3>开发栈</h3>
+          <p class="muted">一键安装 Docker、Node.js、Go、JDK、Python2/3、Rust、Ruby、Perl、Lua、code-server 以及 Chromium/PhantomJS。</p>
+          <div class="pill-row">
+            <span class="pill">-docker</span><span class="pill">-nn</span><span class="pill">-go</span><span class="pill">-oraclejdk</span><span class="pill">-py3</span><span class="pill">-rust</span><span class="pill">-code</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>红队 & 基础设施</h3>
+          <p class="muted">CobaltStrike、Merlin、Sliver、MSF、RedGuard、AWVS、frp、nps、pupy 等主流工具一键部署。</p>
+          <div class="pill-row">
+            <span class="pill">-cs/-cs45</span><span class="pill">-msf</span><span class="pill">-sliver</span><span class="pill">-rg</span><span class="pill">-pupy</span><span class="pill">-awvs14</span><span class="pill">-frp</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>蓝队 & 取证</h3>
+          <p class="muted">Fail2Ban、Suricata、binwalk/volatility/vol3、ClamAV、LogonTracer 等快速搭建。</p>
+          <div class="pill-row">
+            <span class="pill">-binwalk</span><span class="pill">-suricata</span><span class="pill">-vol/-vol3</span><span class="pill">-clamav</span><span class="pill">-lt</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Docker 场景</h3>
+          <p class="muted">内置 ARL、MobSF、vulhub、vulfocus、nodejsscan、TerraformGoat 等镜像化方案。</p>
+          <div class="pill-row">
+            <span class="pill">-arl</span><span class="pill">-mobsf</span><span class="pill">-vulhub</span><span class="pill">-vulfocus</span><span class="pill">-nodejsscan</span><span class="pill">-TerraformGoat</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>杂项服务</h3>
+          <p class="muted">asciinema、宝塔、clash、nginx、ssh、ssr、zsh 以及系统优化/清理/信息收集。</p>
+          <div class="pill-row">
+            <span class="pill">-asciinema</span><span class="pill">-bt</span><span class="pill">-clash</span><span class="pill">-nginx</span><span class="pill">-ssh</span><span class="pill">-clear</span><span class="pill">-info</span><span class="pill">-optimize</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="examples">
+      <h2>实际效果</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>-h 查看帮助</h3>
+          <img src="./assets/img/1.png" alt="f8x help output">
+        </div>
+        <div class="card">
+          <h3>-all 全自动部署</h3>
+          <ul class="list-tight">
+            <li><a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY" target="_blank" rel="noreferrer">CentOS 7 演示</a></li>
+            <li><a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt" target="_blank" rel="noreferrer">Debian 10 演示</a></li>
+            <li><a href="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf" target="_blank" rel="noreferrer">Fedora 33 演示</a></li>
+            <li><a href="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct" target="_blank" rel="noreferrer">Ubuntu 20.10 演示</a></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>CI/CD 运行</h3>
+          <p class="muted">非交互模式：创建 /tmp/IS_CI 后直接运行渗透环境安装。</p>
+          <div class="code-block">touch /tmp/IS_CI && f8x -k</div>
+          <p style="margin-top:10px; color: var(--muted);">可在流水线中批量验证工具链可用性。</p>
+        </div>
+        <div class="card">
+          <h3>自定义版本</h3>
+          <p class="muted">在同目录下创建 f8x_version.sh 覆盖变量，按需固定工具版本。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>FAQ</h2>
+      <div class="faq-item">
+        <h3>-p 选项做什么?</h3>
+        <p class="muted">替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。</p>
+      </div>
+      <div class="faq-item">
+        <h3>如何避免交互?</h3>
+        <p class="muted">创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x，例如触发 -k 批量安装渗透工具。</p>
+      </div>
+      <div class="faq-item">
+        <h3>许可证与社区?</h3>
+        <p class="muted">f8x 采用 Apache License 2.0，已加入 404Team 星链计划 2.0。社区入口: https://github.com/knownsec/404StarLink2.0-Galaxy#community</p>
+      </div>
+    </section>
+
+    <footer>
+      <div>f8x · Apache License 2.0 · 由 ffffffff0x 构建</div>
+    </footer>
+  </div>
+</body>
+</html>

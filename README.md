@@ -1,5 +1,3 @@
-> Please replace all links involving the f8x.io address before 2026-06-01, as the domain will not be renewed thereafter.
-
 <h1 align="center">
   <br>
   <img src="./assets/img/banner2.png" width="300px" alt="f8x">
@@ -32,9 +30,6 @@ English | [简体中文](README.zh-cn.md)
 - github raw
   - wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
   - curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
-
-> Subsequent releases will not be updated, so it is recommended not to download old versions of f8x from releases.
-> The f8x.io domain will not be renewed after 2026-06-01; it is strongly advised not to download from the f8x.io domain.
 
 **usage**
 ```bash
