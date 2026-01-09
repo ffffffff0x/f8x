@@ -27,6 +27,10 @@ English | [简体中文](README.zh-cn.md)
 ## Start
 
 **Download**
+- EdgeOne Pages Link
+  - wget : `wget -O f8x https://f8x.wgpsec.org/f8x`
+  - curl : `curl -o f8x https://f8x.wgpsec.org/f8x`
+
 - github raw
   - wget : `wget -O f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`
   - curl : `curl -o f8x https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x`

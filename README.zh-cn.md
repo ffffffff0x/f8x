@@ -1,5 +1,3 @@
-> 请于 2026-06-01 前将涉及 f8x.io 地址的链接进行替换,后续不在续期
-
 <h1 align="center">
   <br>
   <img src="./assets/img/banner2.png" width="300px" alt="f8x">
