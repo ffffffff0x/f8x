@@ -80,6 +80,17 @@
       transition: all 0.2s ease;
     }
     nav a:hover { border-color: var(--accent); color: var(--text); background: rgba(255, 255, 255, 0.06); }
+    .lang-toggle {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.18s ease;
+    }
+    .lang-toggle:hover { border-color: var(--accent); background: rgba(255,255,255,0.08); }
     .hero {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -150,26 +161,27 @@
     <header>
       <div class="brand">
         <div class="logo-mark" aria-label="f8x">f8x</div>
-        <span>自动化部署工具</span>
+        <span data-i18n="brandTagline">自动化部署工具</span>
       </div>
       <nav>
-        <a href="#start">开始</a>
-        <a href="#options">选项</a>
-        <a href="#examples">示例</a>
-        <a href="#faq">FAQ</a>
+        <a href="#start" data-i18n="navStart">开始</a>
+        <a href="#options" data-i18n="navOptions">选项</a>
+        <a href="#examples" data-i18n="navExamples">示例</a>
+        <a href="#faq" data-i18n="navFaq">FAQ</a>
         <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
+      <button class="lang-toggle" id="langToggle" type="button">EN</button>
     </header>
 
     <div class="hero" id="start">
       <div>
-        <div class="eyebrow">Red/Blue Team Automation</div>
-        <h1>一键部署红蓝队与开发环境</h1>
-        <p class="lead">f8x 是面向渗透、蓝队、防护及日常开发的自动化部署工具。无需预装依赖，覆盖批量化安装、开发栈、红蓝队工具、Docker 场景和杂项服务。</p>
+        <div class="eyebrow" data-i18n="heroEyebrow">Red/Blue Team Automation</div>
+        <h1 data-i18n="heroTitle">一键部署红蓝队与开发环境</h1>
+        <p class="lead" data-i18n="heroLead">f8x 是面向渗透、蓝队、防护及日常开发的自动化部署工具。无需预装依赖，覆盖批量化安装、开发栈、红蓝队工具、Docker 场景和杂项服务。</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="https://f8x.wgpsec.org/f8x" download>下载 f8x (Pages 加速)</a>
-          <a class="btn btn-primary" href="https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x" download>下载 f8x (raw)</a>
-          <a class="btn btn-outline" href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer">查看仓库</a>
+          <a class="btn btn-primary" href="https://f8x.wgpsec.org/f8x" download data-i18n="heroCtaPages">下载 f8x (Pages 加速)</a>
+          <a class="btn btn-primary" href="https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x" download data-i18n="heroCtaRaw">下载 f8x (raw)</a>
+          <a class="btn btn-outline" href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer" data-i18n="heroCtaRepo">查看仓库</a>
         </div>
         <div class="code-block">wget -O f8x https://f8x.wgpsec.org/f8x && chmod +x f8x && bash f8x -h</div>
       </div>
@@ -177,60 +189,60 @@
     </div>
 
     <section id="highlights">
-      <h2>为什么选择 f8x</h2>
+      <h2 data-i18n="whyTitle">为什么选择 f8x</h2>
       <div class="grid">
         <div class="card">
-          <h3>多场景覆盖</h3>
-          <p>红队、蓝队、渗透、云、安全开发、代理环境一套脚本即可完成，无需手工搜集命令。</p>
+          <h3 data-i18n="whyCard1Title">多场景覆盖</h3>
+          <p data-i18n="whyCard1Body">红队、蓝队、渗透、云、安全开发、代理环境一套脚本即可完成，无需手工搜集命令。</p>
         </div>
         <div class="card">
-          <h3>即装即用</h3>
-          <p>自动检测基础依赖，按需拉起容器或源码编译，支持常见 Linux 发行版与 arm64。</p>
+          <h3 data-i18n="whyCard2Title">即装即用</h3>
+          <p data-i18n="whyCard2Body">自动检测基础依赖，按需拉起容器或源码编译，支持常见 Linux 发行版与 arm64。</p>
         </div>
         <div class="card">
-          <h3>可插拔选项</h3>
-          <p>通过参数自由组合批量化安装、渗透工具集、云工具与杂项服务，减少重复配置。</p>
+          <h3 data-i18n="whyCard3Title">可插拔选项</h3>
+          <p data-i18n="whyCard3Body">通过参数自由组合批量化安装、渗透工具集、云工具与杂项服务，减少重复配置。</p>
         </div>
         <div class="card">
-          <h3>自动化友好</h3>
-          <p>支持 CI/CD 无交互运行，只需在 /tmp 创建 IS_CI 文件即可批量验证环境。</p>
+          <h3 data-i18n="whyCard4Title">自动化友好</h3>
+          <p data-i18n="whyCard4Body">支持 CI/CD 无交互运行，只需在 /tmp 创建 IS_CI 文件即可批量验证环境。</p>
         </div>
       </div>
     </section>
 
     <section id="quickstart">
-      <h2>快速开始</h2>
+      <h2 data-i18n="quickTitle">快速开始</h2>
       <div class="grid">
         <div class="card">
-          <h3>下载并执行</h3>
+          <h3 data-i18n="quickCard1Title">下载并执行</h3>
           <div class="code-block">curl -o f8x https://f8x.wgpsec.org/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && f8x -h</div>
-          <p style="margin-top:10px; color: var(--muted);">或使用 wget，命令保持一致。</p>
+          <p style="margin-top:10px; color: var(--muted);" data-i18n="quickCard1Note">或使用 wget，命令保持一致。</p>
         </div>
         <div class="card">
-          <h3>常用入口</h3>
+          <h3 data-i18n="quickCard2Title">常用入口</h3>
           <ul class="list-tight">
-            <li>-b 安装基础环境 (gcc、make、git、vim 等)</li>
-            <li>-d 安装开发环境 (Python/Go/Docker 等)</li>
-            <li>-k 安装渗透工具集 (-ka/-kb/-kc/-kd/-ke)</li>
-            <li>-s 部署蓝队工具 (Fail2Ban、rkhunter 等)</li>
-            <li>-all 全自动部署 (兼容主流发行版)</li>
+            <li data-i18n="quickList1">-b 安装基础环境 (gcc、make、git、vim 等)</li>
+            <li data-i18n="quickList2">-d 安装开发环境 (Python/Go/Docker 等)</li>
+            <li data-i18n="quickList3">-k 安装渗透工具集 (-ka/-kb/-kc/-kd/-ke)</li>
+            <li data-i18n="quickList4">-s 部署蓝队工具 (Fail2Ban、rkhunter 等)</li>
+            <li data-i18n="quickList5">-all 全自动部署 (兼容主流发行版)</li>
           </ul>
         </div>
         <div class="card">
-          <h3>附加脚本</h3>
-          <p>CTF 环境: 下载 f8x-ctf</p>
+          <h3 data-i18n="quickCard3Title">附加脚本</h3>
+          <p data-i18n="quickCard3Ctf">CTF 环境: 下载 f8x-ctf</p>
           <div class="code-block">wget -O f8x-ctf https://f8x.wgpsec.org/f8x-ctf && bash f8x-ctf -help</div>
-          <p style="margin-top:12px;">中间件/数据库: 下载 f8x-dev</p>
+          <p style="margin-top:12px;" data-i18n="quickCard3Dev">中间件/数据库: 下载 f8x-dev</p>
           <div class="code-block">wget -O f8x-dev https://f8x.wgpsec.org/f8x-dev && bash f8x-dev -help</div>
         </div>
       </div>
     </section>
 
     <section id="options">
-      <h2>核心选项速览</h2>
+      <h2 data-i18n="optionsTitle">核心选项速览</h2>
       <div class="grid">
         <div class="card">
-          <h3>批量化安装</h3>
+          <h3 data-i18n="optionsCard1Title">批量化安装</h3>
           <div class="pill-row">
             <span class="pill">-b 基础</span>
             <span class="pill">-p 代理</span>
@@ -241,39 +253,39 @@
             <span class="pill">-cloud 云</span>
             <span class="pill">-all 全量</span>
           </div>
-          <p style="margin-top:10px; color: var(--muted);">根据场景选择组合参数，脚本自动完成环境拉起与工具安装。</p>
+          <p style="margin-top:10px; color: var(--muted);" data-i18n="optionsCard1Body">根据场景选择组合参数，脚本自动完成环境拉起与工具安装。</p>
         </div>
         <div class="card">
-          <h3>开发栈</h3>
-          <p class="muted">一键安装 Docker、Node.js、Go、JDK、Python2/3、Rust、Ruby、Perl、Lua、code-server 以及 Chromium/PhantomJS。</p>
+          <h3 data-i18n="optionsCard2Title">开发栈</h3>
+          <p class="muted" data-i18n="optionsCard2Body">一键安装 Docker、Node.js、Go、JDK、Python2/3、Rust、Ruby、Perl、Lua、code-server 以及 Chromium/PhantomJS。</p>
           <div class="pill-row">
             <span class="pill">-docker</span><span class="pill">-nn</span><span class="pill">-go</span><span class="pill">-oraclejdk</span><span class="pill">-py3</span><span class="pill">-rust</span><span class="pill">-code</span>
           </div>
         </div>
         <div class="card">
-          <h3>红队 & 基础设施</h3>
-          <p class="muted">CobaltStrike、Merlin、Sliver、MSF、RedGuard、AWVS、frp、nps、pupy 等主流工具一键部署。</p>
+          <h3 data-i18n="optionsCard3Title">红队 & 基础设施</h3>
+          <p class="muted" data-i18n="optionsCard3Body">CobaltStrike、Merlin、Sliver、MSF、RedGuard、AWVS、frp、nps、pupy 等主流工具一键部署。</p>
           <div class="pill-row">
             <span class="pill">-cs/-cs45</span><span class="pill">-msf</span><span class="pill">-sliver</span><span class="pill">-rg</span><span class="pill">-pupy</span><span class="pill">-awvs14</span><span class="pill">-frp</span>
           </div>
         </div>
         <div class="card">
-          <h3>蓝队 & 取证</h3>
-          <p class="muted">Fail2Ban、Suricata、binwalk/volatility/vol3、ClamAV、LogonTracer 等快速搭建。</p>
+          <h3 data-i18n="optionsCard4Title">蓝队 & 取证</h3>
+          <p class="muted" data-i18n="optionsCard4Body">Fail2Ban、Suricata、binwalk/volatility/vol3、ClamAV、LogonTracer 等快速搭建。</p>
           <div class="pill-row">
             <span class="pill">-binwalk</span><span class="pill">-suricata</span><span class="pill">-vol/-vol3</span><span class="pill">-clamav</span><span class="pill">-lt</span>
           </div>
         </div>
         <div class="card">
-          <h3>Docker 场景</h3>
-          <p class="muted">内置 ARL、MobSF、vulhub、vulfocus、nodejsscan、TerraformGoat 等镜像化方案。</p>
+          <h3 data-i18n="optionsCard5Title">Docker 场景</h3>
+          <p class="muted" data-i18n="optionsCard5Body">内置 ARL、MobSF、vulhub、vulfocus、nodejsscan、TerraformGoat 等镜像化方案。</p>
           <div class="pill-row">
             <span class="pill">-arl</span><span class="pill">-mobsf</span><span class="pill">-vulhub</span><span class="pill">-vulfocus</span><span class="pill">-nodejsscan</span><span class="pill">-TerraformGoat</span>
           </div>
         </div>
         <div class="card">
-          <h3>杂项服务</h3>
-          <p class="muted">asciinema、宝塔、clash、nginx、ssh、ssr、zsh 以及系统优化/清理/信息收集。</p>
+          <h3 data-i18n="optionsCard6Title">杂项服务</h3>
+          <p class="muted" data-i18n="optionsCard6Body">asciinema、宝塔、clash、nginx、ssh、ssr、zsh 以及系统优化/清理/信息收集。</p>
           <div class="pill-row">
             <span class="pill">-asciinema</span><span class="pill">-bt</span><span class="pill">-clash</span><span class="pill">-nginx</span><span class="pill">-ssh</span><span class="pill">-clear</span><span class="pill">-info</span><span class="pill">-optimize</span>
           </div>
@@ -282,14 +294,14 @@
     </section>
 
     <section id="examples">
-      <h2>实际效果</h2>
+      <h2 data-i18n="examplesTitle">实际效果</h2>
       <div class="grid">
         <div class="card">
-          <h3>-h 查看帮助</h3>
+          <h3 data-i18n="examplesCard1Title">-h 查看帮助</h3>
           <img src="./assets/img/1.png" alt="f8x help output">
         </div>
         <div class="card">
-          <h3>-all 全自动部署</h3>
+          <h3 data-i18n="examplesCard2Title">-all 全自动部署</h3>
           <ul class="list-tight">
             <li><a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY" target="_blank" rel="noreferrer">CentOS 7 演示</a></li>
             <li><a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt" target="_blank" rel="noreferrer">Debian 10 演示</a></li>
@@ -298,14 +310,14 @@
           </ul>
         </div>
         <div class="card">
-          <h3>CI/CD 运行</h3>
-          <p class="muted">非交互模式：创建 /tmp/IS_CI 后直接运行渗透环境安装。</p>
+          <h3 data-i18n="examplesCard3Title">CI/CD 运行</h3>
+          <p class="muted" data-i18n="examplesCard3Body">非交互模式：创建 /tmp/IS_CI 后直接运行渗透环境安装。</p>
           <div class="code-block">touch /tmp/IS_CI && f8x -k</div>
-          <p style="margin-top:10px; color: var(--muted);">可在流水线中批量验证工具链可用性。</p>
+          <p style="margin-top:10px; color: var(--muted);" data-i18n="examplesCard3Note">可在流水线中批量验证工具链可用性。</p>
         </div>
         <div class="card">
-          <h3>自定义版本</h3>
-          <p class="muted">在同目录下创建 f8x_version.sh 覆盖变量，按需固定工具版本。</p>
+          <h3 data-i18n="examplesCard4Title">自定义版本</h3>
+          <p class="muted" data-i18n="examplesCard4Body">在同目录下创建 f8x_version.sh 覆盖变量，按需固定工具版本。</p>
         </div>
       </div>
     </section>
@@ -313,16 +325,16 @@
     <section id="faq">
       <h2>FAQ</h2>
       <div class="faq-item">
-        <h3>-p 选项做什么?</h3>
-        <p class="muted">替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。</p>
+        <h3 data-i18n="faqQ1">-p 选项做什么?</h3>
+        <p class="muted" data-i18n="faqA1">替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。</p>
       </div>
       <div class="faq-item">
-        <h3>如何避免交互?</h3>
-        <p class="muted">创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x，例如触发 -k 批量安装渗透工具。</p>
+        <h3 data-i18n="faqQ2">如何避免交互?</h3>
+        <p class="muted" data-i18n="faqA2">创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x，例如触发 -k 批量安装渗透工具。</p>
       </div>
       <div class="faq-item">
-        <h3>许可证与社区?</h3>
-        <p class="muted">f8x 采用 Apache License 2.0，已加入 404Team 星链计划 2.0。社区入口: https://github.com/knownsec/404StarLink2.0-Galaxy#community</p>
+        <h3 data-i18n="faqQ3">许可证与社区?</h3>
+        <p class="muted" data-i18n="faqA3">f8x 采用 Apache License 2.0，已加入 404Team 星链计划 2.0。社区入口: https://github.com/knownsec/404StarLink2.0-Galaxy#community</p>
       </div>
     </section>
 
@@ -331,5 +343,157 @@
         <div style="margin-top:6px;">团队主页: <a href="https://www.wgpsec.org/" target="_blank" rel="noreferrer">https://www.wgpsec.org/</a></div>
     </footer>
   </div>
+  <script>
+    const i18n = {
+      zh: {
+        brandTagline: '自动化部署工具',
+        navStart: '开始',
+        navOptions: '选项',
+        navExamples: '示例',
+        navFaq: 'FAQ',
+        heroEyebrow: 'Red/Blue Team Automation',
+        heroTitle: '一键部署红蓝队与开发环境',
+        heroLead: 'f8x 是面向渗透、蓝队、防护及日常开发的自动化部署工具。无需预装依赖，覆盖批量化安装、开发栈、红蓝队工具、Docker 场景和杂项服务。',
+        heroCtaPages: '下载 f8x (Pages 加速)',
+        heroCtaRaw: '下载 f8x (raw)',
+        heroCtaRepo: '查看仓库',
+        whyTitle: '为什么选择 f8x',
+        whyCard1Title: '多场景覆盖',
+        whyCard1Body: '红队、蓝队、渗透、云、安全开发、代理环境一套脚本即可完成，无需手工搜集命令。',
+        whyCard2Title: '即装即用',
+        whyCard2Body: '自动检测基础依赖，按需拉起容器或源码编译，支持常见 Linux 发行版与 arm64。',
+        whyCard3Title: '可插拔选项',
+        whyCard3Body: '通过参数自由组合批量化安装、渗透工具集、云工具与杂项服务，减少重复配置。',
+        whyCard4Title: '自动化友好',
+        whyCard4Body: '支持 CI/CD 无交互运行，只需在 /tmp 创建 IS_CI 文件即可批量验证环境。',
+        quickTitle: '快速开始',
+        quickCard1Title: '下载并执行',
+        quickCard1Note: '或使用 wget，命令保持一致。',
+        quickCard2Title: '常用入口',
+        quickList1: '-b 安装基础环境 (gcc、make、git、vim 等)',
+        quickList2: '-d 安装开发环境 (Python/Go/Docker 等)',
+        quickList3: '-k 安装渗透工具集 (-ka/-kb/-kc/-kd/-ke)',
+        quickList4: '-s 部署蓝队工具 (Fail2Ban、rkhunter 等)',
+        quickList5: '-all 全自动部署 (兼容主流发行版)',
+        quickCard3Title: '附加脚本',
+        quickCard3Ctf: 'CTF 环境: 下载 f8x-ctf',
+        quickCard3Dev: '中间件/数据库: 下载 f8x-dev',
+        optionsTitle: '核心选项速览',
+        optionsCard1Title: '批量化安装',
+        optionsCard1Body: '根据场景选择组合参数，脚本自动完成环境拉起与工具安装。',
+        optionsCard2Title: '开发栈',
+        optionsCard2Body: '一键安装 Docker、Node.js、Go、JDK、Python2/3、Rust、Ruby、Perl、Lua、code-server 以及 Chromium/PhantomJS。',
+        optionsCard3Title: '红队 & 基础设施',
+        optionsCard3Body: 'CobaltStrike、Merlin、Sliver、MSF、RedGuard、AWVS、frp、nps、pupy 等主流工具一键部署。',
+        optionsCard4Title: '蓝队 & 取证',
+        optionsCard4Body: 'Fail2Ban、Suricata、binwalk/volatility/vol3、ClamAV、LogonTracer 等快速搭建。',
+        optionsCard5Title: 'Docker 场景',
+        optionsCard5Body: '内置 ARL、MobSF、vulhub、vulfocus、nodejsscan、TerraformGoat 等镜像化方案。',
+        optionsCard6Title: '杂项服务',
+        optionsCard6Body: 'asciinema、宝塔、clash、nginx、ssh、ssr、zsh 以及系统优化/清理/信息收集。',
+        examplesTitle: '实际效果',
+        examplesCard1Title: '-h 查看帮助',
+        examplesCard2Title: '-all 全自动部署',
+        examplesCard3Title: 'CI/CD 运行',
+        examplesCard3Body: '非交互模式：创建 /tmp/IS_CI 后直接运行渗透环境安装。',
+        examplesCard3Note: '可在流水线中批量验证工具链可用性。',
+        examplesCard4Title: '自定义版本',
+        examplesCard4Body: '在同目录下创建 f8x_version.sh 覆盖变量，按需固定工具版本。',
+        faqQ1: '-p 选项做什么?',
+        faqA1: '替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。',
+        faqQ2: '如何避免交互?',
+        faqA2: '创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x，例如触发 -k 批量安装渗透工具。',
+        faqQ3: '许可证与社区?',
+        faqA3: 'f8x 采用 Apache License 2.0，已加入 404Team 星链计划 2.0。社区入口: https://github.com/knownsec/404StarLink2.0-Galaxy#community'
+      },
+      en: {
+        brandTagline: 'Automation toolkit',
+        navStart: 'Start',
+        navOptions: 'Options',
+        navExamples: 'Examples',
+        navFaq: 'FAQ',
+        heroEyebrow: 'Red/Blue Team Automation',
+        heroTitle: 'Deploy red/blue and dev stacks in one go',
+        heroLead: 'f8x automates setup for pentest, blue team, defense, and daily development. No preinstalled dependencies needed; it covers batch installs, dev stacks, red/blue tools, Docker scenarios, and misc services.',
+        heroCtaPages: 'Download f8x (Pages CDN)',
+        heroCtaRaw: 'Download f8x (raw)',
+        heroCtaRepo: 'View repo',
+        whyTitle: 'Why f8x',
+        whyCard1Title: 'Multi-scenario coverage',
+        whyCard1Body: 'One script for red team, blue team, cloud, secure dev, and proxy environments—no manual command hunting.',
+        whyCard2Title: 'Ready on install',
+        whyCard2Body: 'Auto-detects prerequisites, builds or pulls as needed; supports mainstream Linux distros and arm64.',
+        whyCard3Title: 'Pluggable options',
+        whyCard3Body: 'Combine batch installs, pentest packs, cloud tools, and utilities via flags to cut repetitive setup.',
+        whyCard4Title: 'Automation-friendly',
+        whyCard4Body: 'CI/CD non-interactive ready—drop an IS_CI file in /tmp to validate environments at scale.',
+        quickTitle: 'Quick start',
+        quickCard1Title: 'Download and run',
+        quickCard1Note: 'Or use wget with the same commands.',
+        quickCard2Title: 'Common flags',
+        quickList1: '-b Install base tools (gcc, make, git, vim, etc.)',
+        quickList2: '-d Install dev stack (Python/Go/Docker, etc.)',
+        quickList3: '-k Install pentest kits (-ka/-kb/-kc/-kd/-ke)',
+        quickList4: '-s Deploy blue-team tools (Fail2Ban, rkhunter, etc.)',
+        quickList5: '-all Full auto deploy (major distros)',
+        quickCard3Title: 'Extra scripts',
+        quickCard3Ctf: 'CTF stack: get f8x-ctf',
+        quickCard3Dev: 'Middleware/DB: get f8x-dev',
+        optionsTitle: 'Core options at a glance',
+        optionsCard1Title: 'Batch installs',
+        optionsCard1Body: 'Mix and match flags; the script handles provisioning and installs automatically.',
+        optionsCard2Title: 'Dev stack',
+        optionsCard2Body: 'One-click Docker, Node.js, Go, JDK, Python2/3, Rust, Ruby, Perl, Lua, code-server, Chromium/PhantomJS.',
+        optionsCard3Title: 'Red team & infra',
+        optionsCard3Body: 'CobaltStrike, Merlin, Sliver, MSF, RedGuard, AWVS, frp, nps, pupy and more in one shot.',
+        optionsCard4Title: 'Blue team & forensics',
+        optionsCard4Body: 'Fail2Ban, Suricata, binwalk/volatility/vol3, ClamAV, LogonTracer, and more quickly provisioned.',
+        optionsCard5Title: 'Docker scenarios',
+        optionsCard5Body: 'Bundled ARL, MobSF, vulhub, vulfocus, nodejsscan, TerraformGoat images.',
+        optionsCard6Title: 'Misc services',
+        optionsCard6Body: 'asciinema, BT panel, clash, nginx, ssh, ssr, zsh plus system info/cleanup/optimizations.',
+        examplesTitle: 'In action',
+        examplesCard1Title: '-h Help view',
+        examplesCard2Title: '-all Full auto deploy',
+        examplesCard3Title: 'CI/CD run',
+        examplesCard3Body: 'Non-interactive: create /tmp/IS_CI then run pentest installs.',
+        examplesCard3Note: 'Validate toolchains in pipelines at scale.',
+        examplesCard4Title: 'Custom versions',
+        examplesCard4Body: 'Place f8x_version.sh nearby to pin/override versions.',
+        faqQ1: 'What does -p do?',
+        faqA1: 'Switches DNS, checks build basics, optionally compiles Proxychains-ng, asks for /etc/proxychains.conf, sets pip & docker mirrors and restarts docker.',
+        faqQ2: 'How to avoid prompts?',
+        faqA2: 'Create /tmp/IS_CI to run f8x non-interactively in CI/CD, e.g., for -k pentest kits.',
+        faqQ3: 'License and community?',
+        faqA3: 'f8x uses Apache License 2.0 and is part of 404Team StarLink 2.0. Community: https://github.com/knownsec/404StarLink2.0-Galaxy#community'
+      }
+    };
+
+    function applyLang(lang) {
+      const dict = i18n[lang] || i18n.zh;
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.dataset.i18n;
+        if (dict[key]) el.textContent = dict[key];
+      });
+      const toggle = document.getElementById('langToggle');
+      if (toggle) toggle.textContent = lang === 'en' ? '中文' : 'EN';
+      localStorage.setItem('f8x_lang', lang);
+    }
+
+    (function initLang() {
+      const stored = localStorage.getItem('f8x_lang');
+      const browser = (navigator.language || navigator.userLanguage || '').toLowerCase();
+      const preferred = stored || (browser.startsWith('en') ? 'en' : 'zh');
+      applyLang(preferred);
+      const toggle = document.getElementById('langToggle');
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          const next = (localStorage.getItem('f8x_lang') || preferred) === 'en' ? 'zh' : 'en';
+          applyLang(next);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
