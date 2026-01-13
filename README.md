@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/badge/platform-linux-important?color=%23942000">
     <img src="https://img.shields.io/badge/Category-automation-yellow.svg">
     <img src="https://img.shields.io/github/release/ffffffff0x/f8x"></a>
-    <img src="https://github.com/ffffffff0x/f8x/workflows/dev/badge.svg">
+    <img src="https://github.com/ffffffff0x/f8x/workflows/f8x/badge.svg">
 </p>
 
 English | [简体中文](README.zh-cn.md)
