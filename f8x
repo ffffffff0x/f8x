@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.8 Dev(2025/01/13)"
+F8x_Version="1.7.8 (2025/01/13)(fix)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -118,9 +118,9 @@ xray_bin_amd64="xray_linux_amd64"
 xray_File_arm64="xray_linux_arm64.zip"
 xray_bin_arm64="xray_linux_arm64"
 # https://github.com/shadow1ng/fscan/releases
-fscan_Ver="v2.0.1"
-fscan_Install_amd64="FScan_2.0.1_linux_x64"
-fscan_Install_arm64="FScan_2.0.1_linux_arm64"
+fscan_Ver="1.8.4"
+fscan_Install_amd64="fscan"
+fscan_Install_arm64="fscan_arm64"
 # https://github.com/ffuf/ffuf/releases
 ffuf_Ver="v2.1.0"
 ffuf_Install_amd64="ffuf_2.1.0_linux_amd64.tar.gz"
@@ -5140,7 +5140,7 @@ Pentest_bettercap_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/bettercap && cd /tmp/bettercap && go install github.com/bettercap/bettercap@latest
+        mkdir -p /tmp/bettercap && cd /tmp/bettercap && go install github.com/bettercap/bettercap/v2@latest
         mv $GOPATH/bin/bettercap /usr/local/bin/bettercap && chmod +x /usr/local/bin/bettercap || { mv /root/go/bin/bettercap /usr/local/bin/bettercap; chmod +x /usr/local/bin/bettercap; }
         rm -rf /tmp/bettercap && cd /tmp
         which bettercap > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
@@ -5404,7 +5404,7 @@ Pentest_hashcat_Install(){
         rm -rf /usr/sbin/hashcat
         mkdir -p /tmp/hashcat && cd /tmp && rm -f $hashcat_File && $Proxy_OK wget ${GitProxy}https://github.com/hashcat/hashcat/releases/download/$hashcat_Version/$hashcat_File > /dev/null 2>&1 || Echo_ERROR2
         7za x $hashcat_File -o/tmp/hashcat > /dev/null 2>&1
-        cp /tmp/hashcat/* $dir
+        cp /tmp/hashcat/hashcat-*/* $dir
         cd $dir && chmod +x hashcat.bin && cp hashcat.bin hashcat
         ln -s $dir/hashcat /usr/sbin/hashcat > /dev/null 2>&1
         which hashcat > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
