@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.7 Dev(2025/09/29)"
+F8x_Version="1.7.8 Dev(2025/01/13)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -65,11 +65,11 @@ ttyd_Ver="1.7.7"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
 # https://github.com/coder/code-server
-code_server_Ver="v4.103.2"
-code_server_bin1_amd64="code-server-4.103.2-amd64.rpm"
-code_server_bin2_amd64="code-server_4.103.2_amd64.deb"
-code_server_bin1_arm64="code-server-4.103.2-arm64.rpm"
-code_server_bin2_arm64="code-server_4.103.2_arm64.deb"
+code_server_Ver="v4.108.0"
+code_server_bin1_amd64="code-server-4.108.0-amd64.rpm"
+code_server_bin2_amd64="code-server_4.108.0_amd64.deb"
+code_server_bin1_arm64="code-server-4.108.0-arm64.rpm"
+code_server_bin2_arm64="code-server_4.108.0_arm64.deb"
 # https://www.python.org/downloads/
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -92,11 +92,11 @@ phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
 
 # ===================== Software version variable setting (pentest) =====================
 # https://github.com/fatedier/frp/releases
-frp_Ver="v0.64.0"
-frp_File_amd64="frp_0.64.0_linux_amd64.tar.gz"
-frp_File_arm64="frp_0.64.0_linux_arm64.tar.gz"
-frp_Dir_amd64="frp_0.64.0_linux_amd64"
-frp_Dir_arm64="frp_0.64.0_linux_arm64"
+frp_Ver="v0.66.0"
+frp_File_amd64="frp_0.66.0_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.66.0_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.66.0_linux_amd64"
+frp_Dir_arm64="frp_0.66.0_linux_arm64"
 # https://github.com/ehang-io/nps/releases
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
@@ -105,20 +105,18 @@ nps_File_arm64="linux_arm64_server.tar.gz"
 RedGuard_Ver="24.06.18"
 RedGuard_File_amd64="RedGuard_64"
 # https://github.com/RustScan/RustScan/releases
-RustScan_Version="2.0.1"
-RustScan_Install="rustscan_2.0.1_amd64.deb"
+RustScan_Version="2.4.1"
+RustScan_bin="rustscan.deb.zip"
+RustScan_Install="rustscan_2.4.1-1_amd64.deb"
 # https://github.com/boy-hack/ksubdomain/releases
-ksubdomain_Ver="v2.3.1"
-ksubdomain_Install="KSubdomain-v2.3.1-linux-amd64.zip"
+ksubdomain_Ver="v2.4.0"
+ksubdomain_Install="KSubdomain-v2.4.0-linux-amd64.zip"
 # https://github.com/chaitin/xray/releases
 xray_Ver="1.9.11"
 xray_File_amd64="xray_linux_amd64.zip"
 xray_bin_amd64="xray_linux_amd64"
 xray_File_arm64="xray_linux_arm64.zip"
 xray_bin_arm64="xray_linux_arm64"
-# https://github.com/gobysec/Goby/releases
-goby_Ver="Beta1.9.325"
-goby_File="goby-linux-x64-1.9.325.zip"
 # https://github.com/shadow1ng/fscan/releases
 fscan_Ver="v2.0.1"
 fscan_Install_amd64="FScan_2.0.1_linux_x64"
@@ -128,15 +126,12 @@ ffuf_Ver="v2.1.0"
 ffuf_Install_amd64="ffuf_2.1.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.1.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v3.4.10"
-Nuclei_Install_amd64="nuclei_3.4.10_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_3.4.10_linux_arm64.zip"
+Nuclei_Ver="v3.6.2"
+Nuclei_Install_amd64="nuclei_3.6.2_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_3.6.2_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
-merlin_Ver="v1.5.0"
+merlin_Ver="v2.1.4"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
-merlin_agent_windows="merlinAgent-Windows-x64.7z"
-merlin_agent_linux="merlinAgent-Linux-x64.7z"
-merlin_agent_darwin="merlinAgent-Darwin-x64.7z"
 # https://github.com/chaitin/rad/releases
 rad_Ver="1.0"
 rad_File_amd64="rad_linux_amd64.zip"
@@ -149,34 +144,23 @@ crawlergo_File_amd64="crawlergo_linux_amd64"
 crawlergo_File_arm64="crawlergo_linux_arm64"
 # https://github.com/gloxec/CrossC2/releases
 CrossC2_Ver="v3.3"
-# https://github.com/nodauf/Girsh/releases
-Girsh_Ver="v0.40"
-Girsh_bin_amd64="Girsh_0.40_linux_amd64.tar.gz"
-Girsh_bin_arm64="Girsh_0.40_linux_arm64.tar.gz"
-# https://github.com/bettercap/bettercap/releases
-#bettercap_Ver="v2.41.0"
-#bettercap_bin_amd64="bettercap_linux_amd64_v2.41.0.zip"
-#bettercap_bin_arm64="bettercap_linux_aarch64_v2.41.0.zip"
 # https://github.com/mitmproxy/mitmproxy/releases
-mitmproxy_Ver="12.1.2"
-mitmproxy_bin="mitmproxy-12.1.2-linux-x86_64.tar.gz"
+mitmproxy_Ver="12.2.1"
+mitmproxy_bin="mitmproxy-12.2.1-linux-x86_64.tar.gz"
 # https://github.com/projectdiscovery/naabu/releases
-naabu_Ver="v2.3.5"
-naabu_bin="naabu_2.3.5_linux_amd64.zip"
-# https://github.com/projectdiscovery/proxify/releases
-proxify_Ver="v0.0.16"
-proxify_bin_amd64="proxify_0.0.16_linux_amd64.zip"
-proxify_bin_arm64="proxify_0.0.16_linux_arm64.zip"
+naabu_Ver="v2.3.7"
+naabu_bin="naabu_2.3.7_linux_amd64.zip"
 # https://github.com/hashcat/hashcat/releases
-hashcat_Version="hashcat-7.1.2"
+hashcat_Version="v7.1.2"
+hashcat_File="hashcat-7.1.2.7z"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.8.0"
-subfinder_bin_amd64="subfinder_2.8.0_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.8.0_linux_arm64.zip"
+subfinder_Ver="v2.12.0"
+subfinder_bin_amd64="subfinder_2.12.0_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.12.0_linux_arm64.zip"
 # https://github.com/zan8in/afrog
-afrog_Ver="v3.2.0"
-afrog_File_amd64="afrog_3.2.0_linux_amd64.zip"
-afrog_File_arm64="afrog_3.2.0_linux_arm64.zip"
+afrog_Ver="v3.2.9"
+afrog_File_amd64="afrog_3.2.9_linux_amd64.zip"
+afrog_File_arm64="afrog_3.2.9_linux_arm64.zip"
 afrog_bin_amd64="afrog"
 afrog_bin_arm64="afrog"
 # https://github.com/SleepingBag945/dddd
@@ -184,27 +168,27 @@ dddd_Ver="v2.0.1"
 dddd_bin_amd64="dddd_linux64"
 dddd_bin_arm64="dddd_linux_arm64"
 # https://github.com/projectdiscovery/httpx/releases
-httpx_Ver="v1.7.1"
-httpx_bin_amd64="httpx_1.7.1_linux_amd64.zip"
-httpx_bin_arm64="httpx_1.7.1_linux_arm64.zip"
+httpx_Ver="v1.7.4"
+httpx_bin_amd64="httpx_1.7.4_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.7.4_linux_arm64.zip"
 # https://github.com/projectdiscovery/mapcidr/releases
-mapcidr_Ver="1.1.94"
-mapcidr_bin_amd64="mapcidr_1.1.94_linux_amd64.zip"
-mapcidr_bin_arm64="mapcidr_1.1.94_linux_arm64.zip"
+mapcidr_Ver="v1.1.97"
+mapcidr_bin_amd64="mapcidr_1.1.97_linux_amd64.zip"
+mapcidr_bin_arm64="mapcidr_1.1.97_linux_arm64.zip"
 # https://github.com/ffffffff0x/iprange/releases
-iprange_Ver="v1.0.1"
-iprange_bin_amd64="iprange_1.0.1_linux_amd64.tar.gz"
-iprange_bin_arm64="iprange_1.0.1_linux_arm64.tar.gz"
+iprange_Ver="v1.0.2"
+iprange_bin_amd64="iprange_1.0.2_linux_amd64.tar.gz"
+iprange_bin_arm64="iprange_1.0.2_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/dnsx/releases
-dnsx_Ver="v1.2.2"
-dnsx_bin_amd64="dnsx_1.2.2_linux_amd64.zip"
-dnsx_bin_arm64="dnsx_1.2.2_linux_arm64.zip"
+dnsx_Ver="v1.2.3"
+dnsx_bin_amd64="dnsx_1.2.3_linux_amd64.zip"
+dnsx_bin_arm64="dnsx_1.2.3_linux_arm64.zip"
 # https://github.com/iBotPeaches/Apktool/releases
-apktool_Ver="v2.12.0"
-apktool_bin="apktool_2.12.0.jar"
+apktool_Ver="v2.12.1"
+apktool_bin="apktool_2.12.1.jar"
 # https://github.com/lc/gau/releases
-gau_Ver="v2.2.3"
-gau_bin="gau_2.2.3_linux_amd64.tar.gz"
+gau_Ver="v2.2.4"
+gau_bin="gau_2.2.4_linux_amd64.tar.gz"
 # https://github.com/skylot/jadx/releases
 jadx_Ver="v1.5.3"
 jadx_bin="jadx-1.5.3.zip"
@@ -220,11 +204,9 @@ nali_Ver="v0.8.1"
 nali_bin_amd64="nali-linux-amd64-v0.8.1.gz"
 nali_bin_arm64="nali-linux-armv8-v0.8.1.gz"
 # https://github.com/hahwul/dalfox/releases
-dalfox_Ver="v2.8.2"
-dalfox_bin_amd64="dalfox_2.8.2_linux_amd64.tar.gz"
-dalfox_bin_arm64="dalfox_2.8.2_linux_arm64.tar.gz"
-# https://github.com/ffffffff0x/DomainSplit/releases
-DomainSplit_Ver="1.0"
+dalfox_Ver="v2.12.0"
+dalfox_bin_amd64="dalfox-linux-amd64.tar.gz"
+dalfox_bin_arm64="dalfox-linux-arm64.tar.gz"
 # https://github.com/WangYihang/Platypus/releases
 Platypus_Ver="v1.5.1"
 Platypus_bin_amd64="Platypus_linux_amd64"
@@ -249,10 +231,6 @@ unfurl_Bin="unfurl-linux-amd64-0.4.3.tgz"
 # https://github.com/tomnomnom/qsreplace/releases
 qsreplace_Ver="v0.0.3"
 qsreplace_bin="qsreplace-linux-amd64-0.0.3.tgz"
-# https://github.com/jaeles-project/jaeles/releases
-jaeles_Ver="beta-v0.17"
-jaeles_bin="jaeles-v0.17-linux.zip"
-jaeles_sbin="jaeles-v0.17-linux"
 # https://github.com/lc/subjs/releases
 subjs_Ver="v1.0.1"
 subjs_bin="subjs_1.0.1_linux_amd64.tar.gz"
@@ -263,13 +241,6 @@ assetfinder_bin="assetfinder-linux-amd64-0.1.1.tgz"
 dismap_Ver="v0.4"
 dismap_bin_amd64="dismap-0.4-linux-amd64"
 dismap_bin_arm64="dismap-0.4-linux-arm64"
-# https://github.com/robhax/gojwtcrack/releases
-gojwtcrack_Ver="0.1"
-gojwtcrack_bin="gojwtcrack-linux-amd64.gz"
-# https://github.com/fofapro/fapro/releases
-fapro_Ver="v0.65"
-fapro_bin_amd64="fapro_linux_x86_64.tar.gz"
-fapro_bin_arm64="fapro_linux_arm64.tar.gz"
 # https://github.com/wh1t3p1g/ysomap/releases
 ysomap_Ver="v0.1.5"
 ysomap_bin="ysomap.jar"
@@ -290,9 +261,11 @@ interactsh_server_bin_amd64="interactsh-server_1.2.4_Linux_amd64.zip"
 interactsh_client_bin_arm64="interactsh-client_1.2.4_Linux_arm64.zip"
 interactsh_server_bin_arm64="interactsh-server_1.2.4_Linux_arm64.zip"
 # https://github.com/BishopFox/sliver/releases
-sliver_Ver="v1.5.42"
-sliver_bin_Server="sliver-server_linux"
-sliver_bin_Client="sliver-client_linux"
+sliver_Ver="v1.6.2"
+sliver_Server_bin_amd64="sliver-server_linux-amd64"
+sliver_Server_bin_arm64="sliver-server_linux-arm64"
+sliver_Client_bin_amd64="sliver-client_linux-amd64"
+sliver_Client_bin_arm64="sliver-client_linux-arm64"
 # https://github.com/mstxq17/MoreFind/releases
 MoreFind_Ver="v1.5.7"
 MoreFind_bin_amd64="MoreFind_v1.5.7_linux_x86_64.tar.gz"
@@ -309,13 +282,13 @@ cf_Install_arm64="cf_v0.5.0_linux_arm64.tar.gz"
 ysuserial_Ver="v1.5"
 ysuserial_bin="ysuserial-1.5-su18-all.jar"
 # https://github.com/projectdiscovery/katana
-katana_Ver="v1.2.2"
-katana_bin_amd64="katana_1.2.2_linux_amd64.zip"
-katana_bin_arm64="katana_1.2.2_linux_arm64.zip"
+katana_Ver="v1.4.0"
+katana_bin_amd64="katana_1.4.0_linux_amd64.zip"
+katana_bin_arm64="katana_1.4.0_linux_arm64.zip"
 # https://github.com/projectdiscovery/uncover
-uncover_Ver="v0.0.9"
-uncover_bin_amd64="uncover_0.0.9_linux_amd64.zip"
-uncover_bin_arm64="uncover_0.0.9_linux_arm64.zip"
+uncover_Ver="v1.2.0"
+uncover_bin_amd64="uncover_1.2.0_linux_amd64.zip"
+uncover_bin_arm64="uncover_1.2.0_linux_arm64.zip"
 # https://github.com/pmiaowu/HostCollision
 HostCollision_Ver="HostCollision-2.2.9"
 HostCollision_Bin="HostCollision-2.2.9.zip"
@@ -325,15 +298,15 @@ asnmap_Ver="v1.1.1"
 asnmap_bin_amd64="asnmap_1.1.1_linux_amd64.zip"
 asnmap_bin_arm64="asnmap_1.1.1_linux_arm64.zip"
 # https://github.com/projectdiscovery/tlsx
-tlsx_Ver="v1.2.1"
-tlsx_bin_amd64="tlsx_1.2.1_linux_amd64.zip"
-tlsx_bin_arm64="tlsx_1.2.1_linux_arm64.zip"
+tlsx_Ver="v1.2.2"
+tlsx_bin_amd64="tlsx_1.2.2_linux_amd64.zip"
+tlsx_bin_arm64="tlsx_1.2.2_linux_arm64.zip"
 # https://github.com/chainreactors/gogo
-gogo_Ver="v2.14.0"
+gogo_Ver="v2.14.1"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
 # https://github.com/chainreactors/spray
-spray_Ver="v1.2.2"
+spray_Ver="v1.2.3"
 spray_File_amd64="spray_linux_amd64"
 spray_File_arm64="spray_linux_arm64"
 # https://github.com/chainreactors/zombie
@@ -351,23 +324,23 @@ kerbrute_Ver="v1.0.3"
 Adinfo_bin="Adinfo_linux"
 Adinfo_Ver="v0.3"
 # https://github.com/zema1/suo5
-suo5_Ver="v1.3.1"
+suo5_Ver="v2.0.0"
 suo5_bin_amd64="suo5-linux-amd64"
 suo5_bin_arm64="suo5-linux-arm64"
 # https://github.com/projectdiscovery/alterx
-alterx_Ver="v0.0.6"
-alterx_bin_amd64="alterx_0.0.6_linux_amd64.zip"
-alterx_bin_arm64="alterx_0.0.6_linux_arm64.zip"
+alterx_Ver="v0.1.0"
+alterx_bin_amd64="alterx_0.1.0_linux_amd64.zip"
+alterx_bin_arm64="alterx_0.1.0_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.65"
+AdGuardHome_Version="v0.107.71"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="v0.65.2"
-fzf_bin_amd64="fzf-0.65.2-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.65.2-linux_arm64.tar.gz"
+fzf_Ver="v0.67.0"
+fzf_bin_amd64="fzf-0.67.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.67.0-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
 lux_Ver="v0.24.1"
 lux_bin_amd64="lux_0.24.1_Linux_x86_64.tar.gz"
@@ -377,19 +350,19 @@ gron_Ver="v0.7.1"
 gron_bin_amd64="gron-linux-amd64-0.7.1.tgz"
 gron_bin_arm64="gron-linux-arm64-0.7.1.tgz"
 # https://github.com/abhimanyu003/sttr/releases
-sttr_Ver="v0.2.27"
+sttr_Ver="v0.2.30"
 sttr_bin_amd64="sttr_Linux_x86_64.tar.gz"
 sttr_bin_arm64="sttr_Linux_arm64.tar.gz"
 # https://github.com/sharkdp/bat/releases
-bat_Ver="v0.25.0"
-bat_bin_amd64="bat-musl_0.25.0_musl-linux-amd64.deb"
-bat_bin_arm64="bat-musl_0.25.0_musl-linux-i686.deb"
+bat_Ver="v0.26.1"
+bat_bin_amd64="bat-musl_0.26.1_musl-linux-amd64.deb"
+bat_bin_arm64="bat-musl_0.26.1_musl-linux-i686.deb"
 # https://github.com/muesli/duf/releases
-duf_Ver="v0.9.0"
-duf_bin1_amd64="duf_0.9.0_linux_amd64.rpm"
-duf_bin2_amd64="duf_0.9.0_linux_amd64.deb"
-duf_bin1_arm64="duf_0.9.0_linux_arm64.rpm"
-duf_bin2_arm64="duf_0.9.0_linux_arm64.deb"
+duf_Ver="v0.9.1"
+duf_bin1_amd64="duf_0.9.1_linux_amd64.rpm"
+duf_bin2_amd64="duf_0.9.1_linux_amd64.deb"
+duf_bin1_arm64="duf_0.9.1_linux_arm64.rpm"
+duf_bin2_arm64="duf_0.9.1_linux_arm64.deb"
 # https://github.com/dalance/procs/releases
 procs_Ver="v0.14.10"
 procs_bin="procs-v0.14.10-x86_64-linux.zip"
@@ -398,19 +371,19 @@ fd_Ver="v10.3.0"
 fd_bin_amd64="fd_10.3.0_amd64.deb"
 fd_bin_arm64="fd_10.3.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.13.2"
-Terraform_bin_amd64="terraform_1.13.2_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.13.2_linux_arm64.zip"
+Terraform_Ver="1.14.3"
+Terraform_bin_amd64="terraform_1.14.3_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.14.3_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.0.301"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.0.301-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.0.301-arm64.tgz"
+aliyun_cli_Ver="v3.2.6"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.2.6-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.2.6-arm64.tgz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.47.2"
+yq_Ver="v4.50.1"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
@@ -5422,20 +5395,20 @@ Pentest_PKINITtools_Install(){
 Pentest_hashcat_Install(){
 
     name="hashcat"
-    dir="$P_Dir/${hashcat_Version}"
+    dir="$P_Dir/hashcat${hashcat_Version}"
 
     if test -d $dir
     then
         Echo_ALERT "$name is already installed in $dir"
     else
         rm -rf /usr/sbin/hashcat
-        rm -rf $P_Dir/hashcat-6.2.*
-        $Proxy_OK wget -O $P_Dir/${hashcat_Version}.7z ${GitProxy2}https://hashcat.net/files/${hashcat_Version}.7z --no-check-certificate ${wget_option} > /dev/null 2>&1 && Echo_INFOR "Downloaded ${hashcat_Version}" || Echo_ERROR2
-        7za x $P_Dir/${hashcat_Version}.7z -o$P_Dir > /dev/null 2>&1
-        rm -f $P_Dir/${hashcat_Version}.7z > /dev/null 2>&1
-        cd $P_Dir/hashcat* > /dev/null 2>&1 && chmod +x hashcat.bin && cp hashcat.bin hashcat
-        ln -s $P_Dir/${hashcat_Version}/hashcat /usr/sbin/hashcat > /dev/null 2>&1
+        mkdir -p /tmp/hashcat && cd /tmp && rm -f $hashcat_File && $Proxy_OK wget ${GitProxy}https://github.com/hashcat/hashcat/releases/download/$hashcat_Version/$hashcat_File > /dev/null 2>&1 || Echo_ERROR2
+        7za x $hashcat_File -o/tmp/hashcat > /dev/null 2>&1
+        cp /tmp/hashcat/* $dir
+        cd $dir && chmod +x hashcat.bin && cp hashcat.bin hashcat
+        ln -s $dir/hashcat /usr/sbin/hashcat > /dev/null 2>&1
         which hashcat > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        rm -rf /tmp/hashcat && cd /tmp
     fi
 
     if test -e $P_Dir/7z2hashcat.pl
@@ -5618,35 +5591,6 @@ Pentest_mapcidr_Install(){
         mv --force mapcidr /usr/local/bin/mapcidr && chmod +x /usr/local/bin/mapcidr
         mapcidr -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $mapcidr_Ver in the /usr/local/bin/" || Echo_ERROR3
         rm -rf /tmp/mapcidr && cd /tmp
-    fi
-
-}
-
-# 建议使用 mapcidr
-# ===================== Install iprange =====================
-Pentest_iprange_Install(){
-
-    case $Linux_architecture_Name in
-        *"linux-x86_64"*)
-            iprange_bin=$iprange_bin_amd64
-            ;;
-        *"linux-arm64"*)
-            iprange_bin=$iprange_bin_arm64
-            ;;
-    esac
-
-    name="iprange"
-    which iprange > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        mkdir -p /tmp/iprange && cd /tmp/iprange && rm -f $iprange_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/ffffffff0x/iprange/releases/download/$iprange_Ver/$iprange_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $iprange_bin > /dev/null 2>&1
-        mv --force iprange /usr/local/bin/iprange && chmod +x /usr/local/bin/iprange
-        rm -rf /tmp/iprange && cd /tmp
-        which iprange > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $iprange_Ver in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -5896,103 +5840,6 @@ Pentest_sttr_Install(){
 
 }
 
-# ===================== Install jwtcat =====================
-Pentest_jwtcat_Install(){
-
-    name="jwtcat"
-    dir="$P_Dir/jwtcat"
-
-    if test -d $dir
-    then
-        Echo_ALERT "$name is already installed in $dir"
-    else
-        cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/aress31/jwtcat.git $dir > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && Install_Switch6 "requirements.txt"
-        python3 jwtcat.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
-    fi
-
-}
-
-# ===================== Install gojwtcrack =====================
-Pentest_gojwtcrack_Install(){
-
-    name="gojwtcrack"
-    which gojwtcrack > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        case $Linux_architecture_Name in
-            *"linux-x86_64"*)
-                mkdir -p /tmp/gojwtcrack && cd /tmp/gojwtcrack && $Proxy_OK wget ${GitProxy}https://github.com/x1sec/gojwtcrack/releases/download/${gojwtcrack_Ver}/${gojwtcrack_bin} > /dev/null 2>&1 || Echo_ERROR2
-                gunzip ${gojwtcrack_bin} > /dev/null 2>&1
-                mv gojwtcrack-linux-* /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack
-                rm -rf /tmp/gojwtcrack && cd /tmp
-                which gojwtcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name ${gojwtcrack_Ver} in the /usr/local/bin/" || Echo_ERROR3
-                ;;
-            *"linux-arm64"*)
-                mkdir -p /tmp/gojwtcrack && cd /tmp/gojwtcrack && go install github.com/x1sec/gojwtcrack@latest
-                mv $GOPATH/bin/gojwtcrack /usr/local/bin/gojwtcrack && chmod +x /usr/local/bin/gojwtcrack || { mv /root/go/bin/gojwtcrack /usr/local/bin/gojwtcrack; chmod +x /usr/local/bin/gojwtcrack; }
-                rm -rf /tmp/gojwtcrack && cd /tmp
-                which gojwtcrack > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
-                ;;
-        esac
-    fi
-
-}
-
-# 域名分割工具,默认不安装
-# ===================== Install DomainSplit =====================
-Pentest_DomainSplit_Install(){
-
-    name="DomainSplit"
-    dir="$P_Dir/DomainSplit"
-
-    if test -e $dir/DomainSplit.jar
-    then
-        Echo_ALERT "$name is already installed in $dir"
-    else
-        mkdir -p $dir && cd $_ && rm -f DomainSplit.jar > /dev/null 2>&1 && $Proxy_OK wget -O DomainSplit.jar ${GitProxy}https://github.com/ffffffff0x/DomainSplit/releases/download/$DomainSplit_Ver/DomainSplit.jar > /dev/null 2>&1 || Echo_ERROR2
-        if test -e $dir/DomainSplit.jar
-        then
-            Echo_INFOR "Successfully installed $name in the $dir"
-        else
-            Echo_ERROR3
-        fi
-    fi
-
-}
-
-# 实际使用较少,默认不安装
-# ===================== Install proxify =====================
-Pentest_proxify_Install(){
-
-    case $Linux_architecture_Name in
-        *"linux-x86_64"*)
-            proxify_bin=$proxify_bin_amd64
-            ;;
-        *"linux-arm64"*)
-            proxify_bin=$proxify_bin_arm64
-            ;;
-    esac
-
-    name="proxify"
-    which proxify > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        mkdir -p /tmp/proxify && cd /tmp/proxify && rm -f $proxify_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/proxify/releases/download/$proxify_Ver/$proxify_bin > /dev/null 2>&1 || Echo_ERROR2
-        unzip $proxify_bin > /dev/null 2>&1
-        mv --force proxify /usr/local/bin/proxify && chmod +x /usr/local/bin/proxify
-        proxify -version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $proxify_Ver in the /usr/local/bin/" || Echo_ERROR3
-        rm -rf /tmp/proxify && cd /tmp
-    fi
-
-}
-
 # 体积太大,默认放 E 分类
 # ===================== SecLists =====================
 Pentest_SecLists_Install(){
@@ -6004,62 +5851,6 @@ Pentest_SecLists_Install(){
         Echo_ALERT "$name dictionary already exists"
     else
         rm -rf $P_Dir/$name > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/danielmiessler/SecLists.git $P_Dir/$name > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $P_Dir/$name" || Echo_ERROR "Failed to download the $name dictionary from github"
-    fi
-
-}
-
-# ===================== Install jaeles =====================
-Pentest_jaeles_Install(){
-
-    name="jaeles"
-    which jaeles > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        case $Linux_architecture_Name in
-            *"linux-x86_64"*)
-                mkdir -p /tmp/jaeles && cd /tmp/jaeles && rm -f $jaeles_bin && $Proxy_OK wget ${GitProxy}https://github.com/jaeles-project/jaeles/releases/download/$jaeles_Ver/$jaeles_bin > /dev/null 2>&1 || Echo_ERROR2
-                unzip $jaeles_bin > /dev/null 2>&1
-                mv $jaeles_sbin /usr/local/bin/jaeles && chmod +x /usr/local/bin/jaeles
-                rm -rf /tmp/jaeles && cd /tmp
-                which jaeles > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $jaeles_Ver in the /usr/local/bin/" || Echo_ERROR3
-                ;;
-            *"linux-arm64"*)
-                mkdir -p /tmp/jaeles && cd /tmp/jaeles && go install github.com/jaeles-project/jaeles@latest
-                mv $GOPATH/bin/jaeles /usr/local/bin/jaeles && chmod +x /usr/local/bin/jaeles || { mv /root/go/bin/jaeles /usr/local/bin/jaeles; chmod +x /usr/local/bin/jaeles; }
-                rm -rf /tmp/jaeles && cd /tmp
-                which jaeles > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
-                ;;
-        esac
-    fi
-
-}
-
-# ===================== Install Girsh =====================
-Pentest_Girsh_Install(){
-
-    case $Linux_architecture_Name in
-        *"linux-x86_64"*)
-            Girsh_bin=$Girsh_bin_amd64
-            ;;
-        *"linux-arm64"*)
-            Girsh_bin=$Girsh_bin_arm64
-            ;;
-    esac
-
-    name="Girsh"
-    which Girsh > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        mkdir -p /tmp/Girsh && cd /tmp/Girsh && rm -f $Girsh_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/nodauf/Girsh/releases/download/$Girsh_Ver/$Girsh_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $Girsh_bin > /dev/null 2>&1
-        mv --force Girsh /usr/local/bin/ && chmod +x /usr/local/bin/Girsh && Echo_INFOR "Successfully installed $name $Girsh_Ver in the /usr/local/bin/" || Echo_ERROR3
-        rm -rf /tmp/Girsh && cd /tmp
     fi
 
 }
@@ -6161,32 +5952,6 @@ Pentest_hakrawler_Install(){
 
 }
 
-# ===================== Install routersploit =====================
-Pentest_routersploit_Install(){
-
-    name="routersploit"
-    dir="$P_Dir/routersploit"
-
-    if test -d $dir
-    then
-        Echo_ALERT "$name is already installed in $dir"
-    else
-        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/threat9/routersploit.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        Echo_ALERT "Installing dependency modules" && Install_Switch7 "requirements.txt" && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
-        case $Linux_Version in
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                Echo_ALERT "Installing Bluetooth Low Energy support"
-                Rm_Lock
-                Install_Switch "libglib2.0-dev"
-                Install_Switch5 "bluepy"
-                ;;
-            *) ;;
-        esac
-
-    fi
-
-}
-
 Pentest_simplehttpservert_Install(){
 
     case $Linux_architecture_Name in
@@ -6247,88 +6012,16 @@ Pentest_RustScan_Install(){
                 $Proxy_OK dnf install -y 'dnf-command(copr)' > /dev/null 2>&1 && $Proxy_OK dnf copr enable atim/rustscan -y > /dev/null 2>&1 && $Proxy_OK dnf install -y rustscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                mkdir -p /tmp/rustscan && cd /tmp/rustscan && rm -f $RustScan_Install && $Proxy_OK wget ${GitProxy}https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_Install > /dev/null 2>&1 || Echo_ERROR2
+            RustScan_bin
+                mkdir -p /tmp/rustscan && cd /tmp/rustscan
+                rm -f $RustScan_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/RustScan/RustScan/releases/download/$RustScan_Version/$RustScan_bin > /dev/null 2>&1 || Echo_ERROR2
+                unzip $RustScan_bin > /dev/null 2>&1
                 dpkg -i $RustScan_Install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 rm -rf /tmp/rustscan && cd /tmp
                 ;;
             *) ;;
         esac
 
-    fi
-
-}
-
-# 使用较少,默认不安装
-# ===================== Install WAFW00F =====================
-Pentest_WAFW00F_Install(){
-
-    name="WAFW00F"
-    dir="$P_Dir/wafw00f"
-
-    which wafw00f > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        rm -rf $dir && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/EnableSecurity/wafw00f $dir > /dev/null 2>&1 || Echo_ERROR2
-        cd $dir && python3 setup.py install > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
-    fi
-
-}
-
-# 依赖库报错,默认不安装
-# ===================== Install WebAliveScan =====================
-Pentest_WebAliveScan_Install(){
-
-    name="WebAliveScan"
-    dir="$P_Dir/WebAliveScan"
-
-    if test -d $dir
-    then
-        Echo_ALERT "$name is already installed in $dir"
-    else
-        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/broken5/WebAliveScan.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        Install_Switch7 "requirements.txt" && Echo_INFOR "Installed dependency modules" && Install_Switch4 "gevent" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
-        python3 webscan.py --help > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
-    fi
-
-}
-
-# 实际使用较少默认不安装
-# ===================== Install MassBleed =====================
-Pentest_MassBleed_Install(){
-
-    name="MassBleed"
-    dir="$P_Dir/MassBleed"
-
-    if test -d $dir
-    then
-        Echo_ALERT "$name is already installed in $dir"
-    else
-        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/1N3/MassBleed.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
-    fi
-
-}
-
-# 实际使用较少默认不安装
-# ===================== Install jmet =====================
-Pentest_jmet_Install(){
-
-    name="jmet"
-    dir="$P_Dir/jmet"
-
-    if test -e $dir/jmet.jar
-    then
-        Echo_ALERT "$name is already installed in $dir"
-    else
-        mkdir -p $dir && cd $_ && rm -f jmet.jar > /dev/null 2>&1 && $Proxy_OK wget -O jmet.jar ${GitProxy2}https://github.com/matthiaskaiser/jmet/releases/download/0.1.0/jmet-0.1.0-all.jar > /dev/null 2>&1 || Echo_ERROR2
-        if test -e $dir/jmet.jar
-        then
-            Echo_INFOR "Successfully installed $name in the $dir"
-        else
-            Echo_ERROR3
-        fi
     fi
 
 }
@@ -6357,22 +6050,6 @@ Secure_Fail2Ban_Install(){
         Install_Switch "fail2ban"
         systemctl restart fail2ban > /dev/null 2>&1 && sleep 1.5
         fail2ban-client ping
-    fi
-
-}
-
-# ===================== Install chkrootkit =====================
-Secure_chkrootkit_Install(){
-
-    name="chkrootkit"
-
-    if test -d $T_Dir/chkrootkit-*
-    then
-        Echo_ALERT "$name is already installed in $T_Dir/"
-    else
-        cd $T_Dir && rm -f chkrootkit.tar.gz > /dev/null 2>&1 && $Proxy_OK wget ftp://ftp.pangeia.com.br/pub/seg/pac/chkrootkit.tar.gz > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        tar zxvf chkrootkit.tar.gz > /dev/null 2>&1 && rm -f chkrootkit.tar.gz > /dev/null 2>&1
-        cd chkrootkit-* && make sense > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $T_Dir" || Echo_ERROR3
     fi
 
 }
@@ -6445,33 +6122,6 @@ Secure_BruteShark_Install(){
         esac
         mkdir -p $T_Dir/BruteShark && cd $_ && $Proxy_OK wget ${GitProxy}https://github.com/odedshimon/BruteShark/releases/latest/download/BruteSharkCli > /dev/null 2>&1 && chmod +x BruteSharkCli && Echo_INFOR "Downloaded $name in the $dir " || Echo_ERROR2
         find /usr/lib/x86_64-linux-gnu -type f | grep libpcap | head -1 | xargs -i sudo ln -s {} /usr/lib/x86_64-linux-gnu/libpcap.so > /dev/null 2>&1
-    fi
-
-}
-
-# ===================== Install fapro =====================
-Secure_fapro_Install(){
-
-    case $Linux_architecture_Name in
-        *"linux-x86_64"*)
-            fapro_bin=$fapro_bin_amd64
-            ;;
-        *"linux-arm64"*)
-            fapro_bin=$fapro_bin_arm64
-            ;;
-    esac
-
-    name="fapro"
-    which fapro > /dev/null 2>&1
-
-    if [ $? == 0 ]
-    then
-        Echo_ALERT "$name installed"
-    else
-        mkdir -p /tmp/fapro && cd /tmp/fapro && rm -f $fapro_bin && $Proxy_OK wget ${GitProxy}https://github.com/fofapro/fapro/releases/download/$fapro_Ver/$fapro_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxvf $fapro_bin > /dev/null 2>&1
-        mv --force fapro /usr/local/bin/ && chmod +x /usr/local/bin/fapro && Echo_INFOR "Successfully installed $name $fapro_Ver in the /usr/local/bin/" || Echo_ERROR3
-        rm -rf /tmp/fapro && cd /tmp
     fi
 
 }
@@ -8128,48 +7778,6 @@ TerraformGoat_Install(){
 
 }
 
-# -goby
-Goby_Install(){
-
-    name="goby"
-    echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
-
-    if test -d $P_Dir/goby
-    then
-        Echo_INFOR "Goby is already installed in $P_Dir/goby, Please run through the following command:\ncd $P_Dir/goby/goby* && ./goby (Graphical interface required)"
-    else
-
-        Rm_Lock
-        case $Linux_Version in
-            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-                Install_Switch "libXScrnSaver*"
-                ;;
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                Install_Switch "libgconf2"
-                ;;
-            *) ;;
-        esac
-
-        Echo_ALERT "Downloading Goby(~120M)"
-        cd $P_Dir && mkdir -p $P_Dir/goby > /dev/null 2>&1 && $Proxy_OK wget https://cn.gobies.org/$goby_File ${wget_option} || Echo_ERROR "$goby_File download failed"
-        unzip $goby_File -d $P_Dir/goby > /dev/null 2>&1 && rm -f $goby_File && Echo_INFOR "Goby $goby_Ver in the $P_Dir/goby, Please run through the following command:\ncd $P_Dir/goby/goby* && ./goby (Graphical interface required)" || Echo_ERROR3
-    fi
-
-    if test -d $P_Dir/goby
-    then
-
-        echo -e "\033[5;33m\nSet up server-side account(Special characters should be preceded by a backslash \"\\\" Escape)\033[0m" && read -r input
-        Goby_User=$input
-        echo -e "\033[5;33m\nSet server-side password(Special characters should be preceded by a backslash \"\\\" Escape)\033[0m" && read -r input
-        Goby_Pass=$input
-        Echo_INFOR "请运行以下命令:\n\033[0m\033[1;32mcd $P_Dir/goby/goby*/golib && nohup ./goby-cmd-linux -apiauth $Goby_User:$Goby_Pass -mode api -bind 0.0.0.0:8361 & "
-
-    else
-        Echo_ERROR "Goby is not installed, or is not in the specified path"
-    fi
-
-}
-
 awvs15_Install_secfa(){
 
     Docker_Check
@@ -8729,6 +8337,15 @@ merlin_Install(){
     name="merlin"
     echo -e "\033[1;33m\n>> Installing $name\n\033[0m"
 
+    dir="$P_Dir/merlin"
+
+    if test -d $dir
+    then
+        Echo_INFOR "Merlin Agent Folder     : $dir"
+    else
+        mkdir $dir
+    fi
+
     which merlinServer > /dev/null 2>&1
     if [ $? == 0 ]
     then
@@ -8738,29 +8355,8 @@ merlin_Install(){
         mkdir -p /tmp/merlin && cd /tmp/merlin && rm -f ${merlin_Install_amd64} > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_Install_amd64 > /dev/null 2>&1 || Echo_ERROR2
         7za x -pmerlin ${merlin_Install_amd64} > /dev/null 2>&1
         mv --force merlinServer-Linux-x64 /usr/local/bin/merlinServer && chmod +x /usr/local/bin/merlinServer
-        rm -rf /tmp/merlin && cd /tmp
         which merlinServer > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $merlin_Ver in the /usr/local/bin/" && Echo_INFOR "Merlin Server Command   : merlinServer" || Echo_ERROR3
-    fi
-
-    dir="$P_Dir/merlinAgent"
-
-    if test -d $dir
-    then
-        Echo_INFOR "Merlin Agent Folder     : $dir"
-    else
-        mkdir $dir
-        mkdir -p /tmp/merlin && cd /tmp/merlin && rm -f ${merlin_agent_windows} > /dev/null 2>&1 && rm -f ${merlin_agent_linux} > /dev/null 2>&1 && rm -f ${merlin_agent_darwin} > /dev/null 2>&1
-        $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_agent_windows > /dev/null 2>&1 || Echo_ERROR2
-        $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_agent_linux > /dev/null 2>&1 || Echo_ERROR2
-        $Proxy_OK wget ${GitProxy}https://github.com/Ne0nd0g/merlin/releases/download/$merlin_Ver/$merlin_agent_darwin > /dev/null 2>&1 || Echo_ERROR2
-        7za x -pmerlin ${merlin_agent_windows} > /dev/null 2>&1
-        7za x -pmerlin ${merlin_agent_linux} > /dev/null 2>&1
-        7za x -pmerlin ${merlin_agent_darwin} > /dev/null 2>&1
-
-        mv --force merlinAgent-Windows-x64.exe $dir/merlinAgent-Windows-x64.exe
-        mv --force merlinAgent-Linux-x64 $dir/merlinAgent-Linux-x64
-        mv --force merlinAgent-Darwin-x64 $dir/merlinAgent-Darwin-x64 && Echo_INFOR "Merlin Agent Folder     : $dir" || Echo_ERROR3
-
+        mv --force data $dir && Echo_INFOR "Merlin Agent Folder     : $dir/agents" || Echo_ERROR3
         rm -rf /tmp/merlin && cd /tmp
     fi
 
@@ -8869,6 +8465,18 @@ sliver-server_Install(){
                 ;;
             *) ;;
         esac
+
+        case $Linux_architecture_Name in
+            *"linux-x86_64"*)
+                sliver_bin_Server=$sliver_Server_bin_amd64
+                sliver_bin_Client=$sliver_Client_bin_amd64
+                ;;
+            *"linux-arm64"*)
+                sliver_bin_Server=$sliver_Server_bin_arm64
+                sliver_bin_Client=$sliver_Client_bin_arm64
+                ;;
+        esac
+
 
         mkdir -p /tmp/sliver-server && cd /tmp/sliver-server && $Proxy_OK wget ${GitProxy}https://github.com/BishopFox/sliver/releases/download/$sliver_Ver/$sliver_bin_Server ${wget_option} || Echo_ERROR2
         mv --force $sliver_bin_Server /root/sliver-server && chmod 755 /root/sliver-server
@@ -10129,37 +9737,23 @@ kali_Tools_TypeD(){
     echo -e "\033[1;33m\n>> Installing alterx\n\033[0m"
     Pentest_alterx_Install
 
-    # Pentest_iprange_Install
-    # Pentest_jwtcat_Install
-    # Pentest_gojwtcrack_Install
-    # Pentest_DomainSplit_Install
-    # Pentest_proxify_Install
-
 }
 
 kali_Tools_TypeE(){
 
     echo -e "\033[1;33m\n>> Installing SecLists(~500M),longer time, wait patiently\n\033[0m"
     Pentest_SecLists_Install
-    echo -e "\033[1;33m\n>> Installing Girsh\n\033[0m"
-    Pentest_Girsh_Install
     echo -e "\033[1;33m\n>> Installing See-SURF\n\033[0m"
     Pentest_See-SURF_Install
     echo -e "\033[1;33m\n>> Installing hakrawler\n\033[0m"
     Pentest_hakrawler_Install
-    echo -e "\033[1;33m\n>> Installing jaeles\n\033[0m"
-    Pentest_jaeles_Install
     echo -e "\033[1;33m\n>> Installing subjs\n\033[0m"
     Pentest_subjs_Install
     echo -e "\033[1;33m\n>> Installing assetfinder\n\033[0m"
     Pentest_assetfinder_Install
 
-    # Pentest_routersploit_Install
     # Pentest_exploitdb_Install
     # Pentest_RustScan_Install
-    # Pentest_WAFW00F_Install
-    # Pentest_WebAliveScan_Install
-    # Pentest_MassBleed_Install
 
 }
 
@@ -10217,13 +9811,9 @@ Secure(){
     Secure_rkhunter_Install
     echo -e "\033[1;33m\n>> Installing anti-portscan\n\033[0m"
     Secure_anti_portscan_Install
-    echo -e "\033[1;33m\n>> Installing fapro\n\033[0m"
-    Secure_fapro_Install
 
     case $Linux_architecture_Name in
         *"linux-x86_64"*)
-            # echo -e "\033[1;33m\n>> Installing chkrootkit\n\033[0m"
-            # Secure_chkrootkit_Install
             echo -e "\033[1;33m\n>> Installing shellpub\n\033[0m"
             Secure_shellpub_Install
             echo -e "\033[1;33m\n>> Installing BruteShark\n\033[0m"
@@ -10256,18 +9846,6 @@ cloud(){
             Echo_INFOR "Pass~"
             ;;
     esac
-
-    # echo -e "\033[1;33m\n>> Continue installation wrangler? [y/N,Default N] \033[0m" && read -r input
-    # case $input in
-    #     [yY][eE][sS]|[Yy])
-    #        Rust_Check
-    #        echo -e "\033[1;33m\n>> Installing wrangler\n\033[0m"
-    #        wrangler_Install
-    #        ;;
-    #    *)
-    #        Echo_INFOR "Pass~"
-    #        ;;
-    # esac
 
 }
 
@@ -10326,7 +9904,6 @@ Help(){
     echo -e "\033[1;34mRed Team Tools \033[0m"
     echo -e "  \033[1;34m-aircrack\033[0m \033[0;34m        : install aircrack-ng\033[0m"
     echo -e "  \033[1;34m-bypass\033[0m \033[0;34m          : install Bypass\033[0m"
-    echo -e "  \033[1;34m-goby\033[0m \033[0;34m            : install Goby\033[0m                       \033[1;33m(Requires GUI environment)\033[0m"
     echo -e "  \033[1;34m-wpscan\033[0m \033[0;34m          : install wpscan\033[0m"
     echo -e "  \033[1;34m-wx\033[0m \033[0;34m              : install wxappUnpacker\033[0m"
     echo -e "  \033[1;34m-yakit\033[0m \033[0;34m           : install yakit\033[0m"
@@ -10334,7 +9911,6 @@ Help(){
     echo -e "\033[1;34mRed Team Infrastructure \033[0m"
     echo -e "  \033[1;34m-arl\033[0m \033[0;34m             : install ARL (~872 MB)\033[0m              \033[1;33m(https://github.com/TophantTechnology/ARL)\033[0m"
     echo -e "  \033[1;34m-awvs15\033[0m \033[0;34m          : install AWVS15\033[0m"
-    # echo -e "  \033[1;34m-cs\033[0m \033[0;34m              : install CobaltStrike 4.3\033[0m"
     echo -e "  \033[1;34m-cs45\033[0m \033[0;34m            : install CobaltStrike 4.5\033[0m"
     echo -e "  \033[1;34m-frp\033[0m \033[0;34m             : install frp\033[0m"
     echo -e "  \033[1;34m-interactsh\033[0m \033[0;34m      : install interactsh\033[0m                 \033[1;33m(https://github.com/projectdiscovery/interactsh)\033[0m"
@@ -10380,7 +9956,6 @@ Help(){
     echo -e "  \033[1;34m-upgrade\033[0m \033[0;34m         : Upgrade some tools\033[0m"
     echo -e ""
     echo -e "\033[1;37mAuthor r0fus0d , feel free to submit an issue if you need to add tool support or run into problems\033[0m"
-    echo -e "\033[1;37m|- create by ffffffff0x\033[0m"
     echo -e ""
 
 }
@@ -10832,13 +10407,6 @@ do
             Proxy_Switch
             Base_Check
             frp_Install
-            ;;
-        -goby)
-            mac_Check || exit 1
-            linux_arm64_Check || exit 1
-            Proxy_Switch
-            Base_Check
-            Goby_Install
             ;;
         -nps)
             mac_Check || exit 1
