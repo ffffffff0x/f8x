@@ -5140,25 +5140,23 @@ Pentest_bettercap_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/bettercap && cd /tmp/bettercap && go install github.com/bettercap/bettercap/v2@latest
-        mv $GOPATH/bin/bettercap /usr/local/bin/bettercap && chmod +x /usr/local/bin/bettercap || { mv /root/go/bin/bettercap /usr/local/bin/bettercap; chmod +x /usr/local/bin/bettercap; }
-        rm -rf /tmp/bettercap && cd /tmp
-        which bettercap > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
-
-        # mkdir -p /tmp/bettercap && cd /tmp/bettercap && rm -f $bettercap_bin > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy} /$bettercap_Ver/$bettercap_bin > /dev/null 2>&1 || Echo_ERROR2
-        # unzip $bettercap_bin > /dev/null 2>&1
-        # mv --force bettercap /usr/local/bin/bettercap && chmod +x /usr/local/bin/bettercap
-        # rm -rf /tmp/bettercap && cd /tmp
-
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 Rm_Lock
                 Install_Switch "libnetfilter-queue-dev"
                 Install_Switch "libusb-1.0-0"
+                Install_Switch "libusb-1.0-0-dev"
+                Install_Switch "libusb-dev"
+                Install_Switch "libudev-dev"
+                ldconfig > /dev/null 2>&1
                 ;;
             *) ;;
         esac
 
+        mkdir -p /tmp/bettercap && cd /tmp/bettercap && go install github.com/bettercap/bettercap/v2@latest
+        mv $GOPATH/bin/bettercap /usr/local/bin/bettercap && chmod +x /usr/local/bin/bettercap || { mv /root/go/bin/bettercap /usr/local/bin/bettercap; chmod +x /usr/local/bin/bettercap; }
+        rm -rf /tmp/bettercap && cd /tmp
+        which bettercap > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -5402,6 +5400,7 @@ Pentest_hashcat_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         rm -rf /usr/sbin/hashcat
+        mkdir -p $dir
         mkdir -p /tmp/hashcat && cd /tmp && rm -f $hashcat_File && $Proxy_OK wget ${GitProxy}https://github.com/hashcat/hashcat/releases/download/$hashcat_Version/$hashcat_File > /dev/null 2>&1 || Echo_ERROR2
         7za x $hashcat_File -o/tmp/hashcat > /dev/null 2>&1
         cp /tmp/hashcat/hashcat-*/* $dir
