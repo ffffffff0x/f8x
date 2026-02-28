@@ -1,3 +1,5 @@
+> A brand-new IaC automated deployment tool [RedC](https://github.com/wgpsec/redc), built on Terraform + Wails GUI for automated multi-cloud deployment and project orchestration—give it a try!
+
 <h1 align="center">
   <br>
   <img src="./assets/img/banner2.png" width="300px" alt="f8x">

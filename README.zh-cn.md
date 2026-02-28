@@ -1,3 +1,5 @@
+> 全新 IaC 自动化部署工具 [RedC](https://github.com/wgpsec/redc) , 基于 Terraform + Wails GUI 实现多云环境自动化部署+项目管理编排，欢迎体验.
+
 <h1 align="center">
   <br>
   <img src="./assets/img/banner2.png" width="300px" alt="f8x">
