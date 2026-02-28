@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.9 (2025/01/27)"
+F8x_Version="1.7.9 (2025/02/28)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -65,11 +65,11 @@ ttyd_Ver="1.7.7"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
 # https://github.com/coder/code-server
-code_server_Ver="v4.108.2"
-code_server_bin1_amd64="code-server-4.108.2-amd64.rpm"
-code_server_bin2_amd64="code-server_4.108.2_amd64.deb"
-code_server_bin1_arm64="code-server-4.108.2-arm64.rpm"
-code_server_bin2_arm64="code-server_4.108.2_arm64.deb"
+code_server_Ver="v4.109.2"
+code_server_bin1_amd64="code-server-4.109.2-amd64.rpm"
+code_server_bin2_amd64="code-server_4.109.2_amd64.deb"
+code_server_bin1_arm64="code-server-4.109.2-arm64.rpm"
+code_server_bin2_arm64="code-server_4.109.2_arm64.deb"
 # https://www.python.org/downloads/
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -92,11 +92,11 @@ phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
 
 # ===================== Software version variable setting (pentest) =====================
 # https://github.com/fatedier/frp/releases
-frp_Ver="v0.66.0"
-frp_File_amd64="frp_0.66.0_linux_amd64.tar.gz"
-frp_File_arm64="frp_0.66.0_linux_arm64.tar.gz"
-frp_Dir_amd64="frp_0.66.0_linux_amd64"
-frp_Dir_arm64="frp_0.66.0_linux_arm64"
+frp_Ver="v0.67.0"
+frp_File_amd64="frp_0.67.0_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.67.0_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.67.0_linux_amd64"
+frp_Dir_arm64="frp_0.67.0_linux_arm64"
 # https://github.com/ehang-io/nps/releases
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
@@ -126,9 +126,9 @@ ffuf_Ver="v2.1.0"
 ffuf_Install_amd64="ffuf_2.1.0_linux_amd64.tar.gz"
 ffuf_Install_arm64="ffuf_2.1.0_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v3.6.2"
-Nuclei_Install_amd64="nuclei_3.6.2_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_3.6.2_linux_arm64.zip"
+Nuclei_Ver="v3.7.0"
+Nuclei_Install_amd64="nuclei_3.7.0_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_3.7.0_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v2.1.4"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -158,9 +158,9 @@ subfinder_Ver="v2.12.0"
 subfinder_bin_amd64="subfinder_2.12.0_linux_amd64.zip"
 subfinder_bin_arm64="subfinder_2.12.0_linux_arm64.zip"
 # https://github.com/zan8in/afrog
-afrog_Ver="v3.3.3"
-afrog_File_amd64="afrog_3.3.3_linux_amd64.zip"
-afrog_File_arm64="afrog_3.3.3_linux_arm64.zip"
+afrog_Ver="v3.3.9"
+afrog_File_amd64="afrog_3.3.9_linux_amd64.zip"
+afrog_File_arm64="afrog_3.3.9_linux_arm64.zip"
 afrog_bin_amd64="afrog"
 afrog_bin_arm64="afrog"
 # https://github.com/SleepingBag945/dddd
@@ -184,14 +184,14 @@ dnsx_Ver="v1.2.3"
 dnsx_bin_amd64="dnsx_1.2.3_linux_amd64.zip"
 dnsx_bin_arm64="dnsx_1.2.3_linux_arm64.zip"
 # https://github.com/iBotPeaches/Apktool/releases
-apktool_Ver="v2.12.1"
-apktool_bin="apktool_2.12.1.jar"
+apktool_Ver="v3.0.1"
+apktool_bin="apktool_3.0.1.jar"
 # https://github.com/lc/gau/releases
 gau_Ver="v2.2.4"
 gau_bin="gau_2.2.4_linux_amd64.tar.gz"
 # https://github.com/skylot/jadx/releases
-jadx_Ver="v1.5.3"
-jadx_bin="jadx-1.5.3.zip"
+jadx_Ver="v1.5.5"
+jadx_bin="jadx-1.5.5.zip"
 # https://github.com/qtc-de/remote-method-guesser/releases
 rmg_Ver="v5.1.0"
 rmg_bin="rmg-5.1.0-jar-with-dependencies.jar"
@@ -251,17 +251,17 @@ netspy_Ver="v0.0.5"
 netspy_bin_amd64="netspy_linux_amd64.zip"
 netspy_bin_arm64="netspy_linux_arm64.zip"
 # https://github.com/cdk-team/CDK/releases
-cdk_Ver="v1.5.5"
+cdk_Ver="v1.5.6"
 cdk_bin_amd64="cdk_linux_amd64"
 cdk_bin_arm64="cdk_linux_arm64"
 # https://github.com/projectdiscovery/interactsh/releases
-interactsh_Ver="v1.2.4"
-interactsh_client_bin_amd64="interactsh-client_1.2.4_Linux_amd64.zip"
-interactsh_server_bin_amd64="interactsh-server_1.2.4_Linux_amd64.zip"
-interactsh_client_bin_arm64="interactsh-client_1.2.4_Linux_arm64.zip"
-interactsh_server_bin_arm64="interactsh-server_1.2.4_Linux_arm64.zip"
+interactsh_Ver="v1.3.0"
+interactsh_client_bin_amd64="interactsh-client_1.3.0_Linux_amd64.zip"
+interactsh_server_bin_amd64="interactsh-server_1.3.0_Linux_amd64.zip"
+interactsh_client_bin_arm64="interactsh-client_1.3.0_Linux_arm64.zip"
+interactsh_server_bin_arm64="interactsh-server_1.3.0_Linux_arm64.zip"
 # https://github.com/BishopFox/sliver/releases
-sliver_Ver="v1.6.6"
+sliver_Ver="v1.7.3"
 sliver_Server_bin_amd64="sliver-server_linux-amd64"
 sliver_Server_bin_arm64="sliver-server_linux-arm64"
 sliver_Client_bin_amd64="sliver-client_linux-amd64"
@@ -306,7 +306,7 @@ gogo_Ver="v2.14.1"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
 # https://github.com/chainreactors/spray
-spray_Ver="v1.2.3"
+spray_Ver="v1.2.5"
 spray_File_amd64="spray_linux_amd64"
 spray_File_arm64="spray_linux_arm64"
 # https://github.com/chainreactors/zombie
@@ -324,7 +324,7 @@ kerbrute_Ver="v1.0.3"
 Adinfo_bin="Adinfo_linux"
 Adinfo_Ver="v0.3"
 # https://github.com/zema1/suo5
-suo5_Ver="v2.0.0"
+suo5_Ver="v2.1.0"
 suo5_bin_amd64="suo5-linux-amd64"
 suo5_bin_arm64="suo5-linux-arm64"
 # https://github.com/projectdiscovery/alterx
@@ -334,13 +334,13 @@ alterx_bin_arm64="alterx_0.1.0_linux_arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.71"
+AdGuardHome_Version="v0.107.72"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="v0.67.0"
-fzf_bin_amd64="fzf-0.67.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.67.0-linux_arm64.tar.gz"
+fzf_Ver="v0.68.0"
+fzf_bin_amd64="fzf-0.68.0-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.68.0-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
 lux_Ver="v0.24.1"
 lux_bin_amd64="lux_0.24.1_Linux_x86_64.tar.gz"
@@ -364,26 +364,26 @@ duf_bin2_amd64="duf_0.9.1_linux_amd64.deb"
 duf_bin1_arm64="duf_0.9.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.9.1_linux_arm64.deb"
 # https://github.com/dalance/procs/releases
-procs_Ver="v0.14.10"
-procs_bin="procs-v0.14.10-x86_64-linux.zip"
+procs_Ver="v0.14.11"
+procs_bin="procs-v0.14.11-x86_64-linux.zip"
 # https://github.com/sharkdp/fd/releases
 fd_Ver="v10.3.0"
 fd_bin_amd64="fd_10.3.0_amd64.deb"
 fd_bin_arm64="fd_10.3.0_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.14.3"
-Terraform_bin_amd64="terraform_1.14.3_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.14.3_linux_arm64.zip"
+Terraform_Ver="1.14.6"
+Terraform_bin_amd64="terraform_1.14.6_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.14.6_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.2.7"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.2.7-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.2.7-arm64.tgz"
+aliyun_cli_Ver="v3.2.10"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.2.10-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.2.10-arm64.tgz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.50.1"
+yq_Ver="v4.52.4"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
