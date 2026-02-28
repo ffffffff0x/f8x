@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.9 (2025/02/28)"
+F8x_Version="1.7.9 (2025/03/01)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -41,18 +41,18 @@ Ruby_Ver="3.0"
 Ruby_Dir="ruby-3.0.0"
 Ruby_bin="ruby-3.0.0.tar.gz"
 # https://go.dev/dl/
-Go_Version="go1.21.4"
-Go_Bin_amd64="go1.21.4.linux-amd64.tar.gz"
-Go_Bin_arm64="go1.21.4.linux-arm64.tar.gz"
+Go_Version="go1.25.7"
+Go_Bin_amd64="go1.25.7.linux-amd64.tar.gz"
+Go_Bin_arm64="go1.25.7.linux-arm64.tar.gz"
 # https://nodejs.org/dist/
-node_Ver="v20.10.0"
-node_bin_amd64="node-v20.10.0-linux-x64.tar.xz"
-node_bin_arm64="node-v20.10.0-linux-arm64.tar.xz"
-node_Dir_amd64="node-v20.10.0-linux-x64"
-node_Dir_arm64="node-v20.10.0-linux-arm64"
+node_Ver="v25.7.0"
+node_bin_amd64="node-v25.7.0-linux-x64.tar.xz"
+node_bin_arm64="node-v25.7.0-linux-arm64.tar.xz"
+node_Dir_amd64="node-v25.7.0-linux-x64"
+node_Dir_arm64="node-v25.7.0-linux-arm64"
 # http://nginx.org/en/download.html
-nginx_Ver="1.18.0"
-nginx_bin="nginx-1.18.0.tar.gz"
+nginx_Ver="1.28.2"
+nginx_bin="nginx-1.28.2.tar.gz"
 # https://www.lua.org/download.html
 lua_bin="lua-5.4.3.tar.gz"
 lua_dir="lua-5.4.3"
