@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.7.9 (2025/03/01)"
+F8x_Version="1.8.0 (2025/03/01)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -378,6 +378,10 @@ Terraform_bin_arm64="terraform_1.14.6_linux_arm64.zip"
 aliyun_cli_Ver="v3.2.10"
 aliyun_cli_bin_amd64="aliyun-cli-linux-3.2.10-amd64.tgz"
 aliyun_cli_bin_arm64="aliyun-cli-linux-3.2.10-arm64.tgz"
+# https://github.com/wgpsec/redc/releases
+redc_Ver="v3.0.5"
+redc_bin_amd64="redc_v3.0.5_linux_amd64.tar.gz"
+redc_bin_arm64="redc_v3.0.5_linux_arm64.tar.gz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
@@ -859,7 +863,7 @@ Proxy_Switch(){
         echo -e "\033[1;33m\n>> Does the runtime need to use a proxy? [y/N,Default N] \033[0m" && read -r input
         case $input in
             [yY][eE][sS]|[Yy])
-                export GOPROXY=https://proxy.golang.com.cn,direct
+                export GOPROXY=https://goproxy.io,direct
 
                 case $Linux_Version in
                     *"Kali"*|*"kali"*)
@@ -3138,7 +3142,7 @@ aliyun-cli_Install(){
         Echo_ALERT "$name installed"
     else
         mkdir -p /tmp/aliyun-cli && cd /tmp/aliyun-cli && $Proxy_OK wget https://github.com/aliyun/aliyun-cli/releases/download/$aliyun_cli_Ver/$aliyun_cli_bin > /dev/null 2>&1 || Echo_ERROR2
-        tar zxvf $aliyun_cli_bin > /dev/null 2>&1
+        tar -zxvf $aliyun_cli_bin > /dev/null 2>&1
         mv --force aliyun /usr/local/bin/aliyun > /dev/null 2>&1 && chmod +x /usr/local/bin/aliyun && Echo_INFOR "Successfully installed $name $aliyun-cli_Ver" || Echo_ERROR3
         rm -rf /tmp/aliyun-cli && cd /tmp
     fi
@@ -3159,6 +3163,33 @@ aws-cli_Install(){
         unzip awscliv2.zip > /dev/null 2>&1
         ./aws/install && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
         rm -rf /tmp/aws-cli && cd /tmp
+    fi
+
+}
+
+
+# ===================== Install redc =====================
+redc_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            redc_bin=$redc_bin_amd64
+            ;;
+        *"linux-arm64"*)
+            redc_bin=$redc_bin_arm64
+            ;;
+    esac
+
+    name="redc"
+    which redc > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/redc && cd /tmp/redc && $Proxy_OK wget https://github.com/wgpsec/redc/releases/download/$redc_Ver/$redc_bin > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxvf $redc_bin > /dev/null 2>&1
+        mv --force redc /usr/local/bin/redc > /dev/null 2>&1 && chmod +x /usr/local/bin/redc && Echo_INFOR "Successfully installed $name $redc_Ver" || Echo_ERROR3
+        rm -rf /tmp/redc && cd /tmp
     fi
 
 }
@@ -6079,7 +6110,7 @@ Secure_shellpub_Install(){
         Echo_ALERT "$name is already installed in $T_Dir/hm"
     else
         mkdir -p $T_Dir/hm && cd $_ && $Proxy_OK wget -O hm-linux.tgz http://dl.shellpub.com/hm/latest/hm-linux-amd64.tgz?version=1.8.2 > /dev/null 2>&1 && Echo_INFOR "Downloaded shellpub" || Echo_ERROR2
-        tar zxvf hm-linux.tgz > /dev/null 2>&1 && rm -f hm-linux.tgz > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $T_Dir/hm" || Echo_ERROR3
+        tar -zxvf hm-linux.tgz > /dev/null 2>&1 && rm -f hm-linux.tgz > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $T_Dir/hm" || Echo_ERROR3
     fi
 
 }
@@ -9828,23 +9859,26 @@ cloud(){
     echo -e "\033[1;33m\n>> Installing Terraform\n\033[0m"
     Terraform_Install
 
-    echo -e "\033[1;33m\n>> Installing aliyun-cli\n\033[0m"
-    aliyun-cli_Install
+    # echo -e "\033[1;33m\n>> Installing aliyun-cli\n\033[0m"
+    # aliyun-cli_Install
 
-    echo -e "\033[1;33m\n>> Installing aws-cli\n\033[0m"
-    aws-cli_Install
+    # echo -e "\033[1;33m\n>> Installing aws-cli\n\033[0m"
+    # aws-cli_Install
 
-    echo -e "\033[1;33m\n>> Continue installation Serverless Framework? [y/N,Default N] \033[0m" && read -r input
-    case $input in
-        [yY][eE][sS]|[Yy])
-            nn_Check
-            echo -e "\033[1;33m\n>> Installing Serverless Framework\n\033[0m"
-            Serverless_Framework_Install
-            ;;
-        *)
-            Echo_INFOR "Pass~"
-            ;;
-    esac
+    echo -e "\033[1;33m\n>> Installing redc\n\033[0m"
+    redc_Install
+
+    # echo -e "\033[1;33m\n>> Continue installation Serverless Framework? [y/N,Default N] \033[0m" && read -r input
+    # case $input in
+    #     [yY][eE][sS]|[Yy])
+    #         nn_Check
+    #         echo -e "\033[1;33m\n>> Installing Serverless Framework\n\033[0m"
+    #         Serverless_Framework_Install
+    #         ;;
+    #     *)
+    #         Echo_INFOR "Pass~"
+    #         ;;
+    # esac
 
 }
 
