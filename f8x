@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.8.0 (2025/03/01)"
+F8x_Version="1.8.1 (2025/03/04)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -9190,10 +9190,10 @@ aaPanel_Install(){
 
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-            mkdir -p /tmp/aaPanel && cd /tmp/aaPanel && curl -o install.sh http://www.aapanel.com/script/install_6.0_en.sh && bash install.sh aapanel
+            mkdir -p /tmp/aaPanel && cd /tmp/aaPanel && curl -o install.sh https://www.aapanel.com/script/install_panel_en.sh && bash install.sh aapanel
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            mkdir -p /tmp/aaPanel && cd /tmp/aaPanel && curl -o install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && sudo bash install.sh aapanel
+            mkdir -p /tmp/aaPanel && cd /tmp/aaPanel && curl -o install.sh https://www.aapanel.com/script/install_panel_en.sh && sudo bash install.sh aapanel
             ;;
         *) ;;
     esac
@@ -9205,7 +9205,7 @@ aaPanel_Install(){
 
     echo -e "\033[1;33m\n>> Installing 1Panel\n\033[0m"
 
-    mkdir -p /tmp/1panel && cd /tmp/1panel && curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh -o quick_start.sh && bash quick_start.sh
+    mkdir -p /tmp/1panel && cd /tmp/1panel && curl -sSL https://resource.fit2cloud.com/1panel/package/v2/quick_start.sh -o quick_start.sh && bash quick_start.sh
 
 }
 
