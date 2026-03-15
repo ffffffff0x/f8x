@@ -3,477 +3,711 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>f8x | 红蓝队环境自动化部署</title>
+  <title>f8x — Red/Blue Team Automation</title>
   <link rel="icon" href="./assets/img/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #08111d;
-      --panel: rgba(255, 255, 255, 0.04);
-      --card: rgba(255, 255, 255, 0.06);
-      --border: rgba(255, 255, 255, 0.08);
-      --text: #e9f1ff;
-      --muted: #9fb4d6;
-      --accent: #00e6a8;
-      --accent-2: #5fd5ff;
-      --shadow: 0 18px 60px rgba(0, 0, 0, 0.4);
+      --bg: #ffffff;
+      --surface: #f6f6f6;
+      --border: #e0e0e0;
+      --text: #1a1a1a;
+      --dim: #888888;
+      --red: #d63031;
+      --red-dim: #e17055;
+      --blue: #2d5fd7;
+      --green: #27ae60;
+      --yellow: #b58900;
+      --cyan: #0984a0;
+      --white: #1a1a1a;
+      --bold: #000000;
+      --prompt: #d63031;
+      --bar-1: #ff5f56;
+      --bar-2: #ffbd2e;
+      --bar-3: #27c93f;
+      /* terminal blocks stay dark */
+      --term-bg: #1e1e1e;
+      --term-bar: #2d2d2d;
+      --term-border: #3a3a3a;
+      --term-text: #cccccc;
+      --term-dim: #666666;
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
-      background: radial-gradient(120% 120% at 10% 20%, rgba(0, 230, 168, 0.14), transparent 50%),
-                  radial-gradient(100% 100% at 90% 10%, rgba(95, 213, 255, 0.14), transparent 45%),
-                  linear-gradient(135deg, #06101c 0%, #0d1f31 50%, #0a1420 100%);
+      font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+      background: var(--bg);
       color: var(--text);
+      font-size: 13px;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--accent-2); text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    .page { max-width: 1320px; margin: 0 auto; padding: 28px 22px 100px; position: relative; }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 18px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      background: var(--panel);
-      backdrop-filter: blur(12px);
+    ::selection { background: var(--red); color: #ffffff; }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .term a { color: #5fafaf; }
+
+    /* ── nav bar ── */
+    .topbar {
       position: sticky;
-      top: 14px;
-      z-index: 10;
-      box-shadow: var(--shadow);
-    }
-    header .brand {
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 14px;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 40px;
+      font-size: 12px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .topbar .brand {
+      color: var(--red);
       font-weight: 700;
-      letter-spacing: 0.02em;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+    }
+    .topbar nav { display: flex; gap: 4px; }
+    .topbar nav a {
+      color: var(--dim);
+      padding: 8px 10px;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .topbar nav a:hover {
       color: var(--text);
+      text-decoration: none;
+      border-bottom-color: var(--red-dim);
     }
-    .logo-mark {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      background: conic-gradient(from 160deg, #00e6a8, #5fd5ff, #6f7cff, #00e6a8);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #03101d;
-      font-weight: 800;
-      text-transform: uppercase;
-      box-shadow: 0 10px 28px rgba(0, 230, 168, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      letter-spacing: 0.06em;
-    }
-    nav { display: flex; gap: 16px; flex-wrap: wrap; }
-    nav a {
-      padding: 8px 14px;
-      border-radius: 12px;
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--muted);
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    nav a:hover { border-color: var(--accent); color: var(--text); background: rgba(255, 255, 255, 0.06); }
-    .lang-toggle {
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
+    .topbar-right a { color: var(--dim); }
+    .topbar-right a:hover { color: var(--text); text-decoration: none; }
+    .lang-btn {
+      background: none;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 8px 12px;
+      color: var(--dim);
+      padding: 3px 8px;
+      border-radius: 3px;
       cursor: pointer;
-      font-weight: 600;
-      transition: all 0.18s ease;
+      font-family: inherit;
+      font-size: 11px;
+      transition: color 0.15s, border-color 0.15s;
     }
-    .lang-toggle:hover { border-color: var(--accent); background: rgba(255,255,255,0.08); }
-    .hero {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
+    .lang-btn:hover { color: var(--text); border-color: var(--dim); }
+
+    /* ── layout ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── terminal window ── */
+    .term {
+      background: var(--term-bg);
+      border: 1px solid var(--term-border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 32px 0;
+      color: var(--term-text);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+    .term-bar {
+      display: flex;
       align-items: center;
-      margin-top: 34px;
-      padding: 32px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(0,0,0,0.35));
-      box-shadow: var(--shadow);
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--term-bar);
+      border-bottom: 1px solid var(--term-border);
+      user-select: none;
     }
-    .eyebrow { color: var(--accent); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600; font-size: 12px; }
-    h1 { margin: 10px 0 12px; font-size: clamp(32px, 4vw, 46px); }
-    h2 { margin: 0 0 14px; font-size: clamp(24px, 3vw, 32px); }
-    p.lead { color: var(--muted); font-size: 17px; line-height: 1.6; }
-    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 6px; }
-    .btn {
-      padding: 12px 18px;
-      border-radius: 12px;
-      border: 1px solid transparent;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
-      color: var(--text);
+    .term-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .term-dot.r { background: var(--bar-1); }
+    .term-dot.y { background: var(--bar-2); }
+    .term-dot.g { background: var(--bar-3); }
+    .term-title {
+      flex: 1;
+      text-align: center;
+      color: var(--term-dim);
+      font-size: 12px;
     }
-    .btn-primary { background: linear-gradient(120deg, var(--accent), var(--accent-2)); color: #03101d; box-shadow: 0 12px 38px rgba(0, 230, 168, 0.32); }
-    .btn-outline { border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); }
-    .btn:hover { transform: translateY(-2px); }
-    code, pre { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-    .code-block {
-      background: #0a1827;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      color: var(--accent-2);
+    .term-body {
+      padding: 16px 20px;
       overflow-x: auto;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+      font-size: 13px;
+      line-height: 1.55;
     }
-    section { margin-top: 56px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-    .card {
-      padding: 18px;
-      border-radius: 14px;
+
+    /* ── hero ── */
+    .hero {
+      padding: 48px 0 24px;
+      text-align: center;
+    }
+    .hero-banner {
+      max-width: 340px;
+      margin: 0 auto 20px;
+    }
+    .hero-banner img { width: 100%; display: block; }
+    .hero-tagline {
+      color: var(--dim);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .hero-install {
+      display: inline-block;
+      background: var(--term-bg);
+      border: 1px solid var(--term-border);
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      position: relative;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    }
+    .hero-install:hover { border-color: var(--term-dim); }
+    .hero-install .prompt { color: #e05050; }
+    .hero-install .cmd { color: #cccccc; }
+    .hero-install .copy-hint {
+      position: absolute;
+      right: -56px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--dim);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .hero-install:hover .copy-hint { opacity: 1; }
+    .hero-links {
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      font-size: 12px;
+    }
+    .hero-links a { color: var(--dim); }
+    .hero-links a:hover { color: var(--red); text-decoration: none; }
+    .hero-links a span { color: var(--text); }
+
+    /* ── section titles ── */
+    .section {
+      padding: 40px 0 0;
+    }
+    .section-head {
+      color: var(--dim);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-head .num { color: var(--red); }
+
+    /* ── help output (inside dark terminal) ── */
+    .help-section { margin-bottom: 4px; }
+    .help-header { color: #5f87d7; font-weight: 700; }
+    .help-line { white-space: pre; }
+    .help-flag { color: #5f87d7; font-weight: 700; }
+    .help-desc { color: #5f87d7; font-weight: 400; }
+    .help-note { color: #5faf5f; }
+    .help-warn { color: #e05050; }
+    .help-yellow { color: #d7af5f; }
+    .help-author { color: #e4e4e4; font-weight: 700; }
+
+    /* ── feature grid ── */
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
       border: 1px solid var(--border);
-      background: var(--card);
-      box-shadow: var(--shadow);
+      border-radius: 6px;
+      overflow: hidden;
     }
-    .card h3 { margin: 0 0 10px; font-size: 18px; }
-    .card p { margin: 0; color: var(--muted); line-height: 1.5; }
-    .tag { display: inline-block; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--border); color: var(--muted); font-size: 12px; margin-right: 8px; margin-bottom: 8px; }
-    .list-tight { list-style: none; padding: 0; margin: 0; color: var(--muted); line-height: 1.6; }
-    .list-tight li { margin-bottom: 8px; padding-left: 16px; position: relative; }
-    .list-tight li::before { content: '•'; color: var(--accent); position: absolute; left: 0; }
-    .pill-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-    .pill { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--text); font-weight: 600; }
-    .faq-item { border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; background: var(--card); box-shadow: var(--shadow); }
-    .faq-item + .faq-item { margin-top: 12px; }
-    footer { margin: 70px 0 0; padding: 22px 0 16px; color: var(--muted); text-align: center; font-size: 14px; border-top: 1px solid var(--border); }
-    @media (max-width: 720px) {
-      header { position: static; }
-      .cta-row { flex-direction: column; align-items: flex-start; }
+    .feat {
+      background: var(--surface);
+      padding: 16px 20px;
+    }
+    .feat-title {
+      color: var(--red);
+      font-size: 12px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .feat-body { color: var(--dim); font-size: 12px; line-height: 1.5; }
+
+    /* ── presets ── */
+    .preset-list { list-style: none; }
+    .preset-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #2a2a2a;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .preset-list li:last-child { border-bottom: none; }
+    .preset-alias { color: #5faf5f; white-space: nowrap; }
+    .preset-cmd { color: #cccccc; }
+    .preset-desc { color: #666666; font-size: 12px; margin-left: auto; white-space: nowrap; }
+
+    /* ── examples ── */
+    .example-block { margin-bottom: 20px; }
+    .example-comment { color: #666666; }
+    .example-prompt { color: #e05050; }
+    .example-cmd { color: #cccccc; }
+    .example-out { color: #666666; }
+
+    /* ── faq ── */
+    .faq-item { margin-bottom: 16px; }
+    .faq-q {
+      color: #d7af5f;
+      cursor: pointer;
+      user-select: none;
+    }
+    .faq-q::before { content: '▸ '; color: #e05050; }
+    .faq-a { color: #666666; padding-left: 18px; margin-top: 4px; }
+    .faq-a a { color: #5fafaf; }
+
+    /* ── extra scripts ── */
+    .scripts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .script-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+    .script-name { color: var(--cyan); font-weight: 700; }
+    .script-desc { color: var(--dim); font-size: 12px; margin: 4px 0 8px; }
+
+    /* ── footer ── */
+    footer {
+      margin-top: 48px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--dim);
+      font-size: 11px;
+    }
+    footer a { color: var(--dim); }
+    footer a:hover { color: var(--red); }
+
+    /* ── responsive ── */
+    @media (max-width: 640px) {
+      .topbar { padding: 0 12px; height: auto; flex-wrap: wrap; padding: 8px 12px; gap: 8px; }
+      .topbar nav { flex-wrap: wrap; }
+      .container { padding: 0 12px; }
+      .features { grid-template-columns: 1fr; }
+      .scripts-row { grid-template-columns: 1fr; }
+      .hero-install .copy-hint { display: none; }
+      .term-body { font-size: 11px; padding: 12px; }
+      .preset-desc { display: none; }
+    }
+
+    /* ── typing cursor ── */
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      height: 14px;
+      background: var(--red);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <div class="brand">
-        <div class="logo-mark" aria-label="f8x">f8x</div>
-        <span data-i18n="brandTagline">自动化部署工具</span>
-      </div>
+
+  <!-- ── top bar ── -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="brand">f8x</span>
       <nav>
-        <a href="#start" data-i18n="navStart">开始</a>
+        <a href="#start" data-i18n="navStart">快速开始</a>
         <a href="#options" data-i18n="navOptions">选项</a>
+        <a href="#presets" data-i18n="navPresets">方案</a>
         <a href="#examples" data-i18n="navExamples">示例</a>
         <a href="#faq" data-i18n="navFaq">FAQ</a>
-        <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
-      <button class="lang-toggle" id="langToggle" type="button">EN</button>
-    </header>
+    </div>
+    <div class="topbar-right">
+      <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer">GitHub ↗</a>
+      <button class="lang-btn" id="langToggle" type="button">EN</button>
+    </div>
+  </div>
 
+  <div class="container">
+
+    <!-- ── hero ── -->
     <div class="hero" id="start">
-      <div>
-        <div class="eyebrow" data-i18n="heroEyebrow">Red/Blue Team Automation</div>
-        <h1 data-i18n="heroTitle">一键部署红蓝队与开发环境</h1>
-        <p class="lead" data-i18n="heroLead">f8x 是面向渗透、蓝队、防护及日常开发的自动化部署工具。无需预装依赖，覆盖批量化安装、开发栈、红蓝队工具、Docker 场景和杂项服务。</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://f8x.wgpsec.org/f8x" download data-i18n="heroCtaPages">下载 f8x (Pages 加速)</a>
-          <a class="btn btn-primary" href="https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x" download data-i18n="heroCtaRaw">下载 f8x (raw)</a>
-          <a class="btn btn-outline" href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer" data-i18n="heroCtaRepo">查看仓库</a>
-        </div>
-        <div class="code-block">wget -O f8x https://f8x.wgpsec.org/f8x && chmod +x f8x && bash f8x -h</div>
+      <div class="hero-banner"><img src="./assets/img/banner2.png" alt="f8x"></div>
+      <div class="hero-tagline" data-i18n="heroTagline">红蓝队环境自动化部署工具</div>
+      <div class="hero-install" onclick="navigator.clipboard.writeText('wget -O f8x https://f8x.io/f8x && chmod +x f8x && bash f8x -h')">
+        <span class="prompt">$ </span><span class="cmd">wget -O f8x https://f8x.io/f8x && chmod +x f8x && bash f8x -h</span>
+        <span class="copy-hint" data-i18n="copyHint">click to copy</span>
       </div>
-
+      <div class="hero-links">
+        <a href="https://f8x.wgpsec.org/f8x" download><span data-i18n="dlPages">Pages 下载</span></a>
+        <a href="https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x" download><span data-i18n="dlRaw">Raw 下载</span></a>
+        <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer"><span data-i18n="dlRepo">GitHub 仓库</span></a>
+      </div>
     </div>
 
-    <section id="highlights">
-      <h2 data-i18n="whyTitle">为什么选择 f8x</h2>
-      <div class="grid">
-        <div class="card">
-          <h3 data-i18n="whyCard1Title">多场景覆盖</h3>
-          <p data-i18n="whyCard1Body">红队、蓝队、渗透、云、安全开发、代理环境一套脚本即可完成，无需手工搜集命令。</p>
+    <!-- ── why f8x ── -->
+    <div class="section">
+      <div class="section-head"><span class="num">#</span> <span data-i18n="whyTitle">为什么选择 f8x</span></div>
+      <div class="features">
+        <div class="feat">
+          <div class="feat-title" data-i18n="feat1t">多场景覆盖</div>
+          <div class="feat-body" data-i18n="feat1b">红队、蓝队、渗透、云、安全开发、代理 — 一套脚本搞定</div>
         </div>
-        <div class="card">
-          <h3 data-i18n="whyCard2Title">即装即用</h3>
-          <p data-i18n="whyCard2Body">自动检测基础依赖，按需拉起容器或源码编译，支持常见 Linux 发行版与 arm64。</p>
+        <div class="feat">
+          <div class="feat-title" data-i18n="feat2t">即装即用</div>
+          <div class="feat-body" data-i18n="feat2b">自动检测依赖，按需编译/拉取，支持主流 Linux + arm64</div>
         </div>
-        <div class="card">
-          <h3 data-i18n="whyCard3Title">可插拔选项</h3>
-          <p data-i18n="whyCard3Body">通过参数自由组合批量化安装、渗透工具集、云工具与杂项服务，减少重复配置。</p>
+        <div class="feat">
+          <div class="feat-title" data-i18n="feat3t">可插拔选项</div>
+          <div class="feat-body" data-i18n="feat3b">通过 flag 自由组合，减少重复配置</div>
         </div>
-        <div class="card">
-          <h3 data-i18n="whyCard4Title">自动化友好</h3>
-          <p data-i18n="whyCard4Body">支持 CI/CD 无交互运行，只需在 /tmp 创建 IS_CI 文件即可批量验证环境。</p>
+        <div class="feat">
+          <div class="feat-title" data-i18n="feat4t">CI/CD 友好</div>
+          <div class="feat-body" data-i18n="feat4b">创建 /tmp/IS_CI 即可非交互运行，适配流水线</div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section id="quickstart">
-      <h2 data-i18n="quickTitle">快速开始</h2>
-      <div class="grid">
-        <div class="card">
-          <h3 data-i18n="quickCard1Title">下载并执行</h3>
-          <div class="code-block">curl -o f8x https://f8x.wgpsec.org/f8x && mv --force f8x /usr/local/bin/f8x && chmod +x /usr/local/bin/f8x && f8x -h</div>
-          <p style="margin-top:10px; color: var(--muted);" data-i18n="quickCard1Note">或使用 wget，命令保持一致。</p>
+    <!-- ── f8x -h output ── -->
+    <div class="section" id="options">
+      <div class="section-head"><span class="num">#</span> <span data-i18n="optionsTitle">f8x -h</span></div>
+      <div class="term">
+        <div class="term-bar">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+          <div class="term-title">bash — f8x -h</div>
         </div>
-        <div class="card">
-          <h3 data-i18n="quickCard2Title">常用入口</h3>
-          <ul class="list-tight">
-            <li data-i18n="quickList1">-b 安装基础环境 (gcc、make、git、vim 等)</li>
-            <li data-i18n="quickList2">-d 安装开发环境 (Python/Go/Docker 等)</li>
-            <li data-i18n="quickList3">-k 安装渗透工具集 (-ka/-kb/-kc/-kd/-ke)</li>
-            <li data-i18n="quickList4">-s 部署蓝队工具 (Fail2Ban、rkhunter 等)</li>
-            <li data-i18n="quickList5">-all 全自动部署 (兼容主流发行版)</li>
+        <div class="term-body">
+<div class="help-section"><span class="help-header">Batch installation</span>
+<span class="help-line">  <span class="help-flag">-b</span>                <span class="help-desc">: install Basic Environment</span>          <span class="help-note">(gcc, make, git, vim, telnet, jq, unzip ...)</span></span>
+<span class="help-line">  <span class="help-flag">-p</span>                <span class="help-desc">: install Proxy Environment</span>          <span class="help-warn">(Warning : Use only when needed)</span></span>
+<span class="help-line">  <span class="help-flag">-d</span>                <span class="help-desc">: install Development Environment</span>    <span class="help-note">(python3, pip3, Go, Docker, Docker-Compose, SDKMAN)</span></span>
+<span class="help-line">  <span class="help-flag">-k(a/b/c/d/e)</span>     <span class="help-desc">: install Pentest environment</span>        <span class="help-note">(hashcat, ffuf, OneForAll, ksubdomain, impacket ...)</span></span>
+<span class="help-line">  <span class="help-flag">-s</span>                <span class="help-desc">: install Blue Team Environment</span>      <span class="help-note">(Fail2Ban, chkrootkit, rkhunter, shellpub)</span></span>
+<span class="help-line">  <span class="help-flag">-f</span>                <span class="help-desc">: install Other Tools</span>                <span class="help-note">(AdguardTeam, trash-cli, fzf)</span></span>
+<span class="help-line">  <span class="help-flag">-cloud</span>            <span class="help-desc">: install Cloud Applications</span>         <span class="help-note">(Terraform, Serverless Framework, wrangler)</span></span>
+<span class="help-line">  <span class="help-flag">-all</span>              <span class="help-desc">: fully automated deployment</span></span>
+</div>
+<div class="help-section"><span class="help-header">Development Environment</span>
+<span class="help-line">  <span class="help-flag">-docker</span>           <span class="help-desc">: install docker</span></span>
+<span class="help-line">  <span class="help-flag">-docker-cn</span>        <span class="help-desc">: install docker (aliyun source)</span></span>
+<span class="help-line">  <span class="help-flag">-lua</span>              <span class="help-desc">: install lua</span></span>
+<span class="help-line">  <span class="help-flag">-nn</span>               <span class="help-desc">: install npm &amp; NodeJs</span></span>
+<span class="help-line">  <span class="help-flag">-go</span>               <span class="help-desc">: install golang</span></span>
+<span class="help-line">  <span class="help-flag">-oraclejdk(8/11/17)</span> <span class="help-desc">: install oraclejdk</span></span>
+<span class="help-line">  <span class="help-flag">-openjdk</span>          <span class="help-desc">: install openjdk</span></span>
+<span class="help-line">  <span class="help-flag">-py3(7/8/9/10)</span>    <span class="help-desc">: install python3</span>                    <span class="help-yellow">(Based on package manager)</span></span>
+<span class="help-line">  <span class="help-flag">-py2</span>              <span class="help-desc">: install python2</span>                    <span class="help-yellow">(Based on package manager)</span></span>
+<span class="help-line">  <span class="help-flag">-py2-f</span>            <span class="help-desc">: force install python2</span>              <span class="help-yellow">(Recommended if -py2 fails)</span></span>
+<span class="help-line">  <span class="help-flag">-pip2-f</span>           <span class="help-desc">: force install pip2</span>                 <span class="help-yellow">(Recommended if -py2 fails)</span></span>
+<span class="help-line">  <span class="help-flag">-pyenv</span>            <span class="help-desc">: install pyenv</span></span>
+<span class="help-line">  <span class="help-flag">-perl</span>             <span class="help-desc">: install perl</span></span>
+<span class="help-line">  <span class="help-flag">-ruby</span>             <span class="help-desc">: install ruby</span>                       <span class="help-yellow">(If that fails, try -ruby-f)</span></span>
+<span class="help-line">  <span class="help-flag">-rust</span>             <span class="help-desc">: install rust</span></span>
+<span class="help-line">  <span class="help-flag">-code</span>             <span class="help-desc">: install code-server</span></span>
+<span class="help-line">  <span class="help-flag">-chromium</span>         <span class="help-desc">: install Chromium</span>                   <span class="help-yellow">(Used with rad, crawlergo)</span></span>
+<span class="help-line">  <span class="help-flag">-crawl</span>            <span class="help-desc">: install crawl tools</span></span>
+<span class="help-line">  <span class="help-flag">-phantomjs</span>        <span class="help-desc">: install PhantomJS</span></span>
+</div>
+<div class="help-section"><span class="help-header">Blue Team Tools</span>
+<span class="help-line">  <span class="help-flag">-binwalk</span>          <span class="help-desc">: install binwalk</span></span>
+<span class="help-line">  <span class="help-flag">-binwalk-f</span>        <span class="help-desc">: force install binwalk</span>              <span class="help-yellow">(Recommended if -binwalk fails)</span></span>
+<span class="help-line">  <span class="help-flag">-clamav</span>           <span class="help-desc">: install ClamAV</span></span>
+<span class="help-line">  <span class="help-flag">-lt</span>               <span class="help-desc">: install LogonTracer</span>                <span class="help-yellow">(High hardware requirements)</span></span>
+<span class="help-line">  <span class="help-flag">-suricata</span>         <span class="help-desc">: install Suricata</span></span>
+<span class="help-line">  <span class="help-flag">-vol</span>              <span class="help-desc">: install volatility</span></span>
+<span class="help-line">  <span class="help-flag">-vol3</span>             <span class="help-desc">: install volatility3</span></span>
+</div>
+<div class="help-section"><span class="help-header">Red Team Tools</span>
+<span class="help-line">  <span class="help-flag">-aircrack</span>         <span class="help-desc">: install aircrack-ng</span></span>
+<span class="help-line">  <span class="help-flag">-bypass</span>           <span class="help-desc">: install Bypass</span></span>
+<span class="help-line">  <span class="help-flag">-wpscan</span>           <span class="help-desc">: install wpscan</span></span>
+<span class="help-line">  <span class="help-flag">-wx</span>               <span class="help-desc">: install wxappUnpacker</span></span>
+<span class="help-line">  <span class="help-flag">-yakit</span>            <span class="help-desc">: install yakit</span></span>
+</div>
+<div class="help-section"><span class="help-header">Red Team Infrastructure</span>
+<span class="help-line">  <span class="help-flag">-arl</span>              <span class="help-desc">: install ARL (~872 MB)</span>              <span class="help-yellow">(github.com/TophantTechnology/ARL)</span></span>
+<span class="help-line">  <span class="help-flag">-awvs15</span>           <span class="help-desc">: install AWVS15</span></span>
+<span class="help-line">  <span class="help-flag">-cs45</span>             <span class="help-desc">: install CobaltStrike 4.5</span></span>
+<span class="help-line">  <span class="help-flag">-frp</span>              <span class="help-desc">: install frp</span></span>
+<span class="help-line">  <span class="help-flag">-interactsh</span>       <span class="help-desc">: install interactsh</span></span>
+<span class="help-line">  <span class="help-flag">-merlin</span>           <span class="help-desc">: install merlin</span></span>
+<span class="help-line">  <span class="help-flag">-msf</span>              <span class="help-desc">: install Metasploit</span></span>
+<span class="help-line">  <span class="help-flag">-mobsf</span>            <span class="help-desc">: install MobSF (~1.54 GB)</span></span>
+<span class="help-line">  <span class="help-flag">-mythic</span>           <span class="help-desc">: install mythic</span></span>
+<span class="help-line">  <span class="help-flag">-nodejsscan</span>       <span class="help-desc">: install nodejsscan (~873 MB)</span></span>
+<span class="help-line">  <span class="help-flag">-nps</span>              <span class="help-desc">: install nps</span></span>
+<span class="help-line">  <span class="help-flag">-pupy</span>             <span class="help-desc">: install pupy</span></span>
+<span class="help-line">  <span class="help-flag">-rg</span>               <span class="help-desc">: install RedGuard</span></span>
+<span class="help-line">  <span class="help-flag">-http</span>             <span class="help-desc">: install simplehttpserver</span></span>
+<span class="help-line">  <span class="help-flag">-sliver</span>           <span class="help-desc">: install sliver-server &amp;&amp; client</span></span>
+<span class="help-line">  <span class="help-flag">-sliver-client</span>    <span class="help-desc">: install sliver-client</span></span>
+<span class="help-line">  <span class="help-flag">-sps</span>              <span class="help-desc">: install SharPyShell</span></span>
+<span class="help-line">  <span class="help-flag">-viper</span>            <span class="help-desc">: install Viper (~2.1 GB)</span></span>
+</div>
+<div class="help-section"><span class="help-header">Vulnerable Environments</span>
+<span class="help-line">  <span class="help-flag">-metarget</span>         <span class="help-desc">: install metarget</span></span>
+<span class="help-line">  <span class="help-flag">-vulhub</span>           <span class="help-desc">: install vulhub (~210 MB)</span></span>
+<span class="help-line">  <span class="help-flag">-vulfocus</span>         <span class="help-desc">: install vulfocus (~1.04 GB)</span></span>
+<span class="help-line">  <span class="help-flag">-TerraformGoat</span>    <span class="help-desc">: install TerraformGoat</span></span>
+</div>
+<div class="help-section"><span class="help-header">Miscellaneous Services</span>
+<span class="help-line">  <span class="help-flag">-asciinema</span>        <span class="help-desc">: install asciinema</span></span>
+<span class="help-line">  <span class="help-flag">-aa</span>               <span class="help-desc">: install aaPanel</span></span>
+<span class="help-line">  <span class="help-flag">-1panel</span>           <span class="help-desc">: install 1Panel</span></span>
+<span class="help-line">  <span class="help-flag">-bt</span>               <span class="help-desc">: install 宝塔服务</span></span>
+<span class="help-line">  <span class="help-flag">-clash</span>            <span class="help-desc">: install clash</span></span>
+<span class="help-line">  <span class="help-flag">-nginx</span>            <span class="help-desc">: install nginx</span></span>
+<span class="help-line">  <span class="help-flag">-ssh</span>              <span class="help-desc">: install ssh</span>                        <span class="help-yellow">(RedHat default, no need to reinstall)</span></span>
+<span class="help-line">  <span class="help-flag">-ssr</span>              <span class="help-desc">: install ssr</span></span>
+<span class="help-line">  <span class="help-flag">-zsh</span>              <span class="help-desc">: install zsh</span></span>
+</div>
+<div class="help-section"><span class="help-header">Other</span>
+<span class="help-line">  <span class="help-flag">-clear</span>            <span class="help-desc">: Clean up system usage traces</span></span>
+<span class="help-line">  <span class="help-flag">-info</span>             <span class="help-desc">: View system information</span></span>
+<span class="help-line">  <span class="help-flag">-optimize</span>         <span class="help-desc">: Improve device options and optimize performance</span></span>
+<span class="help-line">  <span class="help-flag">-remove</span>           <span class="help-desc">: Uninstall some vps cloud monitoring</span></span>
+<span class="help-line">  <span class="help-flag">-rmlock</span>           <span class="help-desc">: Run the Unlock module</span></span>
+<span class="help-line">  <span class="help-flag">-swap</span>             <span class="help-desc">: Configuring swap partitions</span></span>
+<span class="help-line">  <span class="help-flag">-update</span>           <span class="help-desc">: Update f8x</span></span>
+<span class="help-line">  <span class="help-flag">-upgrade</span>          <span class="help-desc">: Upgrade some tools</span></span>
+</div>
+<span class="help-author">Author r0fus0d , feel free to submit an issue if you need to add tool support or run into problems</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── presets ── -->
+    <div class="section" id="presets">
+      <div class="section-head"><span class="num">#</span> <span data-i18n="presetsTitle">快速组合方案</span></div>
+      <div class="term">
+        <div class="term-bar">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+          <div class="term-title">bash — presets</div>
+        </div>
+        <div class="term-body">
+          <ul class="preset-list">
+            <li>
+              <span class="example-comment"># <span data-i18n="presetReconDesc">安装全部侦查 + 利用工具</span></span>
+            </li>
+            <li>
+              <span class="preset-alias">alias</span>
+              <span class="preset-cmd">pentest-full=<span style="color:var(--yellow)">'f8x -ka -kb'</span></span>
+              <span class="preset-desc" data-i18n="presetReconTitle">渗透全套</span>
+            </li>
+            <li>
+              <span class="example-comment"># <span data-i18n="presetDevDesc">Python3, Go, Docker, Node.js, SDKMAN</span></span>
+            </li>
+            <li>
+              <span class="preset-alias">alias</span>
+              <span class="preset-cmd">dev-env=<span style="color:var(--yellow)">'f8x -d'</span></span>
+              <span class="preset-desc" data-i18n="presetDevTitle">开发环境</span>
+            </li>
+            <li>
+              <span class="example-comment"># <span data-i18n="presetBlueDesc">Fail2Ban, rkhunter, anti-portscan</span></span>
+            </li>
+            <li>
+              <span class="preset-alias">alias</span>
+              <span class="preset-cmd">blue-team=<span style="color:var(--yellow)">'f8x -s'</span></span>
+              <span class="preset-desc" data-i18n="presetBlueTitle">蓝队防御</span>
+            </li>
+            <li>
+              <span class="example-comment"># <span data-i18n="presetC2Desc">CobaltStrike + frp + RedGuard</span></span>
+            </li>
+            <li>
+              <span class="preset-alias">alias</span>
+              <span class="preset-cmd">c2-setup=<span style="color:var(--yellow)">'f8x -cs45 -frp -rg'</span></span>
+              <span class="preset-desc" data-i18n="presetC2Title">C2 快速部署</span>
+            </li>
+            <li>
+              <span class="example-comment"># <span data-i18n="presetBasicDesc">基础工具 + SSH + Zsh</span></span>
+            </li>
+            <li>
+              <span class="preset-alias">alias</span>
+              <span class="preset-cmd">basic-all=<span style="color:var(--yellow)">'f8x -b -ssh -zsh'</span></span>
+              <span class="preset-desc" data-i18n="presetBasicTitle">基础环境</span>
+            </li>
+            <li>
+              <span class="example-comment"># <span data-i18n="presetReconLightDesc">nmap, httpx, subfinder, ffuf ...</span></span>
+            </li>
+            <li>
+              <span class="preset-alias">alias</span>
+              <span class="preset-cmd">recon-light=<span style="color:var(--yellow)">'f8x -ka'</span></span>
+              <span class="preset-desc" data-i18n="presetReconLightTitle">轻量侦查</span>
+            </li>
           </ul>
         </div>
-        <div class="card">
-          <h3 data-i18n="quickCard3Title">附加脚本</h3>
-          <p data-i18n="quickCard3Ctf">CTF 环境: 下载 f8x-ctf</p>
-          <div class="code-block">wget -O f8x-ctf https://f8x.wgpsec.org/f8x-ctf && bash f8x-ctf -help</div>
-          <p style="margin-top:12px;" data-i18n="quickCard3Dev">中间件/数据库: 下载 f8x-dev</p>
-          <div class="code-block">wget -O f8x-dev https://f8x.wgpsec.org/f8x-dev && bash f8x-dev -help</div>
-        </div>
       </div>
-    </section>
+    </div>
 
-    <section id="options">
-      <h2 data-i18n="optionsTitle">核心选项速览</h2>
-      <div class="grid">
-        <div class="card">
-          <h3 data-i18n="optionsCard1Title">批量化安装</h3>
-          <div class="pill-row">
-            <span class="pill">-b 基础</span>
-            <span class="pill">-p 代理</span>
-            <span class="pill">-d 开发</span>
-            <span class="pill">-k 渗透</span>
-            <span class="pill">-s 蓝队</span>
-            <span class="pill">-f 其他</span>
-            <span class="pill">-cloud 云</span>
-            <span class="pill">-all 全量</span>
-          </div>
-          <p style="margin-top:10px; color: var(--muted);" data-i18n="optionsCard1Body">根据场景选择组合参数，脚本自动完成环境拉起与工具安装。</p>
+    <!-- ── examples ── -->
+    <div class="section" id="examples">
+      <div class="section-head"><span class="num">#</span> <span data-i18n="examplesTitle">使用示例</span></div>
+      <div class="term">
+        <div class="term-bar">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+          <div class="term-title">bash — examples</div>
         </div>
-        <div class="card">
-          <h3 data-i18n="optionsCard2Title">开发栈</h3>
-          <p class="muted" data-i18n="optionsCard2Body">一键安装 Docker、Node.js、Go、JDK、Python2/3、Rust、Ruby、Perl、Lua、code-server 以及 Chromium/PhantomJS。</p>
-          <div class="pill-row">
-            <span class="pill">-docker</span><span class="pill">-nn</span><span class="pill">-go</span><span class="pill">-oraclejdk</span><span class="pill">-py3</span><span class="pill">-rust</span><span class="pill">-code</span>
+        <div class="term-body">
+          <div class="example-block">
+            <div><span class="example-comment"># <span data-i18n="exInstall">下载安装 f8x</span></span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">curl -o f8x https://f8x.io/f8x && chmod +x f8x</span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">mv f8x /usr/local/bin/</span></div>
           </div>
-        </div>
-        <div class="card">
-          <h3 data-i18n="optionsCard3Title">红队 & 基础设施</h3>
-          <p class="muted" data-i18n="optionsCard3Body">CobaltStrike、Merlin、Sliver、MSF、RedGuard、AWVS、frp、nps、pupy 等主流工具一键部署。</p>
-          <div class="pill-row">
-            <span class="pill">-cs/-cs45</span><span class="pill">-msf</span><span class="pill">-sliver</span><span class="pill">-rg</span><span class="pill">-pupy</span><span class="pill">-awvs14</span><span class="pill">-frp</span>
+          <div class="example-block">
+            <div><span class="example-comment"># <span data-i18n="exBase">安装基础环境 + 渗透工具集</span></span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">f8x -b</span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">f8x -ka</span></div>
           </div>
-        </div>
-        <div class="card">
-          <h3 data-i18n="optionsCard4Title">蓝队 & 取证</h3>
-          <p class="muted" data-i18n="optionsCard4Body">Fail2Ban、Suricata、binwalk/volatility/vol3、ClamAV、LogonTracer 等快速搭建。</p>
-          <div class="pill-row">
-            <span class="pill">-binwalk</span><span class="pill">-suricata</span><span class="pill">-vol/-vol3</span><span class="pill">-clamav</span><span class="pill">-lt</span>
+          <div class="example-block">
+            <div><span class="example-comment"># <span data-i18n="exC2">部署 C2 基础设施</span></span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">f8x -cs45 -frp -rg</span></div>
           </div>
-        </div>
-        <div class="card">
-          <h3 data-i18n="optionsCard5Title">Docker 场景</h3>
-          <p class="muted" data-i18n="optionsCard5Body">内置 ARL、MobSF、vulhub、vulfocus、nodejsscan、TerraformGoat 等镜像化方案。</p>
-          <div class="pill-row">
-            <span class="pill">-arl</span><span class="pill">-mobsf</span><span class="pill">-vulhub</span><span class="pill">-vulfocus</span><span class="pill">-nodejsscan</span><span class="pill">-TerraformGoat</span>
+          <div class="example-block">
+            <div><span class="example-comment"># <span data-i18n="exCI">CI/CD 非交互模式</span></span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">touch /tmp/IS_CI && f8x -k</span></div>
           </div>
-        </div>
-        <div class="card">
-          <h3 data-i18n="optionsCard6Title">杂项服务</h3>
-          <p class="muted" data-i18n="optionsCard6Body">asciinema、宝塔、clash、nginx、ssh、ssr、zsh 以及系统优化/清理/信息收集。</p>
-          <div class="pill-row">
-            <span class="pill">-asciinema</span><span class="pill">-bt</span><span class="pill">-clash</span><span class="pill">-nginx</span><span class="pill">-ssh</span><span class="pill">-clear</span><span class="pill">-info</span><span class="pill">-optimize</span>
+          <div class="example-block">
+            <div><span class="example-comment"># <span data-i18n="exCtf">CTF 环境</span></span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">wget -O f8x-ctf https://f8x.io/f8x-ctf && bash f8x-ctf -help</span></div>
+          </div>
+          <div class="example-block">
+            <div><span class="example-comment"># <span data-i18n="exDev">中间件/数据库环境</span></span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">wget -O f8x-dev https://f8x.io/f8x-dev && bash f8x-dev -help</span></div>
+          </div>
+          <div class="example-block">
+            <div><span class="example-comment"># <span data-i18n="exVersion">固定工具版本</span></span></div>
+            <div><span class="example-prompt">$ </span><span class="example-cmd">vim f8x_version.sh</span>  <span class="example-comment"># <span data-i18n="exVersionNote">覆盖变量以固定版本</span></span></div>
+          </div>
+          <div class="example-block" style="margin-bottom:0">
+            <div><span class="example-comment"># <span data-i18n="exDemo">在线演示录像</span></span></div>
+            <div><span class="example-out">  <a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY" target="_blank" rel="noreferrer">CentOS 7</a> · <a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt" target="_blank" rel="noreferrer">Debian 10</a> · <a href="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf" target="_blank" rel="noreferrer">Fedora 33</a> · <a href="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct" target="_blank" rel="noreferrer">Ubuntu 20.10</a></span></div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section id="examples">
-      <h2 data-i18n="examplesTitle">实际效果</h2>
-      <div class="grid">
-        <div class="card">
-          <h3 data-i18n="examplesCard1Title">-h 查看帮助</h3>
-          <img src="./assets/img/1.png" alt="f8x help output">
+    <!-- ── faq ── -->
+    <div class="section" id="faq">
+      <div class="section-head"><span class="num">#</span> FAQ</div>
+      <div class="term">
+        <div class="term-bar">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+          <div class="term-title">bash — faq</div>
         </div>
-        <div class="card">
-          <h3 data-i18n="examplesCard2Title">-all 全自动部署</h3>
-          <ul class="list-tight">
-            <li><a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY" target="_blank" rel="noreferrer">CentOS 7 演示</a></li>
-            <li><a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt" target="_blank" rel="noreferrer">Debian 10 演示</a></li>
-            <li><a href="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf" target="_blank" rel="noreferrer">Fedora 33 演示</a></li>
-            <li><a href="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct" target="_blank" rel="noreferrer">Ubuntu 20.10 演示</a></li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3 data-i18n="examplesCard3Title">CI/CD 运行</h3>
-          <p class="muted" data-i18n="examplesCard3Body">非交互模式：创建 /tmp/IS_CI 后直接运行渗透环境安装。</p>
-          <div class="code-block">touch /tmp/IS_CI && f8x -k</div>
-          <p style="margin-top:10px; color: var(--muted);" data-i18n="examplesCard3Note">可在流水线中批量验证工具链可用性。</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="examplesCard4Title">自定义版本</h3>
-          <p class="muted" data-i18n="examplesCard4Body">在同目录下创建 f8x_version.sh 覆盖变量，按需固定工具版本。</p>
+        <div class="term-body">
+          <div class="faq-item">
+            <div class="faq-q" data-i18n="faqQ1">-p 选项做什么?</div>
+            <div class="faq-a" data-i18n="faqA1">替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" data-i18n="faqQ2">如何避免交互?</div>
+            <div class="faq-a" data-i18n="faqA2">创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x。</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" data-i18n="faqQ3">许可证与社区?</div>
+            <div class="faq-a">Apache License 2.0 · <a href="https://github.com/knownsec/404StarLink2.0-Galaxy#community" target="_blank" rel="noreferrer">404Team StarLink 2.0</a></div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section id="faq">
-      <h2>FAQ</h2>
-      <div class="faq-item">
-        <h3 data-i18n="faqQ1">-p 选项做什么?</h3>
-        <p class="muted" data-i18n="faqA1">替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="faqQ2">如何避免交互?</h3>
-        <p class="muted" data-i18n="faqA2">创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x，例如触发 -k 批量安装渗透工具。</p>
-      </div>
-      <div class="faq-item">
-        <h3 data-i18n="faqQ3">许可证与社区?</h3>
-        <p class="muted" data-i18n="faqA3">f8x 采用 Apache License 2.0，已加入 404Team 星链计划 2.0。社区入口: https://github.com/knownsec/404StarLink2.0-Galaxy#community</p>
-      </div>
-    </section>
-
+    <!-- ── footer ── -->
     <footer>
-      <div>f8x · Apache License 2.0</div>
-        <div style="margin-top:6px;">团队主页: <a href="https://www.wgpsec.org/" target="_blank" rel="noreferrer">https://www.wgpsec.org/</a></div>
+      <div>f8x · Apache License 2.0 · <a href="https://www.wgpsec.org/" target="_blank" rel="noreferrer">WgpSec</a></div>
     </footer>
+
   </div>
+
   <script>
     const i18n = {
       zh: {
-        brandTagline: '自动化部署工具',
-        navStart: '开始',
-        navOptions: '选项',
-        navExamples: '示例',
-        navFaq: 'FAQ',
-        heroEyebrow: 'Red/Blue Team Automation',
-        heroTitle: '一键部署红蓝队与开发环境',
-        heroLead: 'f8x 是面向渗透、蓝队、防护及日常开发的自动化部署工具。无需预装依赖，覆盖批量化安装、开发栈、红蓝队工具、Docker 场景和杂项服务。',
-        heroCtaPages: '下载 f8x (Pages 加速)',
-        heroCtaRaw: '下载 f8x (raw)',
-        heroCtaRepo: '查看仓库',
+        navStart: '快速开始', navOptions: '选项', navPresets: '方案', navExamples: '示例', navFaq: 'FAQ',
+        heroTagline: '红蓝队环境自动化部署工具',
+        copyHint: '点击复制',
+        dlPages: 'Pages 下载', dlRaw: 'Raw 下载', dlRepo: 'GitHub 仓库',
         whyTitle: '为什么选择 f8x',
-        whyCard1Title: '多场景覆盖',
-        whyCard1Body: '红队、蓝队、渗透、云、安全开发、代理环境一套脚本即可完成，无需手工搜集命令。',
-        whyCard2Title: '即装即用',
-        whyCard2Body: '自动检测基础依赖，按需拉起容器或源码编译，支持常见 Linux 发行版与 arm64。',
-        whyCard3Title: '可插拔选项',
-        whyCard3Body: '通过参数自由组合批量化安装、渗透工具集、云工具与杂项服务，减少重复配置。',
-        whyCard4Title: '自动化友好',
-        whyCard4Body: '支持 CI/CD 无交互运行，只需在 /tmp 创建 IS_CI 文件即可批量验证环境。',
-        quickTitle: '快速开始',
-        quickCard1Title: '下载并执行',
-        quickCard1Note: '或使用 wget，命令保持一致。',
-        quickCard2Title: '常用入口',
-        quickList1: '-b 安装基础环境 (gcc、make、git、vim 等)',
-        quickList2: '-d 安装开发环境 (Python/Go/Docker 等)',
-        quickList3: '-k 安装渗透工具集 (-ka/-kb/-kc/-kd/-ke)',
-        quickList4: '-s 部署蓝队工具 (Fail2Ban、rkhunter 等)',
-        quickList5: '-all 全自动部署 (兼容主流发行版)',
-        quickCard3Title: '附加脚本',
-        quickCard3Ctf: 'CTF 环境: 下载 f8x-ctf',
-        quickCard3Dev: '中间件/数据库: 下载 f8x-dev',
-        optionsTitle: '核心选项速览',
-        optionsCard1Title: '批量化安装',
-        optionsCard1Body: '根据场景选择组合参数，脚本自动完成环境拉起与工具安装。',
-        optionsCard2Title: '开发栈',
-        optionsCard2Body: '一键安装 Docker、Node.js、Go、JDK、Python2/3、Rust、Ruby、Perl、Lua、code-server 以及 Chromium/PhantomJS。',
-        optionsCard3Title: '红队 & 基础设施',
-        optionsCard3Body: 'CobaltStrike、Merlin、Sliver、MSF、RedGuard、AWVS、frp、nps、pupy 等主流工具一键部署。',
-        optionsCard4Title: '蓝队 & 取证',
-        optionsCard4Body: 'Fail2Ban、Suricata、binwalk/volatility/vol3、ClamAV、LogonTracer 等快速搭建。',
-        optionsCard5Title: 'Docker 场景',
-        optionsCard5Body: '内置 ARL、MobSF、vulhub、vulfocus、nodejsscan、TerraformGoat 等镜像化方案。',
-        optionsCard6Title: '杂项服务',
-        optionsCard6Body: 'asciinema、宝塔、clash、nginx、ssh、ssr、zsh 以及系统优化/清理/信息收集。',
-        examplesTitle: '实际效果',
-        examplesCard1Title: '-h 查看帮助',
-        examplesCard2Title: '-all 全自动部署',
-        examplesCard3Title: 'CI/CD 运行',
-        examplesCard3Body: '非交互模式：创建 /tmp/IS_CI 后直接运行渗透环境安装。',
-        examplesCard3Note: '可在流水线中批量验证工具链可用性。',
-        examplesCard4Title: '自定义版本',
-        examplesCard4Body: '在同目录下创建 f8x_version.sh 覆盖变量，按需固定工具版本。',
+        feat1t: '多场景覆盖', feat1b: '红队、蓝队、渗透、云、安全开发、代理 — 一套脚本搞定',
+        feat2t: '即装即用', feat2b: '自动检测依赖，按需编译/拉取，支持主流 Linux + arm64',
+        feat3t: '可插拔选项', feat3b: '通过 flag 自由组合，减少重复配置',
+        feat4t: 'CI/CD 友好', feat4b: '创建 /tmp/IS_CI 即可非交互运行，适配流水线',
+        optionsTitle: 'f8x -h',
+        presetsTitle: '快速组合方案',
+        presetReconTitle: '渗透全套', presetReconDesc: '安装全部侦查 + 利用工具',
+        presetDevTitle: '开发环境', presetDevDesc: 'Python3, Go, Docker, Node.js, SDKMAN',
+        presetBlueTitle: '蓝队防御', presetBlueDesc: 'Fail2Ban, rkhunter, anti-portscan',
+        presetC2Title: 'C2 快速部署', presetC2Desc: 'CobaltStrike + frp + RedGuard',
+        presetBasicTitle: '基础环境', presetBasicDesc: '基础工具 + SSH + Zsh',
+        presetReconLightTitle: '轻量侦查', presetReconLightDesc: 'nmap, httpx, subfinder, ffuf ...',
+        examplesTitle: '使用示例',
+        exInstall: '下载安装 f8x', exBase: '安装基础环境 + 渗透工具集', exC2: '部署 C2 基础设施',
+        exCI: 'CI/CD 非交互模式', exCtf: 'CTF 环境', exDev: '中间件/数据库环境',
+        exVersion: '固定工具版本', exVersionNote: '覆盖变量以固定版本', exDemo: '在线演示录像',
         faqQ1: '-p 选项做什么?',
         faqA1: '替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。',
         faqQ2: '如何避免交互?',
-        faqA2: '创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x，例如触发 -k 批量安装渗透工具。',
-        faqQ3: '许可证与社区?',
-        faqA3: 'f8x 采用 Apache License 2.0，已加入 404Team 星链计划 2.0。社区入口: https://github.com/knownsec/404StarLink2.0-Galaxy#community'
+        faqA2: '创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x。',
+        faqQ3: '许可证与社区?'
       },
       en: {
-        brandTagline: 'Automation toolkit',
-        navStart: 'Start',
-        navOptions: 'Options',
-        navExamples: 'Examples',
-        navFaq: 'FAQ',
-        heroEyebrow: 'Red/Blue Team Automation',
-        heroTitle: 'Deploy red/blue and dev stacks in one go',
-        heroLead: 'f8x automates setup for pentest, blue team, defense, and daily development. No preinstalled dependencies needed; it covers batch installs, dev stacks, red/blue tools, Docker scenarios, and misc services.',
-        heroCtaPages: 'Download f8x (Pages CDN)',
-        heroCtaRaw: 'Download f8x (raw)',
-        heroCtaRepo: 'View repo',
+        navStart: 'Start', navOptions: 'Options', navPresets: 'Presets', navExamples: 'Examples', navFaq: 'FAQ',
+        heroTagline: 'Red/Blue Team Environment Automation',
+        copyHint: 'click to copy',
+        dlPages: 'Pages CDN', dlRaw: 'Raw download', dlRepo: 'GitHub repo',
         whyTitle: 'Why f8x',
-        whyCard1Title: 'Multi-scenario coverage',
-        whyCard1Body: 'One script for red team, blue team, cloud, secure dev, and proxy environments—no manual command hunting.',
-        whyCard2Title: 'Ready on install',
-        whyCard2Body: 'Auto-detects prerequisites, builds or pulls as needed; supports mainstream Linux distros and arm64.',
-        whyCard3Title: 'Pluggable options',
-        whyCard3Body: 'Combine batch installs, pentest packs, cloud tools, and utilities via flags to cut repetitive setup.',
-        whyCard4Title: 'Automation-friendly',
-        whyCard4Body: 'CI/CD non-interactive ready—drop an IS_CI file in /tmp to validate environments at scale.',
-        quickTitle: 'Quick start',
-        quickCard1Title: 'Download and run',
-        quickCard1Note: 'Or use wget with the same commands.',
-        quickCard2Title: 'Common flags',
-        quickList1: '-b Install base tools (gcc, make, git, vim, etc.)',
-        quickList2: '-d Install dev stack (Python/Go/Docker, etc.)',
-        quickList3: '-k Install pentest kits (-ka/-kb/-kc/-kd/-ke)',
-        quickList4: '-s Deploy blue-team tools (Fail2Ban, rkhunter, etc.)',
-        quickList5: '-all Full auto deploy (major distros)',
-        quickCard3Title: 'Extra scripts',
-        quickCard3Ctf: 'CTF stack: get f8x-ctf',
-        quickCard3Dev: 'Middleware/DB: get f8x-dev',
-        optionsTitle: 'Core options at a glance',
-        optionsCard1Title: 'Batch installs',
-        optionsCard1Body: 'Mix and match flags; the script handles provisioning and installs automatically.',
-        optionsCard2Title: 'Dev stack',
-        optionsCard2Body: 'One-click Docker, Node.js, Go, JDK, Python2/3, Rust, Ruby, Perl, Lua, code-server, Chromium/PhantomJS.',
-        optionsCard3Title: 'Red team & infra',
-        optionsCard3Body: 'CobaltStrike, Merlin, Sliver, MSF, RedGuard, AWVS, frp, nps, pupy and more in one shot.',
-        optionsCard4Title: 'Blue team & forensics',
-        optionsCard4Body: 'Fail2Ban, Suricata, binwalk/volatility/vol3, ClamAV, LogonTracer, and more quickly provisioned.',
-        optionsCard5Title: 'Docker scenarios',
-        optionsCard5Body: 'Bundled ARL, MobSF, vulhub, vulfocus, nodejsscan, TerraformGoat images.',
-        optionsCard6Title: 'Misc services',
-        optionsCard6Body: 'asciinema, BT panel, clash, nginx, ssh, ssr, zsh plus system info/cleanup/optimizations.',
-        examplesTitle: 'In action',
-        examplesCard1Title: '-h Help view',
-        examplesCard2Title: '-all Full auto deploy',
-        examplesCard3Title: 'CI/CD run',
-        examplesCard3Body: 'Non-interactive: create /tmp/IS_CI then run pentest installs.',
-        examplesCard3Note: 'Validate toolchains in pipelines at scale.',
-        examplesCard4Title: 'Custom versions',
-        examplesCard4Body: 'Place f8x_version.sh nearby to pin/override versions.',
+        feat1t: 'Multi-scenario', feat1b: 'Red team, blue team, pentest, cloud, dev, proxy — one script does it all',
+        feat2t: 'Ready on install', feat2b: 'Auto-detects deps, compiles or pulls as needed. Supports major Linux distros + arm64',
+        feat3t: 'Pluggable flags', feat3b: 'Mix and match flags to cut repetitive setup',
+        feat4t: 'CI/CD friendly', feat4b: 'Drop /tmp/IS_CI for non-interactive pipeline runs',
+        optionsTitle: 'f8x -h',
+        presetsTitle: 'Quick Combo Presets',
+        presetReconTitle: 'Full Pentest', presetReconDesc: 'All recon + exploit tools',
+        presetDevTitle: 'Dev Environment', presetDevDesc: 'Python3, Go, Docker, Node.js, SDKMAN',
+        presetBlueTitle: 'Blue Team', presetBlueDesc: 'Fail2Ban, rkhunter, anti-portscan',
+        presetC2Title: 'C2 Setup', presetC2Desc: 'CobaltStrike + frp + RedGuard',
+        presetBasicTitle: 'Basic Setup', presetBasicDesc: 'Base tools + SSH + Zsh',
+        presetReconLightTitle: 'Recon Light', presetReconLightDesc: 'nmap, httpx, subfinder, ffuf ...',
+        examplesTitle: 'Usage Examples',
+        exInstall: 'Download & install f8x', exBase: 'Base env + pentest toolkit', exC2: 'Deploy C2 infra',
+        exCI: 'CI/CD non-interactive', exCtf: 'CTF environment', exDev: 'Middleware/database env',
+        exVersion: 'Pin tool versions', exVersionNote: 'Override variables to pin versions', exDemo: 'Live demo recordings',
         faqQ1: 'What does -p do?',
-        faqA1: 'Switches DNS, checks build basics, optionally compiles Proxychains-ng, asks for /etc/proxychains.conf, sets pip & docker mirrors and restarts docker.',
+        faqA1: 'Switches DNS, checks build basics, optionally compiles Proxychains-ng, sets pip & docker mirrors and restarts docker.',
         faqQ2: 'How to avoid prompts?',
-        faqA2: 'Create /tmp/IS_CI to run f8x non-interactively in CI/CD, e.g., for -k pentest kits.',
-        faqQ3: 'License and community?',
-        faqA3: 'f8x uses Apache License 2.0 and is part of 404Team StarLink 2.0. Community: https://github.com/knownsec/404StarLink2.0-Galaxy#community'
+        faqA2: 'Create /tmp/IS_CI to run f8x non-interactively in CI/CD.',
+        faqQ3: 'License & community?'
       }
     };
 
     function applyLang(lang) {
       const dict = i18n[lang] || i18n.zh;
       document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
-      document.querySelectorAll('[data-i18n]').forEach((el) => {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.dataset.i18n;
         if (dict[key]) el.textContent = dict[key];
       });

@@ -1,6 +1,7 @@
 {
   "version": "1.8.1 (2025/03/04)",
-  "updated_at": "2026-03-15T07:33:44Z",
+  "catalog_version": 2,
+  "updated_at": "2026-03-15T11:30:53Z",
   "modules": [
     {
       "id": "1panel",
@@ -1307,12 +1308,9 @@
       "id": "recon-light",
       "name": "Recon Light",
       "nameZh": "轻量侦查",
-      "description": "nmap + httpx + subfinder + ffuf",
+      "description": "Recon tools suite (nmap, httpx, subfinder, ffuf ...)",
       "flags": [
-        "-nmap",
-        "-httpx",
-        "-subfinder",
-        "-ffuf"
+        "-ka"
       ]
     }
   ]

@@ -57,7 +57,7 @@ CATEGORY_MAP = {
     "-crawl":       {"category": "development",    "name": "Crawl Tools",         "nameZh": "爬虫工具集",          "desc": "Install crawl tools", "descZh": "安装爬虫工具集", "tags": ["crawler"]},
     "-phantomjs":   {"category": "development",    "name": "PhantomJS",           "nameZh": "PhantomJS",           "desc": "Install PhantomJS", "descZh": "安装 PhantomJS", "tags": ["browser"]},
     "-jenv":        {"category": "development",    "name": "jenv",                "nameZh": "jenv Java 版本管理",  "desc": "Install jenv for Java version management", "descZh": "安装 jenv Java 版本管理器", "tags": ["language"]},
-    "-sdkman":      {"category": "development",    "name": "SDKMAN",              "nameZh": "SDKMAN",              "desc": "Install SDKMAN for JVM SDK management", "descZh": "安装 SDKMAN JVM SDK 管理器", "tags": ["tool"]},
+
 
     # Blue Team
     "-binwalk":     {"category": "blue-team",      "name": "Binwalk",             "nameZh": "Binwalk 固件分析",    "desc": "Firmware analysis tool", "descZh": "固件分析工具", "tags": ["forensics"]},
@@ -95,7 +95,7 @@ CATEGORY_MAP = {
 
     # Docker-based / Vuln Environments
     "-awvs":        {"category": "red-infra",      "name": "AWVS",                "nameZh": "AWVS 漏扫",          "desc": "Acunetix web vulnerability scanner", "descZh": "Acunetix Web 漏洞扫描器", "tags": ["vuln-scanner"]},
-    "-awvs15":      {"category": "red-infra",      "name": "AWVS 15",             "nameZh": "AWVS 15 漏扫",       "desc": "Acunetix 15", "descZh": "Acunetix 15 Web 漏洞扫描器", "tags": ["vuln-scanner"]},
+
     "-mobsf":       {"category": "red-infra",      "name": "MobSF",               "nameZh": "MobSF 移动安全",     "desc": "Mobile security framework", "descZh": "移动安全测试框架", "tags": ["mobile"]},
     "-nodejsscan":  {"category": "red-infra",      "name": "nodejsscan",          "nameZh": "nodejsscan",         "desc": "Node.js security scanner", "descZh": "Node.js 安全扫描器", "tags": ["scanner"]},
     "-vulhub":      {"category": "vuln-env",       "name": "VulHub",              "nameZh": "VulHub 漏洞环境",    "desc": "Docker vulnerable environments", "descZh": "Docker 漏洞环境集", "tags": ["docker", "vuln"]},
@@ -114,7 +114,7 @@ CATEGORY_MAP = {
     "-ssr":         {"category": "misc",           "name": "SSR",                 "nameZh": "SSR 代理",            "desc": "Install SSR", "descZh": "安装 SSR", "tags": ["proxy"]},
     "-zsh":         {"category": "misc",           "name": "Zsh + Oh-My-Zsh",     "nameZh": "Zsh 终端",            "desc": "Install zsh with Oh-My-Zsh", "descZh": "安装 Zsh 及 Oh-My-Zsh", "tags": ["shell"]},
     "-jq":          {"category": "misc",           "name": "jq",                  "nameZh": "jq JSON 处理",        "desc": "Command-line JSON processor", "descZh": "命令行 JSON 处理器", "tags": ["cli"]},
-    "-terraform":   {"category": "misc",           "name": "Terraform",           "nameZh": "Terraform IaC",      "desc": "Infrastructure as Code", "descZh": "基础设施即代码工具", "tags": ["iac", "cloud"]},
+
 
     # Supplementary
     "-ad":          {"category": "pentest-recon",  "name": "Attack & Detect",     "nameZh": "攻防检测工具",        "desc": "Attack & Detection tools", "descZh": "攻防检测工具集", "tags": ["batch"]},
@@ -143,7 +143,7 @@ PRESETS = [
     {"id": "blue-team",     "name": "Blue Team",     "nameZh": "蓝队防御",  "description": "Fail2Ban, rkhunter, anti-portscan", "flags": ["-s"]},
     {"id": "c2-setup",      "name": "C2 Setup",      "nameZh": "C2 快速部署","description": "CobaltStrike + frp + RedGuard", "flags": ["-cs45", "-frp", "-rg"]},
     {"id": "basic-all",     "name": "Basic Setup",   "nameZh": "基础环境",  "description": "Base tools + SSH + Zsh", "flags": ["-b", "-ssh", "-zsh"]},
-    {"id": "recon-light",   "name": "Recon Light",   "nameZh": "轻量侦查",  "description": "nmap + httpx + subfinder + ffuf", "flags": ["-nmap", "-httpx", "-subfinder", "-ffuf"]},
+    {"id": "recon-light",   "name": "Recon Light",   "nameZh": "轻量侦查",  "description": "Recon tools suite (nmap, httpx, subfinder, ffuf ...)", "flags": ["-ka"]},
 ]
 
 # ── 分类元数据 ──
@@ -234,6 +234,7 @@ def generate_catalog(script_path):
 
     return {
         "version": version,
+        "catalog_version": 2,
         "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "modules": modules,
         "categories": categories_with_count,
