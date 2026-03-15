@@ -209,15 +209,18 @@
     .section-head .num { color: var(--red); }
 
     /* ── help output (inside dark terminal) ── */
-    .help-section { margin-bottom: 4px; }
-    .help-header { color: #5f87d7; font-weight: 700; }
-    .help-line { white-space: pre; }
-    .help-flag { color: #5f87d7; font-weight: 700; }
-    .help-desc { color: #5f87d7; font-weight: 400; }
-    .help-note { color: #5faf5f; }
-    .help-warn { color: #e05050; }
-    .help-yellow { color: #d7af5f; }
-    .help-author { color: #e4e4e4; font-weight: 700; }
+    .help-section { margin-bottom: 12px; }
+    .help-header { color: #5f87d7; font-weight: 700; display: block; margin-bottom: 4px; }
+    .help-table { display: table; border-collapse: collapse; width: 100%; }
+    .help-row { display: table-row; }
+    .help-row:hover { background: rgba(255,255,255,0.03); }
+    .help-cell { display: table-cell; padding: 1px 0; vertical-align: top; white-space: nowrap; }
+    .help-cell-flag { width: 170px; padding-left: 12px; color: #5f87d7; font-weight: 700; }
+    .help-cell-desc { color: #8a8a8a; padding-left: 4px; }
+    .help-cell-note { color: #5faf5f; padding-left: 12px; font-size: 12px; }
+    .help-cell-note.warn { color: #e05050; }
+    .help-cell-note.yellow { color: #d7af5f; }
+    .help-author { color: #e4e4e4; font-weight: 700; display: block; margin-top: 8px; }
 
     /* ── feature grid ── */
     .features {
@@ -289,6 +292,43 @@
     .script-name { color: var(--cyan); font-weight: 700; }
     .script-desc { color: var(--dim); font-size: 12px; margin: 4px 0 8px; }
 
+    /* ── redc integration ── */
+    .redc-flow {
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .redc-flow .flow-label { color: #5faf5f; font-weight: 700; }
+    .redc-flow .flow-arrow { color: #666666; }
+    .redc-flow .flow-box {
+      display: inline;
+      color: #cccccc;
+      border: 1px solid #3a3a3a;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+    }
+    .redc-flow .flow-highlight { color: #e05050; font-weight: 700; }
+    .redc-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .redc-feat {
+      background: var(--surface);
+      padding: 16px 20px;
+    }
+    .redc-feat-icon { font-size: 18px; margin-bottom: 6px; }
+    .redc-feat-title { color: var(--red); font-size: 12px; font-weight: 500; margin-bottom: 4px; }
+    .redc-feat-body { color: var(--dim); font-size: 12px; line-height: 1.5; }
+    @media (max-width: 640px) {
+      .redc-features { grid-template-columns: 1fr; }
+    }
+
     /* ── footer ── */
     footer {
       margin-top: 48px;
@@ -311,6 +351,8 @@
       .hero-install .copy-hint { display: none; }
       .term-body { font-size: 11px; padding: 12px; }
       .preset-desc { display: none; }
+      .help-cell-note { display: none; }
+      .help-cell-flag { width: auto; min-width: 100px; }
     }
 
     /* ── typing cursor ── */
@@ -336,6 +378,7 @@
         <a href="#start" data-i18n="navStart">快速开始</a>
         <a href="#options" data-i18n="navOptions">选项</a>
         <a href="#presets" data-i18n="navPresets">方案</a>
+        <a href="#redc" data-i18n="navRedc">redc</a>
         <a href="#examples" data-i18n="navExamples">示例</a>
         <a href="#faq" data-i18n="navFaq">FAQ</a>
       </nav>
@@ -398,99 +441,107 @@
         </div>
         <div class="term-body">
 <div class="help-section"><span class="help-header">Batch installation</span>
-<span class="help-line">  <span class="help-flag">-b</span>                <span class="help-desc">: install Basic Environment</span>          <span class="help-note">(gcc, make, git, vim, telnet, jq, unzip ...)</span></span>
-<span class="help-line">  <span class="help-flag">-p</span>                <span class="help-desc">: install Proxy Environment</span>          <span class="help-warn">(Warning : Use only when needed)</span></span>
-<span class="help-line">  <span class="help-flag">-d</span>                <span class="help-desc">: install Development Environment</span>    <span class="help-note">(python3, pip3, Go, Docker, Docker-Compose, SDKMAN)</span></span>
-<span class="help-line">  <span class="help-flag">-k(a/b/c/d/e)</span>     <span class="help-desc">: install Pentest environment</span>        <span class="help-note">(hashcat, ffuf, OneForAll, ksubdomain, impacket ...)</span></span>
-<span class="help-line">  <span class="help-flag">-s</span>                <span class="help-desc">: install Blue Team Environment</span>      <span class="help-note">(Fail2Ban, chkrootkit, rkhunter, shellpub)</span></span>
-<span class="help-line">  <span class="help-flag">-f</span>                <span class="help-desc">: install Other Tools</span>                <span class="help-note">(AdguardTeam, trash-cli, fzf)</span></span>
-<span class="help-line">  <span class="help-flag">-cloud</span>            <span class="help-desc">: install Cloud Applications</span>         <span class="help-note">(Terraform, Serverless Framework, wrangler)</span></span>
-<span class="help-line">  <span class="help-flag">-all</span>              <span class="help-desc">: fully automated deployment</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-b</span><span class="help-cell help-cell-desc">: install Basic Environment</span><span class="help-cell help-cell-note">(gcc, make, git, vim, telnet, jq, unzip ...)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-p</span><span class="help-cell help-cell-desc">: install Proxy Environment</span><span class="help-cell help-cell-note warn">(Warning : Use only when needed)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-d</span><span class="help-cell help-cell-desc">: install Development Environment</span><span class="help-cell help-cell-note">(python3, pip3, Go, Docker, SDKMAN)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-k(a/b/c/d/e)</span><span class="help-cell help-cell-desc">: install Pentest environment</span><span class="help-cell help-cell-note">(hashcat, ffuf, OneForAll, impacket ...)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-s</span><span class="help-cell help-cell-desc">: install Blue Team Environment</span><span class="help-cell help-cell-note">(Fail2Ban, chkrootkit, rkhunter)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-f</span><span class="help-cell help-cell-desc">: install Other Tools</span><span class="help-cell help-cell-note">(AdguardTeam, trash-cli, fzf)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-cloud</span><span class="help-cell help-cell-desc">: install Cloud Applications</span><span class="help-cell help-cell-note">(Terraform, Serverless, wrangler)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-all</span><span class="help-cell help-cell-desc">: fully automated deployment</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <div class="help-section"><span class="help-header">Development Environment</span>
-<span class="help-line">  <span class="help-flag">-docker</span>           <span class="help-desc">: install docker</span></span>
-<span class="help-line">  <span class="help-flag">-docker-cn</span>        <span class="help-desc">: install docker (aliyun source)</span></span>
-<span class="help-line">  <span class="help-flag">-lua</span>              <span class="help-desc">: install lua</span></span>
-<span class="help-line">  <span class="help-flag">-nn</span>               <span class="help-desc">: install npm &amp; NodeJs</span></span>
-<span class="help-line">  <span class="help-flag">-go</span>               <span class="help-desc">: install golang</span></span>
-<span class="help-line">  <span class="help-flag">-oraclejdk(8/11/17)</span> <span class="help-desc">: install oraclejdk</span></span>
-<span class="help-line">  <span class="help-flag">-openjdk</span>          <span class="help-desc">: install openjdk</span></span>
-<span class="help-line">  <span class="help-flag">-py3(7/8/9/10)</span>    <span class="help-desc">: install python3</span>                    <span class="help-yellow">(Based on package manager)</span></span>
-<span class="help-line">  <span class="help-flag">-py2</span>              <span class="help-desc">: install python2</span>                    <span class="help-yellow">(Based on package manager)</span></span>
-<span class="help-line">  <span class="help-flag">-py2-f</span>            <span class="help-desc">: force install python2</span>              <span class="help-yellow">(Recommended if -py2 fails)</span></span>
-<span class="help-line">  <span class="help-flag">-pip2-f</span>           <span class="help-desc">: force install pip2</span>                 <span class="help-yellow">(Recommended if -py2 fails)</span></span>
-<span class="help-line">  <span class="help-flag">-pyenv</span>            <span class="help-desc">: install pyenv</span></span>
-<span class="help-line">  <span class="help-flag">-perl</span>             <span class="help-desc">: install perl</span></span>
-<span class="help-line">  <span class="help-flag">-ruby</span>             <span class="help-desc">: install ruby</span>                       <span class="help-yellow">(If that fails, try -ruby-f)</span></span>
-<span class="help-line">  <span class="help-flag">-rust</span>             <span class="help-desc">: install rust</span></span>
-<span class="help-line">  <span class="help-flag">-code</span>             <span class="help-desc">: install code-server</span></span>
-<span class="help-line">  <span class="help-flag">-chromium</span>         <span class="help-desc">: install Chromium</span>                   <span class="help-yellow">(Used with rad, crawlergo)</span></span>
-<span class="help-line">  <span class="help-flag">-crawl</span>            <span class="help-desc">: install crawl tools</span></span>
-<span class="help-line">  <span class="help-flag">-phantomjs</span>        <span class="help-desc">: install PhantomJS</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-docker</span><span class="help-cell help-cell-desc">: install docker</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-docker-cn</span><span class="help-cell help-cell-desc">: install docker (aliyun source)</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-lua</span><span class="help-cell help-cell-desc">: install lua</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-nn</span><span class="help-cell help-cell-desc">: install npm &amp; NodeJs</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-go</span><span class="help-cell help-cell-desc">: install golang</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-oraclejdk(8/11/17)</span><span class="help-cell help-cell-desc">: install oraclejdk</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-openjdk</span><span class="help-cell help-cell-desc">: install openjdk</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-py3(7/8/9/10)</span><span class="help-cell help-cell-desc">: install python3</span><span class="help-cell help-cell-note yellow">(Based on package manager)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-py2</span><span class="help-cell help-cell-desc">: install python2</span><span class="help-cell help-cell-note yellow">(Based on package manager)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-py2-f</span><span class="help-cell help-cell-desc">: force install python2</span><span class="help-cell help-cell-note yellow">(Recommended if -py2 fails)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-pip2-f</span><span class="help-cell help-cell-desc">: force install pip2</span><span class="help-cell help-cell-note yellow">(Recommended if -py2 fails)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-pyenv</span><span class="help-cell help-cell-desc">: install pyenv</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-perl</span><span class="help-cell help-cell-desc">: install perl</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-ruby</span><span class="help-cell help-cell-desc">: install ruby</span><span class="help-cell help-cell-note yellow">(If that fails, try -ruby-f)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-rust</span><span class="help-cell help-cell-desc">: install rust</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-code</span><span class="help-cell help-cell-desc">: install code-server</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-chromium</span><span class="help-cell help-cell-desc">: install Chromium</span><span class="help-cell help-cell-note yellow">(Used with rad, crawlergo)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-crawl</span><span class="help-cell help-cell-desc">: install crawl tools</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-phantomjs</span><span class="help-cell help-cell-desc">: install PhantomJS</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <div class="help-section"><span class="help-header">Blue Team Tools</span>
-<span class="help-line">  <span class="help-flag">-binwalk</span>          <span class="help-desc">: install binwalk</span></span>
-<span class="help-line">  <span class="help-flag">-binwalk-f</span>        <span class="help-desc">: force install binwalk</span>              <span class="help-yellow">(Recommended if -binwalk fails)</span></span>
-<span class="help-line">  <span class="help-flag">-clamav</span>           <span class="help-desc">: install ClamAV</span></span>
-<span class="help-line">  <span class="help-flag">-lt</span>               <span class="help-desc">: install LogonTracer</span>                <span class="help-yellow">(High hardware requirements)</span></span>
-<span class="help-line">  <span class="help-flag">-suricata</span>         <span class="help-desc">: install Suricata</span></span>
-<span class="help-line">  <span class="help-flag">-vol</span>              <span class="help-desc">: install volatility</span></span>
-<span class="help-line">  <span class="help-flag">-vol3</span>             <span class="help-desc">: install volatility3</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-binwalk</span><span class="help-cell help-cell-desc">: install binwalk</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-binwalk-f</span><span class="help-cell help-cell-desc">: force install binwalk</span><span class="help-cell help-cell-note yellow">(Recommended if -binwalk fails)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-clamav</span><span class="help-cell help-cell-desc">: install ClamAV</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-lt</span><span class="help-cell help-cell-desc">: install LogonTracer</span><span class="help-cell help-cell-note yellow">(High hardware requirements)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-suricata</span><span class="help-cell help-cell-desc">: install Suricata</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-vol</span><span class="help-cell help-cell-desc">: install volatility</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-vol3</span><span class="help-cell help-cell-desc">: install volatility3</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <div class="help-section"><span class="help-header">Red Team Tools</span>
-<span class="help-line">  <span class="help-flag">-aircrack</span>         <span class="help-desc">: install aircrack-ng</span></span>
-<span class="help-line">  <span class="help-flag">-bypass</span>           <span class="help-desc">: install Bypass</span></span>
-<span class="help-line">  <span class="help-flag">-wpscan</span>           <span class="help-desc">: install wpscan</span></span>
-<span class="help-line">  <span class="help-flag">-wx</span>               <span class="help-desc">: install wxappUnpacker</span></span>
-<span class="help-line">  <span class="help-flag">-yakit</span>            <span class="help-desc">: install yakit</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-aircrack</span><span class="help-cell help-cell-desc">: install aircrack-ng</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-bypass</span><span class="help-cell help-cell-desc">: install Bypass</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-wpscan</span><span class="help-cell help-cell-desc">: install wpscan</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-wx</span><span class="help-cell help-cell-desc">: install wxappUnpacker</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-yakit</span><span class="help-cell help-cell-desc">: install yakit</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <div class="help-section"><span class="help-header">Red Team Infrastructure</span>
-<span class="help-line">  <span class="help-flag">-arl</span>              <span class="help-desc">: install ARL (~872 MB)</span>              <span class="help-yellow">(github.com/TophantTechnology/ARL)</span></span>
-<span class="help-line">  <span class="help-flag">-awvs15</span>           <span class="help-desc">: install AWVS15</span></span>
-<span class="help-line">  <span class="help-flag">-cs45</span>             <span class="help-desc">: install CobaltStrike 4.5</span></span>
-<span class="help-line">  <span class="help-flag">-frp</span>              <span class="help-desc">: install frp</span></span>
-<span class="help-line">  <span class="help-flag">-interactsh</span>       <span class="help-desc">: install interactsh</span></span>
-<span class="help-line">  <span class="help-flag">-merlin</span>           <span class="help-desc">: install merlin</span></span>
-<span class="help-line">  <span class="help-flag">-msf</span>              <span class="help-desc">: install Metasploit</span></span>
-<span class="help-line">  <span class="help-flag">-mobsf</span>            <span class="help-desc">: install MobSF (~1.54 GB)</span></span>
-<span class="help-line">  <span class="help-flag">-mythic</span>           <span class="help-desc">: install mythic</span></span>
-<span class="help-line">  <span class="help-flag">-nodejsscan</span>       <span class="help-desc">: install nodejsscan (~873 MB)</span></span>
-<span class="help-line">  <span class="help-flag">-nps</span>              <span class="help-desc">: install nps</span></span>
-<span class="help-line">  <span class="help-flag">-pupy</span>             <span class="help-desc">: install pupy</span></span>
-<span class="help-line">  <span class="help-flag">-rg</span>               <span class="help-desc">: install RedGuard</span></span>
-<span class="help-line">  <span class="help-flag">-http</span>             <span class="help-desc">: install simplehttpserver</span></span>
-<span class="help-line">  <span class="help-flag">-sliver</span>           <span class="help-desc">: install sliver-server &amp;&amp; client</span></span>
-<span class="help-line">  <span class="help-flag">-sliver-client</span>    <span class="help-desc">: install sliver-client</span></span>
-<span class="help-line">  <span class="help-flag">-sps</span>              <span class="help-desc">: install SharPyShell</span></span>
-<span class="help-line">  <span class="help-flag">-viper</span>            <span class="help-desc">: install Viper (~2.1 GB)</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-arl</span><span class="help-cell help-cell-desc">: install ARL (~872 MB)</span><span class="help-cell help-cell-note yellow">(github.com/TophantTechnology/ARL)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-awvs15</span><span class="help-cell help-cell-desc">: install AWVS15</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-cs45</span><span class="help-cell help-cell-desc">: install CobaltStrike 4.5</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-frp</span><span class="help-cell help-cell-desc">: install frp</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-interactsh</span><span class="help-cell help-cell-desc">: install interactsh</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-merlin</span><span class="help-cell help-cell-desc">: install merlin</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-msf</span><span class="help-cell help-cell-desc">: install Metasploit</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-mobsf</span><span class="help-cell help-cell-desc">: install MobSF (~1.54 GB)</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-mythic</span><span class="help-cell help-cell-desc">: install mythic</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-nodejsscan</span><span class="help-cell help-cell-desc">: install nodejsscan (~873 MB)</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-nps</span><span class="help-cell help-cell-desc">: install nps</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-pupy</span><span class="help-cell help-cell-desc">: install pupy</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-rg</span><span class="help-cell help-cell-desc">: install RedGuard</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-http</span><span class="help-cell help-cell-desc">: install simplehttpserver</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-sliver</span><span class="help-cell help-cell-desc">: install sliver-server &amp;&amp; client</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-sliver-client</span><span class="help-cell help-cell-desc">: install sliver-client</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-sps</span><span class="help-cell help-cell-desc">: install SharPyShell</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-viper</span><span class="help-cell help-cell-desc">: install Viper (~2.1 GB)</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <div class="help-section"><span class="help-header">Vulnerable Environments</span>
-<span class="help-line">  <span class="help-flag">-metarget</span>         <span class="help-desc">: install metarget</span></span>
-<span class="help-line">  <span class="help-flag">-vulhub</span>           <span class="help-desc">: install vulhub (~210 MB)</span></span>
-<span class="help-line">  <span class="help-flag">-vulfocus</span>         <span class="help-desc">: install vulfocus (~1.04 GB)</span></span>
-<span class="help-line">  <span class="help-flag">-TerraformGoat</span>    <span class="help-desc">: install TerraformGoat</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-metarget</span><span class="help-cell help-cell-desc">: install metarget</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-vulhub</span><span class="help-cell help-cell-desc">: install vulhub (~210 MB)</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-vulfocus</span><span class="help-cell help-cell-desc">: install vulfocus (~1.04 GB)</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-TerraformGoat</span><span class="help-cell help-cell-desc">: install TerraformGoat</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <div class="help-section"><span class="help-header">Miscellaneous Services</span>
-<span class="help-line">  <span class="help-flag">-asciinema</span>        <span class="help-desc">: install asciinema</span></span>
-<span class="help-line">  <span class="help-flag">-aa</span>               <span class="help-desc">: install aaPanel</span></span>
-<span class="help-line">  <span class="help-flag">-1panel</span>           <span class="help-desc">: install 1Panel</span></span>
-<span class="help-line">  <span class="help-flag">-bt</span>               <span class="help-desc">: install 宝塔服务</span></span>
-<span class="help-line">  <span class="help-flag">-clash</span>            <span class="help-desc">: install clash</span></span>
-<span class="help-line">  <span class="help-flag">-nginx</span>            <span class="help-desc">: install nginx</span></span>
-<span class="help-line">  <span class="help-flag">-ssh</span>              <span class="help-desc">: install ssh</span>                        <span class="help-yellow">(RedHat default, no need to reinstall)</span></span>
-<span class="help-line">  <span class="help-flag">-ssr</span>              <span class="help-desc">: install ssr</span></span>
-<span class="help-line">  <span class="help-flag">-zsh</span>              <span class="help-desc">: install zsh</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-asciinema</span><span class="help-cell help-cell-desc">: install asciinema</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-aa</span><span class="help-cell help-cell-desc">: install aaPanel</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-1panel</span><span class="help-cell help-cell-desc">: install 1Panel</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-bt</span><span class="help-cell help-cell-desc">: install 宝塔服务</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-clash</span><span class="help-cell help-cell-desc">: install clash</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-nginx</span><span class="help-cell help-cell-desc">: install nginx</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-ssh</span><span class="help-cell help-cell-desc">: install ssh</span><span class="help-cell help-cell-note yellow">(RedHat default, no need to reinstall)</span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-ssr</span><span class="help-cell help-cell-desc">: install ssr</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-zsh</span><span class="help-cell help-cell-desc">: install zsh</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <div class="help-section"><span class="help-header">Other</span>
-<span class="help-line">  <span class="help-flag">-clear</span>            <span class="help-desc">: Clean up system usage traces</span></span>
-<span class="help-line">  <span class="help-flag">-info</span>             <span class="help-desc">: View system information</span></span>
-<span class="help-line">  <span class="help-flag">-optimize</span>         <span class="help-desc">: Improve device options and optimize performance</span></span>
-<span class="help-line">  <span class="help-flag">-remove</span>           <span class="help-desc">: Uninstall some vps cloud monitoring</span></span>
-<span class="help-line">  <span class="help-flag">-rmlock</span>           <span class="help-desc">: Run the Unlock module</span></span>
-<span class="help-line">  <span class="help-flag">-swap</span>             <span class="help-desc">: Configuring swap partitions</span></span>
-<span class="help-line">  <span class="help-flag">-update</span>           <span class="help-desc">: Update f8x</span></span>
-<span class="help-line">  <span class="help-flag">-upgrade</span>          <span class="help-desc">: Upgrade some tools</span></span>
-</div>
+<div class="help-table">
+<div class="help-row"><span class="help-cell help-cell-flag">-clear</span><span class="help-cell help-cell-desc">: Clean up system usage traces</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-info</span><span class="help-cell help-cell-desc">: View system information</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-optimize</span><span class="help-cell help-cell-desc">: Optimize performance</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-remove</span><span class="help-cell help-cell-desc">: Uninstall vps cloud monitoring</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-rmlock</span><span class="help-cell help-cell-desc">: Run the Unlock module</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-swap</span><span class="help-cell help-cell-desc">: Configuring swap partitions</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-update</span><span class="help-cell help-cell-desc">: Update f8x</span><span class="help-cell help-cell-note"></span></div>
+<div class="help-row"><span class="help-cell help-cell-flag">-upgrade</span><span class="help-cell help-cell-desc">: Upgrade some tools</span><span class="help-cell help-cell-note"></span></div>
+</div></div>
 <span class="help-author">Author r0fus0d , feel free to submit an issue if you need to add tool support or run into problems</span>
         </div>
       </div>
@@ -558,6 +609,65 @@
             </li>
           </ul>
         </div>
+      </div>
+    </div>
+
+    <!-- ── redc integration ── -->
+    <div class="section" id="redc">
+      <div class="section-head"><span class="num">#</span> <span data-i18n="redcTitle">redc × f8x 融合</span></div>
+      <div class="term">
+        <div class="term-bar">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+          <div class="term-title">redc — software store</div>
+        </div>
+        <div class="term-body redc-flow">
+<div><span class="example-comment"># <span data-i18n="redcFlowDesc">redc 多云部署平台内置 f8x 软件商店，部署后一键装机</span></span></div>
+<div style="margin:12px 0;">
+<span class="flow-label">redc GUI</span> <span class="flow-arrow">──▶</span> <span class="flow-box" data-i18n="redcFlowStore">软件商店 (98 tools)</span> <span class="flow-arrow">──▶</span> <span class="flow-box">SSH</span> <span class="flow-arrow">──▶</span> <span class="flow-box">VPS</span>
+</div>
+<div style="margin-bottom:12px;">
+<span class="flow-arrow">               │</span>
+</div>
+<div style="margin-bottom:12px;">
+<span class="flow-arrow">               ├──</span> <span class="flow-box">wget -O /tmp/f8x https://f8x.io/f8x</span>
+</div>
+<div style="margin-bottom:12px;">
+<span class="flow-arrow">               ├──</span> <span class="flow-box">bash /tmp/f8x -nmap -ffuf -httpx</span>
+</div>
+<div style="margin-bottom:4px;">
+<span class="flow-arrow">               └──</span> <span class="flow-box" data-i18n="redcFlowStream">实时输出 → SSH 终端</span>
+</div>
+<div style="margin-top:16px;"><span class="example-comment"># <span data-i18n="redcFlowNote">f8x 作为 redc 的软件安装引擎，用户通过 GUI 选择工具，redc 通过 SSH 在目标机器执行 f8x</span></span></div>
+        </div>
+      </div>
+
+      <div class="redc-features">
+        <div class="redc-feat">
+          <div class="redc-feat-icon">🖥️</div>
+          <div class="redc-feat-title" data-i18n="redcFeat1t">GUI 软件商店</div>
+          <div class="redc-feat-body" data-i18n="redcFeat1b">在 redc 中以可视化商店形式浏览 f8x 全部 98 个工具模块，分类筛选、搜索、批量勾选</div>
+        </div>
+        <div class="redc-feat">
+          <div class="redc-feat-icon">📡</div>
+          <div class="redc-feat-title" data-i18n="redcFeat2t">SSH 终端联动</div>
+          <div class="redc-feat-body" data-i18n="redcFeat2b">安装过程在 redc 内置 SSH 终端实时展示，用户可直接交互处理安装选项</div>
+        </div>
+        <div class="redc-feat">
+          <div class="redc-feat-icon">☁️</div>
+          <div class="redc-feat-title" data-i18n="redcFeat3t">多云部署后装机</div>
+          <div class="redc-feat-body" data-i18n="redcFeat3b">redc 一键部署 AWS/阿里云/GCP 等 VPS 后，直接在软件商店选择工具完成环境搭建</div>
+        </div>
+        <div class="redc-feat">
+          <div class="redc-feat-icon">🔄</div>
+          <div class="redc-feat-title" data-i18n="redcFeat4t">catalog 自动同步</div>
+          <div class="redc-feat-body" data-i18n="redcFeat4b">f8x 工具目录通过 catalog.json 自动同步到 redc，f8x 新增工具后 redc 自动更新</div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px; font-size:12px; color:var(--dim); text-align:center;">
+        <a href="https://github.com/wgpsec/redc" target="_blank" rel="noreferrer" style="color:var(--red);" data-i18n="redcLink">了解 redc 多云部署平台 →</a>
       </div>
     </div>
 
@@ -647,7 +757,7 @@
   <script>
     const i18n = {
       zh: {
-        navStart: '快速开始', navOptions: '选项', navPresets: '方案', navExamples: '示例', navFaq: 'FAQ',
+        navStart: '快速开始', navOptions: '选项', navPresets: '方案', navRedc: 'redc', navExamples: '示例', navFaq: 'FAQ',
         heroTagline: '红蓝队环境自动化部署工具',
         copyHint: '点击复制',
         dlPages: 'Pages 下载', dlRaw: 'Raw 下载', dlRepo: 'GitHub 仓库',
@@ -664,6 +774,16 @@
         presetC2Title: 'C2 快速部署', presetC2Desc: 'CobaltStrike + frp + RedGuard',
         presetBasicTitle: '基础环境', presetBasicDesc: '基础工具 + SSH + Zsh',
         presetReconLightTitle: '轻量侦查', presetReconLightDesc: 'nmap, httpx, subfinder, ffuf ...',
+        redcTitle: 'redc × f8x 融合',
+        redcFlowDesc: 'redc 多云部署平台内置 f8x 软件商店，部署后一键装机',
+        redcFlowStore: '软件商店 (98 tools)',
+        redcFlowStream: '实时输出 → SSH 终端',
+        redcFlowNote: 'f8x 作为 redc 的软件安装引擎，用户通过 GUI 选择工具，redc 通过 SSH 在目标机器执行 f8x',
+        redcFeat1t: 'GUI 软件商店', redcFeat1b: '在 redc 中以可视化商店形式浏览 f8x 全部 98 个工具模块，分类筛选、搜索、批量勾选',
+        redcFeat2t: 'SSH 终端联动', redcFeat2b: '安装过程在 redc 内置 SSH 终端实时展示，用户可直接交互处理安装选项',
+        redcFeat3t: '多云部署后装机', redcFeat3b: 'redc 一键部署 AWS/阿里云/GCP 等 VPS 后，直接在软件商店选择工具完成环境搭建',
+        redcFeat4t: 'catalog 自动同步', redcFeat4b: 'f8x 工具目录通过 catalog.json 自动同步到 redc，f8x 新增工具后 redc 自动更新',
+        redcLink: '了解 redc 多云部署平台 →',
         examplesTitle: '使用示例',
         exInstall: '下载安装 f8x', exBase: '安装基础环境 + 渗透工具集', exC2: '部署 C2 基础设施',
         exCI: 'CI/CD 非交互模式', exCtf: 'CTF 环境', exDev: '中间件/数据库环境',
@@ -675,7 +795,7 @@
         faqQ3: '许可证与社区?'
       },
       en: {
-        navStart: 'Start', navOptions: 'Options', navPresets: 'Presets', navExamples: 'Examples', navFaq: 'FAQ',
+        navStart: 'Start', navOptions: 'Options', navPresets: 'Presets', navRedc: 'redc', navExamples: 'Examples', navFaq: 'FAQ',
         heroTagline: 'Red/Blue Team Environment Automation',
         copyHint: 'click to copy',
         dlPages: 'Pages CDN', dlRaw: 'Raw download', dlRepo: 'GitHub repo',
@@ -692,6 +812,16 @@
         presetC2Title: 'C2 Setup', presetC2Desc: 'CobaltStrike + frp + RedGuard',
         presetBasicTitle: 'Basic Setup', presetBasicDesc: 'Base tools + SSH + Zsh',
         presetReconLightTitle: 'Recon Light', presetReconLightDesc: 'nmap, httpx, subfinder, ffuf ...',
+        redcTitle: 'redc × f8x Integration',
+        redcFlowDesc: 'redc multi-cloud platform has a built-in f8x software store for post-deploy provisioning',
+        redcFlowStore: 'Software Store (98 tools)',
+        redcFlowStream: 'Live output → SSH terminal',
+        redcFlowNote: 'f8x serves as redc\'s tool installation engine — users pick tools in GUI, redc executes f8x on targets via SSH',
+        redcFeat1t: 'GUI Software Store', redcFeat1b: 'Browse all 98 f8x modules visually in redc — filter by category, search, batch select',
+        redcFeat2t: 'SSH Terminal Sync', redcFeat2b: 'Install output streams live to redc\'s built-in SSH terminal, allowing interactive input',
+        redcFeat3t: 'Post-deploy Provisioning', redcFeat3b: 'After deploying VPS on AWS/Alibaba/GCP via redc, pick tools in the store to set up the environment',
+        redcFeat4t: 'Auto Catalog Sync', redcFeat4b: 'f8x tool catalog (catalog.json) auto-syncs to redc — new tools in f8x appear in redc automatically',
+        redcLink: 'Learn about redc multi-cloud platform →',
         examplesTitle: 'Usage Examples',
         exInstall: 'Download & install f8x', exBase: 'Base env + pentest toolkit', exC2: 'Deploy C2 infra',
         exCI: 'CI/CD non-interactive', exCtf: 'CTF environment', exDev: 'Middleware/database env',
