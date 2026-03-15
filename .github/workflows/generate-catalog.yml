@@ -1,0 +1,67 @@
+name: Generate f8x Catalog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'f8x'
+      - 'f8x-ctf'
+      - 'f8x-dev'
+      - 'f8x.ps1'
+      - 'index.html'
+      - 'assets/**'
+      - 'generate_catalog.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Generate catalog.json
+        run: python3 generate_catalog.py ./f8x ./catalog.json
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p _site
+          # 生成的目录文件
+          cp catalog.json _site/catalog.json
+          # 网站页面
+          cp index.html _site/index.html
+          cp CNAME _site/CNAME
+          cp -r assets _site/assets 2>/dev/null || true
+          # f8x 脚本文件（供下载）
+          cp f8x _site/f8x
+          cp f8x-ctf _site/f8x-ctf 2>/dev/null || true
+          cp f8x-dev _site/f8x-dev 2>/dev/null || true
+          cp f8x.ps1 _site/f8x.ps1 2>/dev/null || true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: generate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

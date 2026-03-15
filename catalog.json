@@ -1,0 +1,1319 @@
+{
+  "version": "1.8.1 (2025/03/04)",
+  "updated_at": "2026-03-15T07:33:44Z",
+  "modules": [
+    {
+      "id": "1panel",
+      "name": "1Panel",
+      "nameZh": "1Panel 面板",
+      "flag": "-1panel",
+      "category": "misc",
+      "description": "1Panel server management",
+      "descriptionZh": "1Panel 服务器管理面板",
+      "tags": [
+        "panel"
+      ]
+    },
+    {
+      "id": "terraformgoat",
+      "name": "TerraformGoat",
+      "nameZh": "TerraformGoat 云靶场",
+      "flag": "-TerraformGoat",
+      "category": "vuln-env",
+      "description": "Terraform vulnerable cloud env",
+      "descriptionZh": "基于 Terraform 的云漏洞靶场",
+      "tags": [
+        "cloud",
+        "terraform"
+      ]
+    },
+    {
+      "id": "aa",
+      "name": "aaPanel",
+      "nameZh": "aaPanel 面板",
+      "flag": "-aa",
+      "category": "misc",
+      "description": "aaPanel server management",
+      "descriptionZh": "aaPanel 服务器管理面板",
+      "tags": [
+        "panel"
+      ]
+    },
+    {
+      "id": "ad",
+      "name": "Attack & Detect",
+      "nameZh": "攻防检测工具",
+      "flag": "-ad",
+      "category": "pentest-recon",
+      "description": "Attack & Detection tools",
+      "descriptionZh": "攻防检测工具集",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "aircrack",
+      "name": "aircrack-ng",
+      "nameZh": "aircrack-ng WiFi",
+      "flag": "-aircrack",
+      "category": "red-infra",
+      "description": "WiFi security auditing",
+      "descriptionZh": "WiFi 安全审计工具",
+      "tags": [
+        "wifi"
+      ]
+    },
+    {
+      "id": "all",
+      "name": "Full Install",
+      "nameZh": "全量安装",
+      "flag": "-all",
+      "category": "basic",
+      "description": "Fully automated deployment of all tools",
+      "descriptionZh": "全自动部署所有工具",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "arl",
+      "name": "ARL",
+      "nameZh": "ARL 资产侦察",
+      "flag": "-arl",
+      "category": "red-infra",
+      "description": "Asset Reconnaissance Lighthouse",
+      "descriptionZh": "灯塔资产侦察系统",
+      "tags": [
+        "asset"
+      ]
+    },
+    {
+      "id": "asciinema",
+      "name": "asciinema",
+      "nameZh": "asciinema 终端录制",
+      "flag": "-asciinema",
+      "category": "misc",
+      "description": "Terminal session recorder",
+      "descriptionZh": "终端会话录制工具",
+      "tags": [
+        "terminal"
+      ]
+    },
+    {
+      "id": "awvs",
+      "name": "AWVS",
+      "nameZh": "AWVS 漏扫",
+      "flag": "-awvs",
+      "category": "red-infra",
+      "description": "Acunetix web vulnerability scanner",
+      "descriptionZh": "Acunetix Web 漏洞扫描器",
+      "tags": [
+        "vuln-scanner"
+      ]
+    },
+    {
+      "id": "b",
+      "name": "Basic Tools",
+      "nameZh": "基础工具集",
+      "flag": "-b",
+      "category": "basic",
+      "description": "gcc, make, git, vim, curl, wget, jq, unzip ...",
+      "descriptionZh": "基础编译和常用工具集合",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "binwalk",
+      "name": "Binwalk",
+      "nameZh": "Binwalk 固件分析",
+      "flag": "-binwalk",
+      "category": "blue-team",
+      "description": "Firmware analysis tool",
+      "descriptionZh": "固件分析工具",
+      "tags": [
+        "forensics"
+      ]
+    },
+    {
+      "id": "binwalk-f",
+      "name": "Binwalk (force)",
+      "nameZh": "Binwalk 强制安装",
+      "flag": "-binwalk-f",
+      "category": "blue-team",
+      "description": "Force install binwalk",
+      "descriptionZh": "强制安装 Binwalk",
+      "tags": [
+        "forensics"
+      ]
+    },
+    {
+      "id": "bt",
+      "name": "宝塔面板",
+      "nameZh": "宝塔面板",
+      "flag": "-bt",
+      "category": "misc",
+      "description": "BT Panel",
+      "descriptionZh": "宝塔服务器管理面板",
+      "tags": [
+        "panel"
+      ]
+    },
+    {
+      "id": "bypass",
+      "name": "Bypass",
+      "nameZh": "Bypass 绕过",
+      "flag": "-bypass",
+      "category": "red-infra",
+      "description": "AV/EDR bypass tools",
+      "descriptionZh": "杀软/EDR 绕过工具",
+      "tags": [
+        "evasion"
+      ]
+    },
+    {
+      "id": "chromium",
+      "name": "Chromium",
+      "nameZh": "Chromium 浏览器",
+      "flag": "-chromium",
+      "category": "development",
+      "description": "Install Chromium headless",
+      "descriptionZh": "安装 Chromium 无头浏览器",
+      "tags": [
+        "browser"
+      ]
+    },
+    {
+      "id": "clamav",
+      "name": "ClamAV",
+      "nameZh": "ClamAV 杀毒",
+      "flag": "-clamav",
+      "category": "blue-team",
+      "description": "Open source antivirus",
+      "descriptionZh": "开源杀毒引擎",
+      "tags": [
+        "antivirus"
+      ]
+    },
+    {
+      "id": "clear",
+      "name": "Clear Logs",
+      "nameZh": "清理痕迹",
+      "flag": "-clear",
+      "category": "system",
+      "description": "Clean up system usage traces",
+      "descriptionZh": "清理系统使用痕迹",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud Tools",
+      "nameZh": "云工具套件",
+      "flag": "-cloud",
+      "category": "misc",
+      "description": "Terraform, redc, Serverless Framework",
+      "descriptionZh": "云相关工具集",
+      "tags": [
+        "batch",
+        "cloud"
+      ]
+    },
+    {
+      "id": "code",
+      "name": "code-server",
+      "nameZh": "code-server",
+      "flag": "-code",
+      "category": "development",
+      "description": "Install VS Code in browser",
+      "descriptionZh": "安装浏览器版 VS Code",
+      "tags": [
+        "ide"
+      ]
+    },
+    {
+      "id": "crawl",
+      "name": "Crawl Tools",
+      "nameZh": "爬虫工具集",
+      "flag": "-crawl",
+      "category": "development",
+      "description": "Install crawl tools",
+      "descriptionZh": "安装爬虫工具集",
+      "tags": [
+        "crawler"
+      ]
+    },
+    {
+      "id": "cs",
+      "name": "CobaltStrike",
+      "nameZh": "CobaltStrike C2",
+      "flag": "-cs",
+      "category": "red-infra",
+      "description": "CobaltStrike C2 framework",
+      "descriptionZh": "CobaltStrike C2 框架",
+      "tags": [
+        "c2"
+      ]
+    },
+    {
+      "id": "cs45",
+      "name": "CobaltStrike 4.5",
+      "nameZh": "CobaltStrike 4.5",
+      "flag": "-cs45",
+      "category": "red-infra",
+      "description": "CobaltStrike 4.5 C2",
+      "descriptionZh": "CobaltStrike 4.5 C2 框架",
+      "tags": [
+        "c2"
+      ]
+    },
+    {
+      "id": "d",
+      "name": "Dev Environment",
+      "nameZh": "开发环境全套",
+      "flag": "-d",
+      "category": "development",
+      "description": "Python3, pip3, Go, Docker, Docker-Compose, SDKMAN",
+      "descriptionZh": "一键安装开发环境",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "debug",
+      "name": "Debug Tools",
+      "nameZh": "调试工具",
+      "flag": "-debug",
+      "category": "development",
+      "description": "Install debugging tools",
+      "descriptionZh": "安装调试工具",
+      "tags": [
+        "debug"
+      ]
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "nameZh": "Docker",
+      "flag": "-docker",
+      "category": "development",
+      "description": "Install Docker engine",
+      "descriptionZh": "安装 Docker 引擎",
+      "tags": [
+        "container"
+      ]
+    },
+    {
+      "id": "docker-cn",
+      "name": "Docker (China)",
+      "nameZh": "Docker (阿里云源)",
+      "flag": "-docker-cn",
+      "category": "development",
+      "description": "Install Docker with Aliyun mirror",
+      "descriptionZh": "使用阿里云源安装 Docker",
+      "tags": [
+        "container"
+      ]
+    },
+    {
+      "id": "f",
+      "name": "Fun Tools Suite",
+      "nameZh": "实用工具全套",
+      "flag": "-f",
+      "category": "misc",
+      "description": "AdGuard, fzf, lux, ttyd, duf, yq ...",
+      "descriptionZh": "一键安装实用工具集",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "frp",
+      "name": "frp",
+      "nameZh": "frp 内网穿透",
+      "flag": "-frp",
+      "category": "red-infra",
+      "description": "Fast reverse proxy",
+      "descriptionZh": "快速反向代理/内网穿透",
+      "tags": [
+        "proxy",
+        "tunnel"
+      ]
+    },
+    {
+      "id": "go",
+      "name": "Go",
+      "nameZh": "Go 语言",
+      "flag": "-go",
+      "category": "development",
+      "description": "Install Go",
+      "descriptionZh": "安装 Go 语言环境",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "http",
+      "name": "SimpleHTTPServer",
+      "nameZh": "SimpleHTTPServer",
+      "flag": "-http",
+      "category": "red-infra",
+      "description": "Simple HTTP file server",
+      "descriptionZh": "简易 HTTP 文件服务",
+      "tags": [
+        "http"
+      ]
+    },
+    {
+      "id": "info",
+      "name": "System Info",
+      "nameZh": "系统信息",
+      "flag": "-info",
+      "category": "system",
+      "description": "View system information",
+      "descriptionZh": "查看系统信息",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "interactsh",
+      "name": "Interactsh",
+      "nameZh": "Interactsh OOB",
+      "flag": "-interactsh",
+      "category": "red-infra",
+      "description": "OOB interaction server",
+      "descriptionZh": "带外交互收集服务器",
+      "tags": [
+        "oob"
+      ]
+    },
+    {
+      "id": "jenv",
+      "name": "jenv",
+      "nameZh": "jenv Java 版本管理",
+      "flag": "-jenv",
+      "category": "development",
+      "description": "Install jenv for Java version management",
+      "descriptionZh": "安装 jenv Java 版本管理器",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "jq",
+      "name": "jq",
+      "nameZh": "jq JSON 处理",
+      "flag": "-jq",
+      "category": "misc",
+      "description": "Command-line JSON processor",
+      "descriptionZh": "命令行 JSON 处理器",
+      "tags": [
+        "cli"
+      ]
+    },
+    {
+      "id": "k",
+      "name": "Pentest Suite",
+      "nameZh": "渗透工具全套",
+      "flag": "-k",
+      "category": "pentest-recon",
+      "description": "All pentest tools (recon + exploit + post)",
+      "descriptionZh": "全部渗透工具套件",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "k8s",
+      "name": "Kubernetes",
+      "nameZh": "Kubernetes",
+      "flag": "-k8s",
+      "category": "development",
+      "description": "Install Kubernetes",
+      "descriptionZh": "安装 Kubernetes",
+      "tags": [
+        "container",
+        "k8s"
+      ]
+    },
+    {
+      "id": "ka",
+      "name": "Recon Suite",
+      "nameZh": "侦查工具全套",
+      "flag": "-ka",
+      "category": "pentest-recon",
+      "description": "nmap, masscan, ffuf, httpx, subfinder ...",
+      "descriptionZh": "一键安装侦查工具",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "kb",
+      "name": "Exploit Suite",
+      "nameZh": "利用工具全套",
+      "flag": "-kb",
+      "category": "pentest-exploit",
+      "description": "Metasploit, Nuclei, xray, Sqlmap ...",
+      "descriptionZh": "一键安装利用工具",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "kc",
+      "name": "Post Suite C",
+      "nameZh": "后渗透工具 C",
+      "flag": "-kc",
+      "category": "pentest-post",
+      "description": "impacket, hashcat, Responder ...",
+      "descriptionZh": "后渗透/AD 攻击工具集",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "kd",
+      "name": "Post Suite D",
+      "nameZh": "后渗透工具 D",
+      "flag": "-kd",
+      "category": "pentest-post",
+      "description": "Advanced post-exploitation tools",
+      "descriptionZh": "高级后渗透工具集",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "ke",
+      "name": "Post Suite E",
+      "nameZh": "后渗透工具 E",
+      "flag": "-ke",
+      "category": "pentest-post",
+      "description": "Pentest tools suite E",
+      "descriptionZh": "渗透工具集 E",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "lt",
+      "name": "LogonTracer",
+      "nameZh": "LogonTracer 日志",
+      "flag": "-lt",
+      "category": "blue-team",
+      "description": "Windows logon event analysis",
+      "descriptionZh": "Windows 登录事件分析",
+      "tags": [
+        "forensics"
+      ]
+    },
+    {
+      "id": "lua",
+      "name": "Lua",
+      "nameZh": "Lua",
+      "flag": "-lua",
+      "category": "development",
+      "description": "Install Lua",
+      "descriptionZh": "安装 Lua",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "merlin",
+      "name": "Merlin",
+      "nameZh": "Merlin C2",
+      "flag": "-merlin",
+      "category": "red-infra",
+      "description": "Merlin C2 (HTTP/2)",
+      "descriptionZh": "Merlin C2 框架",
+      "tags": [
+        "c2"
+      ]
+    },
+    {
+      "id": "metarget",
+      "name": "Metarget",
+      "nameZh": "Metarget 靶机",
+      "flag": "-metarget",
+      "category": "vuln-env",
+      "description": "Cloud-native target construction",
+      "descriptionZh": "自动化云原生靶机构建",
+      "tags": [
+        "cloud",
+        "vuln"
+      ]
+    },
+    {
+      "id": "mobsf",
+      "name": "MobSF",
+      "nameZh": "MobSF 移动安全",
+      "flag": "-mobsf",
+      "category": "red-infra",
+      "description": "Mobile security framework",
+      "descriptionZh": "移动安全测试框架",
+      "tags": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "msf",
+      "name": "Metasploit",
+      "nameZh": "Metasploit 框架",
+      "flag": "-msf",
+      "category": "pentest-exploit",
+      "description": "Penetration testing framework",
+      "descriptionZh": "渗透测试框架",
+      "tags": [
+        "framework"
+      ]
+    },
+    {
+      "id": "music",
+      "name": "UnblockNeteaseMusic",
+      "nameZh": "网易云解锁",
+      "flag": "-music",
+      "category": "misc",
+      "description": "Unblock Netease Music",
+      "descriptionZh": "网易云音乐解锁",
+      "tags": [
+        "music"
+      ]
+    },
+    {
+      "id": "mythic",
+      "name": "Mythic",
+      "nameZh": "Mythic C2",
+      "flag": "-mythic",
+      "category": "red-infra",
+      "description": "Mythic C2 framework",
+      "descriptionZh": "Mythic C2 框架",
+      "tags": [
+        "c2"
+      ]
+    },
+    {
+      "id": "nginx",
+      "name": "Nginx",
+      "nameZh": "Nginx Web 服务器",
+      "flag": "-nginx",
+      "category": "misc",
+      "description": "Nginx from source",
+      "descriptionZh": "从源码编译安装 Nginx",
+      "tags": [
+        "web",
+        "server"
+      ]
+    },
+    {
+      "id": "nn",
+      "name": "Node.js + npm",
+      "nameZh": "Node.js",
+      "flag": "-nn",
+      "category": "development",
+      "description": "Install Node.js and npm",
+      "descriptionZh": "安装 Node.js 和 npm",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "nodejsscan",
+      "name": "nodejsscan",
+      "nameZh": "nodejsscan",
+      "flag": "-nodejsscan",
+      "category": "red-infra",
+      "description": "Node.js security scanner",
+      "descriptionZh": "Node.js 安全扫描器",
+      "tags": [
+        "scanner"
+      ]
+    },
+    {
+      "id": "nps",
+      "name": "nps",
+      "nameZh": "nps 内网穿透",
+      "flag": "-nps",
+      "category": "red-infra",
+      "description": "Intranet proxy server",
+      "descriptionZh": "轻量级内网穿透代理",
+      "tags": [
+        "proxy",
+        "tunnel"
+      ]
+    },
+    {
+      "id": "openjdk",
+      "name": "OpenJDK",
+      "nameZh": "OpenJDK",
+      "flag": "-openjdk",
+      "category": "development",
+      "description": "Install OpenJDK",
+      "descriptionZh": "安装 OpenJDK",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "optimize",
+      "name": "Optimize",
+      "nameZh": "系统优化",
+      "flag": "-optimize",
+      "category": "system",
+      "description": "Optimize system performance",
+      "descriptionZh": "优化系统性能参数",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "oraclejdk",
+      "name": "Oracle JDK",
+      "nameZh": "Oracle JDK",
+      "flag": "-oraclejdk",
+      "category": "development",
+      "description": "Install Oracle JDK",
+      "descriptionZh": "安装 Oracle JDK",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "oraclejdk11",
+      "name": "Oracle JDK 11",
+      "nameZh": "Oracle JDK 11",
+      "flag": "-oraclejdk11",
+      "category": "development",
+      "description": "Install Oracle JDK 11",
+      "descriptionZh": "安装 Oracle JDK 11",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "oraclejdk17",
+      "name": "Oracle JDK 17",
+      "nameZh": "Oracle JDK 17",
+      "flag": "-oraclejdk17",
+      "category": "development",
+      "description": "Install Oracle JDK 17",
+      "descriptionZh": "安装 Oracle JDK 17",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "oraclejdk8",
+      "name": "Oracle JDK 8",
+      "nameZh": "Oracle JDK 8",
+      "flag": "-oraclejdk8",
+      "category": "development",
+      "description": "Install Oracle JDK 8",
+      "descriptionZh": "安装 Oracle JDK 8",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "p",
+      "name": "Proxy Environment",
+      "nameZh": "代理环境",
+      "flag": "-p",
+      "category": "basic",
+      "description": "Install proxy environment (proxychains)",
+      "descriptionZh": "安装代理环境",
+      "tags": [
+        "proxy"
+      ]
+    },
+    {
+      "id": "perl",
+      "name": "Perl",
+      "nameZh": "Perl",
+      "flag": "-perl",
+      "category": "development",
+      "description": "Install Perl",
+      "descriptionZh": "安装 Perl",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "phantomjs",
+      "name": "PhantomJS",
+      "nameZh": "PhantomJS",
+      "flag": "-phantomjs",
+      "category": "development",
+      "description": "Install PhantomJS",
+      "descriptionZh": "安装 PhantomJS",
+      "tags": [
+        "browser"
+      ]
+    },
+    {
+      "id": "pip2-f",
+      "name": "pip2 (force)",
+      "nameZh": "pip2 (强制)",
+      "flag": "-pip2-f",
+      "category": "development",
+      "description": "Force install pip2",
+      "descriptionZh": "强制安装 pip2",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "proxy",
+      "name": "Proxychains",
+      "nameZh": "Proxychains 代理链",
+      "flag": "-proxy",
+      "category": "basic",
+      "description": "Install Proxychains-ng",
+      "descriptionZh": "安装 Proxychains-ng 代理链",
+      "tags": [
+        "proxy"
+      ]
+    },
+    {
+      "id": "pupy",
+      "name": "Pupy",
+      "nameZh": "Pupy RAT",
+      "flag": "-pupy",
+      "category": "red-infra",
+      "description": "Cross-platform RAT",
+      "descriptionZh": "跨平台远控工具",
+      "tags": [
+        "c2",
+        "rat"
+      ]
+    },
+    {
+      "id": "py2",
+      "name": "Python 2",
+      "nameZh": "Python 2",
+      "flag": "-py2",
+      "category": "development",
+      "description": "Install Python 2",
+      "descriptionZh": "安装 Python 2",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "py2-f",
+      "name": "Python 2 (force)",
+      "nameZh": "Python 2 (强制)",
+      "flag": "-py2-f",
+      "category": "development",
+      "description": "Force install Python 2",
+      "descriptionZh": "强制安装 Python 2",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "py3",
+      "name": "Python 3",
+      "nameZh": "Python 3",
+      "flag": "-py3",
+      "category": "development",
+      "description": "Install Python 3",
+      "descriptionZh": "安装 Python 3",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "py310",
+      "name": "Python 3.10",
+      "nameZh": "Python 3.10",
+      "flag": "-py310",
+      "category": "development",
+      "description": "Install Python 3.10",
+      "descriptionZh": "安装 Python 3.10",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "py37",
+      "name": "Python 3.7",
+      "nameZh": "Python 3.7",
+      "flag": "-py37",
+      "category": "development",
+      "description": "Install Python 3.7",
+      "descriptionZh": "安装 Python 3.7",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "py38",
+      "name": "Python 3.8",
+      "nameZh": "Python 3.8",
+      "flag": "-py38",
+      "category": "development",
+      "description": "Install Python 3.8",
+      "descriptionZh": "安装 Python 3.8",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "py39",
+      "name": "Python 3.9",
+      "nameZh": "Python 3.9",
+      "flag": "-py39",
+      "category": "development",
+      "description": "Install Python 3.9",
+      "descriptionZh": "安装 Python 3.9",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "pyenv",
+      "name": "pyenv",
+      "nameZh": "pyenv 版本管理",
+      "flag": "-pyenv",
+      "category": "development",
+      "description": "Install pyenv",
+      "descriptionZh": "安装 pyenv Python 版本管理器",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "remove",
+      "name": "Remove Watchers",
+      "nameZh": "卸载监控",
+      "flag": "-remove",
+      "category": "system",
+      "description": "Remove VPS cloud monitoring",
+      "descriptionZh": "卸载 VPS 云监控",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "rg",
+      "name": "RedGuard",
+      "nameZh": "RedGuard 流量伪装",
+      "flag": "-rg",
+      "category": "red-infra",
+      "description": "C2 front flow control",
+      "descriptionZh": "C2 前置流量控制工具",
+      "tags": [
+        "proxy",
+        "evasion"
+      ]
+    },
+    {
+      "id": "rmlock",
+      "name": "Remove Lock",
+      "nameZh": "解锁包管理器",
+      "flag": "-rmlock",
+      "category": "system",
+      "description": "Run the unlock module",
+      "descriptionZh": "解除包管理器锁",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "ruby",
+      "name": "Ruby",
+      "nameZh": "Ruby",
+      "flag": "-ruby",
+      "category": "development",
+      "description": "Install Ruby",
+      "descriptionZh": "安装 Ruby",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "ruby-f",
+      "name": "Ruby (force)",
+      "nameZh": "Ruby (强制安装)",
+      "flag": "-ruby-f",
+      "category": "development",
+      "description": "Force install Ruby",
+      "descriptionZh": "强制安装 Ruby",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "rust",
+      "name": "Rust",
+      "nameZh": "Rust",
+      "flag": "-rust",
+      "category": "development",
+      "description": "Install Rust",
+      "descriptionZh": "安装 Rust",
+      "tags": [
+        "language"
+      ]
+    },
+    {
+      "id": "s",
+      "name": "Blue Team Suite",
+      "nameZh": "蓝队工具全套",
+      "flag": "-s",
+      "category": "blue-team",
+      "description": "Fail2Ban, rkhunter, anti-portscan, shellpub",
+      "descriptionZh": "一键安装蓝队防御工具",
+      "tags": [
+        "batch"
+      ]
+    },
+    {
+      "id": "sliver",
+      "name": "Sliver",
+      "nameZh": "Sliver C2",
+      "flag": "-sliver",
+      "category": "red-infra",
+      "description": "Sliver C2 framework",
+      "descriptionZh": "Sliver C2 框架",
+      "tags": [
+        "c2"
+      ]
+    },
+    {
+      "id": "sliver-client",
+      "name": "Sliver Client",
+      "nameZh": "Sliver 客户端",
+      "flag": "-sliver-client",
+      "category": "red-infra",
+      "description": "Sliver C2 client only",
+      "descriptionZh": "Sliver C2 仅客户端",
+      "tags": [
+        "c2"
+      ]
+    },
+    {
+      "id": "sps",
+      "name": "SharPyShell",
+      "nameZh": "SharPyShell",
+      "flag": "-sps",
+      "category": "red-infra",
+      "description": "SharPyShell webshell",
+      "descriptionZh": "SharPyShell Webshell 框架",
+      "tags": [
+        "webshell"
+      ]
+    },
+    {
+      "id": "ssh",
+      "name": "SSH Server",
+      "nameZh": "SSH 服务",
+      "flag": "-ssh",
+      "category": "basic",
+      "description": "Install SSH server",
+      "descriptionZh": "安装并配置 SSH 服务",
+      "tags": [
+        "service"
+      ]
+    },
+    {
+      "id": "ssr",
+      "name": "SSR",
+      "nameZh": "SSR 代理",
+      "flag": "-ssr",
+      "category": "misc",
+      "description": "Install SSR",
+      "descriptionZh": "安装 SSR",
+      "tags": [
+        "proxy"
+      ]
+    },
+    {
+      "id": "suricata",
+      "name": "Suricata",
+      "nameZh": "Suricata IDS",
+      "flag": "-suricata",
+      "category": "blue-team",
+      "description": "Network IDS/IPS",
+      "descriptionZh": "网络入侵检测/防御系统",
+      "tags": [
+        "ids"
+      ]
+    },
+    {
+      "id": "swap",
+      "name": "Swap Partition",
+      "nameZh": "Swap 分区",
+      "flag": "-swap",
+      "category": "system",
+      "description": "Configure swap partition",
+      "descriptionZh": "配置 swap 交换分区",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "update",
+      "name": "Update f8x",
+      "nameZh": "更新 f8x",
+      "flag": "-update",
+      "category": "system",
+      "description": "Update f8x to latest version",
+      "descriptionZh": "更新 f8x 到最新版本",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "upgrade",
+      "name": "Upgrade Tools",
+      "nameZh": "升级渗透工具",
+      "flag": "-upgrade",
+      "category": "system",
+      "description": "Upgrade installed pentest tools",
+      "descriptionZh": "升级已安装的渗透工具",
+      "tags": [
+        "system"
+      ]
+    },
+    {
+      "id": "viper",
+      "name": "Viper",
+      "nameZh": "Viper 图形化 C2",
+      "flag": "-viper",
+      "category": "red-infra",
+      "description": "Graphical C2 platform",
+      "descriptionZh": "图形化 C2 平台",
+      "tags": [
+        "c2"
+      ]
+    },
+    {
+      "id": "vol",
+      "name": "Volatility",
+      "nameZh": "Volatility 内存取证",
+      "flag": "-vol",
+      "category": "blue-team",
+      "description": "Memory forensics framework",
+      "descriptionZh": "内存取证框架",
+      "tags": [
+        "forensics"
+      ]
+    },
+    {
+      "id": "vol3",
+      "name": "Volatility 3",
+      "nameZh": "Volatility 3",
+      "flag": "-vol3",
+      "category": "blue-team",
+      "description": "Volatility 3 memory forensics",
+      "descriptionZh": "Volatility 3 内存取证",
+      "tags": [
+        "forensics"
+      ]
+    },
+    {
+      "id": "vulfocus",
+      "name": "VulFocus",
+      "nameZh": "VulFocus 靶场",
+      "flag": "-vulfocus",
+      "category": "vuln-env",
+      "description": "Vulnerability target platform",
+      "descriptionZh": "漏洞靶场平台",
+      "tags": [
+        "docker",
+        "vuln"
+      ]
+    },
+    {
+      "id": "vulhub",
+      "name": "VulHub",
+      "nameZh": "VulHub 漏洞环境",
+      "flag": "-vulhub",
+      "category": "vuln-env",
+      "description": "Docker vulnerable environments",
+      "descriptionZh": "Docker 漏洞环境集",
+      "tags": [
+        "docker",
+        "vuln"
+      ]
+    },
+    {
+      "id": "wpscan",
+      "name": "WPScan",
+      "nameZh": "WPScan WordPress",
+      "flag": "-wpscan",
+      "category": "pentest-exploit",
+      "description": "WordPress scanner",
+      "descriptionZh": "WordPress 漏洞扫描器",
+      "tags": [
+        "web"
+      ]
+    },
+    {
+      "id": "wx",
+      "name": "wxappUnpacker",
+      "nameZh": "wxappUnpacker 小程序",
+      "flag": "-wx",
+      "category": "pentest-exploit",
+      "description": "WeChat mini-program unpacker",
+      "descriptionZh": "微信小程序解包工具",
+      "tags": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "yakit",
+      "name": "Yakit",
+      "nameZh": "Yakit 安全平台",
+      "flag": "-yakit",
+      "category": "red-infra",
+      "description": "Yakit security platform",
+      "descriptionZh": "Yakit 安全测试平台",
+      "tags": [
+        "platform"
+      ]
+    },
+    {
+      "id": "zsh",
+      "name": "Zsh + Oh-My-Zsh",
+      "nameZh": "Zsh 终端",
+      "flag": "-zsh",
+      "category": "misc",
+      "description": "Install zsh with Oh-My-Zsh",
+      "descriptionZh": "安装 Zsh 及 Oh-My-Zsh",
+      "tags": [
+        "shell"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "basic",
+      "name": "Basic Environment",
+      "nameZh": "基础环境",
+      "count": 5
+    },
+    {
+      "id": "development",
+      "name": "Development",
+      "nameZh": "开发环境",
+      "count": 31
+    },
+    {
+      "id": "pentest-recon",
+      "name": "Pentest - Recon",
+      "nameZh": "渗透 - 侦查",
+      "count": 3
+    },
+    {
+      "id": "pentest-exploit",
+      "name": "Pentest - Exploit",
+      "nameZh": "渗透 - 利用",
+      "count": 4
+    },
+    {
+      "id": "pentest-post",
+      "name": "Pentest - Post",
+      "nameZh": "渗透 - 后渗透",
+      "count": 3
+    },
+    {
+      "id": "blue-team",
+      "name": "Blue Team",
+      "nameZh": "蓝队防御",
+      "count": 8
+    },
+    {
+      "id": "red-infra",
+      "name": "Red Team Infra",
+      "nameZh": "红队基础设施",
+      "count": 21
+    },
+    {
+      "id": "vuln-env",
+      "name": "Vulnerable Envs",
+      "nameZh": "靶场环境",
+      "count": 4
+    },
+    {
+      "id": "misc",
+      "name": "Miscellaneous",
+      "nameZh": "杂项工具",
+      "count": 11
+    },
+    {
+      "id": "system",
+      "name": "System Tools",
+      "nameZh": "系统工具",
+      "count": 8
+    }
+  ],
+  "presets": [
+    {
+      "id": "pentest-full",
+      "name": "Full Pentest",
+      "nameZh": "渗透全套",
+      "description": "Install all recon + exploit tools",
+      "flags": [
+        "-ka",
+        "-kb"
+      ]
+    },
+    {
+      "id": "dev-env",
+      "name": "Dev Environment",
+      "nameZh": "开发环境",
+      "description": "Python3, Go, Docker, Node.js, SDKMAN",
+      "flags": [
+        "-d"
+      ]
+    },
+    {
+      "id": "blue-team",
+      "name": "Blue Team",
+      "nameZh": "蓝队防御",
+      "description": "Fail2Ban, rkhunter, anti-portscan",
+      "flags": [
+        "-s"
+      ]
+    },
+    {
+      "id": "c2-setup",
+      "name": "C2 Setup",
+      "nameZh": "C2 快速部署",
+      "description": "CobaltStrike + frp + RedGuard",
+      "flags": [
+        "-cs45",
+        "-frp",
+        "-rg"
+      ]
+    },
+    {
+      "id": "basic-all",
+      "name": "Basic Setup",
+      "nameZh": "基础环境",
+      "description": "Base tools + SSH + Zsh",
+      "flags": [
+        "-b",
+        "-ssh",
+        "-zsh"
+      ]
+    },
+    {
+      "id": "recon-light",
+      "name": "Recon Light",
+      "nameZh": "轻量侦查",
+      "description": "nmap + httpx + subfinder + ffuf",
+      "flags": [
+        "-nmap",
+        "-httpx",
+        "-subfinder",
+        "-ffuf"
+      ]
+    }
+  ]
+}
