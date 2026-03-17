@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.8.1 (2025/03/04)"
+F8x_Version="1.8.2 (2026/03/17)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -9890,6 +9890,216 @@ SSH(){
 
 }
 
+# ===================== Tool Map for -install / --list-tools / --search =====================
+# Each line: tool_name|Install_Function|dep_level
+# dep_level: 0=basic only, 1=needs python, 2=needs go, 3=needs python+go
+F8X_TOOL_LIST="
+nmap|Pentest_nmap_Install|0
+masscan|Pentest_masscan_Install|0
+httpx|Pentest_httpx_Install|0
+subfinder|Pentest_subfinder_Install|0
+ffuf|Pentest_ffuf_Install|0
+dirsearch|Pentest_dirsearch_Install|0
+fscan|Pentest_fscan_Install|0
+katana|Pentest_katana_Install|0
+amass|Pentest_Amass_Install|0
+naabu|Pentest_naabu_Install|2
+ksubdomain|Pentest_ksubdomain_Install|2
+rad|Pentest_rad_Install|0
+crawlergo|Pentest_crawlergo_Install|0
+gobuster|Pentest_gobuster_Install|0
+gau|Pentest_gau_Install|2
+arjun|Pentest_Arjun_Install|0
+jsfinder|Pentest_JSFinder_Install|1
+secretfinder|Pentest_SecretFinder_Install|1
+oneforall|Pentest_OneForAll_Install|1
+netspy|Pentest_netspy_Install|0
+fingerprintx|Pentest_fingerprintx_Install|0
+asnmap|Pentest_asnmap_Install|0
+tlsx|Pentest_tlsx_Install|0
+gogo|Pentest_gogo_Install|0
+spray|Pentest_spray_Install|0
+zombie|Pentest_zombie_Install|0
+hostcollision|Pentest_HostCollision_Install|0
+appinfoscanner|Pentest_AppInfoScanner_Install|0
+apkanalyser|Pentest_ApkAnalyser_Install|0
+apkleaks|Pentest_apkleaks_Install|0
+apktool|Pentest_apktool_Install|0
+diggy|Pentest_Diggy_Install|0
+dddd|Pentest_dddd_Install|0
+afrog|Pentest_afrog_Install|0
+gospider|Pentest_gospider_Install|0
+dismap|Pentest_dismap_Install|0
+nuclei|Pentest_Nuclei_Install|0
+nuclei-templates|Pentest_nuclei-templates_Install|0
+sqlmap|Pentest_Sqlmap_Install|1
+xray|Pentest_xray_Install|0
+metasploit|Pentest_Metasploit_Install|0
+w13scan|Pentest_w13scan_Install|1
+swagger-exp|Pentest_swagger-exp_Install|0
+swagger-hack|Pentest_swagger-hack_Install|1
+ysoserial|Pentest_ysoserial_Install|0
+ysuserial|Pentest_ysuserial_Install|0
+jndi-injection-exploit|Pentest_JNDI-Injection-Exploit_Install|0
+jndiexploit|Pentest_JNDIExploit_Install|0
+marshalsec|Pentest_marshalsec_Install|0
+ysomap|Pentest_ysomap_Install|0
+ssrfmap|Pentest_SSRFmap_Install|1
+gopherus|Pentest_Gopherus_Install|0
+cdk|Pentest_CDK_Install|0
+dalfox|Pentest_dalfox_Install|0
+commix|Pentest_commix_Install|1
+pocsuite3|Pentest_pocsuite3_Install|0
+impacket|Pentest_Impacket_Install|1
+responder|Pentest_Responder_Install|1
+krbrelayx|Pentest_krbrelayx_Install|0
+bettercap|Pentest_bettercap_Install|2
+mitmproxy|Pentest_mitmproxy_Install|0
+pypykatz|Pentest_pypykatz_Install|0
+crackmapexec|Pentest_CrackMapExec_Install|0
+netexec|Pentest_NetExec_Install|0
+neo-regeorg|Pentest_Neo-reGeorg_Install|0
+suo5|Pentest_suo5_Install|0
+kerbrute|Pentest_kerbrute_Install|2
+adinfo|Pentest_Adinfo_Install|2
+petitpotam|Pentest_PetitPotam_Install|0
+hashcat|Pentest_hashcat_Install|0
+zoomeye|Pentest_ZoomEye_Install|0
+jadx|Pentest_jadx_Install|0
+ncat|Pentest_ncat_Install|0
+mapcidr|Pentest_mapcidr_Install|0
+dnsx|Pentest_dnsx_Install|0
+uncover|Pentest_uncover_Install|0
+nali|Pentest_nali_Install|0
+anew|Pentest_anew_Install|0
+gron|Pentest_gron_Install|0
+interlace|Pentest_Interlace_Install|1
+sttr|Pentest_sttr_Install|0
+unfurl|Pentest_unfurl_Install|2
+qsreplace|Pentest_qsreplace_Install|2
+platypus|Pentest_Platypus_Install|0
+morefind|Pentest_MoreFind_Install|0
+alterx|Pentest_alterx_Install|0
+seclists|Pentest_SecLists_Install|0
+see-surf|Pentest_See-SURF_Install|1
+hakrawler|Pentest_hakrawler_Install|2
+subjs|Pentest_subjs_Install|2
+assetfinder|Pentest_assetfinder_Install|2
+frp|frp_Install|0
+nps|nps_Install|0
+redguard|RedGuard_Install|0
+interactsh|interactsh_Install|0
+merlin|merlin_Install|0
+wpscan|wpscan_Install|0
+yakit|yakit_Install|0
+bypass|bypass_Install|2
+aircrack|aircrack_Install|0
+binwalk|binwalk_Install|0
+clamav|clamav_Install|0
+volatility|Volatility_Install|1
+suricata|suricata_Install|0
+docker|Docker_Install|0
+golang|Go_Install|0
+nodejs|nn_Install|0
+ruby|Ruby_Install|0
+rust|Rust_Install|0
+nginx|nginx_Install|0
+jq|jq_Install|0
+arl|arl_Install|0
+mobsf|mobsf_Install|0
+mythic|mythic_Install|0
+viper|viper_Install|0
+vulhub|vulhub_Install|0
+vulfocus|vulfocus_Install|0
+"
+
+# -install <tool>: install a single tool by name
+F8x_Install_Tool(){
+    local tool_name=$(echo "$1" | tr 'A-Z' 'a-z')
+    local entry=$(echo "$F8X_TOOL_LIST" | grep "^${tool_name}|" | head -1)
+
+    if [ -z "$entry" ]; then
+        Echo_ERROR "Unknown tool: $1"
+        echo -e "\033[1;33mAvailable tools similar to '$1':\033[0m"
+        F8x_Search_Tool "$1"
+        echo -e "\nUse \033[1;34m./f8x --list-tools\033[0m to see all available tools"
+        return 1
+    fi
+
+    local func=$(echo "$entry" | cut -d'|' -f2)
+    local dep_level=$(echo "$entry" | cut -d'|' -f3)
+
+    echo -e "\033[1;33m\n>> Installing $1 (function: $func, deps: $dep_level)\n\033[0m"
+
+    mac_Check || return 1
+    Proxy_Switch
+    Base_Check
+
+    if [ "$dep_level" -ge 1 ]; then
+        echo -e "\033[1;33m>> Checking Python dependency...\033[0m"
+        Py_Check
+    fi
+    if [ "$dep_level" -ge 2 ]; then
+        echo -e "\033[1;33m>> Checking Go dependency...\033[0m"
+        GO_Check
+    fi
+
+    $func
+    echo -e "\033[1;32m\n>> $1 installation completed\033[0m"
+}
+
+# --list-tools: output machine-readable tool catalog
+F8x_List_Tools(){
+    local format=${1:-"json"}
+
+    if [ "$format" = "table" ]; then
+        printf "%-25s %-15s %s\n" "TOOL" "DEPS" "FUNCTION"
+        printf "%-25s %-15s %s\n" "----" "----" "--------"
+        echo "$F8X_TOOL_LIST" | grep -v '^$' | sort | while IFS='|' read -r tool func dep; do
+            local dep_str="basic"
+            [ "$dep" = "1" ] && dep_str="python"
+            [ "$dep" = "2" ] && dep_str="go"
+            [ "$dep" = "3" ] && dep_str="python+go"
+            printf "%-25s %-15s %s\n" "$tool" "$dep_str" "$func"
+        done
+        return
+    fi
+
+    echo '['
+    local first=true
+    echo "$F8X_TOOL_LIST" | grep -v '^$' | sort | while IFS='|' read -r tool func dep; do
+        local dep_str="basic"
+        [ "$dep" = "1" ] && dep_str="python"
+        [ "$dep" = "2" ] && dep_str="go"
+        [ "$dep" = "3" ] && dep_str="python+go"
+        $first || echo ','
+        printf '  {"name":"%s","function":"%s","deps":"%s"}' "$tool" "$func" "$dep_str"
+        first=false
+    done
+    echo -e '\n]'
+}
+
+# --search <keyword>: fuzzy search tools by name
+F8x_Search_Tool(){
+    local keyword=$(echo "$1" | tr 'A-Z' 'a-z')
+    local found=0
+    echo "$F8X_TOOL_LIST" | grep -v '^$' | sort | while IFS='|' read -r tool func dep; do
+        if echo "$tool" | grep -qi "$keyword"; then
+            local dep_str="basic"
+            [ "$dep" = "1" ] && dep_str="python"
+            [ "$dep" = "2" ] && dep_str="go"
+            [ "$dep" = "3" ] && dep_str="python+go"
+            printf "  %-25s (deps: %-10s func: %s)\n" "$tool" "$dep_str" "$func"
+        fi
+    done
+    local count=$(echo "$F8X_TOOL_LIST" | grep -v '^$' | grep -i "$keyword" | wc -l | tr -d ' ')
+    if [ "$count" -eq 0 ]; then
+        echo "  No tools found matching '$keyword'"
+    else
+        echo -e "\n  Found $count tool(s). Use \033[1;34m./f8x -install <tool>\033[0m to install."
+    fi
+}
+
 # -h
 Help(){
 
@@ -9980,6 +10190,9 @@ Help(){
     echo -e "  \033[1;34m-zsh\033[0m \033[0;34m             : install zsh\033[0m"
     echo -e ""
     echo -e "\033[1;34mOther \033[0m"
+    echo -e "  \033[1;34m-install <tool>\033[0m \033[0;34m  : install a single tool by name\033[0m       \033[1;32m(e.g. ./f8x -install nuclei)\033[0m"
+    echo -e "  \033[1;34m--list-tools\033[0m \033[0;34m     : list all available tools (JSON)\033[0m     \033[1;32m(use --list-tools table for table format)\033[0m"
+    echo -e "  \033[1;34m--search <kw>\033[0m \033[0;34m    : search tools by keyword\033[0m             \033[1;32m(e.g. ./f8x --search scan)\033[0m"
     echo -e "  \033[1;34m-clear\033[0m \033[0;34m           : Clean up system usage traces\033[0m"
     echo -e "  \033[1;34m-info\033[0m \033[0;34m            : View system information\033[0m"
     echo -e "  \033[1;34m-optimize\033[0m \033[0;34m        : Improve device options and optimize performance\033[0m"
@@ -10059,6 +10272,36 @@ Main(){
 
 }
 
+# Allow --list-tools and --search to run without root (read-only operations)
+for _arg in "$@"; do
+    case $_arg in
+        --list-tools)
+            _next_arg=""
+            _found=false
+            for _a in "$@"; do
+                if $_found; then _next_arg="$_a"; break; fi
+                [ "$_a" = "--list-tools" ] && _found=true
+            done
+            F8x_List_Tools "${_next_arg:-json}"
+            exit 0
+            ;;
+        --search)
+            _next_arg=""
+            _found=false
+            for _a in "$@"; do
+                if $_found; then _next_arg="$_a"; break; fi
+                [ "$_a" = "--search" ] && _found=true
+            done
+            if [ -n "$_next_arg" ]; then
+                F8x_Search_Tool "$_next_arg"
+            else
+                echo -e "\033[1;31mUsage: ./f8x --search <keyword>\033[0m"
+            fi
+            exit 0
+            ;;
+    esac
+done
+
 Main
 Banner
 
@@ -10080,8 +10323,34 @@ echo -e "\033[1;33m\n>> Initializing\n\033[0m"
 Base_Dir
 Docker_run_Check
 
+_f8x_install_next=0
+_f8x_search_next=0
+_f8x_list_next=0
+
 for cmd in $@
 do
+    # Handle arguments for -install / --search / --list-tools
+    if [ "$_f8x_install_next" = "1" ]; then
+        _f8x_install_next=0
+        F8x_Install_Tool "$cmd"
+        continue
+    fi
+    if [ "$_f8x_search_next" = "1" ]; then
+        _f8x_search_next=0
+        F8x_Search_Tool "$cmd"
+        continue
+    fi
+    if [ "$_f8x_list_next" = "1" ]; then
+        _f8x_list_next=0
+        if [[ "$cmd" != -* ]]; then
+            F8x_List_Tools "$cmd"
+            continue
+        else
+            F8x_List_Tools "json"
+            # Fall through to process this cmd as a normal flag
+        fi
+    fi
+
     case $cmd in
         -b | b)
             mac_Check || exit 1
@@ -10686,6 +10955,17 @@ do
             Proxy_Switch
             Debug_Fun
             ;;
+        -install)
+            # Next argument should be the tool name — mark it for pickup
+            _f8x_install_next=1
+            ;;
+        --list-tools)
+            _f8x_list_format="json"
+            _f8x_list_next=1
+            ;;
+        --search)
+            _f8x_search_next=1
+            ;;
         *)
             echo -e ""
             echo -e "\033[1;34mUse the -h option to view the help documentation\033[0m"
@@ -10694,3 +10974,16 @@ do
 
     echo -e "\033[1;36m \n-----End of execution-----\n \033[0m"
 done
+
+# Handle trailing flags without arguments
+if [ "$_f8x_list_next" = "1" ]; then
+    F8x_List_Tools "json"
+fi
+if [ "$_f8x_install_next" = "1" ]; then
+    echo -e "\033[1;31mUsage: ./f8x -install <tool_name>\033[0m"
+    echo -e "Example: ./f8x -install nuclei"
+fi
+if [ "$_f8x_search_next" = "1" ]; then
+    echo -e "\033[1;31mUsage: ./f8x --search <keyword>\033[0m"
+    echo -e "Example: ./f8x --search scan"
+fi

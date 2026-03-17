@@ -152,6 +152,14 @@ The following options are currently supported by f8x
 - `-ssr`          : install ssr
 - `-zsh`          : install zsh
 
+**AI-Friendly Tool Management**
+- `-install <tool>` : Install a single tool by name (e.g. `-install nuclei`, `-install nmap`)
+- `--list-tools`    : Output all 117 available tools as JSON (for AI Agent parsing)
+- `--list-tools table` : Output all available tools as a human-readable table
+- `--search <keyword>` : Fuzzy search tools by name (e.g. `--search scan`)
+
+> Note: `--list-tools` and `--search` do not require root privileges.
+
 **Other**
 - `-clear`        : Clean up system usage traces
 - `-info`         : View system information

@@ -159,7 +159,15 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
 - 使用 -ssr 选项部署 ssr 工具
 - 使用 -zsh 选项部署 zsh 工具
 
-**8. 其他**
+**9. AI 友好工具管理**
+- 使用 -install <工具名> 选项精确安装单个工具（如 `-install nuclei`、`-install nmap`）
+- 使用 --list-tools 选项输出所有 117 个可用工具的 JSON 列表（供 AI Agent 解析）
+- 使用 --list-tools table 选项输出所有可用工具的人类可读表格
+- 使用 --search <关键词> 选项按工具名模糊搜索（如 `--search scan`）
+
+> 注: `--list-tools` 和 `--search` 不需要 root 权限即可使用。
+
+**10. 其他**
 - 使用 -clear 选项清理系统使用痕迹
 - 使用 -info 选项查看系统各项信息
 - 使用 -optimize 选项改善设备选项,优化性能
