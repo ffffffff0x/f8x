@@ -5638,6 +5638,23 @@ Pentest_bloodyAD_Install(){
 
 }
 
+# ===================== Install bloodhound-python =====================
+Pentest_bloodhound_python_Install(){
+
+    name="bloodhound-python"
+
+    which bloodhound-python > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch5 "bloodhound"
+        which bloodhound-python > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== Install hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
@@ -10055,6 +10072,8 @@ Ad_Tools(){
     Pentest_enum4linux_ng_Install
     echo -e "\033[1;33m\n>> Installing bloodyAD\n\033[0m"
     Pentest_bloodyAD_Install
+    echo -e "\033[1;33m\n>> Installing bloodhound-python\n\033[0m"
+    Pentest_bloodhound_python_Install
 
 }
 
@@ -10229,6 +10248,7 @@ coercer|Pentest_Coercer_Install|1
 ldeep|Pentest_ldeep_Install|1
 enum4linux-ng|Pentest_enum4linux_ng_Install|1
 bloodyAD|Pentest_bloodyAD_Install|1
+bloodhound-python|Pentest_bloodhound_python_Install|1
 nps|nps_Install|0
 redguard|RedGuard_Install|0
 interactsh|interactsh_Install|0
