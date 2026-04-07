@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.8.2 (2026/03/17)"
+F8x_Version="1.8.3 (2026/04/07)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -313,6 +313,14 @@ spray_File_arm64="spray_linux_arm64"
 zombie_Ver="v1.2.2"
 zombie_File_amd64="zombie_linux_amd64"
 zombie_File_arm64="zombie_linux_arm64"
+# https://github.com/EddieIvan01/iox/releases
+iox_Ver="v0.4"
+iox_File_amd64="iox_v0.4-next_Linux_x86_64.tar.gz"
+iox_File_arm64="iox_v0.4-next_Linux_i386.tar.gz"
+# https://github.com/jpillora/chisel/releases
+chisel_Ver="v1.11.5"
+chisel_File_amd64="chisel_1.11.5_linux_amd64.gz"
+chisel_File_arm64="chisel_1.11.5_linux_arm64.gz"
 # https://github.com/projectdiscovery/simplehttpserver
 simplehttpserver_Ver="v0.0.6"
 simplehttpserver_bin_amd64="simplehttpserver_0.0.6_linux_amd64.zip"
@@ -451,7 +459,7 @@ Rm_Lock(){
             rm -rf /var/lib/dpkg/lock-frontend > /dev/null 2>&1
             rm -rf /var/lib/dpkg/lock > /dev/null 2>&1
             rm -rf /var/lib/apt/lists/lock > /dev/null 2>&1
-            apt-get --fix-broken install > /dev/null 2>&1
+            apt-get --fix-broken -y install > /dev/null 2>&1
             rm -rf /var/cache/apt/archives/lock > /dev/null 2>&1
             rm -rf /var/lib/dpkg/lock-frontend > /dev/null 2>&1
             rm -rf /var/lib/dpkg/lock > /dev/null 2>&1
@@ -786,7 +794,6 @@ Install_Switch4(){
 }
 
 Install_Switch5(){
-
 
     case $Linux_Version in
         *"Debian"*)
@@ -2995,7 +3002,7 @@ Docker_Install(){
                     Echo_ALERT "Installing docker(podman emulate)" && $Proxy_OK yum install -y docker docker-buildx-plugin docker-compose-plugin > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker" || Echo_ERROR "docker installation failed, please check if the network is reachable, proxychains4 configuration is correct"
                 fi
                 ;;
-            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+            *"Ubuntu"*|*"Debian"*)
                 Echo_INFOR "Uninstalling the Docker environment"
                 apt-get remove -y docker > /dev/null 2>&1
                 apt-get remove -y docker-engine > /dev/null 2>&1
@@ -3038,8 +3045,16 @@ Docker_Install(){
                 Echo_ALERT "Installing docker" && $Proxy_OK apt-get install -y docker-ce > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker-ce" || Echo_ERROR "docker-ce installation failed, please check if the network is reachable, proxychains4 configuration is correct"
                 rm -f /etc/apt/sources.list.d/docker.list > /dev/null 2>&1
                 ;;
-            *)
+            *"Kali"*)
+                Echo_INFOR "Uninstalling the Docker environment"
+                Rm_Lock
+                apt-get update > /dev/null 2>&1 || Echo_ERROR "Update apt package list failed"
+
+                Echo_ALERT "Installing docker" && apt-get install -y docker.io
+                apt-get install -y docker-compose
                 ;;
+            *)
+            ;;
         esac
 
         service docker start > /dev/null 2>&1
@@ -3073,7 +3088,7 @@ docker_compose_Install(){
         Echo_ALERT "docker-compose installed"
     else
         pip3_Check && pip3 install --upgrade pip > /dev/null 2>&1
-        Install_Switch4 "docker-compose"
+        Install_Switch5 "docker-compose"
     fi
 
 }
@@ -3310,17 +3325,17 @@ Pentest_pip_Install(){
         Echo_ALERT "pip module record detected, skip this step"
     else
         python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "python3-pip update failed"
-        Install_Switch4 "PyJWT"
-        Install_Switch4 "pyshark"
-        Install_Switch4 "requests"
-        Install_Switch4 "sqlparse"
-        Install_Switch4 "threadpool"
-        Install_Switch4 "urllib3"
-        Install_Switch4 "lxml"
-        Install_Switch4 "pyzbar"
-        Install_Switch4 "bs4"
-        Install_Switch4 "ftfy"
-        Install_Switch4 "trzsz"
+        Install_Switch5 "PyJWT"
+        Install_Switch5 "pyshark"
+        Install_Switch5 "requests"
+        Install_Switch5 "sqlparse"
+        Install_Switch5 "threadpool"
+        Install_Switch5 "urllib3"
+        Install_Switch5 "lxml"
+        Install_Switch5 "pyzbar"
+        Install_Switch5 "bs4"
+        Install_Switch5 "ftfy"
+        Install_Switch5 "trzsz"
         pip3 install updog > /dev/null 2>&1
         pip3 install pefile > /dev/null 2>&1
         Install_Switch3 "yara"
@@ -3408,7 +3423,7 @@ Pentest_SecretFinder_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone ${GitProxy}https://github.com/m4ll0k/SecretFinder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        Install_Switch7 "requirements.txt" && Echo_INFOR "Installed dependency modules" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
+        Install_Switch6 "requirements.txt" && Echo_INFOR "Installed dependency modules" || { Echo_ERROR "Failed to install dependency module"; }
         python3 SecretFinder.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -3427,7 +3442,7 @@ Pentest_OneForAll_Install(){
         Install_Switch5 "setuptools"
         Install_Switch5 "wheel"
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/shmilylty/OneForAll.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR "$name download failed, please check if the network is reachable, proxychains4 configuration is correct, or download using gitee git clone https://gitee.com/shmilylty/OneForAll.git "
-        Echo_ALERT "Installing dependency modules\033[0m" && Install_Switch7 "requirements.txt" || { Echo_ERROR "Failed to install dependency module"; rm -rf $dir; cd /tmp; }
+        Echo_ALERT "Installing dependency modules\033[0m" && Install_Switch6 "requirements.txt" || { Echo_ERROR "Failed to install dependency module"; }
         python3 oneforall.py version > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" && aarch64_massdns_Install || Echo_ERROR3
     fi
 
@@ -3459,6 +3474,18 @@ Pentest_ksubdomain_Install(){
     else
         case $Linux_architecture_Name in
             *"linux-x86_64"*)
+                Rm_Lock
+                case $Linux_Version in
+                    *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                        Install_Switch "libpcap"
+                        Install_Switch "libpcap-devel"
+                        ;;
+                    *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                        Install_Switch "libpcap-dev"
+                        ;;
+                    *) ;;
+                esac
+
                 mkdir -p /tmp/ksubdomain && cd /tmp/ksubdomain && rm -f ${ksubdomain_Install} && $Proxy_OK wget ${GitProxy}https://github.com/boy-hack/ksubdomain/releases/download/$ksubdomain_Ver/$ksubdomain_Install > /dev/null 2>&1 || Echo_ERROR2
                 unzip ${ksubdomain_Install} > /dev/null 2>&1
                 mv --force ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain
@@ -3466,6 +3493,18 @@ Pentest_ksubdomain_Install(){
                 ksubdomain > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $ksubdomain_Ver in the /usr/local/bin/" || Echo_ERROR3
                 ;;
             *"linux-arm64"*)
+                Rm_Lock
+                case $Linux_Version in
+                    *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                        Install_Switch "libpcap"
+                        Install_Switch "libpcap-devel"
+                        ;;
+                    *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                        Install_Switch "libpcap-dev"
+                        ;;
+                    *) ;;
+                esac
+
                 mkdir -p /tmp/ksubdomain && cd /tmp/ksubdomain && go install github.com/boy-hack/ksubdomain/cmd/ksubdomain@latest
                 mv $GOPATH/bin/ksubdomain /usr/local/bin/ksubdomain && chmod +x /usr/local/bin/ksubdomain || { mv /root/go/bin/ksubdomain /usr/local/bin/ksubdomain; chmod +x /usr/local/bin/ksubdomain; }
                 rm -rf /tmp/ksubdomain && cd /tmp
@@ -3717,6 +3756,64 @@ Pentest_zombie_Install(){
 
 }
 
+# ===================== Install iox =====================
+Pentest_iox_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            iox_File=$iox_File_amd64
+            ;;
+        *"linux-arm64"*)
+            iox_File=$iox_File_arm64
+            ;;
+    esac
+
+    name="iox"
+
+    which iox > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/iox && cd /tmp/iox && rm -f $iox_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/EddieIvan01/iox/releases/download/$iox_Ver/$iox_File > /dev/null 2>&1 || Echo_ERROR2
+        tar -zxf $iox_File > /dev/null 2>&1 && mv --force iox /usr/local/bin/iox && chmod +x /usr/local/bin/iox
+        which iox > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $iox_Ver in the /usr/local/bin/" || Echo_ERROR3
+        rm -rf /tmp/iox && cd /tmp
+    fi
+
+}
+
+# ===================== Install chisel =====================
+Pentest_chisel_Install(){
+
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*)
+            chisel_File=$chisel_File_amd64
+            ;;
+        *"linux-arm64"*)
+            chisel_File=$chisel_File_arm64
+            ;;
+    esac
+
+    name="chisel"
+
+    which chisel > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        mkdir -p /tmp/chisel && cd /tmp/chisel && rm -f $chisel_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/jpillora/chisel/releases/download/$chisel_Ver/$chisel_File > /dev/null 2>&1 || Echo_ERROR2
+        gunzip $chisel_File > /dev/null 2>&1
+        chisel_bin=$(echo $chisel_File | sed 's/.gz$//')
+        mv --force $chisel_bin /usr/local/bin/chisel && chmod +x /usr/local/bin/chisel
+        which chisel > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $chisel_Ver in the /usr/local/bin/" || Echo_ERROR3
+        rm -rf /tmp/chisel && cd /tmp
+    fi
+
+}
+
 # ===================== Install csprecon =====================
 Pentest_csprecon_Install(){
 
@@ -3835,7 +3932,7 @@ Pentest_Arjun_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch4 "arjun"
+        Install_Switch5 "arjun"
     fi
 
 }
@@ -4102,7 +4199,7 @@ Pentest_apkleaks_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch4 "apkleaks"
+        Install_Switch5 "apkleaks"
     fi
 
 }
@@ -4117,7 +4214,7 @@ Pentest_ApkAnalyser_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Install_Switch4 "apkutils" > /dev/null 2>&1
+        Install_Switch5 "apkutils" > /dev/null 2>&1
         $Proxy_OK curl -o $P_Dir/apkAnalyser.py https://cdn.jsdelivr.net/gh/TheKingOfDuck/ApkAnalyser/apkAnalyser.py > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
@@ -4423,7 +4520,7 @@ Pentest_pocsuite3_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch4 "pocsuite3"
+        Install_Switch5 "pocsuite3"
     fi
 
 }
@@ -4474,7 +4571,7 @@ Pentest_w13scan_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/w-digital-scanner/w13scan.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && Install_Switch7 "requirements.txt" && Install_Switch4 "cowpy" && cd W13SCAN && python3 w13scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
+        cd $dir && Install_Switch7 "requirements.txt" && Install_Switch5 "cowpy" && cd W13SCAN && python3 w13scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; }
     fi
 
 }
@@ -4522,7 +4619,7 @@ Pentest_OpenRedireX_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         cd $P_Dir && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/No-Github/OpenRedireX.git > /dev/null 2>&1
-        cd $dir && Install_Switch4 "aiohttp" && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; }
+        cd $dir && Install_Switch5 "aiohttp" && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; }
     fi
 
 }
@@ -4538,7 +4635,7 @@ Pentest_CORScanner_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/chenjj/CORScanner.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && Install_Switch7 "requirements.txt" && python3 cors_scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
+        cd $dir && Install_Switch7 "requirements.txt" && python3 cors_scan.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; }
     fi
 
 }
@@ -4568,9 +4665,8 @@ Pentest_swagger-hack_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Install_Switch4 "loguru"
+        Install_Switch5 "loguru"
         cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/jayus0821/swagger-hack.git > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && python3 swagger-hack2.0.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
     fi
 
 }
@@ -4647,7 +4743,7 @@ Pentest_SSRFmap_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone ${GitProxy}https://github.com/swisskyrepo/SSRFmap.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name" || Echo_ERROR2
-        cd $dir && Install_Switch7 "requirements.txt" && python3 ssrfmap.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; rm -rf $dir; cd /tmp; }
+        cd $dir && Install_Switch7 "requirements.txt" && python3 ssrfmap.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || { Echo_ERROR3; }
     fi
 
 }
@@ -4788,7 +4884,7 @@ Pentest_redis-rce_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Install_Switch4 "six"
+        Install_Switch5 "six"
         rm -rf $dir && cd $P_Dir && $Proxy_OK git clone ${GitProxy}https://github.com/Ridter/redis-rce.git $dir > /dev/null 2>&1 || Echo_ERROR2
         cd $dir && python3 redis-rce.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
         cp $P_Dir/redis-rogue-server/exp.so $dir && Echo_INFOR "Copied exp.so to $dir"
@@ -5131,9 +5227,8 @@ Pentest_Responder_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Install_Switch4 "netifaces"
-        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/lgandx/Responder.git $dir > /dev/null 2>&1 && cd $dir || Echo_ERROR2
-        python3 Responder.py -h > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" || Echo_ERROR3
+        Install_Switch5 "netifaces"
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/lgandx/Responder.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" && cd $dir || Echo_ERROR2
     fi
 }
 
@@ -5179,7 +5274,13 @@ Pentest_bettercap_Install(){
                 Install_Switch "libusb-1.0-0-dev"
                 Install_Switch "libusb-dev"
                 Install_Switch "libudev-dev"
+                Install_Switch "libpcap-dev"
                 ldconfig > /dev/null 2>&1
+                ;;
+            *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
+                Rm_Lock
+                Install_Switch "libpcap"
+                Install_Switch "libpcap-devel"
                 ;;
             *) ;;
         esac
@@ -5222,7 +5323,7 @@ Pentest_pypykatz_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch4 "pypykatz"
+        Install_Switch5 "pypykatz"
     fi
 
 }
@@ -5380,7 +5481,7 @@ Pentest_PetitPotam_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Install_Switch4 "impacket"
+        Install_Switch5 "impacket"
         rm -rf $dir > /dev/null 2>&1
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/topotam/PetitPotam.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download the $name dictionary from github"
     fi
@@ -5397,7 +5498,7 @@ Pentest_Certipy_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch4 "certipy-ad"
+        Install_Switch5 "certipy-ad"
     fi
 
 }
@@ -5412,8 +5513,8 @@ Pentest_PKINITtools_Install(){
     then
         Echo_ALERT "$name is already installed in $dir"
     else
-        Install_Switch4 "impacket"
-        Install_Switch4 "minikerberos"
+        Install_Switch5 "impacket"
+        Install_Switch5 "minikerberos"
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/dirkjanm/PKINITtools.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download the $name dictionary from github"
         cd $dir && Install_Switch7 "requirements.txt"
     fi
@@ -5462,7 +5563,7 @@ Pentest_ZoomEye_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch4 "zoomeye"
+        Install_Switch5 "zoomeye"
     fi
 
 }
@@ -6878,10 +6979,10 @@ binwalk_force_Install(){
                 Install_Switch "python-lzo"
                 pip install cstruct > /dev/null 2>&1 && Echo_INFOR "Successfully installed cstruct" || Echo_ERROR "cstruct installation failed"
 
-                Install_Switch4 "nose"
-                Install_Switch4 "coverage"
-                Install_Switch4 "pyqtgraph"
-                Install_Switch4 "capstone"
+                Install_Switch5 "nose"
+                Install_Switch5 "coverage"
+                Install_Switch5 "pyqtgraph"
+                Install_Switch5 "capstone"
 
                 # sasquatch
                 name="sasquatch"
@@ -7725,6 +7826,7 @@ nn_Install(){
                 ;;
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
                 echo "PATH=\$PATH:/usr/local/nodejs/$node_Dir/bin/" >> /etc/bash.bashrc
+                echo "PATH=\$PATH:/usr/local/nodejs/$node_Dir/bin/" >> ~/.zshrc
                 ;;
             *) ;;
         esac
@@ -9148,7 +9250,7 @@ asciinema_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch4 "asciinema"
+        Install_Switch5 "asciinema"
         asciinema --version > /dev/null 2>&1
 
         if [ $? == 0 ]
@@ -9471,14 +9573,14 @@ Fun_Tools(){
     AdGuardHome_Install
     echo -e "\033[1;33m\n>> Installing trash-cli\n\033[0m"
     trash-cli_Install
-    echo -e "\033[1;33m\n>> Installing thefuck\n\033[0m"
-    thefuck_Install
+    # echo -e "\033[1;33m\n>> Installing thefuck\n\033[0m"
+    # thefuck_Install
     echo -e "\033[1;33m\n>> Installing fzf\n\033[0m"
     fzf_Install
     echo -e "\033[1;33m\n>> Installing lux\n\033[0m"
     lux_Install
-    echo -e "\033[1;33m\n>> Installing you-get\n\033[0m"
-    you-get_Install
+    # echo -e "\033[1;33m\n>> Installing you-get\n\033[0m"
+    # you-get_Install
     echo -e "\033[1;33m\n>> Installing ffmpeg\n\033[0m"
     ffmpeg_Install
     echo -e "\033[1;33m\n>> Installing aria2\n\033[0m"
@@ -9653,8 +9755,8 @@ kali_Tools_TypeB(){
     echo -e "\033[1;33m\n>> Installing Nuclei\n\033[0m"
     Pentest_Nuclei_Install
     Pentest_nuclei-templates_Install
-    echo -e "\033[1;33m\n>> Installing w13scan\n\033[0m"
-    Pentest_w13scan_Install
+    # echo -e "\033[1;33m\n>> Installing w13scan\n\033[0m"
+    # Pentest_w13scan_Install
     echo -e "\033[1;33m\n>> Installing swagger-exp\n\033[0m"
     Pentest_swagger-exp_Install
     echo -e "\033[1;33m\n>> Installing swagger-hack\n\033[0m"
@@ -9669,8 +9771,8 @@ kali_Tools_TypeB(){
     Pentest_marshalsec_Install
     echo -e "\033[1;33m\n>> Installing ysomap\n\033[0m"
     Pentest_ysomap_Install
-    echo -e "\033[1;33m\n>> Installing SSRFmap\n\033[0m"
-    Pentest_SSRFmap_Install
+    # echo -e "\033[1;33m\n>> Installing SSRFmap\n\033[0m"
+    # Pentest_SSRFmap_Install
     echo -e "\033[1;33m\n>> Installing Gopherus\n\033[0m"
     Pentest_Gopherus_Install
     echo -e "\033[1;33m\n>> Installing CDK\n\033[0m"
@@ -9727,6 +9829,10 @@ kali_Tools_TypeC(){
     Pentest_Adinfo_Install
     echo -e "\033[1;33m\n>> Installing PetitPotam\n\033[0m"
     Pentest_PetitPotam_Install
+    echo -e "\033[1;33m\n>> Installing iox\n\033[0m"
+    Pentest_iox_Install
+    echo -e "\033[1;33m\n>> Installing chisel\n\033[0m"
+    Pentest_chisel_Install
 
 }
 
@@ -9986,6 +10092,8 @@ hakrawler|Pentest_hakrawler_Install|2
 subjs|Pentest_subjs_Install|2
 assetfinder|Pentest_assetfinder_Install|2
 frp|frp_Install|0
+iox|Pentest_iox_Install|0
+chisel|Pentest_chisel_Install|0
 nps|nps_Install|0
 redguard|RedGuard_Install|0
 interactsh|interactsh_Install|0
@@ -10156,6 +10264,8 @@ Help(){
     echo -e "  \033[1;34m-awvs15\033[0m \033[0;34m          : install AWVS15\033[0m"
     echo -e "  \033[1;34m-cs45\033[0m \033[0;34m            : install CobaltStrike 4.5\033[0m"
     echo -e "  \033[1;34m-frp\033[0m \033[0;34m             : install frp\033[0m"
+    echo -e "  \033[1;34m-iox\033[0m \033[0;34m             : install iox\033[0m                        \033[1;33m(https://github.com/EddieIvan01/iox)\033[0m"
+    echo -e "  \033[1;34m-chisel\033[0m \033[0;34m          : install chisel\033[0m                     \033[1;33m(https://github.com/jpillora/chisel)\033[0m"
     echo -e "  \033[1;34m-interactsh\033[0m \033[0;34m      : install interactsh\033[0m                 \033[1;33m(https://github.com/projectdiscovery/interactsh)\033[0m"
     echo -e "  \033[1;34m-merlin\033[0m \033[0;34m          : install merlin\033[0m                     \033[1;33m(https://github.com/Ne0nd0g/merlin)\033[0m"
     echo -e "  \033[1;34m-msf\033[0m \033[0;34m             : install Metasploit\033[0m"
@@ -10191,6 +10301,7 @@ Help(){
     echo -e ""
     echo -e "\033[1;34mOther \033[0m"
     echo -e "  \033[1;34m-install <tool>\033[0m \033[0;34m  : install a single tool by name\033[0m       \033[1;32m(e.g. ./f8x -install nuclei)\033[0m"
+    echo -e "  \033[1;34m-arsenal\033[0m \033[0;34m         : download multi-platform arsenal\033[0m    \033[1;32m(fscan/gogo/zombie/spray/cdk/iox/frpc/chisel)\033[0m"
     echo -e "  \033[1;34m--list-tools\033[0m \033[0;34m     : list all available tools (JSON)\033[0m     \033[1;32m(use --list-tools table for table format)\033[0m"
     echo -e "  \033[1;34m--search <kw>\033[0m \033[0;34m    : search tools by keyword\033[0m             \033[1;32m(e.g. ./f8x --search scan)\033[0m"
     echo -e "  \033[1;34m-clear\033[0m \033[0;34m           : Clean up system usage traces\033[0m"
@@ -10243,6 +10354,212 @@ Proxy(){
 Debug_Fun(){
 
     echo -e "none :>"
+
+}
+
+# -arsenal
+Arsenal_Build(){
+
+    Arsenal_Dir=${P_Dir}/arsenal
+    Arsenal_Platforms="linux_amd64 linux_arm64 windows_amd64"
+
+    echo -e "\033[1;33m\n>> Building Arsenal (multi-platform deliverables)\n\033[0m"
+    echo -e "\033[1;34m   Target dir: ${Arsenal_Dir}\033[0m"
+    echo -e "\033[1;34m   Platforms : ${Arsenal_Platforms}\033[0m"
+    echo -e ""
+
+    # Arsenal tool definitions: name|github_repo|version|file_pattern
+    # file_pattern uses {PLATFORM} as placeholder (linux_amd64, linux_arm64, windows_amd64)
+    # For windows, .exe suffix is auto-appended if missing
+    local ARSENAL_TOOLS="
+fscan|shadow1ng/fscan|${fscan_Ver}|fscan_{PLATFORM}
+gogo|chainreactors/gogo|${gogo_Ver}|gogo_{PLATFORM}
+zombie|chainreactors/zombie|${zombie_Ver}|zombie_{PLATFORM}
+spray|chainreactors/spray|${spray_Ver}|spray_{PLATFORM}
+cdk|cdk-team/CDK|${cdk_Ver}|cdk_{PLATFORM}
+iox|EddieIvan01/iox|${iox_Ver}|iox_{PLATFORM}
+frpc|fatedier/frp|${frp_Ver}|frp_{FRP_PLATFORM}.tar.gz
+chisel|jpillora/chisel|${chisel_Ver}|chisel_{CHISEL_PLATFORM}.gz
+"
+
+    local total_ok=0
+    local total_fail=0
+
+    echo "$ARSENAL_TOOLS" | grep -v '^$' | while IFS='|' read -r tool_name repo ver pattern; do
+        tool_dir="${Arsenal_Dir}/${tool_name}"
+        mkdir -p "${tool_dir}"
+        echo -e "\033[1;33m>> ${tool_name} ${ver}\033[0m"
+
+        for platform in $Arsenal_Platforms; do
+            local dl_url=""
+            local out_file=""
+
+            case "${tool_name}" in
+                fscan)
+                    # fscan uses non-standard naming: fscan (amd64), fscan_arm64, fscan64.exe
+                    case "$platform" in
+                        linux_amd64)  file_name="fscan" ;;
+                        linux_arm64)  file_name="fscan_arm64" ;;
+                        windows_amd64) file_name="fscan.exe" ;;
+                    esac
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${file_name}"
+                    out_file="fscan_${platform}"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        out_file="fscan_${platform}.exe"
+                    fi
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${tool_dir}/${out_file}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ] && [ -s "${tool_dir}/${out_file}" ]; then
+                        chmod +x "${tool_dir}/${out_file}"
+                        echo -e "   ✅ ${out_file}"
+                    else
+                        rm -f "${tool_dir}/${out_file}"
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    ;;
+                frpc)
+                    # frp releases use different naming: frp_0.67.0_linux_amd64.tar.gz
+                    local frp_ver_num=$(echo "$ver" | sed 's/^v//')
+                    local frp_plat=$(echo "$platform" | sed 's/_/\//' | sed 's/\//_/')
+                    local frp_archive="frp_${frp_ver_num}_${frp_plat}.tar.gz"
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${frp_archive}"
+                    out_file="frpc_${platform}"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        out_file="frpc_${platform}.exe"
+                    fi
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    local tmp_dir="/tmp/arsenal_frp_${platform}"
+                    mkdir -p "${tmp_dir}" && cd "${tmp_dir}"
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${frp_archive}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ]; then
+                        tar -zxf "${frp_archive}" > /dev/null 2>&1
+                        local frp_dir="frp_${frp_ver_num}_${frp_plat}"
+                        if [ "$platform" = "windows_amd64" ]; then
+                            cp "${frp_dir}/frpc.exe" "${tool_dir}/${out_file}" 2>/dev/null
+                        else
+                            cp "${frp_dir}/frpc" "${tool_dir}/${out_file}" 2>/dev/null
+                        fi
+                        chmod +x "${tool_dir}/${out_file}" 2>/dev/null
+                        [ -f "${tool_dir}/${out_file}" ] && echo -e "   ✅ ${out_file}" || echo -e "   ❌ ${out_file} (extract failed)"
+                    else
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    rm -rf "${tmp_dir}"
+                    cd /tmp
+                    ;;
+                chisel)
+                    # chisel releases: chisel_1.10.1_linux_amd64.gz
+                    local chisel_ver_num=$(echo "$ver" | sed 's/^v//')
+                    local chisel_archive="chisel_${chisel_ver_num}_${platform}.gz"
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${chisel_archive}"
+                    out_file="chisel_${platform}"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        out_file="chisel_${platform}.exe"
+                    fi
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    local tmp_dir="/tmp/arsenal_chisel_${platform}"
+                    mkdir -p "${tmp_dir}" && cd "${tmp_dir}"
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${chisel_archive}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ]; then
+                        gunzip "${chisel_archive}" > /dev/null 2>&1
+                        local chisel_bin=$(echo "${chisel_archive}" | sed 's/.gz$//')
+                        if [ "$platform" = "windows_amd64" ]; then
+                            cp "${chisel_bin}" "${tool_dir}/${out_file}" 2>/dev/null
+                        else
+                            cp "${chisel_bin}" "${tool_dir}/${out_file}" 2>/dev/null
+                        fi
+                        chmod +x "${tool_dir}/${out_file}" 2>/dev/null
+                        [ -f "${tool_dir}/${out_file}" ] && echo -e "   ✅ ${out_file}" || echo -e "   ❌ ${out_file} (extract failed)"
+                    else
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    rm -rf "${tmp_dir}"
+                    cd /tmp
+                    ;;
+                iox)
+                    # iox uses non-standard naming: iox_v0.4-next_Linux_x86_64.tar.gz
+                    local iox_ver_num=$(echo "$ver" | sed 's/^v//')
+                    case "$platform" in
+                        linux_amd64)  local iox_archive="iox_v${iox_ver_num}-next_Linux_x86_64.tar.gz" ;;
+                        linux_arm64)  local iox_archive="iox_v${iox_ver_num}-next_Linux_i386.tar.gz" ;;
+                        windows_amd64) local iox_archive="iox_v${iox_ver_num}-next_Windows_x86_64.tar.gz" ;;
+                    esac
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${iox_archive}"
+                    out_file="iox_${platform}"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        out_file="iox_${platform}.exe"
+                    fi
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    local tmp_dir="/tmp/arsenal_iox_${platform}"
+                    mkdir -p "${tmp_dir}" && cd "${tmp_dir}"
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${iox_archive}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ]; then
+                        tar -zxf "${iox_archive}" > /dev/null 2>&1
+                        if [ "$platform" = "windows_amd64" ]; then
+                            cp iox.exe "${tool_dir}/${out_file}" 2>/dev/null || cp iox "${tool_dir}/${out_file}" 2>/dev/null
+                        else
+                            cp iox "${tool_dir}/${out_file}" 2>/dev/null
+                        fi
+                        chmod +x "${tool_dir}/${out_file}" 2>/dev/null
+                        [ -f "${tool_dir}/${out_file}" ] && echo -e "   ✅ ${out_file}" || echo -e "   ❌ ${out_file} (extract failed)"
+                    else
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    rm -rf "${tmp_dir}"
+                    cd /tmp
+                    ;;
+                *)
+                    # Simple single-binary tools (fscan, gogo, zombie, spray, cdk)
+                    local file_name="${tool_name}_${platform}"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        file_name="${tool_name}_${platform}.exe"
+                    fi
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${file_name}"
+                    out_file="${file_name}"
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${tool_dir}/${out_file}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ] && [ -s "${tool_dir}/${out_file}" ]; then
+                        chmod +x "${tool_dir}/${out_file}"
+                        echo -e "   ✅ ${out_file}"
+                    else
+                        rm -f "${tool_dir}/${out_file}"
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    ;;
+            esac
+        done
+        echo ""
+    done
+
+    echo -e "\033[1;33m>> Arsenal build complete\033[0m"
+    echo -e "\033[1;34m   Location: ${Arsenal_Dir}\033[0m"
+    echo ""
+    ls -la ${Arsenal_Dir}/*/ 2>/dev/null
 
 }
 
@@ -10711,6 +11028,18 @@ do
             Base_Check
             frp_Install
             ;;
+        -iox)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Pentest_iox_Install
+            ;;
+        -chisel)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Pentest_chisel_Install
+            ;;
         -nps)
             mac_Check || exit 1
             Proxy_Switch
@@ -10947,6 +11276,12 @@ do
         -proxy)
             mac_Check || exit 1
             Proxychains_Install
+            ;;
+        -arsenal)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Arsenal_Build
             ;;
         -debug)
             mac_Check || exit 1
