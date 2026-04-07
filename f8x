@@ -5521,6 +5521,123 @@ Pentest_PKINITtools_Install(){
 
 }
 
+# ===================== Install xfreerdp =====================
+Pentest_xfreerdp_Install(){
+
+    name="xfreerdp"
+
+    which xfreerdp > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        case $Linux_Version in
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                Rm_Lock
+                Install_Switch "freerdp2-x11"
+                Install_Switch "freerdp3-x11"
+
+                which xfreerdp > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                ;;
+            *) ;;
+        esac
+    fi
+
+}
+
+# ===================== Install mitm6 =====================
+Pentest_mitm6_Install(){
+
+    name="mitm6"
+
+    which mitm6 > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch5 "mitm6"
+        which mitm6 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install Coercer =====================
+Pentest_Coercer_Install(){
+
+    name="Coercer"
+
+    which coercer > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch5 "coercer"
+        which coercer > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install ldeep =====================
+Pentest_ldeep_Install(){
+
+    name="ldeep"
+
+    which ldeep > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch5 "ldeep"
+        which ldeep > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install enum4linux-ng =====================
+Pentest_enum4linux_ng_Install(){
+
+    name="enum4linux-ng"
+
+    which enum4linux-ng > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        case $Linux_Version in
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                Rm_Lock
+                Install_Switch "enum4linux-ng"
+
+                which enum4linux-ng > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                ;;
+            *) ;;
+        esac
+    fi
+
+}
+
+# ===================== Install bloodyAD =====================
+Pentest_bloodyAD_Install(){
+
+    name="bloodyAD"
+
+    which bloodyAD > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch5 "bloodyAD"
+        which bloodyAD > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== Install hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
@@ -9926,6 +10043,18 @@ Ad_Tools(){
     Pentest_Certipy_Install
     echo -e "\033[1;33m\n>> Installing PKINITtools\n\033[0m"
     Pentest_PKINITtools_Install
+    echo -e "\033[1;33m\n>> Installing xfreerdp\n\033[0m"
+    Pentest_xfreerdp_Install
+    echo -e "\033[1;33m\n>> Installing mitm6\n\033[0m"
+    Pentest_mitm6_Install
+    echo -e "\033[1;33m\n>> Installing Coercer\n\033[0m"
+    Pentest_Coercer_Install
+    echo -e "\033[1;33m\n>> Installing ldeep\n\033[0m"
+    Pentest_ldeep_Install
+    echo -e "\033[1;33m\n>> Installing enum4linux-ng\n\033[0m"
+    Pentest_enum4linux_ng_Install
+    echo -e "\033[1;33m\n>> Installing bloodyAD\n\033[0m"
+    Pentest_bloodyAD_Install
 
 }
 
@@ -10094,6 +10223,12 @@ assetfinder|Pentest_assetfinder_Install|2
 frp|frp_Install|0
 iox|Pentest_iox_Install|0
 chisel|Pentest_chisel_Install|0
+xfreerdp|Pentest_xfreerdp_Install|0
+mitm6|Pentest_mitm6_Install|1
+coercer|Pentest_Coercer_Install|1
+ldeep|Pentest_ldeep_Install|1
+enum4linux-ng|Pentest_enum4linux_ng_Install|1
+bloodyAD|Pentest_bloodyAD_Install|1
 nps|nps_Install|0
 redguard|RedGuard_Install|0
 interactsh|interactsh_Install|0
