@@ -10423,10 +10423,14 @@ chisel|jpillora/chisel|${chisel_Ver}|chisel_{CHISEL_PLATFORM}.gz
                     fi
                     ;;
                 frpc)
-                    # frp releases use different naming: frp_0.67.0_linux_amd64.tar.gz
+                    # frp releases: frp_0.67.0_linux_amd64.tar.gz, frp_0.67.0_windows_amd64.zip
                     local frp_ver_num=$(echo "$ver" | sed 's/^v//')
                     local frp_plat=$(echo "$platform" | sed 's/_/\//' | sed 's/\//_/')
-                    local frp_archive="frp_${frp_ver_num}_${frp_plat}.tar.gz"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        local frp_archive="frp_${frp_ver_num}_${frp_plat}.zip"
+                    else
+                        local frp_archive="frp_${frp_ver_num}_${frp_plat}.tar.gz"
+                    fi
                     dl_url="https://github.com/${repo}/releases/download/${ver}/${frp_archive}"
                     out_file="frpc_${platform}"
                     if [ "$platform" = "windows_amd64" ]; then
@@ -10442,11 +10446,12 @@ chisel|jpillora/chisel|${chisel_Ver}|chisel_{CHISEL_PLATFORM}.gz
                     mkdir -p "${tmp_dir}" && cd "${tmp_dir}"
                     $Proxy_OK wget ${GitProxy}${dl_url} -O "${frp_archive}" ${wget_option} 2>/dev/null
                     if [ $? -eq 0 ]; then
-                        tar -zxf "${frp_archive}" > /dev/null 2>&1
                         local frp_dir="frp_${frp_ver_num}_${frp_plat}"
                         if [ "$platform" = "windows_amd64" ]; then
+                            unzip -o "${frp_archive}" > /dev/null 2>&1
                             cp "${frp_dir}/frpc.exe" "${tool_dir}/${out_file}" 2>/dev/null
                         else
+                            tar -zxf "${frp_archive}" > /dev/null 2>&1
                             cp "${frp_dir}/frpc" "${tool_dir}/${out_file}" 2>/dev/null
                         fi
                         chmod +x "${tool_dir}/${out_file}" 2>/dev/null
@@ -10458,9 +10463,13 @@ chisel|jpillora/chisel|${chisel_Ver}|chisel_{CHISEL_PLATFORM}.gz
                     cd /tmp
                     ;;
                 chisel)
-                    # chisel releases: chisel_1.10.1_linux_amd64.gz
+                    # chisel releases: chisel_1.11.5_linux_amd64.gz, chisel_1.11.5_windows_amd64.zip
                     local chisel_ver_num=$(echo "$ver" | sed 's/^v//')
-                    local chisel_archive="chisel_${chisel_ver_num}_${platform}.gz"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        local chisel_archive="chisel_${chisel_ver_num}_${platform}.zip"
+                    else
+                        local chisel_archive="chisel_${chisel_ver_num}_${platform}.gz"
+                    fi
                     dl_url="https://github.com/${repo}/releases/download/${ver}/${chisel_archive}"
                     out_file="chisel_${platform}"
                     if [ "$platform" = "windows_amd64" ]; then
@@ -10476,11 +10485,12 @@ chisel|jpillora/chisel|${chisel_Ver}|chisel_{CHISEL_PLATFORM}.gz
                     mkdir -p "${tmp_dir}" && cd "${tmp_dir}"
                     $Proxy_OK wget ${GitProxy}${dl_url} -O "${chisel_archive}" ${wget_option} 2>/dev/null
                     if [ $? -eq 0 ]; then
-                        gunzip "${chisel_archive}" > /dev/null 2>&1
-                        local chisel_bin=$(echo "${chisel_archive}" | sed 's/.gz$//')
                         if [ "$platform" = "windows_amd64" ]; then
-                            cp "${chisel_bin}" "${tool_dir}/${out_file}" 2>/dev/null
+                            unzip -o "${chisel_archive}" > /dev/null 2>&1
+                            cp chisel.exe "${tool_dir}/${out_file}" 2>/dev/null
                         else
+                            gunzip "${chisel_archive}" > /dev/null 2>&1
+                            local chisel_bin=$(echo "${chisel_archive}" | sed 's/.gz$//')
                             cp "${chisel_bin}" "${tool_dir}/${out_file}" 2>/dev/null
                         fi
                         chmod +x "${tool_dir}/${out_file}" 2>/dev/null
@@ -10529,7 +10539,12 @@ chisel|jpillora/chisel|${chisel_Ver}|chisel_{CHISEL_PLATFORM}.gz
                     cd /tmp
                     ;;
                 *)
-                    # Simple single-binary tools (fscan, gogo, zombie, spray, cdk)
+                    # Simple single-binary tools (gogo, zombie, spray, cdk)
+                    # cdk has no windows build
+                    if [ "$tool_name" = "cdk" ] && [ "$platform" = "windows_amd64" ]; then
+                        echo -e "   ⏭️  ${tool_name}_${platform} (no windows build)"
+                        continue
+                    fi
                     local file_name="${tool_name}_${platform}"
                     if [ "$platform" = "windows_amd64" ]; then
                         file_name="${tool_name}_${platform}.exe"
