@@ -3074,7 +3074,7 @@ docker_compose_Install(){
     docker compose version > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "$name installed"
+        Echo_ALERT "$name installed (docker compose version)"
     else
         Rm_Lock
         # ref https://docs.docker.com/compose/install/linux/
@@ -3082,10 +3082,10 @@ docker_compose_Install(){
     fi
 
     # old
-    docker-compose -version > /dev/null 2>&1
+    docker compose version > /dev/null 2>&1
     if [ $? == 0 ]
     then
-        Echo_ALERT "docker-compose installed"
+        Echo_ALERT "docker-compose installed (docker compose version)"
     else
         pip3_Check && pip3 install --upgrade pip > /dev/null 2>&1
         Install_Switch5 "docker-compose"
