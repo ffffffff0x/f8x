@@ -5612,6 +5612,10 @@ Pentest_enum4linux_ng_Install(){
                 Install_Switch7 "requirements.txt"
                 python3 setup.py install
 
+                python3 -m pip install cryptography --break-system-packages --ignore-installed
+                python3 -m pip install impacket --break-system-packages
+
+                Install_Switch "smbclient"
                 which enum4linux-ng > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 ;;
             *) ;;
