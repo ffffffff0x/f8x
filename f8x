@@ -5596,6 +5596,7 @@ Pentest_ldeep_Install(){
 Pentest_enum4linux_ng_Install(){
 
     name="enum4linux-ng"
+    dir="$P_Dir/enum4linux-ng"
 
     which enum4linux-ng > /dev/null 2>&1
 
@@ -5605,8 +5606,11 @@ Pentest_enum4linux_ng_Install(){
     else
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                Rm_Lock
-                Install_Switch "enum4linux-ng"
+                $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/cddmp/enum4linux-ng $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
+                cd $dir
+                Install_Switch5 "wheel"
+                Install_Switch7 "requirements.txt"
+                python3 setup.py install
 
                 which enum4linux-ng > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 ;;
