@@ -4464,6 +4464,11 @@ Pentest_Sqlmap_Install(){
         cd $dir && Echo_INFOR "Successfully installed $name $(python3 sqlmap.py --version) in the $P_Dir/sqlmap" || Echo_ERROR3
     fi
 
+    # 创建软链接，确保 sqlmap 在 PATH 中可用
+    if [ -f "$dir/sqlmap.py" ] && ! which sqlmap > /dev/null 2>&1; then
+        ln -sf $dir/sqlmap.py /usr/local/bin/sqlmap 2>/dev/null
+    fi
+
 }
 
 # ===================== Install xray =====================
@@ -5226,6 +5231,11 @@ Pentest_Responder_Install(){
         Install_Switch5 "netifaces"
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/lgandx/Responder.git $dir > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the $dir" && cd $dir || Echo_ERROR2
     fi
+
+    # 创建软链接，确保 Responder 在 PATH 中可用
+    if [ -f "$dir/Responder.py" ] && ! which responder > /dev/null 2>&1 && ! which Responder.py > /dev/null 2>&1; then
+        ln -sf $dir/Responder.py /usr/local/bin/responder 2>/dev/null
+    fi
 }
 
 # ===================== Install krbrelayx =====================
@@ -5776,6 +5786,23 @@ Pentest_ldapsearch_Install(){
                 ;;
             *) ;;
         esac
+    fi
+
+}
+
+# ===================== Install evil-winrm =====================
+Pentest_evil_winrm_Install(){
+
+    name="evil-winrm"
+
+    which evil-winrm > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        gem install evil-winrm > /dev/null 2>&1 || Echo_ERROR3
+        which evil-winrm > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
 
 }
@@ -10136,8 +10163,8 @@ kali_Tools_TypeD(){
     Pentest_anew_Install
     echo -e "\033[1;33m\n>> Installing gron\n\033[0m"
     Pentest_gron_Install
-    echo -e "\033[1;33m\n>> Installing Interlace\n\033[0m"
-    Pentest_Interlace_Install
+    # echo -e "\033[1;33m\n>> Installing Interlace\n\033[0m"
+    # Pentest_Interlace_Install
     echo -e "\033[1;33m\n>> Installing sttr\n\033[0m"
     Pentest_sttr_Install
     echo -e "\033[1;33m\n>> Installing unfurl\n\033[0m"
@@ -10230,6 +10257,8 @@ Ad_Tools(){
     Pentest_john_Install
     echo -e "\033[1;33m\n>> Installing ldapsearch\n\033[0m"
     Pentest_ldapsearch_Install
+    echo -e "\033[1;33m\n>> Installing evil-winrm\n\033[0m"
+    Pentest_evil_winrm_Install
 
 }
 
@@ -10411,6 +10440,7 @@ gMSADumper|Pentest_gMSADumper_Install|1
 exegol|Pentest_Exegol_Install|1
 john|Pentest_john_Install|0
 ldapsearch|Pentest_ldapsearch_Install|0
+evil-winrm|Pentest_evil_winrm_Install|0
 nps|nps_Install|0
 redguard|RedGuard_Install|0
 interactsh|interactsh_Install|0
@@ -10583,6 +10613,7 @@ Help(){
     echo -e "  \033[1;34m-frp\033[0m \033[0;34m             : install frp\033[0m"
     echo -e "  \033[1;34m-iox\033[0m \033[0;34m             : install iox\033[0m                        \033[1;33m(https://github.com/EddieIvan01/iox)\033[0m"
     echo -e "  \033[1;34m-chisel\033[0m \033[0;34m          : install chisel\033[0m                     \033[1;33m(https://github.com/jpillora/chisel)\033[0m"
+    echo -e "  \033[1;34m-evil-winrm\033[0m \033[0;34m      : install evil-winrm\033[0m                 \033[1;33m(https://github.com/Hackplayers/evil-winrm)\033[0m"
     echo -e "  \033[1;34m-interactsh\033[0m \033[0;34m      : install interactsh\033[0m                 \033[1;33m(https://github.com/projectdiscovery/interactsh)\033[0m"
     echo -e "  \033[1;34m-merlin\033[0m \033[0;34m          : install merlin\033[0m                     \033[1;33m(https://github.com/Ne0nd0g/merlin)\033[0m"
     echo -e "  \033[1;34m-msf\033[0m \033[0;34m             : install Metasploit\033[0m"
@@ -11371,6 +11402,13 @@ do
             Proxy_Switch
             Base_Check
             Pentest_chisel_Install
+            ;;
+        -evil-winrm)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            Ruby_Check
+            Pentest_evil_winrm_Install
             ;;
         -nps)
             mac_Check || exit 1
