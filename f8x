@@ -5825,6 +5825,23 @@ Pentest_playwright_mcp_Install(){
 
 }
 
+# ===================== Install Claude Code =====================
+Pentest_claude_code_Install(){
+
+    name="Claude Code"
+
+    which claude > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        npm install -g @anthropic-ai/claude-code
+        which claude > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== Install hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
@@ -10468,6 +10485,7 @@ john|Pentest_john_Install|0
 ldapsearch|Pentest_ldapsearch_Install|0
 evil-winrm|Pentest_evil_winrm_Install|0
 playwright-mcp|Pentest_playwright_mcp_Install|0
+claude-code|Pentest_claude_code_Install|0
 nps|nps_Install|0
 redguard|RedGuard_Install|0
 interactsh|interactsh_Install|0
@@ -10642,6 +10660,7 @@ Help(){
     echo -e "  \033[1;34m-chisel\033[0m \033[0;34m          : install chisel\033[0m                     \033[1;33m(https://github.com/jpillora/chisel)\033[0m"
     echo -e "  \033[1;34m-evil-winrm\033[0m \033[0;34m      : install evil-winrm\033[0m                 \033[1;33m(https://github.com/Hackplayers/evil-winrm)\033[0m"
     echo -e "  \033[1;34m-playwright-mcp\033[0m \033[0;34m  : install @playwright/mcp\033[0m             \033[1;33m(https://github.com/nichochar/playwright-mcp)\033[0m"
+    echo -e "  \033[1;34m-claude-code\033[0m \033[0;34m     : install Claude Code CLI\033[0m            \033[1;33m(https://docs.anthropic.com/en/docs/claude-code)\033[0m"
     echo -e "  \033[1;34m-interactsh\033[0m \033[0;34m      : install interactsh\033[0m                 \033[1;33m(https://github.com/projectdiscovery/interactsh)\033[0m"
     echo -e "  \033[1;34m-merlin\033[0m \033[0;34m          : install merlin\033[0m                     \033[1;33m(https://github.com/Ne0nd0g/merlin)\033[0m"
     echo -e "  \033[1;34m-msf\033[0m \033[0;34m             : install Metasploit\033[0m"
@@ -11444,6 +11463,13 @@ do
             Base_Check
             nn_Check
             Pentest_playwright_mcp_Install
+            ;;
+        -claude-code)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            nn_Check
+            Pentest_claude_code_Install
             ;;
         -nps)
             mac_Check || exit 1
