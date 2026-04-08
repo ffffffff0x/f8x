@@ -5534,7 +5534,7 @@ Pentest_xfreerdp_Install(){
                 Install_Switch "freerdp2-x11"
                 Install_Switch "freerdp3-x11"
 
-                which xfreerdp > /dev/null 2>&1 || which xfreerdp3 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                which xfreerdp > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" && return 0 || { which xfreerdp3 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" && return 0 || Echo_ERROR3; return 1; }
                 ;;
             *) ;;
         esac
