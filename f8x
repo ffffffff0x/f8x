@@ -3320,7 +3320,7 @@ Pentest_pip_Install(){
     then
         Echo_ALERT "pip module record detected, skip this step"
     else
-        python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "python3-pip update failed"
+        # python3 -m pip install --upgrade pip > /dev/null 2>&1 || Echo_ERROR "python3-pip update failed"
         Install_Switch5 "PyJWT"
         Install_Switch5 "pyshark"
         Install_Switch5 "requests"
@@ -7167,7 +7167,6 @@ binwalk_force_Install(){
                 Install_Switch "python3-pyqt4.qtopengl"
                 Install_Switch "python3-numpy"
                 Install_Switch "python3-scipy"
-                Install_Switch "python3-pip"
                 Install_Switch "mtd-utils"
                 Install_Switch "gzip"
                 Install_Switch "bzip2"
