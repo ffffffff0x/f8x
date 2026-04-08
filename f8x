@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.8.4 (2026/04/08)"
+F8x_Version="1.8.5 (2026/04/08)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -777,14 +777,7 @@ Install_Switch4(){
 
     case $Linux_Version in
         *"Debian"*)
-            case $Linux_Version_Num in
-                "12")
-                    python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
-                    ;;
-                *)
-                    pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
-                    ;;
-            esac
+            python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
             ;;
         *)
             pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
@@ -795,41 +788,13 @@ Install_Switch4(){
 
 Install_Switch5(){
 
-    case $Linux_Version in
-        *"Debian"*)
-            case $Linux_Version_Num in
-                "12")
-                    python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
-                    ;;
-                *)
-                    python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
-                    ;;
-            esac
-            ;;
-        *)
-            python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
-        ;;
-    esac
+    python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
 
 }
 
 Install_Switch6(){
 
-    case $Linux_Version in
-        *"Debian"*)
-            case $Linux_Version_Num in
-                "12")
-                    python3 -m pip install -r $1 --break-system-packages > /dev/null 2>&1
-                    ;;
-                *)
-                    python3 -m pip install -r $1 > /dev/null 2>&1
-                    ;;
-            esac
-            ;;
-        *)
-            python3 -m pip install -r $1 > /dev/null 2>&1
-        ;;
-    esac
+    python3 -m pip install -r $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { python3 -m pip install -r $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
 
 }
 
@@ -837,14 +802,7 @@ Install_Switch7(){
 
     case $Linux_Version in
         *"Debian"*)
-            case $Linux_Version_Num in
-                "12")
-                    python3 -m pip install -r $1 --break-system-packages > /dev/null 2>&1
-                    ;;
-                *)
-                    pip3 install -r $1 > /dev/null 2>&1
-                    ;;
-            esac
+            python3 -m pip install -r $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install -r $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
             ;;
         *)
             pip3 install -r $1 > /dev/null 2>&1
@@ -855,7 +813,7 @@ Install_Switch7(){
 
 Install_Switch8(){
 
-    pipx install $1 $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3 pipx)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+    pipx install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3 pipx)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
 
 }
 
@@ -3004,10 +2962,14 @@ Docker_Install(){
                 ;;
             *"Ubuntu"*|*"Debian"*)
                 Echo_INFOR "Uninstalling the Docker environment"
-                apt-get remove -y docker > /dev/null 2>&1
-                apt-get remove -y docker-engine > /dev/null 2>&1
-                apt-get remove -y docker.io > /dev/null 2>&1
+
+                # https://docs.docker.com/engine/install/debian/#uninstall-old-versions
+                apt remove -y $(dpkg --get-selections docker.io docker-compose docker-compose-v2 docker-doc podman-docker containerd runc | cut -f1)
+                #apt-get remove -y docker > /dev/null 2>&1
+                #apt-get remove -y docker-engine > /dev/null 2>&1
+                #apt-get remove -y docker.io > /dev/null 2>&1
                 Rm_Lock
+
                 apt-get update > /dev/null 2>&1 || Echo_ERROR "Update apt package list failed"
                 Install_Switch "apt-transport-https"
                 Install_Switch "ca-certificates"
@@ -3032,18 +2994,52 @@ Docker_Install(){
 
                     case $Linux_Version in
                         *"Kali"*|*"Debian"*)
-                            echo -e 'deb https://download.docker.com/linux/debian' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
+                            # Add Docker's official GPG key:
+                            sudo install -m 0755 -d /etc/apt/keyrings
+                            sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+                            sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+                            # Add the repository to Apt sources:
+                            tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+                            # echo -e 'deb https://download.docker.com/linux/debian' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
                             ;;
                         *"Ubuntu"*)
-                            echo -e 'deb https://download.docker.com/linux/ubuntu/' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
+                            # Add Docker's official GPG key:
+                            sudo apt update
+                            sudo apt install ca-certificates curl
+                            sudo install -m 0755 -d /etc/apt/keyrings
+                            sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+                            sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+                            # Add the repository to Apt sources:
+                            sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+                            # echo -e 'deb https://download.docker.com/linux/ubuntu/' "$Linux_Version_Name" 'stable'> /etc/apt/sources.list.d/docker.list
                             ;;
                     esac
                 fi
 
-                Echo_INFOR "Updating apt package list" && apt-get update > /dev/null 2>&1 || Echo_ERROR "Update apt package list failed"
+                apt update
+                apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-                Echo_ALERT "Installing docker" && $Proxy_OK apt-get install -y docker-ce > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker-ce" || Echo_ERROR "docker-ce installation failed, please check if the network is reachable, proxychains4 configuration is correct"
+                # Echo_INFOR "Updating apt package list" && apt-get update > /dev/null 2>&1 || Echo_ERROR "Update apt package list failed"
+                # Echo_ALERT "Installing docker" && $Proxy_OK apt-get install -y docker-ce > /dev/null 2>&1 && Echo_INFOR "Successfully installed docker-ce" || Echo_ERROR "docker-ce installation failed, please check if the network is reachable, proxychains4 configuration is correct"
                 rm -f /etc/apt/sources.list.d/docker.list > /dev/null 2>&1
+                rm -f /etc/apt/sources.list.d/docker.sources > /dev/null 2>&1
                 ;;
             *"Kali"*)
                 Echo_INFOR "Uninstalling the Docker environment"
@@ -5498,7 +5494,7 @@ Pentest_Certipy_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch5 "certipy-ad"
+        Install_Switch8 "certipy-ad"
     fi
 
 }
@@ -5526,7 +5522,7 @@ Pentest_xfreerdp_Install(){
 
     name="xfreerdp"
 
-    which xfreerdp > /dev/null 2>&1
+    which xfreerdp > /dev/null 2>&1 || which xfreerdp3 > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -5538,7 +5534,7 @@ Pentest_xfreerdp_Install(){
                 Install_Switch "freerdp2-x11"
                 Install_Switch "freerdp3-x11"
 
-                which xfreerdp > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+                which xfreerdp > /dev/null 2>&1 || which xfreerdp3 > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 ;;
             *) ;;
         esac
@@ -5574,8 +5570,7 @@ Pentest_Coercer_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch5 "coercer"
-        which coercer > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+        Install_Switch8 "coercer"
     fi
 
 }
@@ -5632,8 +5627,7 @@ Pentest_bloodyAD_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch5 "bloodyAD"
-        which bloodyAD > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+        Install_Switch8 "bloodyAD"
     fi
 
 }
@@ -5649,8 +5643,7 @@ Pentest_bloodhound_python_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch5 "bloodhound"
-        which bloodhound-python > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+        Install_Switch8 "bloodhound"
     fi
 
 }
@@ -5726,8 +5719,7 @@ Pentest_Exegol_Install(){
     else
         # Install_Switch5 "exegol"
         pipx ensurepath
-        pipx install exegol
-        which exegol > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+        pipx install exegol && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
 
 }
