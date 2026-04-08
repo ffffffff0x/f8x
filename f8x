@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.8.5 (2026/04/08)"
+F8x_Version="1.8.6 (2026/04/08)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -2555,7 +2555,7 @@ Python3_def_Install(){
             Install_Switch "python3-dev"
             Install_Switch "python3-pip"
             Install_Switch "python3-venv"
-            Install_Switch "python3-distutils"
+            Install_Switch "python3-distutils" > /dev/null 2>&1
             Install_Switch "pipx"
             pipx ensurepath
             python3 -m pip install --upgrade pip > /dev/null 2>&1 && Echo_INFOR "Updated python3-pip" || Echo_ERROR "Update python3-pip failed"
@@ -5807,6 +5807,24 @@ Pentest_evil_winrm_Install(){
 
 }
 
+# ===================== Install @playwright/mcp =====================
+Pentest_playwright_mcp_Install(){
+
+    name="@playwright/mcp"
+
+    npm list -g @playwright/mcp > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        npm install -g @playwright/mcp
+        npx -y playwright install --with-deps chromium
+        npm list -g @playwright/mcp && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
 # ===================== Install hashcat、7z2hashcat =====================
 Pentest_hashcat_Install(){
 
@@ -8116,6 +8134,14 @@ nn_Install(){
             *) ;;
         esac
     fi
+
+    npx_Install
+
+}
+
+npx_Install(){
+
+    npm install npx -g
 
 }
 
@@ -10441,6 +10467,7 @@ exegol|Pentest_Exegol_Install|1
 john|Pentest_john_Install|0
 ldapsearch|Pentest_ldapsearch_Install|0
 evil-winrm|Pentest_evil_winrm_Install|0
+playwright-mcp|Pentest_playwright_mcp_Install|0
 nps|nps_Install|0
 redguard|RedGuard_Install|0
 interactsh|interactsh_Install|0
@@ -10614,6 +10641,7 @@ Help(){
     echo -e "  \033[1;34m-iox\033[0m \033[0;34m             : install iox\033[0m                        \033[1;33m(https://github.com/EddieIvan01/iox)\033[0m"
     echo -e "  \033[1;34m-chisel\033[0m \033[0;34m          : install chisel\033[0m                     \033[1;33m(https://github.com/jpillora/chisel)\033[0m"
     echo -e "  \033[1;34m-evil-winrm\033[0m \033[0;34m      : install evil-winrm\033[0m                 \033[1;33m(https://github.com/Hackplayers/evil-winrm)\033[0m"
+    echo -e "  \033[1;34m-playwright-mcp\033[0m \033[0;34m  : install @playwright/mcp\033[0m             \033[1;33m(https://github.com/nichochar/playwright-mcp)\033[0m"
     echo -e "  \033[1;34m-interactsh\033[0m \033[0;34m      : install interactsh\033[0m                 \033[1;33m(https://github.com/projectdiscovery/interactsh)\033[0m"
     echo -e "  \033[1;34m-merlin\033[0m \033[0;34m          : install merlin\033[0m                     \033[1;33m(https://github.com/Ne0nd0g/merlin)\033[0m"
     echo -e "  \033[1;34m-msf\033[0m \033[0;34m             : install Metasploit\033[0m"
@@ -11409,6 +11437,13 @@ do
             Base_Check
             Ruby_Check
             Pentest_evil_winrm_Install
+            ;;
+        -playwright-mcp)
+            mac_Check || exit 1
+            Proxy_Switch
+            Base_Check
+            nn_Check
+            Pentest_playwright_mcp_Install
             ;;
         -nps)
             mac_Check || exit 1
