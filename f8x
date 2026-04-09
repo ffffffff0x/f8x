@@ -5897,7 +5897,7 @@ Pentest_gMSADumper_Install(){
 Pentest_ligolo_ng_Install(){
 
     name="ligolo-ng"
-    which proxy > /dev/null 2>&1
+    which ligolo-proxy > /dev/null 2>&1
 
     if [ $? == 0 ]
     then
@@ -6053,6 +6053,16 @@ Pentest_DonPAPI_Install(){
     then
         Echo_ALERT "$name installed"
     else
+        # lxml 需要 C 编译依赖
+        case $Linux_Version in
+            *"Kali"*|*"Ubuntu"*|*"Debian"*)
+                Rm_Lock
+                Install_Switch "libxml2-dev"
+                Install_Switch "libxslt1-dev"
+                ;;
+            *) ;;
+        esac
+
         Install_Switch8 "donpapi"
         which donpapi > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
