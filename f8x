@@ -3579,7 +3579,7 @@ Pentest_fscan_Install(){
     else
         mkdir -p /tmp/fscan && cd /tmp/fscan && rm -f $fscan_Install && $Proxy_OK wget ${GitProxy}https://github.com/shadow1ng/fscan/releases/download/$fscan_Ver/$fscan_Install > /dev/null 2>&1 || Echo_ERROR2
         mv --force $fscan_Install /usr/local/bin/fscan && chmod +x /usr/local/bin/fscan
-        which fscan && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
+        which fscan > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $fscan_Ver in the /usr/local/bin/" || Echo_ERROR3
         rm -rf /tmp/fscan && cd /tmp
     fi
 
@@ -5206,7 +5206,7 @@ Pentest_tccli_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        pip3 install tccli 2>/dev/null || pip install tccli 2>/dev/null || Echo_ERROR2
+        Install_Switch8 "tccli"
         which tccli > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name via pip" || Echo_ERROR3
     fi
 
