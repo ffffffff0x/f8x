@@ -6297,11 +6297,10 @@ Pentest_playwright_mcp_Install(){
         Echo_ALERT "$name installed"
     else
         npm install -g @playwright/mcp
-        cd /tmp && npm init -y && npm install @playwright/test
-        npx -y @playwright/test install chromium
-        npx -y playwright install chrome
-        npx -y playwright install --with-deps chromium
         npm list -g @playwright/mcp && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+        # 安装浏览器（@playwright/mcp 需要 chrome-for-testing）
+        # npx -y playwright install --with-deps chrome
+        npx playwright install chromium
     fi
 
 }
