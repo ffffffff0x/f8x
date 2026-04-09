@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.8.7 (2026/04/08)"
+F8x_Version="1.8.8 (2026/04/09)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -274,6 +274,14 @@ GodPotato_Ver="V1.20"
 mimikatz_Ver="2.2.0-20220919"
 # https://github.com/BloodHoundAD/SharpHound/releases
 SharpHound_Ver="v2.12.0-rc3"
+# https://github.com/itm4n/PrintSpoofer/releases
+PrintSpoofer_Ver="v1.0"
+# https://github.com/QAX-A-Team/sharpwmi/releases
+SharpWMI_Ver="v2"
+# https://github.com/mandiant/SharPersist/releases
+SharPersist_Ver="v1.0.1"
+# https://github.com/FuzzySecurity/StandIn/releases
+StandIn_Ver="v1.3"
 # https://github.com/projectdiscovery/interactsh/releases
 interactsh_Ver="v1.3.0"
 interactsh_client_bin_amd64="interactsh-client_1.3.0_Linux_amd64.zip"
@@ -6017,6 +6025,143 @@ Pentest_zerologon_Install(){
 
 }
 
+# ===================== Install lsassy =====================
+Pentest_lsassy_Install(){
+
+    name="lsassy"
+
+    which lsassy > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch8 "lsassy"
+        which lsassy > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install DonPAPI =====================
+Pentest_DonPAPI_Install(){
+
+    name="DonPAPI"
+
+    which donpapi > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch8 "donpapi"
+        which donpapi > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install pywhisker =====================
+Pentest_pywhisker_Install(){
+
+    name="pywhisker"
+    dir="$P_Dir/pywhisker"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ShutdownRepo/pywhisker.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
+        cd $dir && pip3 install . ${pip_option} 2>/dev/null
+        which pywhisker > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name to PATH" || {
+            chmod +x $dir/pywhisker/pywhisker.py 2>/dev/null
+            ln -sf $dir/pywhisker/pywhisker.py /usr/local/bin/pywhisker 2>/dev/null
+        }
+    fi
+
+}
+
+# ===================== Install DFSCoerce =====================
+Pentest_DFSCoerce_Install(){
+
+    name="DFSCoerce"
+    dir="$P_Dir/DFSCoerce"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/Wh04m1001/DFSCoerce.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
+        chmod +x $dir/dfscoerce.py 2>/dev/null
+        ln -sf $dir/dfscoerce.py /usr/local/bin/dfscoerce 2>/dev/null
+    fi
+
+}
+
+# ===================== Install ShadowCoerce =====================
+Pentest_ShadowCoerce_Install(){
+
+    name="ShadowCoerce"
+    dir="$P_Dir/ShadowCoerce"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ShutdownRepo/ShadowCoerce.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
+        chmod +x $dir/shadowcoerce.py 2>/dev/null
+        ln -sf $dir/shadowcoerce.py /usr/local/bin/shadowcoerce 2>/dev/null
+    fi
+
+}
+
+# ===================== Install GPOwned =====================
+Pentest_GPOwned_Install(){
+
+    name="GPOwned"
+    dir="$P_Dir/GPOwned"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/X-C3LL/GPOwned.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
+        chmod +x $dir/GPOwned.py 2>/dev/null
+        ln -sf $dir/GPOwned.py /usr/local/bin/gpowned 2>/dev/null
+    fi
+
+}
+
+# ===================== Install gpp-decrypt =====================
+Pentest_gpp_decrypt_Install(){
+
+    name="gpp-decrypt"
+
+    which gpp-decrypt > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch8 "gpp-decrypt"
+        which gpp-decrypt > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install PowerSharpPack =====================
+Pentest_PowerSharpPack_Install(){
+
+    name="PowerSharpPack"
+    dir="$P_Dir/PowerSharpPack"
+
+    if test -d $dir
+    then
+        Echo_ALERT "$name is already installed in $dir"
+    else
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/S3cur3Th1sSh1t/PowerSharpPack.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
+    fi
+
+}
+
 # ===================== Install Exegol =====================
 Pentest_Exegol_Install(){
 
@@ -10612,6 +10757,22 @@ Ad_Tools(){
     Pentest_noPac_Install
     echo -e "\033[1;33m\n>> Installing zerologon\n\033[0m"
     Pentest_zerologon_Install
+    echo -e "\033[1;33m\n>> Installing lsassy\n\033[0m"
+    Pentest_lsassy_Install
+    echo -e "\033[1;33m\n>> Installing DonPAPI\n\033[0m"
+    Pentest_DonPAPI_Install
+    echo -e "\033[1;33m\n>> Installing pywhisker\n\033[0m"
+    Pentest_pywhisker_Install
+    echo -e "\033[1;33m\n>> Installing DFSCoerce\n\033[0m"
+    Pentest_DFSCoerce_Install
+    echo -e "\033[1;33m\n>> Installing ShadowCoerce\n\033[0m"
+    Pentest_ShadowCoerce_Install
+    echo -e "\033[1;33m\n>> Installing GPOwned\n\033[0m"
+    Pentest_GPOwned_Install
+    echo -e "\033[1;33m\n>> Installing gpp-decrypt\n\033[0m"
+    Pentest_gpp_decrypt_Install
+    echo -e "\033[1;33m\n>> Installing PowerSharpPack\n\033[0m"
+    Pentest_PowerSharpPack_Install
 
 }
 
@@ -10825,6 +10986,14 @@ PassTheCert|Pentest_PassTheCert_Install|1
 targetedKerberoast|Pentest_targetedKerberoast_Install|1
 noPac|Pentest_noPac_Install|1
 zerologon|Pentest_zerologon_Install|1
+lsassy|Pentest_lsassy_Install|0
+donpapi|Pentest_DonPAPI_Install|0
+pywhisker|Pentest_pywhisker_Install|1
+dfscoerce|Pentest_DFSCoerce_Install|1
+shadowcoerce|Pentest_ShadowCoerce_Install|1
+gpowned|Pentest_GPOwned_Install|1
+gpp-decrypt|Pentest_gpp_decrypt_Install|0
+powersharppack|Pentest_PowerSharpPack_Install|1
 playwright-mcp|Pentest_playwright_mcp_Install|0
 claude-code|Pentest_claude_code_Install|0
 nps|nps_Install|0
@@ -11127,6 +11296,10 @@ winpeas|peass-ng/PEASS-ng|${peass_ng_Ver}|winPEAS
 GodPotato|BeichenDream/GodPotato|${GodPotato_Ver}|GodPotato
 mimikatz|gentilkiwi/mimikatz|${mimikatz_Ver}|mimikatz_trunk.zip
 SharpHound|BloodHoundAD/SharpHound|${SharpHound_Ver}|SharpHound
+PrintSpoofer|itm4n/PrintSpoofer|${PrintSpoofer_Ver}|PrintSpoofer
+SharpWMI|QAX-A-Team/sharpwmi|${SharpWMI_Ver}|sharpwmi
+SharPersist|mandiant/SharPersist|${SharPersist_Ver}|SharPersist
+StandIn|FuzzySecurity/StandIn|${StandIn_Ver}|StandIn
 "
 
     local total_ok=0
@@ -11568,6 +11741,98 @@ SharpHound|BloodHoundAD/SharpHound|${SharpHound_Ver}|SharpHound
                         continue
                     fi
                     out_file="SharpHound_${ver}_windows_x86.zip"
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${out_file}"
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${tool_dir}/${out_file}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ] && [ -s "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file}"
+                    else
+                        rm -f "${tool_dir}/${out_file}"
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    ;;
+                PrintSpoofer)
+                    # PrintSpoofer: Windows-only, two exe files (32+64 bit)
+                    if [ "$platform" != "windows_amd64" ]; then
+                        echo -e "   ⏭️  PrintSpoofer_${platform} (windows only)"
+                        continue
+                    fi
+                    local ps_ok=0
+                    for exe_name in PrintSpoofer32.exe PrintSpoofer64.exe; do
+                        if [ -f "${tool_dir}/${exe_name}" ]; then
+                            echo -e "   ✅ ${exe_name} (exists)"
+                            ps_ok=1
+                            continue
+                        fi
+                        dl_url="https://github.com/${repo}/releases/download/${ver}/${exe_name}"
+                        $Proxy_OK wget ${GitProxy}${dl_url} -O "${tool_dir}/${exe_name}" ${wget_option} 2>/dev/null
+                        if [ $? -eq 0 ] && [ -s "${tool_dir}/${exe_name}" ]; then
+                            ps_ok=1
+                            echo -e "   ✅ ${exe_name}"
+                        else
+                            rm -f "${tool_dir}/${exe_name}"
+                            echo -e "   ❌ ${exe_name} (download failed)"
+                        fi
+                    done
+                    ;;
+                SharpWMI)
+                    # SharpWMI: Windows-only single exe
+                    if [ "$platform" != "windows_amd64" ]; then
+                        echo -e "   ⏭️  SharpWMI_${platform} (windows only)"
+                        continue
+                    fi
+                    out_file="sharpwmi.exe"
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${out_file}"
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${tool_dir}/${out_file}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ] && [ -s "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file}"
+                    else
+                        rm -f "${tool_dir}/${out_file}"
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    ;;
+                SharPersist)
+                    # SharPersist: Windows-only single exe
+                    if [ "$platform" != "windows_amd64" ]; then
+                        echo -e "   ⏭️  SharPersist_${platform} (windows only)"
+                        continue
+                    fi
+                    out_file="SharPersist.exe"
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${out_file}"
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${tool_dir}/${out_file}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ] && [ -s "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file}"
+                    else
+                        rm -f "${tool_dir}/${out_file}"
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    ;;
+                StandIn)
+                    # StandIn: Windows-only zip with Net35+Net45 builds
+                    if [ "$platform" != "windows_amd64" ]; then
+                        echo -e "   ⏭️  StandIn_${platform} (windows only)"
+                        continue
+                    fi
+                    # v1.3 → StandIn_v13_Net35_45.zip
+                    local standin_ver_short=$(echo "$ver" | sed 's/^v//;s/\.//')
+                    out_file="StandIn_v${standin_ver_short}_Net35_45.zip"
 
                     if [ -f "${tool_dir}/${out_file}" ]; then
                         echo -e "   ✅ ${out_file} (exists)"
