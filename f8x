@@ -256,6 +256,8 @@ cdk_bin_amd64="cdk_linux_amd64"
 cdk_bin_arm64="cdk_linux_arm64"
 # https://github.com/Esonhugh/k8spider/releases
 k8spider_Ver="v3.2.0"
+# https://github.com/Esonhugh/ingressNightmare-CVE-2025-1974-exps/releases
+ingressnightmare_Ver="v0.4.1"
 # https://dl.k8s.io/release/stable.txt
 kubectl_Ver="v1.35.3"
 # https://github.com/cyberark/kubeletctl/releases
@@ -5063,6 +5065,34 @@ Pentest_k8spider_Install(){
         mv --force k8spider /usr/local/bin/k8spider && chmod +x /usr/local/bin/k8spider
         rm -rf /tmp/k8spider && cd /tmp
         which k8spider > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $k8spider_Ver in the /usr/local/bin/" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install ingressnightmare =====================
+Pentest_ingressnightmare_Install(){
+
+    name="ingressnightmare"
+
+    which ingressnightmare > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        local arch=$(uname -m)
+        case "$arch" in
+            x86_64)  local plat="linux_amd64" ;;
+            aarch64) local plat="linux_arm64" ;;
+            *)       Echo_ERROR "Unsupported arch: $arch"; return ;;
+        esac
+        local tarball="ingressnightmare_${ingressnightmare_Ver}_${plat}.tar.gz"
+        $Proxy_OK wget ${GitProxy}https://github.com/Esonhugh/ingressNightmare-CVE-2025-1974-exps/releases/download/${ingressnightmare_Ver}/${tarball} -O /tmp/${tarball} ${wget_option} 2>/dev/null || Echo_ERROR2
+        tar xzf /tmp/${tarball} -C /tmp/ ingressnightmare 2>/dev/null
+        mv /tmp/ingressnightmare /usr/local/bin/ingressnightmare 2>/dev/null
+        chmod +x /usr/local/bin/ingressnightmare 2>/dev/null
+        rm -f /tmp/${tarball}
+        which ingressnightmare > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name ${ingressnightmare_Ver} in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
@@ -10834,6 +10864,9 @@ cloud(){
     echo -e "\033[1;33m\n>> Installing k8spider\n\033[0m"
     Pentest_k8spider_Install
 
+    echo -e "\033[1;33m\n>> Installing ingressnightmare\n\033[0m"
+    Pentest_ingressnightmare_Install
+
     echo -e "\033[1;33m\n>> Installing kubectl\n\033[0m"
     Pentest_kubectl_Install
 
@@ -10929,6 +10962,7 @@ ssrfmap|Pentest_SSRFmap_Install|1
 gopherus|Pentest_Gopherus_Install|0
 cdk|Pentest_CDK_Install|0
 k8spider|Pentest_k8spider_Install|0
+ingressnightmare|Pentest_ingressnightmare_Install|0
 kubectl|Pentest_kubectl_Install|0
 kubeletctl|Pentest_kubeletctl_Install|0
 peirates|Pentest_peirates_Install|0
@@ -11293,6 +11327,7 @@ zombie|chainreactors/zombie|${zombie_Ver}|zombie_{PLATFORM}
 spray|chainreactors/spray|${spray_Ver}|spray_{PLATFORM}
 cdk|cdk-team/CDK|${cdk_Ver}|cdk_{PLATFORM}
 k8spider|Esonhugh/k8spider|${k8spider_Ver}|k8spider_{K8S_PLATFORM}.tar.gz
+ingressnightmare|Esonhugh/ingressNightmare-CVE-2025-1974-exps|${ingressnightmare_Ver}|ingressnightmare
 kubeletctl|cyberark/kubeletctl|${kubeletctl_Ver}|kubeletctl_{PLATFORM}
 peirates|inguardians/peirates|${peirates_Ver}|peirates-{PLATFORM}.tar.xz
 etcdctl|etcd-io/etcd|${etcdctl_Ver}|etcd-{PLATFORM}.tar.gz
@@ -11460,6 +11495,44 @@ StandIn|FuzzySecurity/StandIn|${StandIn_Ver}|StandIn
                         else
                             tar -zxf "${k8s_archive}" > /dev/null 2>&1
                             cp k8spider "${tool_dir}/${out_file}" 2>/dev/null
+                        fi
+                        chmod +x "${tool_dir}/${out_file}" 2>/dev/null
+                        [ -f "${tool_dir}/${out_file}" ] && echo -e "   ✅ ${out_file}" || echo -e "   ❌ ${out_file} (extract failed)"
+                    else
+                        echo -e "   ❌ ${out_file} (download failed)"
+                    fi
+                    rm -rf "${tmp_dir}"
+                    cd /tmp
+                    ;;
+                ingressnightmare)
+                    # ingressnightmare: tar.gz for linux, zip for windows
+                    # naming: ingressnightmare_v0.4.1_linux_amd64.tar.gz
+                    case "$platform" in
+                        linux_amd64)   local in_archive="ingressnightmare_${ver}_linux_amd64.tar.gz" ;;
+                        linux_arm64)   local in_archive="ingressnightmare_${ver}_linux_arm64.tar.gz" ;;
+                        windows_amd64) local in_archive="ingressnightmare_${ver}_windows_amd64.zip" ;;
+                    esac
+                    dl_url="https://github.com/${repo}/releases/download/${ver}/${in_archive}"
+                    out_file="ingressnightmare_${platform}"
+                    if [ "$platform" = "windows_amd64" ]; then
+                        out_file="ingressnightmare_${platform}.exe"
+                    fi
+
+                    if [ -f "${tool_dir}/${out_file}" ]; then
+                        echo -e "   ✅ ${out_file} (exists)"
+                        continue
+                    fi
+
+                    local tmp_dir="/tmp/arsenal_ingressnightmare_${platform}"
+                    mkdir -p "${tmp_dir}" && cd "${tmp_dir}"
+                    $Proxy_OK wget ${GitProxy}${dl_url} -O "${in_archive}" ${wget_option} 2>/dev/null
+                    if [ $? -eq 0 ]; then
+                        if [ "$platform" = "windows_amd64" ]; then
+                            unzip -o "${in_archive}" > /dev/null 2>&1
+                            cp ingressnightmare.exe "${tool_dir}/${out_file}" 2>/dev/null
+                        else
+                            tar -zxf "${in_archive}" > /dev/null 2>&1
+                            cp ingressnightmare "${tool_dir}/${out_file}" 2>/dev/null
                         fi
                         chmod +x "${tool_dir}/${out_file}" 2>/dev/null
                         [ -f "${tool_dir}/${out_file}" ] && echo -e "   ✅ ${out_file}" || echo -e "   ❌ ${out_file} (extract failed)"
