@@ -6117,7 +6117,7 @@ Pentest_pywhisker_Install(){
         Echo_ALERT "$name is already installed in $dir"
     else
         $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ShutdownRepo/pywhisker.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
-        cd $dir && pip3 install . ${pip_option} 2>/dev/null
+        cd $dir && python3 -m pip install . ${pip_option} 2>/dev/null
         which pywhisker > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name to PATH" || {
             chmod +x $dir/pywhisker/pywhisker.py 2>/dev/null
             ln -sf $dir/pywhisker/pywhisker.py /usr/local/bin/pywhisker 2>/dev/null
