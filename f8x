@@ -3820,15 +3820,6 @@ Pentest_GitHacker_Install(){
 # ===================== Install iox =====================
 Pentest_iox_Install(){
 
-    case $Linux_architecture_Name in
-        *"linux-x86_64"*)
-            iox_File=$iox_File_amd64
-            ;;
-        *"linux-arm64"*)
-            iox_File=$iox_File_arm64
-            ;;
-    esac
-
     name="iox"
 
     which iox > /dev/null 2>&1
@@ -3837,10 +3828,21 @@ Pentest_iox_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        mkdir -p /tmp/iox && cd /tmp/iox && rm -f $iox_File > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/EddieIvan01/iox/releases/download/$iox_Ver/$iox_File > /dev/null 2>&1 || Echo_ERROR2
-        tar -zxf $iox_File > /dev/null 2>&1 && mv --force iox /usr/local/bin/iox && chmod +x /usr/local/bin/iox
-        which iox > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $iox_Ver in the /usr/local/bin/" || Echo_ERROR3
-        rm -rf /tmp/iox && cd /tmp
+        case $Linux_architecture_Name in
+            *"linux-x86_64"*)
+                mkdir -p /tmp/iox && cd /tmp/iox && rm -f $iox_File_amd64 > /dev/null 2>&1 && $Proxy_OK wget ${GitProxy}https://github.com/EddieIvan01/iox/releases/download/$iox_Ver/$iox_File_amd64 > /dev/null 2>&1 || Echo_ERROR2
+                tar -zxf $iox_File_amd64 > /dev/null 2>&1 && mv --force iox /usr/local/bin/iox && chmod +x /usr/local/bin/iox
+                rm -rf /tmp/iox && cd /tmp
+                ;;
+            *"linux-arm64"*)
+                # iox 没有 arm64 预编译文件，需要 Go 源码编译
+                mkdir -p /tmp/iox && cd /tmp/iox
+                $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/EddieIvan01/iox.git . > /dev/null 2>&1 || Echo_ERROR2
+                CGO_ENABLED=0 go build -o /usr/local/bin/iox . > /dev/null 2>&1 && chmod +x /usr/local/bin/iox
+                rm -rf /tmp/iox && cd /tmp
+                ;;
+        esac
+        which iox > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/" || Echo_ERROR3
     fi
 
 }
