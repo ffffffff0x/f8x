@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.8.8 (2026/04/09)"
+F8x_Version="1.8.9 (2026/04/10)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -3778,6 +3778,41 @@ Pentest_zombie_Install(){
         mv --force $zombie_File /usr/local/bin/zombie && chmod +x /usr/local/bin/zombie
         which zombie > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $zombie_Ver in the /usr/local/bin/" || Echo_ERROR3
         rm -rf /tmp/zombie && cd /tmp
+    fi
+
+}
+
+# ===================== Install ccupp =====================
+Pentest_ccupp_Install(){
+
+    name="ccupp"
+    dir="$P_Dir/ccupp"
+
+    which ccupp > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/WangYihang/ccupp.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
+        cd $dir && rm -rf benchmark_data benchmark-site && $Proxy_OK pipx install . > /dev/null 2>&1
+        which ccupp > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
+    fi
+
+}
+
+# ===================== Install GitHacker =====================
+Pentest_GitHacker_Install(){
+
+    name="GitHacker"
+    which githacker > /dev/null 2>&1
+
+    if [ $? == 0 ]
+    then
+        Echo_ALERT "$name installed"
+    else
+        Install_Switch8 "GitHacker"
+        which githacker > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name via pip" || Echo_ERROR3
     fi
 
 }
@@ -10569,6 +10604,10 @@ kali_Tools_TypeA(){
     Pentest_spray_Install
     echo -e "\033[1;33m\n>> Installing zombie\n\033[0m"
     Pentest_zombie_Install
+    echo -e "\033[1;33m\n>> Installing ccupp\n\033[0m"
+    Pentest_ccupp_Install
+    echo -e "\033[1;33m\n>> Installing GitHacker\n\033[0m"
+    Pentest_GitHacker_Install
 
     # Pentest_gospider_Install
     # Pentest_dismap_Install
@@ -10940,6 +10979,8 @@ tlsx|Pentest_tlsx_Install|0
 gogo|Pentest_gogo_Install|0
 spray|Pentest_spray_Install|0
 zombie|Pentest_zombie_Install|0
+ccupp|Pentest_ccupp_Install|0
+githacker|Pentest_GitHacker_Install|0
 hostcollision|Pentest_HostCollision_Install|0
 appinfoscanner|Pentest_AppInfoScanner_Install|0
 apkanalyser|Pentest_ApkAnalyser_Install|0
