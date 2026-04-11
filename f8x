@@ -3794,7 +3794,7 @@ Pentest_ccupp_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/WangYihang/ccupp.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
+        mkdir -p $dir && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/WangYihang/ccupp.git $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR2
         cd $dir && rm -rf benchmark_data benchmark-site && $Proxy_OK pipx install . > /dev/null 2>&1
         which ccupp > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
