@@ -1,7 +1,7 @@
 {
   "version": "1.9.0 (2026/04/15)",
-  "catalog_version": 2,
-  "updated_at": "2026-04-15T09:36:20Z",
+  "catalog_version": 3,
+  "updated_at": "2026-04-15T15:34:57Z",
   "modules": [
     {
       "id": "list-tools",
@@ -70,6 +70,184 @@
       "descriptionZh": "攻防检测工具集",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "impacket",
+          "url": "https://github.com/SecureAuthCorp/impacket"
+        },
+        {
+          "name": "Responder",
+          "url": "https://github.com/lgandx/Responder"
+        },
+        {
+          "name": "krbrelayx",
+          "url": "https://github.com/dirkjanm/krbrelayx"
+        },
+        {
+          "name": "bettercap",
+          "url": "https://github.com/bettercap/bettercap"
+        },
+        {
+          "name": "mitmproxy",
+          "url": "https://mitmproxy.org"
+        },
+        {
+          "name": "pypykatz",
+          "url": "https://github.com/skelsec/pypykatz"
+        },
+        {
+          "name": "CrackMapExec",
+          "url": "https://github.com/mpgn/CrackMapExec"
+        },
+        {
+          "name": "NetExec",
+          "url": "https://github.com/Pennyw0rth/NetExec"
+        },
+        {
+          "name": "Neo-reGeorg",
+          "url": "https://github.com/L-codes/Neo-reGeorg"
+        },
+        {
+          "name": "suo5",
+          "url": "https://github.com/zema1/suo5"
+        },
+        {
+          "name": "kerbrute",
+          "url": "https://github.com/ropnop/kerbrute"
+        },
+        {
+          "name": "Adinfo",
+          "url": "https://github.com/lzzbb/Adinfo"
+        },
+        {
+          "name": "PetitPotam",
+          "url": "https://github.com/topotam/PetitPotam"
+        },
+        {
+          "name": "Certipy",
+          "url": "https://github.com/ly4k/Certipy"
+        },
+        {
+          "name": "PKINITtools",
+          "url": "https://github.com/dirkjanm/PKINITtools"
+        },
+        {
+          "name": "xfreerdp",
+          "url": "https://www.freerdp.com"
+        },
+        {
+          "name": "mitm6",
+          "url": "https://github.com/dirkjanm/mitm6"
+        },
+        {
+          "name": "Coercer",
+          "url": "https://github.com/p0dalirius/Coercer"
+        },
+        {
+          "name": "ldeep",
+          "url": "https://github.com/franc-music/ldeep"
+        },
+        {
+          "name": "enum4linux-ng",
+          "url": "https://github.com/cddmp/enum4linux-ng"
+        },
+        {
+          "name": "bloodyAD",
+          "url": "https://github.com/CravateRouge/bloodyAD"
+        },
+        {
+          "name": "bloodhound-python",
+          "url": "https://github.com/fox-it/BloodHound.py"
+        },
+        {
+          "name": "proxychains4",
+          "url": "https://github.com/rofl0r/proxychains-ng"
+        },
+        {
+          "name": "minikerberos",
+          "url": "https://github.com/skelsec/minikerberos"
+        },
+        {
+          "name": "gMSADumper",
+          "url": "https://github.com/micahvandeusen/gMSADumper"
+        },
+        {
+          "name": "Exegol",
+          "url": "https://github.com/ThePorgs/Exegol"
+        },
+        {
+          "name": "john",
+          "url": "https://github.com/openwall/john"
+        },
+        {
+          "name": "ldapsearch",
+          "url": "https://wiki.debian.org/LDAP/LDAPUtils"
+        },
+        {
+          "name": "evil-winrm",
+          "url": "https://github.com/Hackplayers/evil-winrm"
+        },
+        {
+          "name": "ligolo-ng (proxy)",
+          "url": "https://github.com/nicocha30/ligolo-ng"
+        },
+        {
+          "name": "linpeas",
+          "url": "https://github.com/peass-ng/PEASS-ng"
+        },
+        {
+          "name": "pyGPOAbuse",
+          "url": "https://github.com/Hackndo/pyGPOAbuse"
+        },
+        {
+          "name": "PassTheCert",
+          "url": "https://github.com/AlmondOffSec/PassTheCert"
+        },
+        {
+          "name": "targetedKerberoast",
+          "url": "https://github.com/ShutdownRepo/targetedKerberoast"
+        },
+        {
+          "name": "noPac",
+          "url": "https://github.com/Ridter/noPac"
+        },
+        {
+          "name": "zerologon",
+          "url": "https://github.com/dirkjanm/CVE-2020-1472"
+        },
+        {
+          "name": "lsassy",
+          "url": "https://github.com/Hackndo/lsassy"
+        },
+        {
+          "name": "DonPAPI",
+          "url": "https://github.com/login-securite/DonPAPI"
+        },
+        {
+          "name": "pywhisker",
+          "url": "https://github.com/ShutdownRepo/pywhisker"
+        },
+        {
+          "name": "DFSCoerce",
+          "url": "https://github.com/Wh04m1001/DFSCoerce"
+        },
+        {
+          "name": "ShadowCoerce",
+          "url": "https://github.com/ShutdownRepo/ShadowCoerce"
+        },
+        {
+          "name": "GPOwned",
+          "url": "https://github.com/X-C3LL/GPOwned"
+        },
+        {
+          "name": "gpp-decrypt",
+          "url": "https://github.com/t0thkr1s/gpp-decrypt"
+        },
+        {
+          "name": "PowerSharpPack",
+          "url": "https://github.com/S3cur3Th1sSh1t/PowerSharpPack"
+        }
       ]
     },
     {
@@ -94,6 +272,376 @@
       "descriptionZh": "全自动部署所有工具",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "python3 and pip3",
+          "url": "https://www.python.org"
+        },
+        {
+          "name": "python2",
+          "url": "https://www.python.org"
+        },
+        {
+          "name": "Go",
+          "url": "https://go.dev"
+        },
+        {
+          "name": "Docker and Docker-compose",
+          "url": "https://www.docker.com"
+        },
+        {
+          "name": "SDKMAN!",
+          "url": "https://sdkman.io"
+        },
+        {
+          "name": "Oraclejdk",
+          "url": "https://www.oracle.com/java/"
+        },
+        {
+          "name": "nodejs && npm",
+          "url": "https://nodejs.org"
+        },
+        {
+          "name": "AboutSecurity",
+          "url": "https://github.com/ffffffff0x/AboutSecurity"
+        },
+        {
+          "name": "nmap",
+          "url": "https://nmap.org"
+        },
+        {
+          "name": "ffuf",
+          "url": "https://github.com/ffuf/ffuf"
+        },
+        {
+          "name": "JSFinder",
+          "url": "https://github.com/Threezh1/JSFinder"
+        },
+        {
+          "name": "SecretFinder",
+          "url": "https://github.com/m4ll0k/SecretFinder"
+        },
+        {
+          "name": "OneForAll",
+          "url": "https://github.com/shmilylty/OneForAll"
+        },
+        {
+          "name": "masscan",
+          "url": "https://github.com/robertdavidgraham/masscan"
+        },
+        {
+          "name": "rad",
+          "url": "https://github.com/chaitin/rad"
+        },
+        {
+          "name": "crawlergo",
+          "url": "https://github.com/Qianlitp/crawlergo"
+        },
+        {
+          "name": "katana",
+          "url": "https://github.com/projectdiscovery/katana"
+        },
+        {
+          "name": "Arjun",
+          "url": "https://github.com/s0md3v/Arjun"
+        },
+        {
+          "name": "httpx",
+          "url": "https://github.com/projectdiscovery/httpx"
+        },
+        {
+          "name": "subfinder",
+          "url": "https://github.com/projectdiscovery/subfinder"
+        },
+        {
+          "name": "afrog",
+          "url": "https://github.com/zan8in/afrog"
+        },
+        {
+          "name": "dddd",
+          "url": "https://github.com/SleepingBag945/dddd"
+        },
+        {
+          "name": "apktool",
+          "url": "https://github.com/iBotPeaches/Apktool"
+        },
+        {
+          "name": "ApkAnalyser",
+          "url": "https://github.com/aspect-labs/ApkAnalyser"
+        },
+        {
+          "name": "apkleaks",
+          "url": "https://github.com/dwisiswant0/apkleaks"
+        },
+        {
+          "name": "Amass",
+          "url": "https://github.com/owasp-amass/amass"
+        },
+        {
+          "name": "dirsearch",
+          "url": "https://github.com/maurosoria/dirsearch"
+        },
+        {
+          "name": "netspy",
+          "url": "https://github.com/shmilylty/netspy"
+        },
+        {
+          "name": "naabu",
+          "url": "https://github.com/projectdiscovery/naabu"
+        },
+        {
+          "name": "ksubdomain",
+          "url": "https://github.com/boy-hack/ksubdomain"
+        },
+        {
+          "name": "gau",
+          "url": "https://github.com/lc/gau"
+        },
+        {
+          "name": "gobuster",
+          "url": "https://github.com/OJ/gobuster"
+        },
+        {
+          "name": "fscan",
+          "url": "https://github.com/shadow1ng/fscan"
+        },
+        {
+          "name": "fingerprintx",
+          "url": "https://github.com/praetorian-inc/fingerprintx"
+        },
+        {
+          "name": "HostCollision",
+          "url": "https://github.com/pmiaowu/HostCollision"
+        },
+        {
+          "name": "asnmap",
+          "url": "https://github.com/projectdiscovery/asnmap"
+        },
+        {
+          "name": "tlsx",
+          "url": "https://github.com/projectdiscovery/tlsx"
+        },
+        {
+          "name": "gogo",
+          "url": "https://github.com/chainreactors/gogo"
+        },
+        {
+          "name": "spray",
+          "url": "https://github.com/chainreactors/spray"
+        },
+        {
+          "name": "zombie",
+          "url": "https://github.com/chainreactors/zombie"
+        },
+        {
+          "name": "ccupp",
+          "url": "https://github.com/WangYihang/ccupp"
+        },
+        {
+          "name": "GitHacker",
+          "url": "https://github.com/WangYihang/GitHacker"
+        },
+        {
+          "name": "Metasploit",
+          "url": "https://github.com/rapid7/metasploit-framework"
+        },
+        {
+          "name": "Sqlmap",
+          "url": "https://github.com/sqlmapproject/sqlmap"
+        },
+        {
+          "name": "xray",
+          "url": "https://github.com/chaitin/xray"
+        },
+        {
+          "name": "Nuclei",
+          "url": "https://github.com/projectdiscovery/nuclei"
+        },
+        {
+          "name": "nuclei-templates",
+          "url": "https://github.com/projectdiscovery/nuclei-templates"
+        },
+        {
+          "name": "swagger-exp",
+          "url": "https://github.com/lijiejie/swagger-exp"
+        },
+        {
+          "name": "swagger-hack",
+          "url": "https://github.com/jayus0821/swagger-hack"
+        },
+        {
+          "name": "ysoserial",
+          "url": "https://github.com/frohoff/ysoserial"
+        },
+        {
+          "name": "JNDI-Injection-Exploit",
+          "url": "https://github.com/welk1n/JNDI-Injection-Exploit"
+        },
+        {
+          "name": "marshalsec",
+          "url": "https://github.com/No-Github/marshalsec"
+        },
+        {
+          "name": "ysomap",
+          "url": "https://github.com/wh1t3p1g/ysomap"
+        },
+        {
+          "name": "Gopherus",
+          "url": "https://github.com/tarunkant/Gopherus"
+        },
+        {
+          "name": "CDK",
+          "url": "https://github.com/cdk-team/CDK"
+        },
+        {
+          "name": "rogue_mysql_server",
+          "url": "https://github.com/rmb122/rogue_mysql_server"
+        },
+        {
+          "name": "impacket",
+          "url": "https://github.com/SecureAuthCorp/impacket"
+        },
+        {
+          "name": "Responder",
+          "url": "https://github.com/lgandx/Responder"
+        },
+        {
+          "name": "krbrelayx",
+          "url": "https://github.com/dirkjanm/krbrelayx"
+        },
+        {
+          "name": "bettercap",
+          "url": "https://github.com/bettercap/bettercap"
+        },
+        {
+          "name": "mitmproxy",
+          "url": "https://mitmproxy.org"
+        },
+        {
+          "name": "pypykatz",
+          "url": "https://github.com/skelsec/pypykatz"
+        },
+        {
+          "name": "CrackMapExec",
+          "url": "https://github.com/mpgn/CrackMapExec"
+        },
+        {
+          "name": "NetExec",
+          "url": "https://github.com/Pennyw0rth/NetExec"
+        },
+        {
+          "name": "Neo-reGeorg",
+          "url": "https://github.com/L-codes/Neo-reGeorg"
+        },
+        {
+          "name": "suo5",
+          "url": "https://github.com/zema1/suo5"
+        },
+        {
+          "name": "kerbrute",
+          "url": "https://github.com/ropnop/kerbrute"
+        },
+        {
+          "name": "Adinfo",
+          "url": "https://github.com/lzzbb/Adinfo"
+        },
+        {
+          "name": "PetitPotam",
+          "url": "https://github.com/topotam/PetitPotam"
+        },
+        {
+          "name": "iox",
+          "url": "https://github.com/EddieIvan01/iox"
+        },
+        {
+          "name": "chisel",
+          "url": "https://github.com/jpillora/chisel"
+        },
+        {
+          "name": "hashcat、7z2hashcat",
+          "url": "https://github.com/hashcat/hashcat"
+        },
+        {
+          "name": "ZoomEye-python",
+          "url": "https://github.com/knownsec/ZoomEye-python"
+        },
+        {
+          "name": "jadx",
+          "url": "https://github.com/skylot/jadx"
+        },
+        {
+          "name": "ncat",
+          "url": "https://nmap.org/ncat/"
+        },
+        {
+          "name": "mapcidr",
+          "url": "https://github.com/projectdiscovery/mapcidr"
+        },
+        {
+          "name": "dnsx",
+          "url": "https://github.com/projectdiscovery/dnsx"
+        },
+        {
+          "name": "uncover",
+          "url": "https://github.com/projectdiscovery/uncover"
+        },
+        {
+          "name": "nali",
+          "url": "https://github.com/zu1k/nali"
+        },
+        {
+          "name": "anew",
+          "url": "https://github.com/No-Github/anew"
+        },
+        {
+          "name": "gron",
+          "url": "https://github.com/tomnomnom/gron"
+        },
+        {
+          "name": "sttr",
+          "url": "https://github.com/abhimanyu003/sttr"
+        },
+        {
+          "name": "unfurl",
+          "url": "https://github.com/tomnomnom/unfurl"
+        },
+        {
+          "name": "qsreplace",
+          "url": "https://github.com/tomnomnom/qsreplace"
+        },
+        {
+          "name": "Platypus",
+          "url": "https://github.com/WangYihang/Platypus"
+        },
+        {
+          "name": "MoreFind",
+          "url": "https://github.com/mstxq17/MoreFind"
+        },
+        {
+          "name": "alterx",
+          "url": "https://github.com/projectdiscovery/alterx"
+        },
+        {
+          "name": "SecLists(~500M),longer time, wait patiently",
+          "url": "https://github.com/danielmiessler/SecLists"
+        },
+        {
+          "name": "See-SURF",
+          "url": "https://github.com/In3tinct/See-SURF"
+        },
+        {
+          "name": "hakrawler",
+          "url": "https://github.com/hakluke/hakrawler"
+        },
+        {
+          "name": "subjs",
+          "url": "https://github.com/lc/subjs"
+        },
+        {
+          "name": "assetfinder",
+          "url": "https://github.com/tomnomnom/assetfinder"
+        }
       ]
     },
     {
@@ -269,6 +817,44 @@
       "tags": [
         "batch",
         "cloud"
+      ],
+      "includes": [
+        {
+          "name": "Terraform",
+          "url": "https://www.terraform.io"
+        },
+        {
+          "name": "redc",
+          "url": "https://github.com/wgpsec/redc"
+        },
+        {
+          "name": "k8spider",
+          "url": "https://github.com/Esonhugh/k8spider"
+        },
+        {
+          "name": "ingressnightmare",
+          "url": "https://github.com/Esonhugh/ingressNightmare-CVE-2025-1974-exps"
+        },
+        {
+          "name": "kubectl",
+          "url": "https://kubernetes.io/docs/tasks/tools/"
+        },
+        {
+          "name": "kubeletctl",
+          "url": "https://github.com/cyberark/kubeletctl"
+        },
+        {
+          "name": "peirates",
+          "url": "https://github.com/inguardians/peirates"
+        },
+        {
+          "name": "etcdctl",
+          "url": "https://github.com/etcd-io/etcd"
+        },
+        {
+          "name": "tccli",
+          "url": "https://github.com/TencentCloud/tencentcloud-cli"
+        }
       ]
     },
     {
@@ -329,6 +915,28 @@
       "descriptionZh": "一键安装开发环境",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "python3 and pip3",
+          "url": "https://www.python.org"
+        },
+        {
+          "name": "python2",
+          "url": "https://www.python.org"
+        },
+        {
+          "name": "Go",
+          "url": "https://go.dev"
+        },
+        {
+          "name": "Docker and Docker-compose",
+          "url": "https://www.docker.com"
+        },
+        {
+          "name": "SDKMAN!",
+          "url": "https://sdkman.io"
+        }
       ]
     },
     {
@@ -387,6 +995,76 @@
       "descriptionZh": "一键安装实用工具集",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "AdGuardHome DNS",
+          "url": "https://github.com/AdguardTeam/AdGuardHome"
+        },
+        {
+          "name": "trash-cli",
+          "url": "https://github.com/andreafrancia/trash-cli"
+        },
+        {
+          "name": "fzf",
+          "url": "https://github.com/junegunn/fzf"
+        },
+        {
+          "name": "lux",
+          "url": "https://github.com/iawia002/lux"
+        },
+        {
+          "name": "ffmpeg",
+          "url": "https://ffmpeg.org"
+        },
+        {
+          "name": "aria2",
+          "url": "https://github.com/P3TERX/aria2.sh"
+        },
+        {
+          "name": "ttyd",
+          "url": "https://github.com/tsl0922/ttyd"
+        },
+        {
+          "name": "duf",
+          "url": "https://github.com/muesli/duf"
+        },
+        {
+          "name": "yq",
+          "url": "https://github.com/mikefarah/yq"
+        },
+        {
+          "name": "starship",
+          "url": "https://github.com/starship/starship"
+        },
+        {
+          "name": "procs",
+          "url": "https://github.com/dalance/procs"
+        },
+        {
+          "name": "ncdu",
+          "url": "https://dev.yorhel.nl/ncdu"
+        },
+        {
+          "name": "exa",
+          "url": "https://github.com/ogham/exa"
+        },
+        {
+          "name": "htop",
+          "url": "https://github.com/htop-dev/htop"
+        },
+        {
+          "name": "bat",
+          "url": "https://github.com/sharkdp/bat"
+        },
+        {
+          "name": "fd",
+          "url": "https://github.com/sharkdp/fd"
+        },
+        {
+          "name": "ctop",
+          "url": "https://github.com/bcicen/ctop"
+        }
       ]
     },
     {
@@ -504,6 +1182,348 @@
       "descriptionZh": "全部渗透工具套件",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "AboutSecurity",
+          "url": "https://github.com/ffffffff0x/AboutSecurity"
+        },
+        {
+          "name": "nmap",
+          "url": "https://nmap.org"
+        },
+        {
+          "name": "ffuf",
+          "url": "https://github.com/ffuf/ffuf"
+        },
+        {
+          "name": "JSFinder",
+          "url": "https://github.com/Threezh1/JSFinder"
+        },
+        {
+          "name": "SecretFinder",
+          "url": "https://github.com/m4ll0k/SecretFinder"
+        },
+        {
+          "name": "OneForAll",
+          "url": "https://github.com/shmilylty/OneForAll"
+        },
+        {
+          "name": "masscan",
+          "url": "https://github.com/robertdavidgraham/masscan"
+        },
+        {
+          "name": "rad",
+          "url": "https://github.com/chaitin/rad"
+        },
+        {
+          "name": "crawlergo",
+          "url": "https://github.com/Qianlitp/crawlergo"
+        },
+        {
+          "name": "katana",
+          "url": "https://github.com/projectdiscovery/katana"
+        },
+        {
+          "name": "Arjun",
+          "url": "https://github.com/s0md3v/Arjun"
+        },
+        {
+          "name": "httpx",
+          "url": "https://github.com/projectdiscovery/httpx"
+        },
+        {
+          "name": "subfinder",
+          "url": "https://github.com/projectdiscovery/subfinder"
+        },
+        {
+          "name": "afrog",
+          "url": "https://github.com/zan8in/afrog"
+        },
+        {
+          "name": "dddd",
+          "url": "https://github.com/SleepingBag945/dddd"
+        },
+        {
+          "name": "apktool",
+          "url": "https://github.com/iBotPeaches/Apktool"
+        },
+        {
+          "name": "ApkAnalyser",
+          "url": "https://github.com/aspect-labs/ApkAnalyser"
+        },
+        {
+          "name": "apkleaks",
+          "url": "https://github.com/dwisiswant0/apkleaks"
+        },
+        {
+          "name": "Amass",
+          "url": "https://github.com/owasp-amass/amass"
+        },
+        {
+          "name": "dirsearch",
+          "url": "https://github.com/maurosoria/dirsearch"
+        },
+        {
+          "name": "netspy",
+          "url": "https://github.com/shmilylty/netspy"
+        },
+        {
+          "name": "naabu",
+          "url": "https://github.com/projectdiscovery/naabu"
+        },
+        {
+          "name": "ksubdomain",
+          "url": "https://github.com/boy-hack/ksubdomain"
+        },
+        {
+          "name": "gau",
+          "url": "https://github.com/lc/gau"
+        },
+        {
+          "name": "gobuster",
+          "url": "https://github.com/OJ/gobuster"
+        },
+        {
+          "name": "fscan",
+          "url": "https://github.com/shadow1ng/fscan"
+        },
+        {
+          "name": "fingerprintx",
+          "url": "https://github.com/praetorian-inc/fingerprintx"
+        },
+        {
+          "name": "HostCollision",
+          "url": "https://github.com/pmiaowu/HostCollision"
+        },
+        {
+          "name": "asnmap",
+          "url": "https://github.com/projectdiscovery/asnmap"
+        },
+        {
+          "name": "tlsx",
+          "url": "https://github.com/projectdiscovery/tlsx"
+        },
+        {
+          "name": "gogo",
+          "url": "https://github.com/chainreactors/gogo"
+        },
+        {
+          "name": "spray",
+          "url": "https://github.com/chainreactors/spray"
+        },
+        {
+          "name": "zombie",
+          "url": "https://github.com/chainreactors/zombie"
+        },
+        {
+          "name": "ccupp",
+          "url": "https://github.com/WangYihang/ccupp"
+        },
+        {
+          "name": "GitHacker",
+          "url": "https://github.com/WangYihang/GitHacker"
+        },
+        {
+          "name": "Metasploit",
+          "url": "https://github.com/rapid7/metasploit-framework"
+        },
+        {
+          "name": "Sqlmap",
+          "url": "https://github.com/sqlmapproject/sqlmap"
+        },
+        {
+          "name": "xray",
+          "url": "https://github.com/chaitin/xray"
+        },
+        {
+          "name": "Nuclei",
+          "url": "https://github.com/projectdiscovery/nuclei"
+        },
+        {
+          "name": "nuclei-templates",
+          "url": "https://github.com/projectdiscovery/nuclei-templates"
+        },
+        {
+          "name": "swagger-exp",
+          "url": "https://github.com/lijiejie/swagger-exp"
+        },
+        {
+          "name": "swagger-hack",
+          "url": "https://github.com/jayus0821/swagger-hack"
+        },
+        {
+          "name": "ysoserial",
+          "url": "https://github.com/frohoff/ysoserial"
+        },
+        {
+          "name": "JNDI-Injection-Exploit",
+          "url": "https://github.com/welk1n/JNDI-Injection-Exploit"
+        },
+        {
+          "name": "marshalsec",
+          "url": "https://github.com/No-Github/marshalsec"
+        },
+        {
+          "name": "ysomap",
+          "url": "https://github.com/wh1t3p1g/ysomap"
+        },
+        {
+          "name": "Gopherus",
+          "url": "https://github.com/tarunkant/Gopherus"
+        },
+        {
+          "name": "CDK",
+          "url": "https://github.com/cdk-team/CDK"
+        },
+        {
+          "name": "rogue_mysql_server",
+          "url": "https://github.com/rmb122/rogue_mysql_server"
+        },
+        {
+          "name": "impacket",
+          "url": "https://github.com/SecureAuthCorp/impacket"
+        },
+        {
+          "name": "Responder",
+          "url": "https://github.com/lgandx/Responder"
+        },
+        {
+          "name": "krbrelayx",
+          "url": "https://github.com/dirkjanm/krbrelayx"
+        },
+        {
+          "name": "bettercap",
+          "url": "https://github.com/bettercap/bettercap"
+        },
+        {
+          "name": "mitmproxy",
+          "url": "https://mitmproxy.org"
+        },
+        {
+          "name": "pypykatz",
+          "url": "https://github.com/skelsec/pypykatz"
+        },
+        {
+          "name": "CrackMapExec",
+          "url": "https://github.com/mpgn/CrackMapExec"
+        },
+        {
+          "name": "NetExec",
+          "url": "https://github.com/Pennyw0rth/NetExec"
+        },
+        {
+          "name": "Neo-reGeorg",
+          "url": "https://github.com/L-codes/Neo-reGeorg"
+        },
+        {
+          "name": "suo5",
+          "url": "https://github.com/zema1/suo5"
+        },
+        {
+          "name": "kerbrute",
+          "url": "https://github.com/ropnop/kerbrute"
+        },
+        {
+          "name": "Adinfo",
+          "url": "https://github.com/lzzbb/Adinfo"
+        },
+        {
+          "name": "PetitPotam",
+          "url": "https://github.com/topotam/PetitPotam"
+        },
+        {
+          "name": "iox",
+          "url": "https://github.com/EddieIvan01/iox"
+        },
+        {
+          "name": "chisel",
+          "url": "https://github.com/jpillora/chisel"
+        },
+        {
+          "name": "hashcat、7z2hashcat",
+          "url": "https://github.com/hashcat/hashcat"
+        },
+        {
+          "name": "ZoomEye-python",
+          "url": "https://github.com/knownsec/ZoomEye-python"
+        },
+        {
+          "name": "jadx",
+          "url": "https://github.com/skylot/jadx"
+        },
+        {
+          "name": "ncat",
+          "url": "https://nmap.org/ncat/"
+        },
+        {
+          "name": "mapcidr",
+          "url": "https://github.com/projectdiscovery/mapcidr"
+        },
+        {
+          "name": "dnsx",
+          "url": "https://github.com/projectdiscovery/dnsx"
+        },
+        {
+          "name": "uncover",
+          "url": "https://github.com/projectdiscovery/uncover"
+        },
+        {
+          "name": "nali",
+          "url": "https://github.com/zu1k/nali"
+        },
+        {
+          "name": "anew",
+          "url": "https://github.com/No-Github/anew"
+        },
+        {
+          "name": "gron",
+          "url": "https://github.com/tomnomnom/gron"
+        },
+        {
+          "name": "sttr",
+          "url": "https://github.com/abhimanyu003/sttr"
+        },
+        {
+          "name": "unfurl",
+          "url": "https://github.com/tomnomnom/unfurl"
+        },
+        {
+          "name": "qsreplace",
+          "url": "https://github.com/tomnomnom/qsreplace"
+        },
+        {
+          "name": "Platypus",
+          "url": "https://github.com/WangYihang/Platypus"
+        },
+        {
+          "name": "MoreFind",
+          "url": "https://github.com/mstxq17/MoreFind"
+        },
+        {
+          "name": "alterx",
+          "url": "https://github.com/projectdiscovery/alterx"
+        },
+        {
+          "name": "SecLists(~500M),longer time, wait patiently",
+          "url": "https://github.com/danielmiessler/SecLists"
+        },
+        {
+          "name": "See-SURF",
+          "url": "https://github.com/In3tinct/See-SURF"
+        },
+        {
+          "name": "hakrawler",
+          "url": "https://github.com/hakluke/hakrawler"
+        },
+        {
+          "name": "subjs",
+          "url": "https://github.com/lc/subjs"
+        },
+        {
+          "name": "assetfinder",
+          "url": "https://github.com/tomnomnom/assetfinder"
+        }
       ]
     },
     {
@@ -529,6 +1549,144 @@
       "descriptionZh": "一键安装侦查工具",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "nmap",
+          "url": "https://nmap.org"
+        },
+        {
+          "name": "ffuf",
+          "url": "https://github.com/ffuf/ffuf"
+        },
+        {
+          "name": "JSFinder",
+          "url": "https://github.com/Threezh1/JSFinder"
+        },
+        {
+          "name": "SecretFinder",
+          "url": "https://github.com/m4ll0k/SecretFinder"
+        },
+        {
+          "name": "OneForAll",
+          "url": "https://github.com/shmilylty/OneForAll"
+        },
+        {
+          "name": "masscan",
+          "url": "https://github.com/robertdavidgraham/masscan"
+        },
+        {
+          "name": "rad",
+          "url": "https://github.com/chaitin/rad"
+        },
+        {
+          "name": "crawlergo",
+          "url": "https://github.com/Qianlitp/crawlergo"
+        },
+        {
+          "name": "katana",
+          "url": "https://github.com/projectdiscovery/katana"
+        },
+        {
+          "name": "Arjun",
+          "url": "https://github.com/s0md3v/Arjun"
+        },
+        {
+          "name": "httpx",
+          "url": "https://github.com/projectdiscovery/httpx"
+        },
+        {
+          "name": "subfinder",
+          "url": "https://github.com/projectdiscovery/subfinder"
+        },
+        {
+          "name": "afrog",
+          "url": "https://github.com/zan8in/afrog"
+        },
+        {
+          "name": "dddd",
+          "url": "https://github.com/SleepingBag945/dddd"
+        },
+        {
+          "name": "apktool",
+          "url": "https://github.com/iBotPeaches/Apktool"
+        },
+        {
+          "name": "ApkAnalyser",
+          "url": "https://github.com/aspect-labs/ApkAnalyser"
+        },
+        {
+          "name": "apkleaks",
+          "url": "https://github.com/dwisiswant0/apkleaks"
+        },
+        {
+          "name": "Amass",
+          "url": "https://github.com/owasp-amass/amass"
+        },
+        {
+          "name": "dirsearch",
+          "url": "https://github.com/maurosoria/dirsearch"
+        },
+        {
+          "name": "netspy",
+          "url": "https://github.com/shmilylty/netspy"
+        },
+        {
+          "name": "naabu",
+          "url": "https://github.com/projectdiscovery/naabu"
+        },
+        {
+          "name": "ksubdomain",
+          "url": "https://github.com/boy-hack/ksubdomain"
+        },
+        {
+          "name": "gau",
+          "url": "https://github.com/lc/gau"
+        },
+        {
+          "name": "gobuster",
+          "url": "https://github.com/OJ/gobuster"
+        },
+        {
+          "name": "fscan",
+          "url": "https://github.com/shadow1ng/fscan"
+        },
+        {
+          "name": "fingerprintx",
+          "url": "https://github.com/praetorian-inc/fingerprintx"
+        },
+        {
+          "name": "HostCollision",
+          "url": "https://github.com/pmiaowu/HostCollision"
+        },
+        {
+          "name": "asnmap",
+          "url": "https://github.com/projectdiscovery/asnmap"
+        },
+        {
+          "name": "tlsx",
+          "url": "https://github.com/projectdiscovery/tlsx"
+        },
+        {
+          "name": "gogo",
+          "url": "https://github.com/chainreactors/gogo"
+        },
+        {
+          "name": "spray",
+          "url": "https://github.com/chainreactors/spray"
+        },
+        {
+          "name": "zombie",
+          "url": "https://github.com/chainreactors/zombie"
+        },
+        {
+          "name": "ccupp",
+          "url": "https://github.com/WangYihang/ccupp"
+        },
+        {
+          "name": "GitHacker",
+          "url": "https://github.com/WangYihang/GitHacker"
+        }
       ]
     },
     {
@@ -541,6 +1699,64 @@
       "descriptionZh": "一键安装利用工具",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "Metasploit",
+          "url": "https://github.com/rapid7/metasploit-framework"
+        },
+        {
+          "name": "Sqlmap",
+          "url": "https://github.com/sqlmapproject/sqlmap"
+        },
+        {
+          "name": "xray",
+          "url": "https://github.com/chaitin/xray"
+        },
+        {
+          "name": "Nuclei",
+          "url": "https://github.com/projectdiscovery/nuclei"
+        },
+        {
+          "name": "nuclei-templates",
+          "url": "https://github.com/projectdiscovery/nuclei-templates"
+        },
+        {
+          "name": "swagger-exp",
+          "url": "https://github.com/lijiejie/swagger-exp"
+        },
+        {
+          "name": "swagger-hack",
+          "url": "https://github.com/jayus0821/swagger-hack"
+        },
+        {
+          "name": "ysoserial",
+          "url": "https://github.com/frohoff/ysoserial"
+        },
+        {
+          "name": "JNDI-Injection-Exploit",
+          "url": "https://github.com/welk1n/JNDI-Injection-Exploit"
+        },
+        {
+          "name": "marshalsec",
+          "url": "https://github.com/No-Github/marshalsec"
+        },
+        {
+          "name": "ysomap",
+          "url": "https://github.com/wh1t3p1g/ysomap"
+        },
+        {
+          "name": "Gopherus",
+          "url": "https://github.com/tarunkant/Gopherus"
+        },
+        {
+          "name": "CDK",
+          "url": "https://github.com/cdk-team/CDK"
+        },
+        {
+          "name": "rogue_mysql_server",
+          "url": "https://github.com/rmb122/rogue_mysql_server"
+        }
       ]
     },
     {
@@ -553,6 +1769,68 @@
       "descriptionZh": "后渗透/AD 攻击工具集",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "impacket",
+          "url": "https://github.com/SecureAuthCorp/impacket"
+        },
+        {
+          "name": "Responder",
+          "url": "https://github.com/lgandx/Responder"
+        },
+        {
+          "name": "krbrelayx",
+          "url": "https://github.com/dirkjanm/krbrelayx"
+        },
+        {
+          "name": "bettercap",
+          "url": "https://github.com/bettercap/bettercap"
+        },
+        {
+          "name": "mitmproxy",
+          "url": "https://mitmproxy.org"
+        },
+        {
+          "name": "pypykatz",
+          "url": "https://github.com/skelsec/pypykatz"
+        },
+        {
+          "name": "CrackMapExec",
+          "url": "https://github.com/mpgn/CrackMapExec"
+        },
+        {
+          "name": "NetExec",
+          "url": "https://github.com/Pennyw0rth/NetExec"
+        },
+        {
+          "name": "Neo-reGeorg",
+          "url": "https://github.com/L-codes/Neo-reGeorg"
+        },
+        {
+          "name": "suo5",
+          "url": "https://github.com/zema1/suo5"
+        },
+        {
+          "name": "kerbrute",
+          "url": "https://github.com/ropnop/kerbrute"
+        },
+        {
+          "name": "Adinfo",
+          "url": "https://github.com/lzzbb/Adinfo"
+        },
+        {
+          "name": "PetitPotam",
+          "url": "https://github.com/topotam/PetitPotam"
+        },
+        {
+          "name": "iox",
+          "url": "https://github.com/EddieIvan01/iox"
+        },
+        {
+          "name": "chisel",
+          "url": "https://github.com/jpillora/chisel"
+        }
       ]
     },
     {
@@ -565,6 +1843,72 @@
       "descriptionZh": "高级后渗透工具集",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "hashcat、7z2hashcat",
+          "url": "https://github.com/hashcat/hashcat"
+        },
+        {
+          "name": "ZoomEye-python",
+          "url": "https://github.com/knownsec/ZoomEye-python"
+        },
+        {
+          "name": "jadx",
+          "url": "https://github.com/skylot/jadx"
+        },
+        {
+          "name": "ncat",
+          "url": "https://nmap.org/ncat/"
+        },
+        {
+          "name": "mapcidr",
+          "url": "https://github.com/projectdiscovery/mapcidr"
+        },
+        {
+          "name": "dnsx",
+          "url": "https://github.com/projectdiscovery/dnsx"
+        },
+        {
+          "name": "uncover",
+          "url": "https://github.com/projectdiscovery/uncover"
+        },
+        {
+          "name": "nali",
+          "url": "https://github.com/zu1k/nali"
+        },
+        {
+          "name": "anew",
+          "url": "https://github.com/No-Github/anew"
+        },
+        {
+          "name": "gron",
+          "url": "https://github.com/tomnomnom/gron"
+        },
+        {
+          "name": "sttr",
+          "url": "https://github.com/abhimanyu003/sttr"
+        },
+        {
+          "name": "unfurl",
+          "url": "https://github.com/tomnomnom/unfurl"
+        },
+        {
+          "name": "qsreplace",
+          "url": "https://github.com/tomnomnom/qsreplace"
+        },
+        {
+          "name": "Platypus",
+          "url": "https://github.com/WangYihang/Platypus"
+        },
+        {
+          "name": "MoreFind",
+          "url": "https://github.com/mstxq17/MoreFind"
+        },
+        {
+          "name": "alterx",
+          "url": "https://github.com/projectdiscovery/alterx"
+        }
       ]
     },
     {
@@ -577,6 +1921,28 @@
       "descriptionZh": "渗透工具集 E",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "SecLists(~500M),longer time, wait patiently",
+          "url": "https://github.com/danielmiessler/SecLists"
+        },
+        {
+          "name": "See-SURF",
+          "url": "https://github.com/In3tinct/See-SURF"
+        },
+        {
+          "name": "hakrawler",
+          "url": "https://github.com/hakluke/hakrawler"
+        },
+        {
+          "name": "subjs",
+          "url": "https://github.com/lc/subjs"
+        },
+        {
+          "name": "assetfinder",
+          "url": "https://github.com/tomnomnom/assetfinder"
+        }
       ]
     },
     {
@@ -1060,6 +2426,28 @@
       "descriptionZh": "一键安装蓝队防御工具",
       "tags": [
         "batch"
+      ],
+      "includes": [
+        {
+          "name": "Fail2Ban",
+          "url": "https://github.com/fail2ban/fail2ban"
+        },
+        {
+          "name": "rkhunter",
+          "url": "https://rkhunter.sourceforge.net"
+        },
+        {
+          "name": "anti-portscan",
+          "url": "https://github.com/EtherDream/anti-portscan"
+        },
+        {
+          "name": "shellpub",
+          "url": "https://www.shellpub.com"
+        },
+        {
+          "name": "BruteShark",
+          "url": "https://github.com/odedshimon/BruteShark"
+        }
       ]
     },
     {

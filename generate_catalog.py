@@ -187,17 +187,218 @@ def extract_version(script_path):
     return "unknown"
 
 
+# ── Batch flag → entry function mapping ──
+# Maps batch flags to their top-level function names in the f8x script
+BATCH_ENTRY_FUNCTIONS = {
+    "-k":     ["kali_Tools"],
+    "-ka":    ["kali_Tools_TypeA"],
+    "-kb":    ["kali_Tools_TypeB"],
+    "-kc":    ["kali_Tools_TypeC"],
+    "-kd":    ["kali_Tools_TypeD"],
+    "-ke":    ["kali_Tools_TypeE"],
+    "-b":     ["Base_Install"],
+    "-d":     ["Dev_Tools"],
+    "-s":     ["Secure"],
+    "-f":     ["Fun_Tools"],
+    "-cloud": ["cloud"],
+    "-ad":    ["Ad_Tools"],
+    "-all":   ["all_Install"],
+}
+
+
+# ── Well-known tool URLs (for tools installed via package managers, not GitHub) ──
+KNOWN_TOOL_URLS = {
+    "nmap": "https://nmap.org",
+    "masscan": "https://github.com/robertdavidgraham/masscan",
+    "Metasploit": "https://github.com/rapid7/metasploit-framework",
+    "Terraform": "https://www.terraform.io",
+    "Docker and Docker-compose": "https://www.docker.com",
+    "Go": "https://go.dev",
+    "python3 and pip3": "https://www.python.org",
+    "python2": "https://www.python.org",
+    "Fail2Ban": "https://github.com/fail2ban/fail2ban",
+    "rkhunter": "https://rkhunter.sourceforge.net",
+    "mitmproxy": "https://mitmproxy.org",
+    "ffmpeg": "https://ffmpeg.org",
+    "htop": "https://github.com/htop-dev/htop",
+    "exa": "https://github.com/ogham/exa",
+    "ncdu": "https://dev.yorhel.nl/ncdu",
+    "ncat": "https://nmap.org/ncat/",
+    "john": "https://github.com/openwall/john",
+    "starship": "https://github.com/starship/starship",
+    "trash-cli": "https://github.com/andreafrancia/trash-cli",
+    "kubectl": "https://kubernetes.io/docs/tasks/tools/",
+    "Arjun": "https://github.com/s0md3v/Arjun",
+    "apkleaks": "https://github.com/dwisiswant0/apkleaks",
+    "ApkAnalyser": "https://github.com/aspect-labs/ApkAnalyser",
+    "pypykatz": "https://github.com/skelsec/pypykatz",
+    "Certipy": "https://github.com/ly4k/Certipy",
+    "Coercer": "https://github.com/p0dalirius/Coercer",
+    "DonPAPI": "https://github.com/login-securite/DonPAPI",
+    "Exegol": "https://github.com/ThePorgs/Exegol",
+    "evil-winrm": "https://github.com/Hackplayers/evil-winrm",
+    "bloodhound-python": "https://github.com/fox-it/BloodHound.py",
+    "bloodyAD": "https://github.com/CravateRouge/bloodyAD",
+    "GitHacker": "https://github.com/WangYihang/GitHacker",
+    "ZoomEye-python": "https://github.com/knownsec/ZoomEye-python",
+    "SDKMAN!": "https://sdkman.io",
+    "ldapsearch": "https://wiki.debian.org/LDAP/LDAPUtils",
+    "ldeep": "https://github.com/franc-music/ldeep",
+    "lsassy": "https://github.com/Hackndo/lsassy",
+    "minikerberos": "https://github.com/skelsec/minikerberos",
+    "mitm6": "https://github.com/dirkjanm/mitm6",
+    "gpp-decrypt": "https://github.com/t0thkr1s/gpp-decrypt",
+    "shellpub": "https://www.shellpub.com",
+    "proxychains4": "https://github.com/rofl0r/proxychains-ng",
+    "xfreerdp": "https://www.freerdp.com",
+    "tccli": "https://github.com/TencentCloud/tencentcloud-cli",
+    "nuclei-templates": "https://github.com/projectdiscovery/nuclei-templates",
+    "nodejs && npm": "https://nodejs.org",
+    "Oraclejdk": "https://www.oracle.com/java/",
+}
+
+# Functions that are infrastructure helpers, not actual installable tools
+SKIP_FUNCTION_NAMES = {
+    'Base_Install', 'Base_Tools', 'Base_Check', 'Dev_Base_Install',
+    'Pentest_Base_Install', 'Pentest_pip_Install', 'Pentest_Misc_Install',
+    'Rm_Lock', 'Proxy_Switch', 'Py_Check', 'pip2_Check', 'GO_Check',
+    'Install_Switch', 'Install_Switch2', 'Install_Switch3', 'Install_Switch4', 'Install_Switch5',
+}
+
+# Tool names that are infrastructure, not user-facing tools
+SKIP_TOOL_NAMES = {
+    'pip module', 'python modules', 'basic tools', 'pip module record',
+    'base', 'dev_base', 'misc',
+}
+
+
+def extract_functions(content):
+    """Extract all bash function bodies as {name: body} dict."""
+    functions = {}
+    # Match function_name(){ or function_name ()  {
+    func_pattern = re.compile(r'^(\w[\w-]*)\s*\(\)\s*\{', re.MULTILINE)
+    positions = [(m.group(1), m.end()) for m in func_pattern.finditer(content)]
+
+    for i, (name, start) in enumerate(positions):
+        # Find matching closing brace by counting braces
+        depth = 1
+        pos = start
+        while pos < len(content) and depth > 0:
+            ch = content[pos]
+            if ch == '{':
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+            pos += 1
+        functions[name] = content[start:pos-1]
+
+    return functions
+
+
+def extract_github_urls(func_body):
+    """Extract GitHub repo URLs from a function body."""
+    urls = set()
+    for m in re.finditer(r'github\.com/([\w._-]+/[\w._-]+?)(?:\.git|/releases|/archive|/raw|["\s/\)])', func_body):
+        repo = m.group(1).rstrip('.')
+        urls.add(f"https://github.com/{repo}")
+    return urls
+
+
+def extract_sub_tools(content, functions, entry_func_names):
+    """
+    Given entry function names for a batch flag, recursively extract all
+    sub-tools (individual install functions) with name, description, and URL.
+    """
+    tools = []
+    seen = set()
+
+    def collect_install_calls(func_name, is_entry=False):
+        """Recursively collect _Install function calls from a function."""
+        if func_name in seen or func_name not in functions:
+            return
+        if func_name in SKIP_FUNCTION_NAMES and not is_entry:
+            return
+        seen.add(func_name)
+        body = functions[func_name]
+
+        # Find echo "Installing XXX" followed by function calls
+        lines = body.split('\n')
+        current_tool_name = None
+
+        for line in lines:
+            stripped = line.strip()
+
+            # Skip commented-out lines
+            if stripped.startswith('#'):
+                continue
+
+            # Extract tool name from echo "Installing XXX"
+            echo_match = re.search(r'Installing\s+(.+?)\\n', stripped)
+            if echo_match:
+                current_tool_name = echo_match.group(1).strip()
+                continue
+
+            # Match function calls (XYZ_Install or XYZ_install)
+            call_match = re.match(r'^([\w-]+_[Ii]nstall\w*)\b', stripped)
+            if call_match:
+                called_func = call_match.group(1)
+                if called_func in SKIP_FUNCTION_NAMES:
+                    current_tool_name = None
+                    continue
+                if called_func in functions:
+                    func_body = functions[called_func]
+                    # Extract GitHub URLs from the install function
+                    urls = extract_github_urls(func_body)
+                    # Extract tool name from name="xxx" in function body
+                    name_match = re.search(r'name="([^"]+)"', func_body)
+                    tool_name = current_tool_name or (name_match.group(1) if name_match else called_func.replace('_Install', '').replace('Pentest_', ''))
+
+                    # Skip infrastructure/helper functions
+                    if tool_name.lower() in SKIP_TOOL_NAMES:
+                        current_tool_name = None
+                        continue
+
+                    # Deduplicate by function name
+                    if called_func not in seen:
+                        seen.add(called_func)
+                        url = sorted(urls)[0] if urls else KNOWN_TOOL_URLS.get(tool_name, "")
+                        tools.append({
+                            "name": tool_name,
+                            "url": url,
+                        })
+                current_tool_name = None
+                continue
+
+            # Match sub-function calls that are themselves aggregators (e.g., kali_Tools_TypeA)
+            sub_call_match = re.match(r'^([\w-]+)\b', stripped)
+            if sub_call_match:
+                sub_func = sub_call_match.group(1)
+                # Only recurse into known functions that aren't install functions
+                if sub_func in functions and not sub_func.endswith('_Install') and sub_func not in ('echo', 'if', 'else', 'fi', 'case', 'esac', 'then', 'done', 'do', 'for', 'while', 'return', 'exit', 'cd', 'rm', 'mkdir', 'touch', 'chmod', 'mv', 'cp', 'cat', 'grep', 'sed', 'awk', 'which', 'test', 'local', 'export', 'source', 'eval', 'shift', 'break', 'continue', 'true', 'false', 'set', 'unset'):
+                    collect_install_calls(sub_func)
+                current_tool_name = None
+
+    for func_name in entry_func_names:
+        collect_install_calls(func_name, is_entry=True)
+
+    return tools
+
+
 def generate_catalog(script_path):
     """生成完整目录"""
+    with open(script_path, 'r', encoding='utf-8', errors='ignore') as f:
+        content = f.read()
+
     flags = extract_flags_from_script(script_path)
     version = extract_version(script_path)
+    functions = extract_functions(content)
     modules = []
 
     for flag in flags:
         if flag in CATEGORY_MAP:
             info = CATEGORY_MAP[flag]
             mod_id = flag.lstrip('-').lower()
-            modules.append({
+            mod = {
                 "id": mod_id,
                 "name": info["name"],
                 "nameZh": info["nameZh"],
@@ -206,7 +407,13 @@ def generate_catalog(script_path):
                 "description": info["desc"],
                 "descriptionZh": info["descZh"],
                 "tags": info["tags"],
-            })
+            }
+            # For batch flags, extract includes
+            if "batch" in info["tags"] and flag in BATCH_ENTRY_FUNCTIONS:
+                includes = extract_sub_tools(content, functions, BATCH_ENTRY_FUNCTIONS[flag])
+                if includes:
+                    mod["includes"] = includes
+            modules.append(mod)
         else:
             # 未在映射表中的 flag，自动生成基本条目
             mod_id = flag.lstrip('-').lower()
@@ -234,7 +441,7 @@ def generate_catalog(script_path):
 
     return {
         "version": version,
-        "catalog_version": 2,
+        "catalog_version": 3,
         "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "modules": modules,
         "categories": categories_with_count,
@@ -251,6 +458,17 @@ def main():
         sys.exit(1)
 
     catalog = generate_catalog(script_path)
+
+    # Warn about sub-tools with missing URLs
+    missing_url = []
+    for m in catalog['modules']:
+        for t in m.get('includes', []):
+            if not t.get('url'):
+                missing_url.append((m['flag'], t['name']))
+    if missing_url:
+        print(f"⚠ {len(missing_url)} sub-tool(s) missing URL (add to KNOWN_TOOL_URLS):", file=sys.stderr)
+        for flag, name in missing_url:
+            print(f"  {flag}: {name}", file=sys.stderr)
 
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, ensure_ascii=False, indent=2)
