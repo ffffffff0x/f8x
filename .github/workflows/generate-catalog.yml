@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -36,6 +36,13 @@ jobs:
 
       - name: Generate catalog.json
         run: python3 generate_catalog.py ./f8x ./catalog.json
+
+      - name: Commit catalog.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog.json
+          git diff --cached --quiet && echo "No changes" || git commit -m "chore: update catalog.json [skip ci]" && git push
 
       - name: Prepare Pages artifact
         run: |
