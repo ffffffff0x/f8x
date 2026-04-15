@@ -304,7 +304,7 @@
         },
         {
           "name": "AboutSecurity",
-          "url": "https://github.com/ffffffff0x/AboutSecurity"
+          "url": "https://github.com/wgpsec/AboutSecurity"
         },
         {
           "name": "nmap",
@@ -1186,7 +1186,7 @@
       "includes": [
         {
           "name": "AboutSecurity",
-          "url": "https://github.com/ffffffff0x/AboutSecurity"
+          "url": "https://github.com/wgpsec/AboutSecurity"
         },
         {
           "name": "nmap",

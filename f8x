@@ -3326,7 +3326,7 @@ Pentest_Dic_Install(){
     then
         Echo_ALERT "$name dictionary already exists"
     else
-        rm -rf $P_Dir/$name > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ffffffff0x/AboutSecurity.git $P_Dir/$name > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $P_Dir/$name" || Echo_ERROR "Failed to download the $name dictionary from github"
+        rm -rf $P_Dir/$name > /dev/null 2>&1 && $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/wgpsec/AboutSecurity.git $P_Dir/$name > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $P_Dir/$name" || Echo_ERROR "Failed to download the $name dictionary from github"
     fi
 
 }
