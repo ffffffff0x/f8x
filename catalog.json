@@ -1,8 +1,28 @@
 {
-  "version": "1.8.1 (2025/03/04)",
+  "version": "1.9.0 (2026/04/15)",
   "catalog_version": 2,
-  "updated_at": "2026-03-15T11:30:53Z",
+  "updated_at": "2026-04-15T07:42:35Z",
   "modules": [
+    {
+      "id": "list-tools",
+      "name": "list-tools",
+      "nameZh": "list-tools",
+      "flag": "--list-tools",
+      "category": "misc",
+      "description": "Install list-tools",
+      "descriptionZh": "安装 list-tools",
+      "tags": []
+    },
+    {
+      "id": "search",
+      "name": "search",
+      "nameZh": "search",
+      "flag": "--search",
+      "category": "misc",
+      "description": "Install search",
+      "descriptionZh": "安装 search",
+      "tags": []
+    },
     {
       "id": "1panel",
       "name": "1Panel",
@@ -89,6 +109,16 @@
       ]
     },
     {
+      "id": "arsenal",
+      "name": "arsenal",
+      "nameZh": "arsenal",
+      "flag": "-arsenal",
+      "category": "misc",
+      "description": "Install arsenal",
+      "descriptionZh": "安装 arsenal",
+      "tags": []
+    },
+    {
       "id": "asciinema",
       "name": "asciinema",
       "nameZh": "asciinema 终端录制",
@@ -173,6 +203,16 @@
       ]
     },
     {
+      "id": "chisel",
+      "name": "chisel",
+      "nameZh": "chisel",
+      "flag": "-chisel",
+      "category": "misc",
+      "description": "Install chisel",
+      "descriptionZh": "安装 chisel",
+      "tags": []
+    },
+    {
       "id": "chromium",
       "name": "Chromium",
       "nameZh": "Chromium 浏览器",
@@ -195,6 +235,16 @@
       "tags": [
         "antivirus"
       ]
+    },
+    {
+      "id": "claude-code",
+      "name": "claude-code",
+      "nameZh": "claude-code",
+      "flag": "-claude-code",
+      "category": "misc",
+      "description": "Install claude-code",
+      "descriptionZh": "安装 claude-code",
+      "tags": []
     },
     {
       "id": "clear",
@@ -318,6 +368,16 @@
       ]
     },
     {
+      "id": "evil-winrm",
+      "name": "evil-winrm",
+      "nameZh": "evil-winrm",
+      "flag": "-evil-winrm",
+      "category": "misc",
+      "description": "Install evil-winrm",
+      "descriptionZh": "安装 evil-winrm",
+      "tags": []
+    },
+    {
       "id": "f",
       "name": "Fun Tools Suite",
       "nameZh": "实用工具全套",
@@ -379,6 +439,16 @@
       ]
     },
     {
+      "id": "install",
+      "name": "install",
+      "nameZh": "install",
+      "flag": "-install",
+      "category": "misc",
+      "description": "Install install",
+      "descriptionZh": "安装 install",
+      "tags": []
+    },
+    {
       "id": "interactsh",
       "name": "Interactsh",
       "nameZh": "Interactsh OOB",
@@ -389,6 +459,16 @@
       "tags": [
         "oob"
       ]
+    },
+    {
+      "id": "iox",
+      "name": "iox",
+      "nameZh": "iox",
+      "flag": "-iox",
+      "category": "misc",
+      "description": "Install iox",
+      "descriptionZh": "安装 iox",
+      "tags": []
     },
     {
       "id": "jenv",
@@ -767,6 +847,16 @@
       ]
     },
     {
+      "id": "playwright-mcp",
+      "name": "playwright-mcp",
+      "nameZh": "playwright-mcp",
+      "flag": "-playwright-mcp",
+      "category": "misc",
+      "description": "Install playwright-mcp",
+      "descriptionZh": "安装 playwright-mcp",
+      "tags": []
+    },
+    {
       "id": "proxy",
       "name": "Proxychains",
       "nameZh": "Proxychains 代理链",
@@ -995,6 +1085,16 @@
       "tags": [
         "c2"
       ]
+    },
+    {
+      "id": "sliver-script",
+      "name": "sliver-script",
+      "nameZh": "sliver-script",
+      "flag": "-sliver-script",
+      "category": "misc",
+      "description": "Install sliver-script",
+      "descriptionZh": "安装 sliver-script",
+      "tags": []
     },
     {
       "id": "sps",
@@ -1244,7 +1344,7 @@
       "id": "misc",
       "name": "Miscellaneous",
       "nameZh": "杂项工具",
-      "count": 11
+      "count": 21
     },
     {
       "id": "system",
