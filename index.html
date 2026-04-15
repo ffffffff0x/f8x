@@ -1,864 +1,773 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>f8x — Red/Blue Team Automation</title>
+  <meta name="description" content="One script to deploy 108+ security tools on any Linux. Red team, blue team, pentest, cloud — f8x handles it all.">
   <link rel="icon" href="./assets/img/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0B0F19',
+            surface: '#111827',
+            'surface-2': '#1F2937',
+            'surface-3': '#374151',
+            dim: '#94A3B8',
+            primary: '#3B82F6',
+            'primary-dim': '#2563EB',
+            accent: '#22C55E',
+            cyber: '#06B6D4',
+            term: '#0D1117',
+            'term-bar': '#161B22',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --bg: #ffffff;
-      --surface: #f6f6f6;
-      --border: #e0e0e0;
-      --text: #1a1a1a;
-      --dim: #888888;
-      --red: #d63031;
-      --red-dim: #e17055;
-      --blue: #2d5fd7;
-      --green: #27ae60;
-      --yellow: #b58900;
-      --cyan: #0984a0;
-      --white: #1a1a1a;
-      --bold: #000000;
-      --prompt: #d63031;
-      --bar-1: #ff5f56;
-      --bar-2: #ffbd2e;
-      --bar-3: #27c93f;
-      /* terminal blocks stay dark */
-      --term-bg: #1e1e1e;
-      --term-bar: #2d2d2d;
-      --term-border: #3a3a3a;
-      --term-text: #cccccc;
-      --term-dim: #666666;
+    /* Glassmorphism nav */
+    .glass-nav {
+      background: rgba(11, 15, 25, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 13px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+    /* Hero grid background */
+    .hero-grid {
+      background-image:
+        radial-gradient(circle, rgba(59,130,246,0.07) 1px, transparent 1px);
+      background-size: 24px 24px;
     }
-    ::selection { background: var(--red); color: #ffffff; }
-    a { color: var(--cyan); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .term a { color: #5fafaf; }
-
-    /* ── nav bar ── */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      height: 40px;
-      font-size: 12px;
+    /* Hero center glow */
+    .hero-glow {
+      background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(59,130,246,0.12) 0%, transparent 70%);
     }
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+    /* Gradient heading */
+    .grad-text {
+      background: linear-gradient(135deg, #F1F5F9 30%, #3B82F6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .topbar .brand {
-      color: var(--red);
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.05em;
+    /* Glow card */
+    .glow-card {
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .topbar nav { display: flex; gap: 4px; }
-    .topbar nav a {
-      color: var(--dim);
-      padding: 8px 10px;
-      border-bottom: 2px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
+    .glow-card:hover {
+      border-color: rgba(59,130,246,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(59,130,246,0.08);
     }
-    .topbar nav a:hover {
-      color: var(--text);
-      text-decoration: none;
-      border-bottom-color: var(--red-dim);
-    }
-    .topbar-right { display: flex; align-items: center; gap: 12px; }
-    .topbar-right a { color: var(--dim); }
-    .topbar-right a:hover { color: var(--text); text-decoration: none; }
-    .lang-btn {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--dim);
-      padding: 3px 8px;
-      border-radius: 3px;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 11px;
-      transition: color 0.15s, border-color 0.15s;
-    }
-    .lang-btn:hover { color: var(--text); border-color: var(--dim); }
-
-    /* ── layout ── */
-    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
-
-    /* ── terminal window ── */
-    .term {
-      background: var(--term-bg);
-      border: 1px solid var(--term-border);
-      border-radius: 8px;
-      overflow: hidden;
-      margin: 32px 0;
-      color: var(--term-text);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
-    }
-    .term-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      background: var(--term-bar);
-      border-bottom: 1px solid var(--term-border);
-      user-select: none;
-    }
+    /* Terminal chrome */
     .term-dot { width: 12px; height: 12px; border-radius: 50%; }
-    .term-dot.r { background: var(--bar-1); }
-    .term-dot.y { background: var(--bar-2); }
-    .term-dot.g { background: var(--bar-3); }
-    .term-title {
-      flex: 1;
-      text-align: center;
-      color: var(--term-dim);
-      font-size: 12px;
-    }
-    .term-body {
-      padding: 16px 20px;
-      overflow-x: auto;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    /* ── hero ── */
-    .hero {
-      padding: 48px 0 24px;
-      text-align: center;
-    }
-    .hero-banner {
-      max-width: 340px;
-      margin: 0 auto 20px;
-    }
-    .hero-banner img { width: 100%; display: block; }
-    .hero-tagline {
-      color: var(--dim);
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-    .hero-install {
-      display: inline-block;
-      background: var(--term-bg);
-      border: 1px solid var(--term-border);
-      border-radius: 6px;
-      padding: 10px 20px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: border-color 0.15s;
-      position: relative;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    }
-    .hero-install:hover { border-color: var(--term-dim); }
-    .hero-install .prompt { color: #e05050; }
-    .hero-install .cmd { color: #cccccc; }
-    .hero-install .copy-hint {
-      position: absolute;
-      right: -56px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 11px;
-      color: var(--dim);
+    .term-dot-r { background: #ff5f56; }
+    .term-dot-y { background: #ffbd2e; }
+    .term-dot-g { background: #27c93f; }
+    /* Scroll reveal */
+    .reveal {
       opacity: 0;
-      transition: opacity 0.2s;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .hero-install:hover .copy-hint { opacity: 1; }
-    .hero-links {
-      margin-top: 16px;
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      font-size: 12px;
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .hero-links a { color: var(--dim); }
-    .hero-links a:hover { color: var(--red); text-decoration: none; }
-    .hero-links a span { color: var(--text); }
-
-    /* ── section titles ── */
-    .section {
-      padding: 40px 0 0;
+    /* Copy toast */
+    .toast {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      pointer-events: none;
     }
-    .section-head {
-      color: var(--dim);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .section-head .num { color: var(--red); }
-
-    /* ── help output (inside dark terminal) ── */
-    .help-section { margin-bottom: 12px; }
-    .help-header { color: #5f87d7; font-weight: 700; display: block; margin-bottom: 4px; }
-    .help-table { display: table; border-collapse: collapse; width: 100%; }
-    .help-row { display: table-row; }
-    .help-row:hover { background: rgba(255,255,255,0.03); }
-    .help-cell { display: table-cell; padding: 1px 0; vertical-align: top; white-space: nowrap; }
-    .help-cell-flag { width: 170px; padding-left: 12px; color: #5f87d7; font-weight: 700; }
-    .help-cell-desc { color: #8a8a8a; padding-left: 4px; }
-    .help-cell-note { color: #5faf5f; padding-left: 12px; font-size: 12px; }
-    .help-cell-note.warn { color: #e05050; }
-    .help-cell-note.yellow { color: #d7af5f; }
-    .help-author { color: #e4e4e4; font-weight: 700; display: block; margin-top: 8px; }
-
-    /* ── feature grid ── */
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow: hidden;
+    /* Category pill active */
+    .cat-pill.active {
+      background: rgba(59,130,246,0.15);
+      border-color: rgba(59,130,246,0.4);
+      color: #3B82F6;
     }
-    .feat {
-      background: var(--surface);
-      padding: 16px 20px;
+    /* Module card filter transition */
+    .mod-card {
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
-    .feat-title {
-      color: var(--red);
-      font-size: 12px;
-      margin-bottom: 6px;
-      font-weight: 500;
+    .mod-card.hidden-filter {
+      display: none;
     }
-    .feat-body { color: var(--dim); font-size: 12px; line-height: 1.5; }
-
-    /* ── presets ── */
-    .preset-list { list-style: none; }
-    .preset-list li {
-      padding: 8px 0;
-      border-bottom: 1px solid #2a2a2a;
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
+    /* Scrollbar */
+    .catalog-grid::-webkit-scrollbar { width: 4px; }
+    .catalog-grid::-webkit-scrollbar-track { background: transparent; }
+    .catalog-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    /* Nav active link */
+    .nav-link { position: relative; }
+    .nav-link.active { color: #3B82F6; }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0; right: 0;
+      height: 2px;
+      background: #3B82F6;
+      border-radius: 1px;
     }
-    .preset-list li:last-child { border-bottom: none; }
-    .preset-alias { color: #5faf5f; white-space: nowrap; }
-    .preset-cmd { color: #cccccc; }
-    .preset-desc { color: #666666; font-size: 12px; margin-left: auto; white-space: nowrap; }
-
-    /* ── examples ── */
-    .example-block { margin-bottom: 20px; }
-    .example-comment { color: #666666; }
-    .example-prompt { color: #e05050; }
-    .example-cmd { color: #cccccc; }
-    .example-out { color: #666666; }
-
-    /* ── faq ── */
-    .faq-item { margin-bottom: 16px; }
-    .faq-q {
-      color: #d7af5f;
-      cursor: pointer;
-      user-select: none;
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: none; opacity: 1; transform: none; }
+      .glow-card { transition: none; }
+      .toast { transition: none; }
     }
-    .faq-q::before { content: '▸ '; color: #e05050; }
-    .faq-a { color: #666666; padding-left: 18px; margin-top: 4px; }
-    .faq-a a { color: #5fafaf; }
-
-    /* ── extra scripts ── */
-    .scripts-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
+    /* Install box glow */
+    .install-box {
+      border: 1px solid rgba(59,130,246,0.2);
+      background: rgba(13,17,23,0.8);
+      box-shadow: 0 0 40px rgba(59,130,246,0.06);
     }
-    .script-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px 16px;
+    /* Scroll indicator bounce */
+    @keyframes gentle-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
     }
-    .script-name { color: var(--cyan); font-weight: 700; }
-    .script-desc { color: var(--dim); font-size: 12px; margin: 4px 0 8px; }
-
-    /* ── redc integration ── */
-    .redc-flow {
-      font-size: 12px;
-      line-height: 1.7;
-    }
-    .redc-flow .flow-label { color: #5faf5f; font-weight: 700; }
-    .redc-flow .flow-arrow { color: #666666; }
-    .redc-flow .flow-box {
-      display: inline;
-      color: #cccccc;
-      border: 1px solid #3a3a3a;
-      padding: 2px 8px;
-      border-radius: 3px;
-      background: rgba(255,255,255,0.04);
-    }
-    .redc-flow .flow-highlight { color: #e05050; font-weight: 700; }
-    .redc-features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      overflow: hidden;
-      margin-top: 20px;
-    }
-    .redc-feat {
-      background: var(--surface);
-      padding: 16px 20px;
-    }
-    .redc-feat-icon { font-size: 18px; margin-bottom: 6px; }
-    .redc-feat-title { color: var(--red); font-size: 12px; font-weight: 500; margin-bottom: 4px; }
-    .redc-feat-body { color: var(--dim); font-size: 12px; line-height: 1.5; }
-    @media (max-width: 640px) {
-      .redc-features { grid-template-columns: 1fr; }
-    }
-
-    /* ── footer ── */
-    footer {
-      margin-top: 48px;
-      padding: 20px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--dim);
-      font-size: 11px;
-    }
-    footer a { color: var(--dim); }
-    footer a:hover { color: var(--red); }
-
-    /* ── responsive ── */
-    @media (max-width: 640px) {
-      .topbar { padding: 0 12px; height: auto; flex-wrap: wrap; padding: 8px 12px; gap: 8px; }
-      .topbar nav { flex-wrap: wrap; }
-      .container { padding: 0 12px; }
-      .features { grid-template-columns: 1fr; }
-      .scripts-row { grid-template-columns: 1fr; }
-      .hero-install .copy-hint { display: none; }
-      .term-body { font-size: 11px; padding: 12px; }
-      .preset-desc { display: none; }
-      .help-cell-note { display: none; }
-      .help-cell-flag { width: auto; min-width: 100px; }
-    }
-
-    /* ── typing cursor ── */
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-    .cursor {
-      display: inline-block;
-      width: 7px;
-      height: 14px;
-      background: var(--red);
-      animation: blink 1s step-end infinite;
-      vertical-align: text-bottom;
-      margin-left: 2px;
+    .scroll-hint { animation: gentle-bounce 2s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint { animation: none; }
     }
   </style>
 </head>
-<body>
+<body class="bg-bg text-slate-200 font-sans antialiased">
 
-  <!-- ── top bar ── -->
-  <div class="topbar">
-    <div class="topbar-left">
-      <span class="brand">f8x</span>
-      <nav>
-        <a href="#start" data-i18n="navStart">快速开始</a>
-        <a href="#options" data-i18n="navOptions">选项</a>
-        <a href="#presets" data-i18n="navPresets">方案</a>
-        <a href="#redc" data-i18n="navRedc">redc</a>
-        <a href="#examples" data-i18n="navExamples">示例</a>
-        <a href="#faq" data-i18n="navFaq">FAQ</a>
-      </nav>
-    </div>
-    <div class="topbar-right">
-      <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer">GitHub ↗</a>
-      <button class="lang-btn" id="langToggle" type="button">EN</button>
-    </div>
-  </div>
-
-  <div class="container">
-
-    <!-- ── hero ── -->
-    <div class="hero" id="start">
-      <div class="hero-banner"><img src="./assets/img/banner2.png" alt="f8x"></div>
-      <div class="hero-tagline" data-i18n="heroTagline">红蓝队环境自动化部署工具</div>
-      <div class="hero-install" onclick="navigator.clipboard.writeText('wget -O f8x https://f8x.wgpsec.org/f8x && chmod +x f8x && bash f8x -h')">
-        <span class="prompt">$ </span><span class="cmd">wget -O f8x https://f8x.wgpsec.org/f8x && chmod +x f8x && bash f8x -h</span>
-        <span class="copy-hint" data-i18n="copyHint">click to copy</span>
+  <!-- ══════════ NAV ══════════ -->
+  <nav class="glass-nav fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-6">
+        <a href="#" class="flex items-center gap-2 group">
+          <span class="text-xl font-bold font-mono tracking-tighter">
+            <span class="text-primary">f</span><span class="text-white">8</span><span class="text-primary">x</span>
+          </span>
+          <span class="text-xs font-mono text-dim bg-surface-2 px-2 py-0.5 rounded-full" id="navVersion">v1.9.0</span>
+        </a>
+        <div class="hidden md:flex items-center gap-5 text-sm text-dim">
+          <a href="#features" class="nav-link hover:text-white transition-colors cursor-pointer" data-i18n="navFeatures">功能</a>
+          <a href="#catalog" class="nav-link hover:text-white transition-colors cursor-pointer" data-i18n="navCatalog">工具目录</a>
+          <a href="#presets" class="nav-link hover:text-white transition-colors cursor-pointer" data-i18n="navPresets">组合方案</a>
+          <a href="#redc" class="nav-link hover:text-white transition-colors cursor-pointer">redc</a>
+          <a href="#faq" class="nav-link hover:text-white transition-colors cursor-pointer">FAQ</a>
+        </div>
       </div>
-      <div class="hero-links">
-        <a href="https://f8x.wgpsec.org/f8x" download><span data-i18n="dlPages">Pages 下载</span></a>
-        <a href="https://raw.githubusercontent.com/ffffffff0x/f8x/main/f8x" download><span data-i18n="dlRaw">Raw 下载</span></a>
-        <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer"><span data-i18n="dlRepo">GitHub 仓库</span></a>
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer"
+           class="hidden sm:flex items-center gap-1.5 text-sm text-dim hover:text-white transition-colors cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <button id="langToggle" class="text-xs font-mono text-dim hover:text-white border border-white/10 rounded px-2 py-1 hover:border-primary/40 transition-colors cursor-pointer">
+          EN
+        </button>
       </div>
     </div>
+  </nav>
 
-    <!-- ── why f8x ── -->
-    <div class="section">
-      <div class="section-head"><span class="num">#</span> <span data-i18n="whyTitle">为什么选择 f8x</span></div>
-      <div class="features">
-        <div class="feat">
-          <div class="feat-title" data-i18n="feat1t">多场景覆盖</div>
-          <div class="feat-body" data-i18n="feat1b">红队、蓝队、渗透、云、安全开发、代理 — 一套脚本搞定</div>
+  <!-- ══════════ HERO ══════════ -->
+  <section class="relative min-h-screen flex items-center justify-center pt-14 hero-grid">
+    <div class="hero-glow absolute inset-0 pointer-events-none"></div>
+    <div class="relative z-10 text-center px-4 max-w-3xl mx-auto">
+      <div class="mb-6">
+        <span class="inline-flex items-center gap-2 text-xs font-mono text-dim bg-surface/60 border border-white/10 rounded-full px-3 py-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span data-i18n="heroBadge">开源 · Apache-2.0 · 持续维护</span>
+        </span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight mb-4">
+        <span class="grad-text" data-i18n="heroTitle">红蓝队环境<br>自动化部署工具</span>
+      </h1>
+      <p class="text-base sm:text-lg text-dim max-w-xl mx-auto mb-8 leading-relaxed">
+        <span id="heroModuleCount" class="text-white font-semibold">108</span>
+        <span data-i18n="heroDesc"> 款安全工具，一条命令部署。覆盖渗透、防御、开发、云原生。</span>
+      </p>
+      <div class="install-box rounded-xl px-4 py-3 sm:px-6 sm:py-4 max-w-4xl mx-auto mb-6 font-mono text-sm cursor-pointer group relative"
+           id="installBox" role="button" tabindex="0" aria-label="Copy install command">
+        <div class="flex items-center gap-3">
+          <span class="text-accent select-none">$</span>
+          <code class="text-slate-300 text-xs sm:text-sm select-all whitespace-nowrap overflow-x-auto">wget -O f8x https://f8x.wgpsec.org/f8x && chmod +x f8x && bash f8x -h</code>
+          <svg class="w-4 h-4 text-dim group-hover:text-primary transition-colors flex-shrink-0 ml-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         </div>
-        <div class="feat">
-          <div class="feat-title" data-i18n="feat2t">即装即用</div>
-          <div class="feat-body" data-i18n="feat2b">自动检测依赖，按需编译/拉取，支持主流 Linux + arm64</div>
+        <div class="toast absolute -top-10 left-1/2 -translate-x-1/2 bg-accent text-bg text-xs font-sans font-medium px-3 py-1.5 rounded-lg" id="copyToast">
+          <span data-i18n="copied">已复制!</span>
         </div>
-        <div class="feat">
-          <div class="feat-title" data-i18n="feat3t">可插拔选项</div>
-          <div class="feat-body" data-i18n="feat3b">通过 flag 自由组合，减少重复配置</div>
-        </div>
-        <div class="feat">
-          <div class="feat-title" data-i18n="feat4t">CI/CD 友好</div>
-          <div class="feat-body" data-i18n="feat4b">创建 /tmp/IS_CI 即可非交互运行，适配流水线</div>
-        </div>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer"
+           class="inline-flex items-center gap-2 bg-primary hover:bg-primary-dim text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 00-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 004 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S8.93 17.38 9 18v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          <span data-i18n="ctaGithub">查看源码</span>
+        </a>
+        <a href="https://f8x.wgpsec.org/f8x" download
+           class="inline-flex items-center gap-2 border border-white/15 hover:border-primary/40 text-dim hover:text-white text-sm font-medium px-5 py-2.5 rounded-lg transition-colors cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="ctaDownload">下载脚本</span>
+        </a>
       </div>
     </div>
+    <a href="#features" class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-hint cursor-pointer hover:text-primary transition-colors">
+      <svg class="w-5 h-5 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </section>
 
-    <!-- ── f8x -h output ── -->
-    <div class="section" id="options">
-      <div class="section-head"><span class="num">#</span> <span data-i18n="optionsTitle">f8x -h</span></div>
-      <div class="term">
-        <div class="term-bar">
-          <div class="term-dot r"></div>
-          <div class="term-dot y"></div>
-          <div class="term-dot g"></div>
-          <div class="term-title">bash — f8x -h</div>
+  <main class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    <!-- ══════════ FEATURES BENTO GRID ══════════ -->
+    <section id="features" class="py-20 reveal">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" data-i18n="featTitle">为什么选择 f8x</h2>
+        <p class="text-dim text-sm max-w-lg mx-auto" data-i18n="featSub">一键部署，无需手动配置每个工具的依赖与编译环境</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Card 1 -->
+        <div class="glow-card bg-surface rounded-2xl p-6">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3 class="font-semibold text-white mb-1" data-i18n="feat1t">多场景覆盖</h3>
+          <p class="text-dim text-sm leading-relaxed" data-i18n="feat1b">红队渗透、蓝队防御、开发环境、云原生、安全靶场 — 一套脚本覆盖全部场景</p>
         </div>
-        <div class="term-body">
-<div class="help-section"><span class="help-header">Batch installation</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-b</span><span class="help-cell help-cell-desc">: install Basic Environment</span><span class="help-cell help-cell-note">(gcc, make, git, vim, telnet, jq, unzip ...)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-p</span><span class="help-cell help-cell-desc">: install Proxy Environment</span><span class="help-cell help-cell-note warn">(Warning : Use only when needed)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-d</span><span class="help-cell help-cell-desc">: install Development Environment</span><span class="help-cell help-cell-note">(python3, pip3, Go, Docker, SDKMAN)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-k(a/b/c/d/e)</span><span class="help-cell help-cell-desc">: install Pentest environment</span><span class="help-cell help-cell-note">(hashcat, ffuf, OneForAll, impacket ...)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-s</span><span class="help-cell help-cell-desc">: install Blue Team Environment</span><span class="help-cell help-cell-note">(Fail2Ban, chkrootkit, rkhunter)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-f</span><span class="help-cell help-cell-desc">: install Other Tools</span><span class="help-cell help-cell-note">(AdguardTeam, trash-cli, fzf)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-cloud</span><span class="help-cell help-cell-desc">: install Cloud Applications</span><span class="help-cell help-cell-note">(Terraform, Serverless, wrangler)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-all</span><span class="help-cell help-cell-desc">: fully automated deployment</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<div class="help-section"><span class="help-header">Development Environment</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-docker</span><span class="help-cell help-cell-desc">: install docker</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-docker-cn</span><span class="help-cell help-cell-desc">: install docker (aliyun source)</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-lua</span><span class="help-cell help-cell-desc">: install lua</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-nn</span><span class="help-cell help-cell-desc">: install npm &amp; NodeJs</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-go</span><span class="help-cell help-cell-desc">: install golang</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-oraclejdk(8/11/17)</span><span class="help-cell help-cell-desc">: install oraclejdk</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-openjdk</span><span class="help-cell help-cell-desc">: install openjdk</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-py3(7/8/9/10)</span><span class="help-cell help-cell-desc">: install python3</span><span class="help-cell help-cell-note yellow">(Based on package manager)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-py2</span><span class="help-cell help-cell-desc">: install python2</span><span class="help-cell help-cell-note yellow">(Based on package manager)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-py2-f</span><span class="help-cell help-cell-desc">: force install python2</span><span class="help-cell help-cell-note yellow">(Recommended if -py2 fails)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-pip2-f</span><span class="help-cell help-cell-desc">: force install pip2</span><span class="help-cell help-cell-note yellow">(Recommended if -py2 fails)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-pyenv</span><span class="help-cell help-cell-desc">: install pyenv</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-perl</span><span class="help-cell help-cell-desc">: install perl</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-ruby</span><span class="help-cell help-cell-desc">: install ruby</span><span class="help-cell help-cell-note yellow">(If that fails, try -ruby-f)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-rust</span><span class="help-cell help-cell-desc">: install rust</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-code</span><span class="help-cell help-cell-desc">: install code-server</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-chromium</span><span class="help-cell help-cell-desc">: install Chromium</span><span class="help-cell help-cell-note yellow">(Used with rad, crawlergo)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-crawl</span><span class="help-cell help-cell-desc">: install crawl tools</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-phantomjs</span><span class="help-cell help-cell-desc">: install PhantomJS</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<div class="help-section"><span class="help-header">Blue Team Tools</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-binwalk</span><span class="help-cell help-cell-desc">: install binwalk</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-binwalk-f</span><span class="help-cell help-cell-desc">: force install binwalk</span><span class="help-cell help-cell-note yellow">(Recommended if -binwalk fails)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-clamav</span><span class="help-cell help-cell-desc">: install ClamAV</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-lt</span><span class="help-cell help-cell-desc">: install LogonTracer</span><span class="help-cell help-cell-note yellow">(High hardware requirements)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-suricata</span><span class="help-cell help-cell-desc">: install Suricata</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-vol</span><span class="help-cell help-cell-desc">: install volatility</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-vol3</span><span class="help-cell help-cell-desc">: install volatility3</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<div class="help-section"><span class="help-header">Red Team Tools</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-aircrack</span><span class="help-cell help-cell-desc">: install aircrack-ng</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-bypass</span><span class="help-cell help-cell-desc">: install Bypass</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-wpscan</span><span class="help-cell help-cell-desc">: install wpscan</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-wx</span><span class="help-cell help-cell-desc">: install wxappUnpacker</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-yakit</span><span class="help-cell help-cell-desc">: install yakit</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<div class="help-section"><span class="help-header">Red Team Infrastructure</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-arl</span><span class="help-cell help-cell-desc">: install ARL (~872 MB)</span><span class="help-cell help-cell-note yellow">(github.com/TophantTechnology/ARL)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-awvs15</span><span class="help-cell help-cell-desc">: install AWVS15</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-cs45</span><span class="help-cell help-cell-desc">: install CobaltStrike 4.5</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-frp</span><span class="help-cell help-cell-desc">: install frp</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-interactsh</span><span class="help-cell help-cell-desc">: install interactsh</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-merlin</span><span class="help-cell help-cell-desc">: install merlin</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-msf</span><span class="help-cell help-cell-desc">: install Metasploit</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-mobsf</span><span class="help-cell help-cell-desc">: install MobSF (~1.54 GB)</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-mythic</span><span class="help-cell help-cell-desc">: install mythic</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-nodejsscan</span><span class="help-cell help-cell-desc">: install nodejsscan (~873 MB)</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-nps</span><span class="help-cell help-cell-desc">: install nps</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-pupy</span><span class="help-cell help-cell-desc">: install pupy</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-rg</span><span class="help-cell help-cell-desc">: install RedGuard</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-http</span><span class="help-cell help-cell-desc">: install simplehttpserver</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-sliver</span><span class="help-cell help-cell-desc">: install sliver-server &amp;&amp; client</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-sliver-client</span><span class="help-cell help-cell-desc">: install sliver-client</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-sps</span><span class="help-cell help-cell-desc">: install SharPyShell</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-viper</span><span class="help-cell help-cell-desc">: install Viper (~2.1 GB)</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<div class="help-section"><span class="help-header">Vulnerable Environments</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-metarget</span><span class="help-cell help-cell-desc">: install metarget</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-vulhub</span><span class="help-cell help-cell-desc">: install vulhub (~210 MB)</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-vulfocus</span><span class="help-cell help-cell-desc">: install vulfocus (~1.04 GB)</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-TerraformGoat</span><span class="help-cell help-cell-desc">: install TerraformGoat</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<div class="help-section"><span class="help-header">Miscellaneous Services</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-asciinema</span><span class="help-cell help-cell-desc">: install asciinema</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-aa</span><span class="help-cell help-cell-desc">: install aaPanel</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-1panel</span><span class="help-cell help-cell-desc">: install 1Panel</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-bt</span><span class="help-cell help-cell-desc">: install 宝塔服务</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-clash</span><span class="help-cell help-cell-desc">: install clash</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-nginx</span><span class="help-cell help-cell-desc">: install nginx</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-ssh</span><span class="help-cell help-cell-desc">: install ssh</span><span class="help-cell help-cell-note yellow">(RedHat default, no need to reinstall)</span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-ssr</span><span class="help-cell help-cell-desc">: install ssr</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-zsh</span><span class="help-cell help-cell-desc">: install zsh</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<div class="help-section"><span class="help-header">Other</span>
-<div class="help-table">
-<div class="help-row"><span class="help-cell help-cell-flag">-clear</span><span class="help-cell help-cell-desc">: Clean up system usage traces</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-info</span><span class="help-cell help-cell-desc">: View system information</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-optimize</span><span class="help-cell help-cell-desc">: Optimize performance</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-remove</span><span class="help-cell help-cell-desc">: Uninstall vps cloud monitoring</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-rmlock</span><span class="help-cell help-cell-desc">: Run the Unlock module</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-swap</span><span class="help-cell help-cell-desc">: Configuring swap partitions</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-update</span><span class="help-cell help-cell-desc">: Update f8x</span><span class="help-cell help-cell-note"></span></div>
-<div class="help-row"><span class="help-cell help-cell-flag">-upgrade</span><span class="help-cell help-cell-desc">: Upgrade some tools</span><span class="help-cell help-cell-note"></span></div>
-</div></div>
-<span class="help-author">Author r0fus0d , feel free to submit an issue if you need to add tool support or run into problems</span>
+        <!-- Card 2 -->
+        <div class="glow-card bg-surface rounded-2xl p-6">
+          <div class="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3 class="font-semibold text-white mb-1" data-i18n="feat2t">即装即用</h3>
+          <p class="text-dim text-sm leading-relaxed" data-i18n="feat2b">自动检测 OS 和依赖，按需编译或拉取二进制，支持主流 Linux 发行版 + arm64</p>
         </div>
+        <!-- Card 3 -->
+        <div class="glow-card bg-surface rounded-2xl p-6">
+          <div class="w-10 h-10 rounded-xl bg-cyber/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-cyber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+          </div>
+          <h3 class="font-semibold text-white mb-1" data-i18n="feat3t">可插拔选项</h3>
+          <p class="text-dim text-sm leading-relaxed" data-i18n="feat3b">108+ 独立 flag，按需组合，减少重复配置</p>
+        </div>
+        <!-- Card 4 -->
+        <div class="glow-card bg-surface rounded-2xl p-6">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+          </div>
+          <h3 class="font-semibold text-white mb-1" data-i18n="feat4t">CI/CD 友好</h3>
+          <p class="text-dim text-sm leading-relaxed" data-i18n="feat4b">创建 /tmp/IS_CI 即可非交互运行，完美适配 GitHub Actions、GitLab CI 等流水线</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ TOOL CATALOG ══════════ -->
+    <section id="catalog" class="py-20 reveal">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" data-i18n="catalogTitle">工具目录</h2>
+        <p class="text-dim text-sm" id="catalogStats">
+          <span id="catalogCount">108</span> <span data-i18n="catalogModules">个模块，覆盖</span> <span id="catalogCats">10</span> <span data-i18n="catalogCategories">个分类</span>
+        </p>
+      </div>
+      <!-- Search -->
+      <div class="max-w-md mx-auto mb-6">
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dim" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="catalogSearch" placeholder="Search tools..." data-i18n-placeholder="catalogSearch"
+                 class="w-full bg-surface border border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-sm text-white placeholder:text-dim focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-colors">
+        </div>
+      </div>
+      <!-- Category filters -->
+      <div class="flex flex-wrap justify-center gap-2 mb-8" id="catFilters">
+        <!-- Populated by JS -->
+      </div>
+      <!-- Module grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 catalog-grid" id="catalogGrid" style="max-height: 600px; overflow-y: auto; padding-right: 4px;">
+        <!-- Populated by JS -->
+      </div>
+      <div class="text-center mt-4">
+        <button id="catalogExpand" class="text-sm text-dim hover:text-primary transition-colors cursor-pointer hidden" data-i18n="showAll">
+          显示全部
+        </button>
+      </div>
+    </section>
+
+    <!-- ══════════ PRESETS ══════════ -->
+    <section id="presets" class="py-20 reveal">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3" data-i18n="presetsTitle">快速组合方案</h2>
+        <p class="text-dim text-sm" data-i18n="presetsSub">常用场景的一键部署命令</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Preset 1 -->
+        <div class="glow-card bg-surface rounded-xl p-5 group">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-2 h-2 rounded-full bg-red-400"></div>
+            <span class="text-sm font-semibold text-white" data-i18n="presetReconTitle">渗透全套</span>
+          </div>
+          <p class="text-xs text-dim mb-3" data-i18n="presetReconDesc">安装全部侦查 + 利用工具</p>
+          <div class="bg-term rounded-lg px-3 py-2 font-mono text-xs flex items-center justify-between">
+            <code><span class="text-accent">$</span> <span class="text-slate-300">f8x -ka -kb</span></code>
+            <button class="copy-btn text-dim hover:text-primary transition-colors cursor-pointer p-1" data-cmd="f8x -ka -kb" aria-label="Copy command">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <!-- Preset 2 -->
+        <div class="glow-card bg-surface rounded-xl p-5 group">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-2 h-2 rounded-full bg-green-400"></div>
+            <span class="text-sm font-semibold text-white" data-i18n="presetDevTitle">开发环境</span>
+          </div>
+          <p class="text-xs text-dim mb-3" data-i18n="presetDevDesc">Python3, Go, Docker, Node.js, SDKMAN</p>
+          <div class="bg-term rounded-lg px-3 py-2 font-mono text-xs flex items-center justify-between">
+            <code><span class="text-accent">$</span> <span class="text-slate-300">f8x -d</span></code>
+            <button class="copy-btn text-dim hover:text-primary transition-colors cursor-pointer p-1" data-cmd="f8x -d" aria-label="Copy command">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <!-- Preset 3 -->
+        <div class="glow-card bg-surface rounded-xl p-5 group">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+            <span class="text-sm font-semibold text-white" data-i18n="presetBlueTitle">蓝队防御</span>
+          </div>
+          <p class="text-xs text-dim mb-3" data-i18n="presetBlueDesc">Fail2Ban, rkhunter, anti-portscan</p>
+          <div class="bg-term rounded-lg px-3 py-2 font-mono text-xs flex items-center justify-between">
+            <code><span class="text-accent">$</span> <span class="text-slate-300">f8x -s</span></code>
+            <button class="copy-btn text-dim hover:text-primary transition-colors cursor-pointer p-1" data-cmd="f8x -s" aria-label="Copy command">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <!-- Preset 4 -->
+        <div class="glow-card bg-surface rounded-xl p-5 group">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-2 h-2 rounded-full bg-red-400"></div>
+            <span class="text-sm font-semibold text-white" data-i18n="presetC2Title">C2 快速部署</span>
+          </div>
+          <p class="text-xs text-dim mb-3" data-i18n="presetC2Desc">CobaltStrike + frp + RedGuard</p>
+          <div class="bg-term rounded-lg px-3 py-2 font-mono text-xs flex items-center justify-between">
+            <code><span class="text-accent">$</span> <span class="text-slate-300">f8x -cs45 -frp -rg</span></code>
+            <button class="copy-btn text-dim hover:text-primary transition-colors cursor-pointer p-1" data-cmd="f8x -cs45 -frp -rg" aria-label="Copy command">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <!-- Preset 5 -->
+        <div class="glow-card bg-surface rounded-xl p-5 group">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-2 h-2 rounded-full bg-slate-400"></div>
+            <span class="text-sm font-semibold text-white" data-i18n="presetBasicTitle">基础环境</span>
+          </div>
+          <p class="text-xs text-dim mb-3" data-i18n="presetBasicDesc">基础工具 + SSH + Zsh</p>
+          <div class="bg-term rounded-lg px-3 py-2 font-mono text-xs flex items-center justify-between">
+            <code><span class="text-accent">$</span> <span class="text-slate-300">f8x -b -ssh -zsh</span></code>
+            <button class="copy-btn text-dim hover:text-primary transition-colors cursor-pointer p-1" data-cmd="f8x -b -ssh -zsh" aria-label="Copy command">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+        <!-- Preset 6 -->
+        <div class="glow-card bg-surface rounded-xl p-5 group">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+            <span class="text-sm font-semibold text-white" data-i18n="presetReconLightTitle">轻量侦查</span>
+          </div>
+          <p class="text-xs text-dim mb-3" data-i18n="presetReconLightDesc">nmap, httpx, subfinder, ffuf ...</p>
+          <div class="bg-term rounded-lg px-3 py-2 font-mono text-xs flex items-center justify-between">
+            <code><span class="text-accent">$</span> <span class="text-slate-300">f8x -ka</span></code>
+            <button class="copy-btn text-dim hover:text-primary transition-colors cursor-pointer p-1" data-cmd="f8x -ka" aria-label="Copy command">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ REDC INTEGRATION ══════════ -->
+    <section id="redc" class="py-20 reveal">
+      <div class="glow-card bg-surface rounded-2xl p-6 sm:p-10">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <h2 class="text-xl sm:text-2xl font-bold" data-i18n="redcTitle">redc × f8x 融合</h2>
+            </div>
+            <p class="text-dim text-sm leading-relaxed mb-6" data-i18n="redcDesc">redc 是一个桌面级多云管理平台，内置 f8x 软件商店。通过 GUI 一键部署 f8x 的全部工具到任意远程主机。</p>
+            <a href="https://github.com/ffffffff0x/redc" target="_blank" rel="noreferrer"
+               class="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-dim transition-colors cursor-pointer">
+              <span data-i18n="redcLink">了解 redc</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-bg rounded-xl p-4 border border-white/5">
+              <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
+                <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat1">GUI 管理面板</span>
+            </div>
+            <div class="bg-bg rounded-xl p-4 border border-white/5">
+              <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mb-2">
+                <svg class="w-4 h-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9"/></svg>
+              </div>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat2">多云远程部署</span>
+            </div>
+            <div class="bg-bg rounded-xl p-4 border border-white/5">
+              <div class="w-8 h-8 rounded-lg bg-cyber/10 flex items-center justify-center mb-2">
+                <svg class="w-4 h-4 text-cyber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat3">AI 智能运维</span>
+            </div>
+            <div class="bg-bg rounded-xl p-4 border border-white/5">
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center mb-2">
+                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+              </div>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat4">f8x 软件商店</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ FAQ ══════════ -->
+    <section id="faq" class="py-20 reveal">
+      <div class="text-center mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3">FAQ</h2>
+        <p class="text-dim text-sm" data-i18n="faqSub">常见问题</p>
+      </div>
+      <div class="max-w-2xl mx-auto space-y-4">
+        <div class="glow-card bg-surface rounded-xl px-5 py-5">
+          <h3 class="text-sm font-medium text-white mb-2" data-i18n="faq1q">f8x 支持哪些操作系统？</h3>
+          <p class="text-sm text-dim leading-relaxed" data-i18n="faq1a">支持 Ubuntu, Debian, CentOS, Fedora, Kali, AlmaLinux, Rocky Linux 等主流发行版，同时支持 x86_64 和 arm64 架构。</p>
+        </div>
+        <div class="glow-card bg-surface rounded-xl px-5 py-5">
+          <h3 class="text-sm font-medium text-white mb-2" data-i18n="faq2q">如何在 CI/CD 中使用？</h3>
+          <p class="text-sm text-dim leading-relaxed" data-i18n="faq2a">在执行 f8x 之前创建 /tmp/IS_CI 文件即可跳过所有交互确认：touch /tmp/IS_CI && bash f8x -b</p>
+        </div>
+        <div class="glow-card bg-surface rounded-xl px-5 py-5">
+          <h3 class="text-sm font-medium text-white mb-2" data-i18n="faq3q">f8x 和 f8x-ctf 有什么区别？</h3>
+          <p class="text-sm text-dim leading-relaxed" data-i18n="faq3a">f8x 是通用版本，适合日常渗透和运维；f8x-ctf 是 CTF 竞赛专用版，预装了 CTF 常用工具如 pwntools, z3, sage 等。</p>
+        </div>
+        <div class="glow-card bg-surface rounded-xl px-5 py-5">
+          <h3 class="text-sm font-medium text-white mb-2" data-i18n="faq4q">安装过程中遇到问题怎么办？</h3>
+          <p class="text-sm text-dim leading-relaxed" data-i18n="faq4a">请在 GitHub 提交 Issue，附上系统信息（f8x -info 输出）和错误日志。社区会尽快响应。</p>
+        </div>
+        <div class="glow-card bg-surface rounded-xl px-5 py-5">
+          <h3 class="text-sm font-medium text-white mb-2" data-i18n="faq5q">如何更新 f8x 到最新版本？</h3>
+          <p class="text-sm text-dim leading-relaxed" data-i18n="faq5a">运行 f8x -update 即可自动更新到最新版本。也可以重新下载脚本覆盖。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer class="border-t border-white/5 py-10 mt-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="text-lg font-bold font-mono tracking-tighter">
+            <span class="text-primary">f</span><span class="text-white">8</span><span class="text-primary">x</span>
+          </span>
+          <span class="text-xs text-dim">Apache-2.0</span>
+        </div>
+        <div class="flex items-center gap-4 text-xs text-dim">
+          <a href="https://github.com/ffffffff0x/f8x" target="_blank" rel="noreferrer" class="hover:text-white transition-colors cursor-pointer">GitHub</a>
+          <a href="https://github.com/ffffffff0x/f8x/blob/main/CHANGELOG.md" target="_blank" rel="noreferrer" class="hover:text-white transition-colors cursor-pointer">Changelog</a>
+          <a href="https://github.com/ffffffff0x" target="_blank" rel="noreferrer" class="hover:text-white transition-colors cursor-pointer">ffffffff0x</a>
+          <a href="https://www.wgpsec.org" target="_blank" rel="noreferrer" class="hover:text-white transition-colors cursor-pointer">WgpSec</a>
+        </div>
+        <p class="text-xs text-dim/60">
+          Made by <a href="https://github.com/ffffffff0x" target="_blank" rel="noreferrer" class="hover:text-dim transition-colors">ffffffff0x</a> Team
+        </p>
       </div>
     </div>
+  </footer>
 
-    <!-- ── presets ── -->
-    <div class="section" id="presets">
-      <div class="section-head"><span class="num">#</span> <span data-i18n="presetsTitle">快速组合方案</span></div>
-      <div class="term">
-        <div class="term-bar">
-          <div class="term-dot r"></div>
-          <div class="term-dot y"></div>
-          <div class="term-dot g"></div>
-          <div class="term-title">bash — presets</div>
-        </div>
-        <div class="term-body">
-          <ul class="preset-list">
-            <li>
-              <span class="example-comment"># <span data-i18n="presetReconDesc">安装全部侦查 + 利用工具</span></span>
-            </li>
-            <li>
-              <span class="preset-alias">alias</span>
-              <span class="preset-cmd">pentest-full=<span style="color:var(--yellow)">'f8x -ka -kb'</span></span>
-              <span class="preset-desc" data-i18n="presetReconTitle">渗透全套</span>
-            </li>
-            <li>
-              <span class="example-comment"># <span data-i18n="presetDevDesc">Python3, Go, Docker, Node.js, SDKMAN</span></span>
-            </li>
-            <li>
-              <span class="preset-alias">alias</span>
-              <span class="preset-cmd">dev-env=<span style="color:var(--yellow)">'f8x -d'</span></span>
-              <span class="preset-desc" data-i18n="presetDevTitle">开发环境</span>
-            </li>
-            <li>
-              <span class="example-comment"># <span data-i18n="presetBlueDesc">Fail2Ban, rkhunter, anti-portscan</span></span>
-            </li>
-            <li>
-              <span class="preset-alias">alias</span>
-              <span class="preset-cmd">blue-team=<span style="color:var(--yellow)">'f8x -s'</span></span>
-              <span class="preset-desc" data-i18n="presetBlueTitle">蓝队防御</span>
-            </li>
-            <li>
-              <span class="example-comment"># <span data-i18n="presetC2Desc">CobaltStrike + frp + RedGuard</span></span>
-            </li>
-            <li>
-              <span class="preset-alias">alias</span>
-              <span class="preset-cmd">c2-setup=<span style="color:var(--yellow)">'f8x -cs45 -frp -rg'</span></span>
-              <span class="preset-desc" data-i18n="presetC2Title">C2 快速部署</span>
-            </li>
-            <li>
-              <span class="example-comment"># <span data-i18n="presetBasicDesc">基础工具 + SSH + Zsh</span></span>
-            </li>
-            <li>
-              <span class="preset-alias">alias</span>
-              <span class="preset-cmd">basic-all=<span style="color:var(--yellow)">'f8x -b -ssh -zsh'</span></span>
-              <span class="preset-desc" data-i18n="presetBasicTitle">基础环境</span>
-            </li>
-            <li>
-              <span class="example-comment"># <span data-i18n="presetReconLightDesc">nmap, httpx, subfinder, ffuf ...</span></span>
-            </li>
-            <li>
-              <span class="preset-alias">alias</span>
-              <span class="preset-cmd">recon-light=<span style="color:var(--yellow)">'f8x -ka'</span></span>
-              <span class="preset-desc" data-i18n="presetReconLightTitle">轻量侦查</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── redc integration ── -->
-    <div class="section" id="redc">
-      <div class="section-head"><span class="num">#</span> <span data-i18n="redcTitle">redc × f8x 融合</span></div>
-      <div class="term">
-        <div class="term-bar">
-          <div class="term-dot r"></div>
-          <div class="term-dot y"></div>
-          <div class="term-dot g"></div>
-          <div class="term-title">redc — software store</div>
-        </div>
-        <div class="term-body redc-flow">
-<div><span class="example-comment"># <span data-i18n="redcFlowDesc">redc 多云部署平台内置 f8x 软件商店，部署后一键装机</span></span></div>
-<div style="margin:12px 0;">
-<span class="flow-label">redc GUI</span> <span class="flow-arrow">──▶</span> <span class="flow-box" data-i18n="redcFlowStore">软件商店 (98 tools)</span> <span class="flow-arrow">──▶</span> <span class="flow-box">SSH</span> <span class="flow-arrow">──▶</span> <span class="flow-box">VPS</span>
-</div>
-<div style="margin-bottom:12px;">
-<span class="flow-arrow">               │</span>
-</div>
-<div style="margin-bottom:12px;">
-<span class="flow-arrow">               ├──</span> <span class="flow-box">wget -O /tmp/f8x https://f8x.wgpsec.org/f8x</span>
-</div>
-<div style="margin-bottom:12px;">
-<span class="flow-arrow">               ├──</span> <span class="flow-box">bash /tmp/f8x -nmap -ffuf -httpx</span>
-</div>
-<div style="margin-bottom:4px;">
-<span class="flow-arrow">               └──</span> <span class="flow-box" data-i18n="redcFlowStream">实时输出 → SSH 终端</span>
-</div>
-<div style="margin-top:16px;"><span class="example-comment"># <span data-i18n="redcFlowNote">f8x 作为 redc 的软件安装引擎，用户通过 GUI 选择工具，redc 通过 SSH 在目标机器执行 f8x</span></span></div>
-        </div>
-      </div>
-
-      <div class="redc-features">
-        <div class="redc-feat">
-          <div class="redc-feat-icon">🖥️</div>
-          <div class="redc-feat-title" data-i18n="redcFeat1t">GUI 软件商店</div>
-          <div class="redc-feat-body" data-i18n="redcFeat1b">在 redc 中以可视化商店形式浏览 f8x 全部 98 个工具模块，分类筛选、搜索、批量勾选</div>
-        </div>
-        <div class="redc-feat">
-          <div class="redc-feat-icon">📡</div>
-          <div class="redc-feat-title" data-i18n="redcFeat2t">SSH 终端联动</div>
-          <div class="redc-feat-body" data-i18n="redcFeat2b">安装过程在 redc 内置 SSH 终端实时展示，用户可直接交互处理安装选项</div>
-        </div>
-        <div class="redc-feat">
-          <div class="redc-feat-icon">☁️</div>
-          <div class="redc-feat-title" data-i18n="redcFeat3t">多云部署后装机</div>
-          <div class="redc-feat-body" data-i18n="redcFeat3b">redc 一键部署 AWS/阿里云/GCP 等 VPS 后，直接在软件商店选择工具完成环境搭建</div>
-        </div>
-        <div class="redc-feat">
-          <div class="redc-feat-icon">🔄</div>
-          <div class="redc-feat-title" data-i18n="redcFeat4t">catalog 自动同步</div>
-          <div class="redc-feat-body" data-i18n="redcFeat4b">f8x 工具目录通过 catalog.json 自动同步到 redc，f8x 新增工具后 redc 自动更新</div>
-        </div>
-      </div>
-
-      <div style="margin-top:16px; font-size:12px; color:var(--dim); text-align:center;">
-        <a href="https://github.com/wgpsec/redc" target="_blank" rel="noreferrer" style="color:var(--red);" data-i18n="redcLink">了解 redc 多云部署平台 →</a>
-      </div>
-    </div>
-
-    <!-- ── examples ── -->
-    <div class="section" id="examples">
-      <div class="section-head"><span class="num">#</span> <span data-i18n="examplesTitle">使用示例</span></div>
-      <div class="term">
-        <div class="term-bar">
-          <div class="term-dot r"></div>
-          <div class="term-dot y"></div>
-          <div class="term-dot g"></div>
-          <div class="term-title">bash — examples</div>
-        </div>
-        <div class="term-body">
-          <div class="example-block">
-            <div><span class="example-comment"># <span data-i18n="exInstall">下载安装 f8x</span></span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">curl -o f8x https://f8x.wgpsec.org/f8x && chmod +x f8x</span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">mv f8x /usr/local/bin/</span></div>
-          </div>
-          <div class="example-block">
-            <div><span class="example-comment"># <span data-i18n="exBase">安装基础环境 + 渗透工具集</span></span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">f8x -b</span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">f8x -ka</span></div>
-          </div>
-          <div class="example-block">
-            <div><span class="example-comment"># <span data-i18n="exC2">部署 C2 基础设施</span></span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">f8x -cs45 -frp -rg</span></div>
-          </div>
-          <div class="example-block">
-            <div><span class="example-comment"># <span data-i18n="exCI">CI/CD 非交互模式</span></span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">touch /tmp/IS_CI && f8x -k</span></div>
-          </div>
-          <div class="example-block">
-            <div><span class="example-comment"># <span data-i18n="exCtf">CTF 环境</span></span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">wget -O f8x-ctf https://f8x.wgpsec.org/f8x-ctf && bash f8x-ctf -help</span></div>
-          </div>
-          <div class="example-block">
-            <div><span class="example-comment"># <span data-i18n="exDev">中间件/数据库环境</span></span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">wget -O f8x-dev https://f8x.wgpsec.org/f8x-dev && bash f8x-dev -help</span></div>
-          </div>
-          <div class="example-block">
-            <div><span class="example-comment"># <span data-i18n="exVersion">固定工具版本</span></span></div>
-            <div><span class="example-prompt">$ </span><span class="example-cmd">vim f8x_version.sh</span>  <span class="example-comment"># <span data-i18n="exVersionNote">覆盖变量以固定版本</span></span></div>
-          </div>
-          <div class="example-block" style="margin-bottom:0">
-            <div><span class="example-comment"># <span data-i18n="exDemo">在线演示录像</span></span></div>
-            <div><span class="example-out">  <a href="https://asciinema.org/a/WTGNRBd9WYLHUOgZcce9sjkeY" target="_blank" rel="noreferrer">CentOS 7</a> · <a href="https://asciinema.org/a/Mq0N07O9K2jWsDuUoukHTEVOt" target="_blank" rel="noreferrer">Debian 10</a> · <a href="https://asciinema.org/a/NccoFLvW5Xcl0PW0HnTu32vHf" target="_blank" rel="noreferrer">Fedora 33</a> · <a href="https://asciinema.org/a/Us90ody5ffAOIrr9p93dmO8Ct" target="_blank" rel="noreferrer">Ubuntu 20.10</a></span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── faq ── -->
-    <div class="section" id="faq">
-      <div class="section-head"><span class="num">#</span> FAQ</div>
-      <div class="term">
-        <div class="term-bar">
-          <div class="term-dot r"></div>
-          <div class="term-dot y"></div>
-          <div class="term-dot g"></div>
-          <div class="term-title">bash — faq</div>
-        </div>
-        <div class="term-body">
-          <div class="faq-item">
-            <div class="faq-q" data-i18n="faqQ1">-p 选项做什么?</div>
-            <div class="faq-a" data-i18n="faqA1">替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" data-i18n="faqQ2">如何避免交互?</div>
-            <div class="faq-a" data-i18n="faqA2">创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x。</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" data-i18n="faqQ3">许可证与社区?</div>
-            <div class="faq-a">Apache License 2.0 · <a href="https://github.com/knownsec/404StarLink2.0-Galaxy#community" target="_blank" rel="noreferrer">404Team StarLink 2.0</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── footer ── -->
-    <footer>
-      <div>f8x · Apache License 2.0 · <a href="https://www.wgpsec.org/" target="_blank" rel="noreferrer">WgpSec</a></div>
-    </footer>
-
-  </div>
-
+  <!-- ══════════ JAVASCRIPT ══════════ -->
   <script>
-    const i18n = {
+  (function() {
+    'use strict';
+
+    // ── i18n ──
+    const LANG = {
       zh: {
-        navStart: '快速开始', navOptions: '选项', navPresets: '方案', navRedc: 'redc', navExamples: '示例', navFaq: 'FAQ',
-        heroTagline: '红蓝队环境自动化部署工具',
-        copyHint: '点击复制',
-        dlPages: 'Pages 下载', dlRaw: 'Raw 下载', dlRepo: 'GitHub 仓库',
-        whyTitle: '为什么选择 f8x',
-        feat1t: '多场景覆盖', feat1b: '红队、蓝队、渗透、云、安全开发、代理 — 一套脚本搞定',
-        feat2t: '即装即用', feat2b: '自动检测依赖，按需编译/拉取，支持主流 Linux + arm64',
-        feat3t: '可插拔选项', feat3b: '通过 flag 自由组合，减少重复配置',
-        feat4t: 'CI/CD 友好', feat4b: '创建 /tmp/IS_CI 即可非交互运行，适配流水线',
-        optionsTitle: 'f8x -h',
-        presetsTitle: '快速组合方案',
+        navFeatures: '功能', navCatalog: '工具目录', navPresets: '组合方案',
+        heroBadge: '开源 · Apache-2.0 · 持续维护',
+        heroTitle: '红蓝队环境<br>自动化部署工具',
+        heroDesc: ' 款安全工具，一条命令部署。覆盖渗透、防御、开发、云原生。',
+        ctaGithub: '查看源码', ctaDownload: '下载脚本', copied: '已复制!',
+        featTitle: '为什么选择 f8x', featSub: '一键部署，无需手动配置每个工具的依赖与编译环境',
+        feat1t: '多场景覆盖', feat1b: '红队渗透、蓝队防御、开发环境、云原生、安全靶场 — 一套脚本覆盖全部场景，告别逐个安装的痛苦',
+        feat2t: '即装即用', feat2b: '自动检测 OS 和依赖，按需编译或拉取二进制，支持主流 Linux 发行版 + arm64',
+        feat3t: '可插拔选项', feat3b: '108+ 独立 flag，按需组合，减少重复配置',
+        feat4t: 'CI/CD 友好', feat4b: '创建 /tmp/IS_CI 即可非交互运行，完美适配 GitHub Actions、GitLab CI 等自动化流水线',
+        catalogTitle: '工具目录', catalogModules: '个模块，覆盖', catalogCategories: '个分类',
+        catalogSearch: '搜索工具...', showAll: '显示全部', collapseAll: '收起',
+        presetsTitle: '快速组合方案', presetsSub: '常用场景的一键部署命令',
         presetReconTitle: '渗透全套', presetReconDesc: '安装全部侦查 + 利用工具',
         presetDevTitle: '开发环境', presetDevDesc: 'Python3, Go, Docker, Node.js, SDKMAN',
         presetBlueTitle: '蓝队防御', presetBlueDesc: 'Fail2Ban, rkhunter, anti-portscan',
         presetC2Title: 'C2 快速部署', presetC2Desc: 'CobaltStrike + frp + RedGuard',
         presetBasicTitle: '基础环境', presetBasicDesc: '基础工具 + SSH + Zsh',
         presetReconLightTitle: '轻量侦查', presetReconLightDesc: 'nmap, httpx, subfinder, ffuf ...',
-        redcTitle: 'redc × f8x 融合',
-        redcFlowDesc: 'redc 多云部署平台内置 f8x 软件商店，部署后一键装机',
-        redcFlowStore: '软件商店 (98 tools)',
-        redcFlowStream: '实时输出 → SSH 终端',
-        redcFlowNote: 'f8x 作为 redc 的软件安装引擎，用户通过 GUI 选择工具，redc 通过 SSH 在目标机器执行 f8x',
-        redcFeat1t: 'GUI 软件商店', redcFeat1b: '在 redc 中以可视化商店形式浏览 f8x 全部 98 个工具模块，分类筛选、搜索、批量勾选',
-        redcFeat2t: 'SSH 终端联动', redcFeat2b: '安装过程在 redc 内置 SSH 终端实时展示，用户可直接交互处理安装选项',
-        redcFeat3t: '多云部署后装机', redcFeat3b: 'redc 一键部署 AWS/阿里云/GCP 等 VPS 后，直接在软件商店选择工具完成环境搭建',
-        redcFeat4t: 'catalog 自动同步', redcFeat4b: 'f8x 工具目录通过 catalog.json 自动同步到 redc，f8x 新增工具后 redc 自动更新',
-        redcLink: '了解 redc 多云部署平台 →',
-        examplesTitle: '使用示例',
-        exInstall: '下载安装 f8x', exBase: '安装基础环境 + 渗透工具集', exC2: '部署 C2 基础设施',
-        exCI: 'CI/CD 非交互模式', exCtf: 'CTF 环境', exDev: '中间件/数据库环境',
-        exVersion: '固定工具版本', exVersionNote: '覆盖变量以固定版本', exDemo: '在线演示录像',
-        faqQ1: '-p 选项做什么?',
-        faqA1: '替换 DNS、检查基础编译环境、可选编译安装 Proxychains-ng、提示配置 /etc/proxychains.conf、设置 pip 与 docker 代理并重启服务。',
-        faqQ2: '如何避免交互?',
-        faqA2: '创建 /tmp/IS_CI 文件即可在 CI/CD 中非交互执行 f8x。',
-        faqQ3: '许可证与社区?'
+        redcTitle: 'redc × f8x 融合', redcDesc: 'redc 是一个桌面级多云管理平台，内置 f8x 软件商店。通过 GUI 一键部署 f8x 的全部工具到任意远程主机。',
+        redcLink: '了解 redc', redcFeat1: 'GUI 管理面板', redcFeat2: '多云远程部署', redcFeat3: 'AI 智能运维', redcFeat4: 'f8x 软件商店',
+        faqSub: '常见问题',
+        faq1q: 'f8x 支持哪些操作系统？', faq1a: '支持 Ubuntu, Debian, CentOS, Fedora, Kali, AlmaLinux, Rocky Linux 等主流发行版，同时支持 x86_64 和 arm64 架构。',
+        faq2q: '如何在 CI/CD 中使用？', faq2a: '在执行 f8x 之前创建 /tmp/IS_CI 文件即可跳过所有交互确认：touch /tmp/IS_CI && bash f8x -b',
+        faq3q: 'f8x 和 f8x-ctf 有什么区别？', faq3a: 'f8x 是通用版本，适合日常渗透和运维；f8x-ctf 是 CTF 竞赛专用版，预装了 CTF 常用工具如 pwntools, z3, sage 等。',
+        faq4q: '安装过程中遇到问题怎么办？', faq4a: '请在 GitHub 提交 Issue，附上系统信息（f8x -info 输出）和错误日志。社区会尽快响应。',
+        faq5q: '如何更新 f8x 到最新版本？', faq5a: '运行 f8x -update 即可自动更新到最新版本。也可以重新下载脚本覆盖。',
       },
       en: {
-        navStart: 'Start', navOptions: 'Options', navPresets: 'Presets', navRedc: 'redc', navExamples: 'Examples', navFaq: 'FAQ',
-        heroTagline: 'Red/Blue Team Environment Automation',
-        copyHint: 'click to copy',
-        dlPages: 'Pages CDN', dlRaw: 'Raw download', dlRepo: 'GitHub repo',
-        whyTitle: 'Why f8x',
-        feat1t: 'Multi-scenario', feat1b: 'Red team, blue team, pentest, cloud, dev, proxy — one script does it all',
-        feat2t: 'Ready on install', feat2b: 'Auto-detects deps, compiles or pulls as needed. Supports major Linux distros + arm64',
-        feat3t: 'Pluggable flags', feat3b: 'Mix and match flags to cut repetitive setup',
-        feat4t: 'CI/CD friendly', feat4b: 'Drop /tmp/IS_CI for non-interactive pipeline runs',
-        optionsTitle: 'f8x -h',
-        presetsTitle: 'Quick Combo Presets',
-        presetReconTitle: 'Full Pentest', presetReconDesc: 'All recon + exploit tools',
+        navFeatures: 'Features', navCatalog: 'Catalog', navPresets: 'Presets',
+        heroBadge: 'Open Source · Apache-2.0 · Actively Maintained',
+        heroTitle: 'Red/Blue Team<br>Automation Toolkit',
+        heroDesc: ' security tools deployed with one command. Covers pentest, defense, dev, and cloud.',
+        ctaGithub: 'View Source', ctaDownload: 'Download Script', copied: 'Copied!',
+        featTitle: 'Why f8x', featSub: 'One-click deployment — no manual dependency configuration needed',
+        feat1t: 'Multi-Scenario', feat1b: 'Red team, blue team, dev env, cloud native, vuln labs — one script covers all scenarios',
+        feat2t: 'Ready to Use', feat2b: 'Auto-detects OS and deps, compiles or pulls binaries on demand. Supports major Linux distros + arm64',
+        feat3t: 'Modular Flags', feat3b: '108+ independent flags, combine as needed, minimize repeated setup',
+        feat4t: 'CI/CD Friendly', feat4b: 'Create /tmp/IS_CI for non-interactive mode, works with GitHub Actions, GitLab CI and more',
+        catalogTitle: 'Tool Catalog', catalogModules: ' modules across ', catalogCategories: ' categories',
+        catalogSearch: 'Search tools...', showAll: 'Show all', collapseAll: 'Collapse',
+        presetsTitle: 'Quick Presets', presetsSub: 'One-liner commands for common scenarios',
+        presetReconTitle: 'Full Pentest', presetReconDesc: 'All recon + exploitation tools',
         presetDevTitle: 'Dev Environment', presetDevDesc: 'Python3, Go, Docker, Node.js, SDKMAN',
         presetBlueTitle: 'Blue Team', presetBlueDesc: 'Fail2Ban, rkhunter, anti-portscan',
-        presetC2Title: 'C2 Setup', presetC2Desc: 'CobaltStrike + frp + RedGuard',
-        presetBasicTitle: 'Basic Setup', presetBasicDesc: 'Base tools + SSH + Zsh',
-        presetReconLightTitle: 'Recon Light', presetReconLightDesc: 'nmap, httpx, subfinder, ffuf ...',
-        redcTitle: 'redc × f8x Integration',
-        redcFlowDesc: 'redc multi-cloud platform has a built-in f8x software store for post-deploy provisioning',
-        redcFlowStore: 'Software Store (98 tools)',
-        redcFlowStream: 'Live output → SSH terminal',
-        redcFlowNote: 'f8x serves as redc\'s tool installation engine — users pick tools in GUI, redc executes f8x on targets via SSH',
-        redcFeat1t: 'GUI Software Store', redcFeat1b: 'Browse all 98 f8x modules visually in redc — filter by category, search, batch select',
-        redcFeat2t: 'SSH Terminal Sync', redcFeat2b: 'Install output streams live to redc\'s built-in SSH terminal, allowing interactive input',
-        redcFeat3t: 'Post-deploy Provisioning', redcFeat3b: 'After deploying VPS on AWS/Alibaba/GCP via redc, pick tools in the store to set up the environment',
-        redcFeat4t: 'Auto Catalog Sync', redcFeat4b: 'f8x tool catalog (catalog.json) auto-syncs to redc — new tools in f8x appear in redc automatically',
-        redcLink: 'Learn about redc multi-cloud platform →',
-        examplesTitle: 'Usage Examples',
-        exInstall: 'Download & install f8x', exBase: 'Base env + pentest toolkit', exC2: 'Deploy C2 infra',
-        exCI: 'CI/CD non-interactive', exCtf: 'CTF environment', exDev: 'Middleware/database env',
-        exVersion: 'Pin tool versions', exVersionNote: 'Override variables to pin versions', exDemo: 'Live demo recordings',
-        faqQ1: 'What does -p do?',
-        faqA1: 'Switches DNS, checks build basics, optionally compiles Proxychains-ng, sets pip & docker mirrors and restarts docker.',
-        faqQ2: 'How to avoid prompts?',
-        faqA2: 'Create /tmp/IS_CI to run f8x non-interactively in CI/CD.',
-        faqQ3: 'License & community?'
+        presetC2Title: 'C2 Quick Deploy', presetC2Desc: 'CobaltStrike + frp + RedGuard',
+        presetBasicTitle: 'Basic Setup', presetBasicDesc: 'Basic tools + SSH + Zsh',
+        presetReconLightTitle: 'Light Recon', presetReconLightDesc: 'nmap, httpx, subfinder, ffuf ...',
+        redcTitle: 'redc × f8x Integration', redcDesc: 'redc is a desktop multi-cloud management platform with a built-in f8x software store. Deploy all f8x tools to any remote host via GUI.',
+        redcLink: 'Learn about redc', redcFeat1: 'GUI Dashboard', redcFeat2: 'Multi-Cloud Deploy', redcFeat3: 'AI Operations', redcFeat4: 'f8x App Store',
+        faqSub: 'Frequently Asked Questions',
+        faq1q: 'What OS does f8x support?', faq1a: 'Supports Ubuntu, Debian, CentOS, Fedora, Kali, AlmaLinux, Rocky Linux and more. Both x86_64 and arm64 architectures.',
+        faq2q: 'How to use in CI/CD?', faq2a: 'Create /tmp/IS_CI before running f8x to skip all interactive prompts: touch /tmp/IS_CI && bash f8x -b',
+        faq3q: 'Difference between f8x and f8x-ctf?', faq3a: 'f8x is the general version for daily pentest and ops; f8x-ctf is CTF-specific with pre-installed tools like pwntools, z3, sage.',
+        faq4q: 'What if I encounter issues?', faq4a: 'Submit a GitHub Issue with your system info (f8x -info output) and error log. The community will respond promptly.',
+        faq5q: 'How to update f8x?', faq5a: 'Run f8x -update to auto-update. Or re-download the script to overwrite.',
       }
     };
 
+    const CATEGORIES = {
+      'basic':           { name: 'Basic',        nameZh: '基础环境',  color: 'bg-blue-500/15 text-blue-400 border-blue-500/20' },
+      'development':     { name: 'Development',  nameZh: '开发工具',  color: 'bg-green-500/15 text-green-400 border-green-500/20' },
+      'pentest-recon':   { name: 'Recon',        nameZh: '侦查',      color: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/20' },
+      'pentest-exploit': { name: 'Exploit',      nameZh: '利用',      color: 'bg-red-500/15 text-red-400 border-red-500/20' },
+      'pentest-post':    { name: 'Post-Exploit', nameZh: '后渗透',    color: 'bg-orange-500/15 text-orange-400 border-orange-500/20' },
+      'red-infra':       { name: 'Red Infra',    nameZh: '红队基建',  color: 'bg-red-500/15 text-red-400 border-red-500/20' },
+      'blue-team':       { name: 'Blue Team',    nameZh: '蓝队防御',  color: 'bg-blue-500/15 text-blue-400 border-blue-500/20' },
+      'vuln-env':        { name: 'Vuln Env',     nameZh: '靶场环境',  color: 'bg-amber-500/15 text-amber-400 border-amber-500/20' },
+      'system':          { name: 'System',       nameZh: '系统工具',  color: 'bg-slate-500/15 text-slate-400 border-slate-500/20' },
+      'misc':            { name: 'Misc',         nameZh: '杂项',      color: 'bg-slate-500/15 text-slate-400 border-slate-500/20' },
+    };
+
+    let currentLang = 'zh';
+    let catalogData = [];
+    let activeCategory = 'all';
+    let catalogExpanded = false;
+
+    // ── Apply language ──
     function applyLang(lang) {
-      const dict = i18n[lang] || i18n.zh;
-      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+      currentLang = lang;
+      const dict = LANG[lang];
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.dataset.i18n;
-        if (dict[key]) el.textContent = dict[key];
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.innerHTML = dict[key];
       });
-      const toggle = document.getElementById('langToggle');
-      if (toggle) toggle.textContent = lang === 'en' ? '中文' : 'EN';
-      localStorage.setItem('f8x_lang', lang);
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (dict[key]) el.placeholder = dict[key];
+      });
+      document.getElementById('langToggle').textContent = lang === 'zh' ? 'EN' : '中文';
+      if (catalogData.length) renderCatalog();
     }
 
-    (function initLang() {
-      const stored = localStorage.getItem('f8x_lang');
-      const browser = (navigator.language || navigator.userLanguage || '').toLowerCase();
-      const preferred = stored || (browser.startsWith('en') ? 'en' : 'zh');
-      applyLang(preferred);
-      const toggle = document.getElementById('langToggle');
-      if (toggle) {
-        toggle.addEventListener('click', () => {
-          const next = (localStorage.getItem('f8x_lang') || preferred) === 'en' ? 'zh' : 'en';
-          applyLang(next);
+    document.getElementById('langToggle').addEventListener('click', () => {
+      applyLang(currentLang === 'zh' ? 'en' : 'zh');
+    });
+
+    // ── Catalog ──
+    function fetchCatalog() {
+      fetch('./catalog.json?t=' + Date.now())
+        .then(r => r.json())
+        .then(data => {
+          catalogData = data.modules || [];
+          const ver = data.version || 'v1.9.0';
+          document.getElementById('navVersion').textContent = 'v' + ver.split(' ')[0].replace(/^v/, '');
+          document.getElementById('heroModuleCount').textContent = catalogData.length;
+          document.getElementById('catalogCount').textContent = catalogData.length;
+          const cats = new Set(catalogData.map(m => m.category));
+          document.getElementById('catalogCats').textContent = cats.size;
+          renderCatFilters();
+          renderCatalog();
+        })
+        .catch(() => {
+          renderCatFilters();
+          renderCatalog();
         });
+    }
+
+    function renderCatFilters() {
+      const container = document.getElementById('catFilters');
+      const counts = {};
+      catalogData.forEach(m => { counts[m.category] = (counts[m.category] || 0) + 1; });
+
+      let html = '<button class="cat-pill active text-xs font-mono px-3 py-1.5 rounded-full border border-white/10 cursor-pointer transition-colors" data-cat="all">All (' + catalogData.length + ')</button>';
+      Object.entries(CATEGORIES).forEach(([key, cat]) => {
+        if (counts[key]) {
+          const label = currentLang === 'zh' ? cat.nameZh : cat.name;
+          html += '<button class="cat-pill text-xs font-mono px-3 py-1.5 rounded-full border border-white/10 text-dim hover:text-white cursor-pointer transition-colors" data-cat="' + key + '">' + label + ' (' + counts[key] + ')</button>';
+        }
+      });
+      container.innerHTML = html;
+
+      container.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategory = btn.getAttribute('data-cat');
+          renderCatalog();
+        });
+      });
+    }
+
+    function renderCatalog() {
+      const grid = document.getElementById('catalogGrid');
+      const search = (document.getElementById('catalogSearch').value || '').toLowerCase();
+      let filtered = catalogData.filter(m => {
+        const catMatch = activeCategory === 'all' || m.category === activeCategory;
+        const searchMatch = !search ||
+          m.name.toLowerCase().includes(search) ||
+          m.flag.toLowerCase().includes(search) ||
+          (m.description || '').toLowerCase().includes(search) ||
+          (m.descriptionZh || '').toLowerCase().includes(search);
+        return catMatch && searchMatch;
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-dim text-sm">' + (currentLang === 'zh' ? '未找到匹配的工具' : 'No matching tools found') + '</div>';
+        return;
       }
-    })();
+
+      grid.innerHTML = filtered.map(m => {
+        const cat = CATEGORIES[m.category] || CATEGORIES['misc'];
+        const catLabel = currentLang === 'zh' ? cat.nameZh : cat.name;
+        const desc = currentLang === 'zh' ? (m.descriptionZh || m.description) : m.description;
+        return '<div class="mod-card bg-surface rounded-xl p-4 border border-white/5 hover:border-primary/20 transition-all">' +
+          '<div class="flex items-center gap-2 mb-2">' +
+            '<code class="text-primary font-mono text-xs">' + m.flag + '</code>' +
+            '<span class="text-[10px] font-mono px-1.5 py-0.5 rounded-full border ' + cat.color + '">' + catLabel + '</span>' +
+          '</div>' +
+          '<p class="text-xs text-dim leading-relaxed">' + (desc || m.name) + '</p>' +
+        '</div>';
+      }).join('');
+
+      // Show/hide expand button
+      const expandBtn = document.getElementById('catalogExpand');
+      if (!catalogExpanded && filtered.length > 30) {
+        grid.style.maxHeight = '600px';
+        expandBtn.classList.remove('hidden');
+        expandBtn.textContent = LANG[currentLang].showAll;
+      } else {
+        grid.style.maxHeight = 'none';
+        expandBtn.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('catalogSearch').addEventListener('input', renderCatalog);
+    document.getElementById('catalogExpand').addEventListener('click', function() {
+      const grid = document.getElementById('catalogGrid');
+      catalogExpanded = !catalogExpanded;
+      if (catalogExpanded) {
+        grid.style.maxHeight = 'none';
+        this.textContent = LANG[currentLang].collapseAll;
+      } else {
+        grid.style.maxHeight = '600px';
+        this.textContent = LANG[currentLang].showAll;
+        grid.scrollTop = 0;
+      }
+    });
+
+    // ── Copy to clipboard ──
+    const installBox = document.getElementById('installBox');
+    installBox.addEventListener('click', () => {
+      const cmd = 'wget -O f8x https://f8x.wgpsec.org/f8x && chmod +x f8x && bash f8x -h';
+      navigator.clipboard.writeText(cmd).then(() => showToast('copyToast'));
+    });
+    installBox.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); installBox.click(); }
+    });
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const cmd = btn.getAttribute('data-cmd');
+        navigator.clipboard.writeText(cmd).then(() => {
+          btn.innerHTML = '<svg class="w-3.5 h-3.5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+          setTimeout(() => {
+            btn.innerHTML = '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+          }, 1500);
+        });
+      });
+    });
+
+    function showToast(id) {
+      const toast = document.getElementById(id);
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1500);
+    }
+
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Nav active highlighting ──
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = ['features', 'catalog', 'presets', 'redc', 'faq'];
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector('.nav-link[href="#' + entry.target.id + '"]');
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) navObserver.observe(el);
+    });
+
+    // ── Init ──
+    fetchCatalog();
+  })();
   </script>
+
 </body>
 </html>
