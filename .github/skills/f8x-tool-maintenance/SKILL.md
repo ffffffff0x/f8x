@@ -126,6 +126,8 @@ xxx|Pentest_xxx_Install|0
 
 ## 更新工具版本
 
+版本更新有独立的 skill，详见 `f8x-version-update`。以下是快速参考：
+
 1. 在 GitHub Releases 页面确认最新版本
 2. 修改版本变量 `xxx_Ver="vNEW"`
 3. **关键**：同步修改所有关联的文件名变量（`_bin_amd64`、`_bin_arm64`、`_File_*`、`_Dir_*`），版本号嵌在文件名里！
