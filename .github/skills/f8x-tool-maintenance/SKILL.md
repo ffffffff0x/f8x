@@ -1,6 +1,6 @@
 ---
 name: f8x-tool-maintenance
-description: 维护 f8x 安装器：新增工具安装函数、更新版本号、管理 F8X_TOOL_LIST 注册、构建 Arsenal 投递物。当需要往 f8x 添加新工具、更新现有工具版本、检查工具安装覆盖、构建 arsenal 多平台二进制时使用。涉及关键词：f8x、工具安装、arsenal、投递物、Pentest_Install、版本更新、F8X_TOOL_LIST。
+description: 维护 f8x 渗透工具安装器：新增工具安装函数、更新版本号、管理 F8X_TOOL_LIST 注册、构建 Arsenal 多平台投递物。当修改 f8x 脚本、添加新渗透工具、更新工具版本、检查工具覆盖、或构建 arsenal 二进制时，务必使用此 skill。即使用户只是提到 "装个 xxx 工具"、"f8x 里加一下"、"更新一下版本" 也应触发。
 ---
 
 # f8x 工具维护
@@ -83,6 +83,8 @@ xxx_bin_arm64="xxx_1.0.0_linux_arm64.tar.gz"
 | `-ke` | `kali_Tools_TypeE()` (行 10754) | 补充/大型字典 | SecLists, hakrawler, subjs, assetfinder |
 | `-ad` | `Ad_Tools()` (行 10773) | AD 域渗透专用 | impacket, certipy, noPac, ligolo-ng 等 |
 | `-cloud` | `cloud()` (行 10897) | 云安全 | k8spider, kubectl, kubeletctl, tccli 等 |
+
+**分类决策**：不确定放哪个 Type 时，看工具在渗透流程中的位置——收集目标信息用 TypeA，发现和利用漏洞用 TypeB，拿到 shell 之后的操作用 TypeC，不好归类的放 TypeD。TypeE 留给辅助资源（字典、被动收集）。域渗透/云安全有专门的 `-ad` / `-cloud`。
 
 格式：
 ```bash
@@ -170,6 +172,65 @@ xxx|Pentest_xxx_Install|0
 | `/Users/f0x/pte-project/infra-plat/f8x/f8x_version.sh` | 版本覆盖配置（source 加载，可选） |
 | `/Users/f0x/pte-project/infra-plat/f8x/check_releases.py` | 批量检查工具版本更新 |
 | `/Users/f0x/pte-project/infra-plat/f8x/doc/ai-friendly-tool-install-design.md` | AI 友好化改造设计文档 |
+
+## 端到端示例：添加 httpx
+
+以 ProjectDiscovery 的 httpx 为例，走一遍完整的 5 步流程：
+
+**Step 1** — 版本变量（行 93-370 区域，渗透工具段）：
+```bash
+# https://github.com/projectdiscovery/httpx/releases
+httpx_Ver="v1.6.10"
+httpx_bin_amd64="httpx_1.6.10_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.6.10_linux_arm64.zip"
+```
+
+**Step 2** — 安装函数（模板 A2，因为 release 是 zip 压缩包）：
+```bash
+Pentest_httpx_Install(){
+    name="httpx"
+    which httpx > /dev/null 2>&1
+    if [ $? == 0 ]; then
+        Echo_ALERT "$name installed"
+    else
+        case $Linux_architecture_Name in
+            *"linux-x86_64"*)  httpx_bin="${httpx_bin_amd64}" ;;
+            *"linux-arm64"*)   httpx_bin="${httpx_bin_arm64}" ;;
+            *)                 httpx_bin="${httpx_bin_amd64}" ;;
+        esac
+        local tmp_dir="/tmp/httpx_install"
+        mkdir -p "$tmp_dir"
+        $Proxy_OK wget ${GitProxy}https://github.com/projectdiscovery/httpx/releases/download/${httpx_Ver}/${httpx_bin} \
+            -O "$tmp_dir/${httpx_bin}" ${wget_option} 2>/dev/null || Echo_ERROR2
+        cd "$tmp_dir" && unzip -o "${httpx_bin}" > /dev/null 2>&1
+        mv "$tmp_dir/httpx" /usr/local/bin/httpx
+        chmod +x /usr/local/bin/httpx
+        rm -rf "$tmp_dir"
+        which httpx > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name $httpx_Ver" || Echo_ERROR3
+    fi
+}
+```
+
+**Step 3** — 注册到 `kali_Tools_TypeA()`（信息收集类工具）：
+```bash
+echo -e "\033[1;33m\n>> Installing httpx\n\033[0m"
+Pentest_httpx_Install
+```
+
+**Step 4** — 注册到 F8X_TOOL_LIST：
+```
+httpx|Pentest_httpx_Install|0
+```
+
+**Step 5** — Arsenal（可选）：httpx 是静态二进制，但通常在攻击机本地使用做 HTTP 探测，不需要投递到目标机 → 跳过。
+
+## 常见错误
+
+- **版本号不同步**：改了 `xxx_Ver` 但忘了改 `xxx_bin_amd64` 里的版本号 → 下载 404。这是最高频的错误
+- **写了函数但忘记注册**：安装函数写好了，但没有在 F8X_TOOL_LIST 里添加条目 → `-install xxx` 找不到工具
+- **工具名大小写不匹配**：F8X_TOOL_LIST 里工具名是小写（`nuclei|...`），搜索时也用小写匹配，不要写成大写
+- **Arsenal case 块缺 `;;`**：bash case 语法必须以 `;;` 结尾，漏了会导致穿透到下一个分支
+- **release 文件名变了没跟进**：上游项目改了 release 命名格式（比如从 `_amd64` 变成 `-amd64`），但 f8x 变量还是旧格式
 
 ## 参考文件
 
