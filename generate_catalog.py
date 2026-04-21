@@ -13,6 +13,8 @@ import sys
 import os
 from datetime import datetime, timezone
 
+TOOL_METADATA_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tool_metadata.json')
+
 # ── 分类映射表 ──
 # 根据 f8x Help() 中的分组和 Main case 语句中的 flag 分配分类
 CATEGORY_MAP = {
@@ -384,12 +386,73 @@ def extract_sub_tools(content, functions, entry_func_names):
     return tools
 
 
+def extract_individual_tools(script_content):
+    """Extract tools from F8X_TOOL_LIST and merge with tool_metadata.json."""
+    match = re.search(r'F8X_TOOL_LIST="([^"]+)"', script_content, re.DOTALL)
+    if not match:
+        print("WARNING: F8X_TOOL_LIST not found in script", file=sys.stderr)
+        return []
+
+    # Load metadata
+    metadata = {}
+    if os.path.exists(TOOL_METADATA_PATH):
+        with open(TOOL_METADATA_PATH, 'r', encoding='utf-8') as f:
+            metadata = json.load(f)
+            metadata.pop('_comment', None)
+    else:
+        print(f"WARNING: {TOOL_METADATA_PATH} not found, tools will have minimal metadata", file=sys.stderr)
+
+    tools = []
+    lines = match.group(1).strip().split('\n')
+    for line in lines:
+        line = line.strip()
+        if not line or line.startswith('#'):
+            continue
+        parts = line.split('|')
+        if len(parts) < 3:
+            continue
+        tool_id = parts[0].strip()
+        dep_level = int(parts[2].strip()) if parts[2].strip().isdigit() else 0
+
+        if tool_id in metadata:
+            meta = metadata[tool_id]
+            tools.append({
+                "id": tool_id,
+                "name": meta.get("name", tool_id),
+                "nameZh": meta.get("nameZh", tool_id),
+                "description": meta.get("description", ""),
+                "descriptionZh": meta.get("descriptionZh", ""),
+                "category": meta.get("category", "misc"),
+                "tags": meta.get("tags", []),
+                "deps": dep_level,
+                "url": meta.get("url", "")
+            })
+        else:
+            print(f"WARNING: tool '{tool_id}' not in tool_metadata.json, using fallback", file=sys.stderr)
+            tools.append({
+                "id": tool_id,
+                "name": tool_id,
+                "nameZh": tool_id,
+                "description": f"Install {tool_id}",
+                "descriptionZh": f"安装 {tool_id}",
+                "category": "misc",
+                "tags": [],
+                "deps": dep_level,
+                "url": ""
+            })
+
+    return tools
+
+
 def generate_catalog(script_path):
     """生成完整目录"""
     with open(script_path, 'r', encoding='utf-8', errors='ignore') as f:
         content = f.read()
 
     flags = extract_flags_from_script(script_path)
+    # Filter out non-installable command flags
+    NON_INSTALLABLE = {'list-tools', 'search', 'list-installed', 'h', 'help'}
+    flags = [f for f in flags if f.lstrip('-') not in NON_INSTALLABLE]
     version = extract_version(script_path)
     functions = extract_functions(content)
     modules = []
@@ -439,11 +502,15 @@ def generate_catalog(script_path):
         c["count"] = cat_counts.get(cat["id"], 0)
         categories_with_count.append(c)
 
+    # Extract individual tools from F8X_TOOL_LIST
+    tools = extract_individual_tools(content)
+
     return {
         "version": version,
-        "catalog_version": 3,
+        "catalog_version": 4,
         "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "modules": modules,
+        "tools": tools,
         "categories": categories_with_count,
         "presets": PRESETS,
     }
@@ -473,7 +540,7 @@ def main():
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(catalog, f, ensure_ascii=False, indent=2)
 
-    print(f"Generated {output_path}: {len(catalog['modules'])} modules, version {catalog['version']}")
+    print(f"Generated {output_path}: {len(catalog['modules'])} modules, {len(catalog.get('tools', []))} tools, version {catalog['version']}")
 
 
 if __name__ == "__main__":
