@@ -1,0 +1,1443 @@
+{
+  "_comment": "Metadata for individual f8x tools. Used by generate_catalog.py to produce catalog v4 tools array.",
+  "nmap": {
+    "name": "Nmap",
+    "nameZh": "Nmap 网络扫描器",
+    "description": "Network exploration and security auditing tool",
+    "descriptionZh": "网络探测与安全审计工具",
+    "category": "pentest-recon",
+    "tags": ["scanner", "network", "port-scan"],
+    "url": "https://nmap.org"
+  },
+  "masscan": {
+    "name": "Masscan",
+    "nameZh": "Masscan 端口扫描器",
+    "description": "High-speed TCP port scanner for large-scale network scanning",
+    "descriptionZh": "高速TCP端口扫描器，适用于大规模网络扫描",
+    "category": "pentest-recon",
+    "tags": ["scanner", "port-scan", "network"],
+    "url": "https://github.com/robertdavidgraham/masscan"
+  },
+  "httpx": {
+    "name": "httpx",
+    "nameZh": "httpx HTTP探测工具",
+    "description": "Fast and multi-purpose HTTP toolkit for probing web servers",
+    "descriptionZh": "快速多功能HTTP探测工具",
+    "category": "pentest-recon",
+    "tags": ["http", "probe", "web"],
+    "url": "https://github.com/projectdiscovery/httpx"
+  },
+  "subfinder": {
+    "name": "Subfinder",
+    "nameZh": "Subfinder 子域名发现",
+    "description": "Fast passive subdomain enumeration tool",
+    "descriptionZh": "快速被动子域名枚举工具",
+    "category": "pentest-recon",
+    "tags": ["subdomain", "enumeration", "recon"],
+    "url": "https://github.com/projectdiscovery/subfinder"
+  },
+  "ffuf": {
+    "name": "ffuf",
+    "nameZh": "ffuf 模糊测试工具",
+    "description": "Fast web fuzzer for directory and parameter brute-forcing",
+    "descriptionZh": "快速Web模糊测试工具，用于目录和参数爆破",
+    "category": "pentest-recon",
+    "tags": ["fuzzer", "directory", "brute-force"],
+    "url": "https://github.com/ffuf/ffuf"
+  },
+  "dirsearch": {
+    "name": "Dirsearch",
+    "nameZh": "Dirsearch 目录扫描",
+    "description": "Web path discovery tool for brute-forcing directories and files",
+    "descriptionZh": "Web路径发现工具，用于目录和文件爆破",
+    "category": "pentest-recon",
+    "tags": ["directory", "brute-force", "web"],
+    "url": "https://github.com/maurosoria/dirsearch"
+  },
+  "fscan": {
+    "name": "fscan",
+    "nameZh": "fscan 内网扫描器",
+    "description": "Comprehensive intranet scanning tool for penetration testing",
+    "descriptionZh": "综合内网扫描工具",
+    "category": "pentest-recon",
+    "tags": ["scanner", "intranet", "recon"],
+    "url": "https://github.com/shadow1ng/fscan"
+  },
+  "katana": {
+    "name": "Katana",
+    "nameZh": "Katana 爬虫框架",
+    "description": "Next-generation web crawling and spidering framework",
+    "descriptionZh": "新一代Web爬虫框架",
+    "category": "pentest-recon",
+    "tags": ["crawler", "spider", "web"],
+    "url": "https://github.com/projectdiscovery/katana"
+  },
+  "amass": {
+    "name": "Amass",
+    "nameZh": "Amass 资产发现",
+    "description": "In-depth attack surface mapping and asset discovery",
+    "descriptionZh": "深度攻击面映射与资产发现工具",
+    "category": "pentest-recon",
+    "tags": ["subdomain", "recon", "asset-discovery"],
+    "url": "https://github.com/owasp-amass/amass"
+  },
+  "naabu": {
+    "name": "Naabu",
+    "nameZh": "Naabu 端口扫描",
+    "description": "Fast port scanner with SYN/CONNECT scanning support",
+    "descriptionZh": "快速端口扫描器，支持SYN/CONNECT扫描",
+    "category": "pentest-recon",
+    "tags": ["port-scan", "scanner", "network"],
+    "url": "https://github.com/projectdiscovery/naabu"
+  },
+  "ksubdomain": {
+    "name": "ksubdomain",
+    "nameZh": "ksubdomain 子域名爆破",
+    "description": "Subdomain enumeration tool using passive DNS resolution",
+    "descriptionZh": "基于无状态DNS解析的子域名爆破工具",
+    "category": "pentest-recon",
+    "tags": ["subdomain", "dns", "enumeration"],
+    "url": "https://github.com/boy-hack/ksubdomain"
+  },
+  "rad": {
+    "name": "rad",
+    "nameZh": "rad 爬虫工具",
+    "description": "Web crawler for comprehensive URL and endpoint discovery",
+    "descriptionZh": "Web爬虫工具，用于全面的URL和端点发现",
+    "category": "pentest-recon",
+    "tags": ["crawler", "url", "web"],
+    "url": "https://github.com/chaitin/rad"
+  },
+  "crawlergo": {
+    "name": "crawlergo",
+    "nameZh": "crawlergo 动态爬虫",
+    "description": "Dynamic web crawler using Chrome headless for URL collection",
+    "descriptionZh": "基于Chrome无头浏览器的动态Web爬虫",
+    "category": "pentest-recon",
+    "tags": ["crawler", "headless", "web"],
+    "url": "https://github.com/Qianlitp/crawlergo"
+  },
+  "gobuster": {
+    "name": "Gobuster",
+    "nameZh": "Gobuster 目录爆破",
+    "description": "Directory, DNS, and vhost brute-forcing tool written in Go",
+    "descriptionZh": "Go编写的目录、DNS和虚拟主机爆破工具",
+    "category": "pentest-recon",
+    "tags": ["directory", "brute-force", "dns"],
+    "url": "https://github.com/OJ/gobuster"
+  },
+  "gau": {
+    "name": "gau",
+    "nameZh": "gau URL收集",
+    "description": "Fetch known URLs from AlienVault OTX, Wayback Machine, and more",
+    "descriptionZh": "从多个来源获取已知URL",
+    "category": "pentest-recon",
+    "tags": ["url", "recon", "wayback"],
+    "url": "https://github.com/lc/gau"
+  },
+  "arjun": {
+    "name": "Arjun",
+    "nameZh": "Arjun 参数发现",
+    "description": "HTTP parameter discovery suite for finding hidden parameters",
+    "descriptionZh": "HTTP参数发现工具，用于查找隐藏参数",
+    "category": "pentest-recon",
+    "tags": ["parameter", "discovery", "web"],
+    "url": "https://github.com/s0md3v/Arjun"
+  },
+  "jsfinder": {
+    "name": "JSFinder",
+    "nameZh": "JSFinder JS信息提取",
+    "description": "Extract URLs and subdomains from JavaScript files",
+    "descriptionZh": "从JavaScript文件中提取URL和子域名",
+    "category": "pentest-recon",
+    "tags": ["javascript", "url", "recon"],
+    "url": "https://github.com/Threezh1/JSFinder"
+  },
+  "secretfinder": {
+    "name": "SecretFinder",
+    "nameZh": "SecretFinder 敏感信息发现",
+    "description": "Discover sensitive data like API keys and tokens in JS files",
+    "descriptionZh": "从JS文件中发现API密钥、令牌等敏感信息",
+    "category": "pentest-recon",
+    "tags": ["javascript", "secrets", "recon"],
+    "url": "https://github.com/m4ll0k/SecretFinder"
+  },
+  "oneforall": {
+    "name": "OneForAll",
+    "nameZh": "OneForAll 子域名收集",
+    "description": "Powerful subdomain collection tool with multiple data sources",
+    "descriptionZh": "强大的子域名收集工具，支持多种数据源",
+    "category": "pentest-recon",
+    "tags": ["subdomain", "enumeration", "recon"],
+    "url": "https://github.com/shmilylty/OneForAll"
+  },
+  "netspy": {
+    "name": "netspy",
+    "nameZh": "netspy 网段探测",
+    "description": "Fast network segment detection and alive host discovery",
+    "descriptionZh": "快速网段探测与存活主机发现工具",
+    "category": "pentest-recon",
+    "tags": ["network", "discovery", "recon"],
+    "url": "https://github.com/shmilylty/netspy"
+  },
+  "fingerprintx": {
+    "name": "fingerprintx",
+    "nameZh": "fingerprintx 服务指纹",
+    "description": "Standalone service fingerprinting tool for network protocols",
+    "descriptionZh": "独立的网络协议服务指纹识别工具",
+    "category": "pentest-recon",
+    "tags": ["fingerprint", "service", "network"],
+    "url": "https://github.com/praetorian-inc/fingerprintx"
+  },
+  "asnmap": {
+    "name": "asnmap",
+    "nameZh": "asnmap ASN映射",
+    "description": "Map ASN to CIDR ranges for network reconnaissance",
+    "descriptionZh": "ASN到CIDR范围的映射工具",
+    "category": "pentest-recon",
+    "tags": ["asn", "network", "recon"],
+    "url": "https://github.com/projectdiscovery/asnmap"
+  },
+  "tlsx": {
+    "name": "tlsx",
+    "nameZh": "tlsx TLS探测",
+    "description": "Fast TLS grabber focused on TLS-based data collection",
+    "descriptionZh": "快速TLS信息采集工具",
+    "category": "pentest-recon",
+    "tags": ["tls", "ssl", "probe"],
+    "url": "https://github.com/projectdiscovery/tlsx"
+  },
+  "gogo": {
+    "name": "gogo",
+    "nameZh": "gogo 端口扫描",
+    "description": "High-performance port scanner and service detection tool",
+    "descriptionZh": "高性能端口扫描与服务探测工具",
+    "category": "pentest-recon",
+    "tags": ["scanner", "port-scan", "service"],
+    "url": "https://github.com/chainreactors/gogo"
+  },
+  "spray": {
+    "name": "spray",
+    "nameZh": "spray 密码喷洒",
+    "description": "Password spraying tool for credential testing",
+    "descriptionZh": "密码喷洒工具，用于凭证测试",
+    "category": "pentest-post",
+    "tags": ["password", "spray", "credential"],
+    "url": "https://github.com/chainreactors/spray"
+  },
+  "zombie": {
+    "name": "zombie",
+    "nameZh": "zombie 密码爆破",
+    "description": "Multi-protocol brute-force tool for credential attacks",
+    "descriptionZh": "多协议密码爆破工具",
+    "category": "pentest-post",
+    "tags": ["brute-force", "password", "credential"],
+    "url": "https://github.com/chainreactors/zombie"
+  },
+  "ccupp": {
+    "name": "CUPP",
+    "nameZh": "CUPP 密码字典生成",
+    "description": "Common User Passwords Profiler for generating custom wordlists",
+    "descriptionZh": "基于用户信息生成自定义密码字典",
+    "category": "pentest-recon",
+    "tags": ["wordlist", "password", "profiler"],
+    "url": "https://github.com/Mebus/cupp"
+  },
+  "githacker": {
+    "name": "GitHacker",
+    "nameZh": "GitHacker Git泄露利用",
+    "description": "Tool for exploiting exposed .git directories to recover source code",
+    "descriptionZh": "利用暴露的.git目录恢复源代码",
+    "category": "pentest-recon",
+    "tags": ["git", "leak", "recon"],
+    "url": "https://github.com/WangYihang/GitHacker"
+  },
+  "hostcollision": {
+    "name": "HostCollision",
+    "nameZh": "HostCollision Host碰撞",
+    "description": "Host collision detection tool for finding hidden assets",
+    "descriptionZh": "Host碰撞检测工具，用于发现隐藏资产",
+    "category": "pentest-recon",
+    "tags": ["host", "collision", "recon"],
+    "url": "https://github.com/pmiaowu/HostCollision"
+  },
+  "appinfoscanner": {
+    "name": "AppInfoScanner",
+    "nameZh": "AppInfoScanner 移动应用信息扫描",
+    "description": "Mobile app information gathering for Android and iOS",
+    "descriptionZh": "Android和iOS移动应用信息收集工具",
+    "category": "pentest-recon",
+    "tags": ["mobile", "android", "ios"],
+    "url": "https://github.com/kelvinBen/AppInfoScanner"
+  },
+  "apkanalyser": {
+    "name": "ApkAnalyser",
+    "nameZh": "ApkAnalyser APK分析",
+    "description": "Static analysis tool for Android APK files",
+    "descriptionZh": "Android APK文件静态分析工具",
+    "category": "pentest-recon",
+    "tags": ["android", "apk", "analysis"],
+    "url": "https://github.com/aspect-labs/ApkAnalyser"
+  },
+  "apkleaks": {
+    "name": "apkleaks",
+    "nameZh": "apkleaks APK信息泄露",
+    "description": "Scan APK files for URIs, endpoints, and secrets",
+    "descriptionZh": "扫描APK文件中的URI、端点和敏感信息",
+    "category": "pentest-recon",
+    "tags": ["android", "apk", "secrets"],
+    "url": "https://github.com/dwisiswant0/apkleaks"
+  },
+  "apktool": {
+    "name": "Apktool",
+    "nameZh": "Apktool APK逆向",
+    "description": "Reverse engineering tool for Android APK files",
+    "descriptionZh": "Android APK文件逆向工程工具",
+    "category": "pentest-recon",
+    "tags": ["android", "reverse-engineering", "apk"],
+    "url": "https://github.com/iBotPeaches/Apktool"
+  },
+  "diggy": {
+    "name": "Diggy",
+    "nameZh": "Diggy DNS信息提取",
+    "description": "Extract endpoints from APK and source files",
+    "descriptionZh": "从APK和源文件中提取端点信息",
+    "category": "pentest-recon",
+    "tags": ["endpoint", "extraction", "recon"],
+    "url": "https://github.com/s0md3v/Diggy"
+  },
+  "dddd": {
+    "name": "dddd",
+    "nameZh": "dddd 自动化扫描",
+    "description": "Automated scanning and information gathering pipeline",
+    "descriptionZh": "自动化扫描与信息收集流水线",
+    "category": "pentest-recon",
+    "tags": ["automation", "scanner", "recon"],
+    "url": "https://github.com/SleepingBag945/dddd"
+  },
+  "afrog": {
+    "name": "afrog",
+    "nameZh": "afrog 漏洞扫描",
+    "description": "High-performance vulnerability scanner with customizable PoCs",
+    "descriptionZh": "高性能漏洞扫描器，支持自定义PoC",
+    "category": "pentest-exploit",
+    "tags": ["vulnerability", "scanner", "poc"],
+    "url": "https://github.com/zan8in/afrog"
+  },
+  "gospider": {
+    "name": "GoSpider",
+    "nameZh": "GoSpider Web爬虫",
+    "description": "Fast web spider for crawling and extracting URLs",
+    "descriptionZh": "快速Web爬虫，用于抓取和提取URL",
+    "category": "pentest-recon",
+    "tags": ["crawler", "spider", "url"],
+    "url": "https://github.com/jaeles-project/gospider"
+  },
+  "dismap": {
+    "name": "Dismap",
+    "nameZh": "Dismap 指纹识别",
+    "description": "Asset discovery and fingerprinting tool for web technologies",
+    "descriptionZh": "Web技术资产发现与指纹识别工具",
+    "category": "pentest-recon",
+    "tags": ["fingerprint", "web", "asset-discovery"],
+    "url": "https://github.com/zhzyker/dismap"
+  },
+  "nuclei": {
+    "name": "Nuclei",
+    "nameZh": "Nuclei 漏洞扫描",
+    "description": "Fast and customizable vulnerability scanner based on YAML templates",
+    "descriptionZh": "基于YAML模板的快速可定制漏洞扫描器",
+    "category": "pentest-exploit",
+    "tags": ["vulnerability", "scanner", "template"],
+    "url": "https://github.com/projectdiscovery/nuclei"
+  },
+  "nuclei-templates": {
+    "name": "Nuclei Templates",
+    "nameZh": "Nuclei 漏洞模板库",
+    "description": "Community-curated vulnerability templates for Nuclei scanner",
+    "descriptionZh": "社区维护的Nuclei漏洞扫描模板库",
+    "category": "pentest-exploit",
+    "tags": ["vulnerability", "template", "nuclei"],
+    "url": "https://github.com/projectdiscovery/nuclei-templates"
+  },
+  "sqlmap": {
+    "name": "sqlmap",
+    "nameZh": "sqlmap SQL注入",
+    "description": "Automatic SQL injection and database takeover tool",
+    "descriptionZh": "自动化SQL注入与数据库接管工具",
+    "category": "pentest-exploit",
+    "tags": ["sql-injection", "database", "exploit"],
+    "url": "https://github.com/sqlmapproject/sqlmap"
+  },
+  "xray": {
+    "name": "xray",
+    "nameZh": "xray 漏洞扫描",
+    "description": "Passive and active web vulnerability scanner",
+    "descriptionZh": "被动与主动Web漏洞扫描器",
+    "category": "pentest-exploit",
+    "tags": ["vulnerability", "scanner", "web"],
+    "url": "https://github.com/chaitin/xray"
+  },
+  "metasploit": {
+    "name": "Metasploit",
+    "nameZh": "Metasploit 渗透框架",
+    "description": "World-leading penetration testing and exploitation framework",
+    "descriptionZh": "全球领先的渗透测试与漏洞利用框架",
+    "category": "pentest-exploit",
+    "tags": ["framework", "exploit", "pentest"],
+    "url": "https://github.com/rapid7/metasploit-framework"
+  },
+  "w13scan": {
+    "name": "w13scan",
+    "nameZh": "w13scan 被动扫描",
+    "description": "Passive security scanner for detecting web vulnerabilities",
+    "descriptionZh": "被动式Web安全漏洞扫描器",
+    "category": "pentest-exploit",
+    "tags": ["vulnerability", "passive", "scanner"],
+    "url": "https://github.com/w-digital-scanner/w13scan"
+  },
+  "swagger-exp": {
+    "name": "swagger-exp",
+    "nameZh": "swagger-exp Swagger利用",
+    "description": "Swagger API documentation exploration and exploitation tool",
+    "descriptionZh": "Swagger API文档探索与利用工具",
+    "category": "pentest-exploit",
+    "tags": ["swagger", "api", "exploit"],
+    "url": "https://github.com/lijiejie/swagger-exp"
+  },
+  "swagger-hack": {
+    "name": "Swagger-hack",
+    "nameZh": "Swagger-hack API测试",
+    "description": "Automatic testing tool for Swagger API interfaces",
+    "descriptionZh": "Swagger API接口自动化测试工具",
+    "category": "pentest-exploit",
+    "tags": ["swagger", "api", "testing"],
+    "url": "https://github.com/pjx206/Swagger-hack"
+  },
+  "ysoserial": {
+    "name": "ysoserial",
+    "nameZh": "ysoserial Java反序列化",
+    "description": "Java deserialization exploit payload generator",
+    "descriptionZh": "Java反序列化漏洞利用载荷生成器",
+    "category": "pentest-exploit",
+    "tags": ["java", "deserialization", "exploit"],
+    "url": "https://github.com/frohoff/ysoserial"
+  },
+  "ysuserial": {
+    "name": "ysuserial",
+    "nameZh": "ysuserial Java反序列化增强版",
+    "description": "Enhanced Java deserialization exploit tool with extended gadgets",
+    "descriptionZh": "增强版Java反序列化利用工具，扩展了更多利用链",
+    "category": "pentest-exploit",
+    "tags": ["java", "deserialization", "exploit"],
+    "url": "https://github.com/su18/ysoserial"
+  },
+  "jndi-injection-exploit": {
+    "name": "JNDI-Injection-Exploit",
+    "nameZh": "JNDI注入利用工具",
+    "description": "JNDI injection exploitation tool for Java applications",
+    "descriptionZh": "Java应用JNDI注入漏洞利用工具",
+    "category": "pentest-exploit",
+    "tags": ["jndi", "java", "injection"],
+    "url": "https://github.com/welk1n/JNDI-Injection-Exploit"
+  },
+  "jndiexploit": {
+    "name": "JNDIExploit",
+    "nameZh": "JNDIExploit JNDI利用",
+    "description": "JNDI exploit tool supporting multiple Java vulnerability chains",
+    "descriptionZh": "JNDI利用工具，支持多种Java漏洞利用链",
+    "category": "pentest-exploit",
+    "tags": ["jndi", "java", "exploit"],
+    "url": "https://github.com/qi4L/JNDIExploit"
+  },
+  "marshalsec": {
+    "name": "marshalsec",
+    "nameZh": "marshalsec Java编组利用",
+    "description": "Java unmarshalling exploit toolkit for various libraries",
+    "descriptionZh": "Java反编组漏洞利用工具集",
+    "category": "pentest-exploit",
+    "tags": ["java", "deserialization", "exploit"],
+    "url": "https://github.com/mbechler/marshalsec"
+  },
+  "ysomap": {
+    "name": "ysomap",
+    "nameZh": "ysomap Java利用框架",
+    "description": "Framework for Java deserialization exploitation and extension",
+    "descriptionZh": "Java反序列化利用与扩展框架",
+    "category": "pentest-exploit",
+    "tags": ["java", "deserialization", "framework"],
+    "url": "https://github.com/wh1t3p1g/ysomap"
+  },
+  "ssrfmap": {
+    "name": "SSRFmap",
+    "nameZh": "SSRFmap SSRF利用",
+    "description": "Automatic SSRF fuzzer and exploitation tool",
+    "descriptionZh": "自动化SSRF模糊测试与利用工具",
+    "category": "pentest-exploit",
+    "tags": ["ssrf", "exploit", "web"],
+    "url": "https://github.com/swisskyrepo/SSRFmap"
+  },
+  "gopherus": {
+    "name": "Gopherus",
+    "nameZh": "Gopherus Gopher协议利用",
+    "description": "Generate Gopher protocol payloads for exploiting SSRF",
+    "descriptionZh": "生成Gopher协议载荷用于SSRF利用",
+    "category": "pentest-exploit",
+    "tags": ["ssrf", "gopher", "exploit"],
+    "url": "https://github.com/tarunkant/Gopherus"
+  },
+  "rogue_mysql_server": {
+    "name": "Rogue MySQL Server",
+    "nameZh": "恶意MySQL服务器",
+    "description": "Rogue MySQL server for reading client files via LOAD DATA LOCAL",
+    "descriptionZh": "恶意MySQL服务器，通过LOAD DATA LOCAL读取客户端文件",
+    "category": "pentest-exploit",
+    "tags": ["mysql", "exploit", "file-read"],
+    "url": "https://github.com/rmb122/rogue_mysql_server"
+  },
+  "cdk": {
+    "name": "CDK",
+    "nameZh": "CDK 容器渗透",
+    "description": "Container penetration toolkit for escaping and exploiting",
+    "descriptionZh": "容器渗透工具集，用于容器逃逸与利用",
+    "category": "pentest-exploit",
+    "tags": ["container", "docker", "escape"],
+    "url": "https://github.com/cdk-team/CDK"
+  },
+  "k8spider": {
+    "name": "k8spider",
+    "nameZh": "k8spider K8s服务发现",
+    "description": "Kubernetes cluster service discovery and enumeration tool",
+    "descriptionZh": "Kubernetes集群服务发现与枚举工具",
+    "category": "pentest-exploit",
+    "tags": ["kubernetes", "discovery", "container"],
+    "url": "https://github.com/AgeloVito/k8spider"
+  },
+  "ingressnightmare": {
+    "name": "IngressNightmare",
+    "nameZh": "IngressNightmare Ingress漏洞利用",
+    "description": "Exploit tool for Kubernetes Ingress-NGINX vulnerabilities",
+    "descriptionZh": "Kubernetes Ingress-NGINX漏洞利用工具",
+    "category": "pentest-exploit",
+    "tags": ["kubernetes", "ingress", "exploit"],
+    "url": "https://github.com/hakaioffsec/IngressNightmare"
+  },
+  "kubectl": {
+    "name": "kubectl",
+    "nameZh": "kubectl K8s命令行",
+    "description": "Kubernetes command-line tool for cluster management",
+    "descriptionZh": "Kubernetes集群管理命令行工具",
+    "category": "pentest-exploit",
+    "tags": ["kubernetes", "cli", "container"],
+    "url": "https://kubernetes.io/docs/tasks/tools/"
+  },
+  "kubeletctl": {
+    "name": "kubeletctl",
+    "nameZh": "kubeletctl Kubelet利用",
+    "description": "Command-line tool for interacting with Kubelet API",
+    "descriptionZh": "与Kubelet API交互的命令行工具",
+    "category": "pentest-exploit",
+    "tags": ["kubernetes", "kubelet", "exploit"],
+    "url": "https://github.com/cyberark/kubeletctl"
+  },
+  "peirates": {
+    "name": "Peirates",
+    "nameZh": "Peirates K8s渗透",
+    "description": "Kubernetes penetration testing tool for privilege escalation",
+    "descriptionZh": "Kubernetes渗透测试工具，用于权限提升",
+    "category": "pentest-exploit",
+    "tags": ["kubernetes", "pentest", "privilege-escalation"],
+    "url": "https://github.com/inguardians/peirates"
+  },
+  "etcdctl": {
+    "name": "etcdctl",
+    "nameZh": "etcdctl Etcd客户端",
+    "description": "Command-line client for etcd key-value store",
+    "descriptionZh": "etcd键值存储命令行客户端",
+    "category": "pentest-exploit",
+    "tags": ["etcd", "kubernetes", "cli"],
+    "url": "https://github.com/etcd-io/etcd"
+  },
+  "tccli": {
+    "name": "tccli",
+    "nameZh": "tccli 腾讯云CLI",
+    "description": "Tencent Cloud command-line interface for cloud resource management",
+    "descriptionZh": "腾讯云命令行工具，用于云资源管理",
+    "category": "pentest-exploit",
+    "tags": ["cloud", "tencent", "cli"],
+    "url": "https://github.com/TencentCloud/tencentcloud-cli"
+  },
+  "dalfox": {
+    "name": "Dalfox",
+    "nameZh": "Dalfox XSS扫描",
+    "description": "Fast parameter analysis and XSS scanning tool",
+    "descriptionZh": "快速参数分析与XSS扫描工具",
+    "category": "pentest-exploit",
+    "tags": ["xss", "scanner", "web"],
+    "url": "https://github.com/hahwul/dalfox"
+  },
+  "commix": {
+    "name": "commix",
+    "nameZh": "commix 命令注入",
+    "description": "Automated OS command injection exploitation tool",
+    "descriptionZh": "自动化操作系统命令注入利用工具",
+    "category": "pentest-exploit",
+    "tags": ["command-injection", "exploit", "web"],
+    "url": "https://github.com/commixproject/commix"
+  },
+  "pocsuite3": {
+    "name": "pocsuite3",
+    "nameZh": "pocsuite3 漏洞验证框架",
+    "description": "Open-source remote vulnerability testing and PoC framework",
+    "descriptionZh": "开源远程漏洞验证与PoC开发框架",
+    "category": "pentest-exploit",
+    "tags": ["poc", "vulnerability", "framework"],
+    "url": "https://github.com/knownsec/pocsuite3"
+  },
+  "impacket": {
+    "name": "Impacket",
+    "nameZh": "Impacket 网络协议工具集",
+    "description": "Collection of Python classes for working with network protocols",
+    "descriptionZh": "网络协议Python工具集，用于AD渗透",
+    "category": "pentest-post",
+    "tags": ["ad", "protocol", "lateral-movement"],
+    "url": "https://github.com/fortra/impacket"
+  },
+  "responder": {
+    "name": "Responder",
+    "nameZh": "Responder 协议欺骗",
+    "description": "LLMNR/NBT-NS/MDNS poisoner for credential interception",
+    "descriptionZh": "LLMNR/NBT-NS/MDNS协议欺骗与凭证截获工具",
+    "category": "pentest-post",
+    "tags": ["ad", "poisoning", "credential"],
+    "url": "https://github.com/lgandx/Responder"
+  },
+  "krbrelayx": {
+    "name": "krbrelayx",
+    "nameZh": "krbrelayx Kerberos中继",
+    "description": "Kerberos relay and delegation abuse toolkit",
+    "descriptionZh": "Kerberos中继与委派滥用工具",
+    "category": "pentest-post",
+    "tags": ["kerberos", "relay", "ad"],
+    "url": "https://github.com/dirkjanm/krbrelayx"
+  },
+  "bettercap": {
+    "name": "bettercap",
+    "nameZh": "bettercap 网络攻击框架",
+    "description": "Swiss Army knife for WiFi, BLE, and network attacks",
+    "descriptionZh": "WiFi、BLE和网络攻击的瑞士军刀",
+    "category": "pentest-post",
+    "tags": ["mitm", "network", "wifi"],
+    "url": "https://github.com/bettercap/bettercap"
+  },
+  "mitmproxy": {
+    "name": "mitmproxy",
+    "nameZh": "mitmproxy 中间人代理",
+    "description": "Interactive HTTPS proxy for traffic inspection and modification",
+    "descriptionZh": "交互式HTTPS代理，用于流量检查和修改",
+    "category": "pentest-post",
+    "tags": ["proxy", "mitm", "http"],
+    "url": "https://mitmproxy.org"
+  },
+  "pypykatz": {
+    "name": "pypykatz",
+    "nameZh": "pypykatz 凭证提取",
+    "description": "Pure Python Mimikatz implementation for credential extraction",
+    "descriptionZh": "纯Python实现的Mimikatz，用于凭证提取",
+    "category": "pentest-post",
+    "tags": ["credential", "mimikatz", "ad"],
+    "url": "https://github.com/skelsec/pypykatz"
+  },
+  "crackmapexec": {
+    "name": "CrackMapExec",
+    "nameZh": "CrackMapExec 后渗透框架",
+    "description": "Post-exploitation tool for Active Directory environments",
+    "descriptionZh": "Active Directory环境后渗透工具",
+    "category": "pentest-post",
+    "tags": ["ad", "post-exploitation", "lateral-movement"],
+    "url": "https://github.com/byt3bl33d3r/CrackMapExec"
+  },
+  "netexec": {
+    "name": "NetExec",
+    "nameZh": "NetExec 网络执行工具",
+    "description": "Network service exploitation tool, successor to CrackMapExec",
+    "descriptionZh": "网络服务利用工具，CrackMapExec的继任者",
+    "category": "pentest-post",
+    "tags": ["ad", "post-exploitation", "lateral-movement"],
+    "url": "https://github.com/Pennyw0rth/NetExec"
+  },
+  "neo-regeorg": {
+    "name": "Neo-reGeorg",
+    "nameZh": "Neo-reGeorg HTTP隧道",
+    "description": "HTTP tunneling tool for pivoting through web servers",
+    "descriptionZh": "HTTP隧道工具，通过Web服务器进行流量转发",
+    "category": "pentest-post",
+    "tags": ["tunnel", "proxy", "web"],
+    "url": "https://github.com/L-codes/Neo-reGeorg"
+  },
+  "suo5": {
+    "name": "suo5",
+    "nameZh": "suo5 HTTP隧道",
+    "description": "High-performance HTTP tunnel for network pivoting",
+    "descriptionZh": "高性能HTTP隧道工具",
+    "category": "pentest-post",
+    "tags": ["tunnel", "proxy", "http"],
+    "url": "https://github.com/zema1/suo5"
+  },
+  "kerbrute": {
+    "name": "kerbrute",
+    "nameZh": "kerbrute Kerberos爆破",
+    "description": "Kerberos pre-auth brute-forcing and user enumeration tool",
+    "descriptionZh": "Kerberos预认证爆破与用户枚举工具",
+    "category": "pentest-post",
+    "tags": ["kerberos", "brute-force", "ad"],
+    "url": "https://github.com/ropnop/kerbrute"
+  },
+  "adinfo": {
+    "name": "Adinfo",
+    "nameZh": "Adinfo 域信息收集",
+    "description": "Active Directory information gathering and enumeration tool",
+    "descriptionZh": "Active Directory信息收集与枚举工具",
+    "category": "pentest-post",
+    "tags": ["ad", "enumeration", "domain"],
+    "url": "https://github.com/lzzbb/Adinfo"
+  },
+  "petitpotam": {
+    "name": "PetitPotam",
+    "nameZh": "PetitPotam NTLM中继",
+    "description": "NTLM relay attack tool abusing MS-EFSRPC protocol",
+    "descriptionZh": "利用MS-EFSRPC协议的NTLM中继攻击工具",
+    "category": "pentest-post",
+    "tags": ["ntlm", "relay", "ad"],
+    "url": "https://github.com/topotam/PetitPotam"
+  },
+  "hashcat": {
+    "name": "hashcat",
+    "nameZh": "hashcat 密码破解",
+    "description": "World's fastest CPU-based password recovery tool",
+    "descriptionZh": "世界最快的密码恢复工具",
+    "category": "pentest-post",
+    "tags": ["password", "cracking", "hash"],
+    "url": "https://github.com/hashcat/hashcat"
+  },
+  "zoomeye": {
+    "name": "ZoomEye",
+    "nameZh": "ZoomEye 网络空间搜索",
+    "description": "Python SDK for ZoomEye cyberspace search engine",
+    "descriptionZh": "ZoomEye网络空间搜索引擎Python SDK",
+    "category": "pentest-recon",
+    "tags": ["osint", "search-engine", "asset-discovery"],
+    "url": "https://github.com/knownsec/ZoomEye-python"
+  },
+  "jadx": {
+    "name": "jadx",
+    "nameZh": "jadx DEX反编译",
+    "description": "DEX to Java decompiler for Android reverse engineering",
+    "descriptionZh": "DEX到Java反编译器，用于Android逆向工程",
+    "category": "pentest-recon",
+    "tags": ["android", "decompiler", "reverse-engineering"],
+    "url": "https://github.com/skylot/jadx"
+  },
+  "ncat": {
+    "name": "Ncat",
+    "nameZh": "Ncat 网络工具",
+    "description": "Feature-rich networking utility for reading/writing network data",
+    "descriptionZh": "功能丰富的网络工具，用于读写网络数据",
+    "category": "pentest-recon",
+    "tags": ["network", "utility", "netcat"],
+    "url": "https://nmap.org/ncat/"
+  },
+  "mapcidr": {
+    "name": "mapCIDR",
+    "nameZh": "mapCIDR CIDR计算",
+    "description": "CIDR/subnet calculation and IP manipulation utility",
+    "descriptionZh": "CIDR/子网计算与IP操作工具",
+    "category": "pentest-recon",
+    "tags": ["cidr", "network", "utility"],
+    "url": "https://github.com/projectdiscovery/mapcidr"
+  },
+  "dnsx": {
+    "name": "dnsx",
+    "nameZh": "dnsx DNS查询",
+    "description": "Fast and multi-purpose DNS toolkit for bulk queries",
+    "descriptionZh": "快速多功能DNS工具集，支持批量查询",
+    "category": "pentest-recon",
+    "tags": ["dns", "query", "enumeration"],
+    "url": "https://github.com/projectdiscovery/dnsx"
+  },
+  "uncover": {
+    "name": "uncover",
+    "nameZh": "uncover 搜索引擎聚合",
+    "description": "Quickly discover exposed hosts using multiple search engines",
+    "descriptionZh": "利用多个搜索引擎快速发现暴露主机",
+    "category": "pentest-recon",
+    "tags": ["osint", "search-engine", "discovery"],
+    "url": "https://github.com/projectdiscovery/uncover"
+  },
+  "nali": {
+    "name": "nali",
+    "nameZh": "nali IP归属查询",
+    "description": "Offline IP geolocation lookup tool with multiple databases",
+    "descriptionZh": "离线IP归属地查询工具，支持多种数据库",
+    "category": "pentest-recon",
+    "tags": ["ip", "geolocation", "utility"],
+    "url": "https://github.com/zu1k/nali"
+  },
+  "anew": {
+    "name": "anew",
+    "nameZh": "anew 去重追加",
+    "description": "Append lines from stdin to a file, skipping duplicates",
+    "descriptionZh": "从stdin追加内容到文件，自动跳过重复行",
+    "category": "pentest-recon",
+    "tags": ["utility", "dedup", "pipeline"],
+    "url": "https://github.com/tomnomnom/anew"
+  },
+  "gron": {
+    "name": "gron",
+    "nameZh": "gron JSON处理",
+    "description": "Transform JSON into discrete assignments for grep-friendly output",
+    "descriptionZh": "将JSON转换为离散赋值语句，便于grep处理",
+    "category": "pentest-recon",
+    "tags": ["json", "utility", "pipeline"],
+    "url": "https://github.com/tomnomnom/gron"
+  },
+  "interlace": {
+    "name": "Interlace",
+    "nameZh": "Interlace 并发执行",
+    "description": "Easily parallelize and distribute command-line tasks",
+    "descriptionZh": "便捷地并行化和分发命令行任务",
+    "category": "pentest-recon",
+    "tags": ["utility", "parallel", "automation"],
+    "url": "https://github.com/codingo/Interlace"
+  },
+  "sttr": {
+    "name": "sttr",
+    "nameZh": "sttr 字符串转换",
+    "description": "Cross-platform CLI tool for string transformations and encoding",
+    "descriptionZh": "跨平台字符串转换与编码命令行工具",
+    "category": "pentest-recon",
+    "tags": ["utility", "string", "encoding"],
+    "url": "https://github.com/abhimanyu003/sttr"
+  },
+  "unfurl": {
+    "name": "unfurl",
+    "nameZh": "unfurl URL解析",
+    "description": "Pull out bits of URLs for analysis and processing",
+    "descriptionZh": "提取和解析URL各组成部分",
+    "category": "pentest-recon",
+    "tags": ["url", "parsing", "utility"],
+    "url": "https://github.com/tomnomnom/unfurl"
+  },
+  "qsreplace": {
+    "name": "qsreplace",
+    "nameZh": "qsreplace 参数替换",
+    "description": "Accept URLs on stdin and replace query string parameter values",
+    "descriptionZh": "从stdin接收URL并替换查询字符串参数值",
+    "category": "pentest-recon",
+    "tags": ["url", "parameter", "utility"],
+    "url": "https://github.com/tomnomnom/qsreplace"
+  },
+  "platypus": {
+    "name": "Platypus",
+    "nameZh": "Platypus 反弹Shell管理",
+    "description": "Modern reverse shell session manager with web interface",
+    "descriptionZh": "现代化反弹Shell会话管理器，支持Web界面",
+    "category": "pentest-post",
+    "tags": ["reverse-shell", "session", "management"],
+    "url": "https://github.com/WangYihang/Platypus"
+  },
+  "morefind": {
+    "name": "MoreFind",
+    "nameZh": "MoreFind 信息提取",
+    "description": "Extract IPs, domains, URLs, and other data from text",
+    "descriptionZh": "从文本中提取IP、域名、URL等信息",
+    "category": "pentest-recon",
+    "tags": ["extraction", "utility", "text"],
+    "url": "https://github.com/mstxq17/MoreFind"
+  },
+  "alterx": {
+    "name": "alterx",
+    "nameZh": "alterx 子域名变异",
+    "description": "Fast subdomain wordlist generator using DSL patterns",
+    "descriptionZh": "使用DSL模式的快速子域名字典生成器",
+    "category": "pentest-recon",
+    "tags": ["subdomain", "wordlist", "enumeration"],
+    "url": "https://github.com/projectdiscovery/alterx"
+  },
+  "seclists": {
+    "name": "SecLists",
+    "nameZh": "SecLists 安全字典",
+    "description": "Collection of multiple types of security assessment wordlists",
+    "descriptionZh": "多类型安全评估字典集合",
+    "category": "pentest-recon",
+    "tags": ["wordlist", "dictionary", "resource"],
+    "url": "https://github.com/danielmiessler/SecLists"
+  },
+  "see-surf": {
+    "name": "See-SURF",
+    "nameZh": "See-SURF SSRF发现",
+    "description": "Python tool for finding potential SSRF parameters in URLs",
+    "descriptionZh": "在URL中查找潜在SSRF参数的Python工具",
+    "category": "pentest-recon",
+    "tags": ["ssrf", "parameter", "web"],
+    "url": "https://github.com/In3tinct/See-SURF"
+  },
+  "hakrawler": {
+    "name": "hakrawler",
+    "nameZh": "hakrawler Web爬虫",
+    "description": "Simple and fast web crawler for discovering endpoints",
+    "descriptionZh": "简单快速的Web爬虫，用于端点发现",
+    "category": "pentest-recon",
+    "tags": ["crawler", "endpoint", "web"],
+    "url": "https://github.com/hakluke/hakrawler"
+  },
+  "subjs": {
+    "name": "subjs",
+    "nameZh": "subjs JS文件提取",
+    "description": "Fetch JavaScript files from a list of URLs or domains",
+    "descriptionZh": "从URL或域名列表中提取JavaScript文件",
+    "category": "pentest-recon",
+    "tags": ["javascript", "extraction", "web"],
+    "url": "https://github.com/lc/subjs"
+  },
+  "assetfinder": {
+    "name": "assetfinder",
+    "nameZh": "assetfinder 资产发现",
+    "description": "Find related domains and subdomains from various sources",
+    "descriptionZh": "从多个数据源查找相关域名和子域名",
+    "category": "pentest-recon",
+    "tags": ["subdomain", "asset-discovery", "recon"],
+    "url": "https://github.com/tomnomnom/assetfinder"
+  },
+  "frp": {
+    "name": "frp",
+    "nameZh": "frp 内网穿透",
+    "description": "Fast reverse proxy for exposing local services behind NAT",
+    "descriptionZh": "快速反向代理工具，用于NAT后的内网穿透",
+    "category": "red-infra",
+    "tags": ["proxy", "tunnel", "nat"],
+    "url": "https://github.com/fatedier/frp"
+  },
+  "iox": {
+    "name": "iox",
+    "nameZh": "iox 端口转发",
+    "description": "Port forwarding and intranet proxy tool for pivoting",
+    "descriptionZh": "端口转发与内网代理工具",
+    "category": "red-infra",
+    "tags": ["proxy", "port-forward", "tunnel"],
+    "url": "https://github.com/EddieIvan01/iox"
+  },
+  "chisel": {
+    "name": "chisel",
+    "nameZh": "chisel TCP隧道",
+    "description": "Fast TCP/UDP tunnel transported over HTTP with SSH encryption",
+    "descriptionZh": "基于HTTP传输的快速TCP/UDP加密隧道",
+    "category": "pentest-post",
+    "tags": ["tunnel", "proxy", "http"],
+    "url": "https://github.com/jpillora/chisel"
+  },
+  "xfreerdp": {
+    "name": "xfreerdp",
+    "nameZh": "xfreerdp 远程桌面",
+    "description": "FreeRDP client for connecting to Windows Remote Desktop",
+    "descriptionZh": "FreeRDP客户端，用于连接Windows远程桌面",
+    "category": "pentest-post",
+    "tags": ["rdp", "remote", "windows"],
+    "url": "https://www.freerdp.com"
+  },
+  "mitm6": {
+    "name": "mitm6",
+    "nameZh": "mitm6 IPv6中间人",
+    "description": "Exploits IPv6 for DNS spoofing and NTLM relay attacks",
+    "descriptionZh": "利用IPv6进行DNS欺骗和NTLM中继攻击",
+    "category": "pentest-post",
+    "tags": ["ipv6", "mitm", "ad"],
+    "url": "https://github.com/dirkjanm/mitm6"
+  },
+  "coercer": {
+    "name": "Coercer",
+    "nameZh": "Coercer 认证强制",
+    "description": "Tool for coercing Windows hosts to authenticate to an attacker",
+    "descriptionZh": "强制Windows主机向攻击者进行认证的工具",
+    "category": "pentest-post",
+    "tags": ["ad", "coerce", "ntlm"],
+    "url": "https://github.com/p0dalirius/Coercer"
+  },
+  "ldeep": {
+    "name": "ldeep",
+    "nameZh": "ldeep LDAP枚举",
+    "description": "In-depth LDAP enumeration tool for Active Directory",
+    "descriptionZh": "Active Directory深度LDAP枚举工具",
+    "category": "pentest-post",
+    "tags": ["ldap", "ad", "enumeration"],
+    "url": "https://github.com/franc-music/ldeep"
+  },
+  "enum4linux-ng": {
+    "name": "enum4linux-ng",
+    "nameZh": "enum4linux-ng SMB枚举",
+    "description": "Next generation tool for enumerating Windows/Samba systems",
+    "descriptionZh": "新一代Windows/Samba系统枚举工具",
+    "category": "pentest-post",
+    "tags": ["smb", "enumeration", "ad"],
+    "url": "https://github.com/cddmp/enum4linux-ng"
+  },
+  "bloodyAD": {
+    "name": "bloodyAD",
+    "nameZh": "bloodyAD AD利用",
+    "description": "Active Directory privilege escalation and exploitation tool",
+    "descriptionZh": "Active Directory权限提升与利用工具",
+    "category": "pentest-post",
+    "tags": ["ad", "privilege-escalation", "exploit"],
+    "url": "https://github.com/CravateRouge/bloodyAD"
+  },
+  "bloodhound-python": {
+    "name": "BloodHound.py",
+    "nameZh": "BloodHound.py AD信息收集",
+    "description": "Python BloodHound ingestor for AD relationship mapping",
+    "descriptionZh": "Python版BloodHound数据收集器，用于AD关系映射",
+    "category": "pentest-post",
+    "tags": ["ad", "bloodhound", "enumeration"],
+    "url": "https://github.com/fox-it/BloodHound.py"
+  },
+  "proxychains4": {
+    "name": "proxychains4",
+    "nameZh": "proxychains4 代理链",
+    "description": "Redirect TCP connections through proxy chains (SOCKS/HTTP)",
+    "descriptionZh": "通过代理链重定向TCP连接",
+    "category": "pentest-post",
+    "tags": ["proxy", "socks", "tunnel"],
+    "url": "https://github.com/rofl0r/proxychains-ng"
+  },
+  "minikerberos": {
+    "name": "minikerberos",
+    "nameZh": "minikerberos Kerberos库",
+    "description": "Pure Python Kerberos library for authentication attacks",
+    "descriptionZh": "纯Python Kerberos库，用于认证攻击",
+    "category": "pentest-post",
+    "tags": ["kerberos", "ad", "authentication"],
+    "url": "https://github.com/skelsec/minikerberos"
+  },
+  "gMSADumper": {
+    "name": "gMSADumper",
+    "nameZh": "gMSADumper gMSA密码提取",
+    "description": "Dump gMSA password from Active Directory",
+    "descriptionZh": "从Active Directory中提取gMSA密码",
+    "category": "pentest-post",
+    "tags": ["ad", "credential", "gmsa"],
+    "url": "https://github.com/micahvandeusen/gMSADumper"
+  },
+  "exegol": {
+    "name": "Exegol",
+    "nameZh": "Exegol 渗透环境",
+    "description": "Fully featured pentest Docker environment with pre-installed tools",
+    "descriptionZh": "功能齐全的渗透测试Docker环境，预装常用工具",
+    "category": "pentest-post",
+    "tags": ["environment", "docker", "pentest"],
+    "url": "https://github.com/ThePorgs/Exegol"
+  },
+  "john": {
+    "name": "John the Ripper",
+    "nameZh": "John 密码破解",
+    "description": "Popular open-source password cracker supporting many hash types",
+    "descriptionZh": "流行的开源密码破解工具，支持多种哈希类型",
+    "category": "pentest-post",
+    "tags": ["password", "cracking", "hash"],
+    "url": "https://github.com/openwall/john"
+  },
+  "ldapsearch": {
+    "name": "ldapsearch",
+    "nameZh": "ldapsearch LDAP查询",
+    "description": "Command-line tool for querying LDAP directories",
+    "descriptionZh": "LDAP目录查询命令行工具",
+    "category": "pentest-post",
+    "tags": ["ldap", "query", "ad"],
+    "url": "https://wiki.debian.org/LDAP/LDAPUtils"
+  },
+  "evil-winrm": {
+    "name": "evil-winrm",
+    "nameZh": "evil-winrm WinRM利用",
+    "description": "WinRM shell with enhanced post-exploitation features",
+    "descriptionZh": "增强版WinRM Shell，支持后渗透功能",
+    "category": "pentest-post",
+    "tags": ["winrm", "shell", "windows"],
+    "url": "https://github.com/Hackplayers/evil-winrm"
+  },
+  "ligolo-ng": {
+    "name": "ligolo-ng",
+    "nameZh": "ligolo-ng 隧道工具",
+    "description": "Advanced tunneling tool using TUN interface for pivoting",
+    "descriptionZh": "基于TUN接口的高级隧道工具",
+    "category": "pentest-post",
+    "tags": ["tunnel", "pivoting", "network"],
+    "url": "https://github.com/nicocha30/ligolo-ng"
+  },
+  "linpeas": {
+    "name": "LinPEAS",
+    "nameZh": "LinPEAS 提权枚举",
+    "description": "Linux privilege escalation enumeration script",
+    "descriptionZh": "Linux权限提升枚举脚本",
+    "category": "pentest-post",
+    "tags": ["privilege-escalation", "linux", "enumeration"],
+    "url": "https://github.com/peass-ng/PEASS-ng"
+  },
+  "pyGPOAbuse": {
+    "name": "pyGPOAbuse",
+    "nameZh": "pyGPOAbuse GPO利用",
+    "description": "Abuse Group Policy Objects for privilege escalation in AD",
+    "descriptionZh": "滥用组策略对象实现AD权限提升",
+    "category": "pentest-post",
+    "tags": ["ad", "gpo", "privilege-escalation"],
+    "url": "https://github.com/Hackndo/pyGPOAbuse"
+  },
+  "PassTheCert": {
+    "name": "PassTheCert",
+    "nameZh": "PassTheCert 证书传递",
+    "description": "Pass-the-Certificate attack tool for AD CS exploitation",
+    "descriptionZh": "证书传递攻击工具，用于AD CS利用",
+    "category": "pentest-post",
+    "tags": ["ad", "certificate", "exploit"],
+    "url": "https://github.com/AlmondOffSec/PassTheCert"
+  },
+  "targetedKerberoast": {
+    "name": "targetedKerberoast",
+    "nameZh": "targetedKerberoast 定向Kerberoast",
+    "description": "Targeted Kerberoasting attack against specific AD accounts",
+    "descriptionZh": "针对特定AD账户的定向Kerberoast攻击",
+    "category": "pentest-post",
+    "tags": ["kerberos", "ad", "credential"],
+    "url": "https://github.com/ShutdownRepo/targetedKerberoast"
+  },
+  "noPac": {
+    "name": "noPac",
+    "nameZh": "noPac SAM/PAC利用",
+    "description": "Exploit CVE-2021-42278 and CVE-2021-42287 for AD privilege escalation",
+    "descriptionZh": "利用CVE-2021-42278和CVE-2021-42287实现AD提权",
+    "category": "pentest-post",
+    "tags": ["ad", "cve", "privilege-escalation"],
+    "url": "https://github.com/Ridter/noPac"
+  },
+  "zerologon": {
+    "name": "zerologon",
+    "nameZh": "Zerologon 域控提权",
+    "description": "Exploit CVE-2020-1472 Zerologon for domain controller takeover",
+    "descriptionZh": "利用CVE-2020-1472 Zerologon漏洞接管域控制器",
+    "category": "pentest-post",
+    "tags": ["ad", "cve", "domain-controller"],
+    "url": "https://github.com/dirkjanm/CVE-2020-1472"
+  },
+  "lsassy": {
+    "name": "lsassy",
+    "nameZh": "lsassy 凭证提取",
+    "description": "Extract credentials from LSASS process remotely",
+    "descriptionZh": "远程从LSASS进程中提取凭证",
+    "category": "pentest-post",
+    "tags": ["credential", "lsass", "windows"],
+    "url": "https://github.com/Hackndo/lsassy"
+  },
+  "donpapi": {
+    "name": "DonPAPI",
+    "nameZh": "DonPAPI DPAPI利用",
+    "description": "Dump DPAPI credentials remotely from Windows machines",
+    "descriptionZh": "远程从Windows机器提取DPAPI凭证",
+    "category": "pentest-post",
+    "tags": ["dpapi", "credential", "windows"],
+    "url": "https://github.com/login-securite/DonPAPI"
+  },
+  "pywhisker": {
+    "name": "pywhisker",
+    "nameZh": "pywhisker Shadow凭证",
+    "description": "Manipulate msDS-KeyCredentialLink for Shadow Credentials attacks",
+    "descriptionZh": "操作msDS-KeyCredentialLink实现Shadow Credentials攻击",
+    "category": "pentest-post",
+    "tags": ["ad", "credential", "shadow"],
+    "url": "https://github.com/ShutdownRepo/pywhisker"
+  },
+  "dfscoerce": {
+    "name": "DFSCoerce",
+    "nameZh": "DFSCoerce DFS强制认证",
+    "description": "Coerce Windows hosts authentication via MS-DFSNM protocol",
+    "descriptionZh": "通过MS-DFSNM协议强制Windows主机认证",
+    "category": "pentest-post",
+    "tags": ["ad", "coerce", "ntlm"],
+    "url": "https://github.com/Wh04m1001/DFSCoerce"
+  },
+  "shadowcoerce": {
+    "name": "ShadowCoerce",
+    "nameZh": "ShadowCoerce 影子强制认证",
+    "description": "Coerce authentication via MS-FSRVP protocol for NTLM relay",
+    "descriptionZh": "通过MS-FSRVP协议强制认证用于NTLM中继",
+    "category": "pentest-post",
+    "tags": ["ad", "coerce", "ntlm"],
+    "url": "https://github.com/ShutdownRepo/ShadowCoerce"
+  },
+  "gpowned": {
+    "name": "GPOwned",
+    "nameZh": "GPOwned GPO利用",
+    "description": "Exploit misconfigured Group Policy Objects in AD environments",
+    "descriptionZh": "利用AD环境中配置不当的组策略对象",
+    "category": "pentest-post",
+    "tags": ["ad", "gpo", "exploit"],
+    "url": "https://github.com/yourfriendlywhitehat/GPOwned"
+  },
+  "gpp-decrypt": {
+    "name": "gpp-decrypt",
+    "nameZh": "gpp-decrypt GPP密码解密",
+    "description": "Decrypt Group Policy Preferences stored credentials",
+    "descriptionZh": "解密组策略首选项中存储的凭证",
+    "category": "pentest-post",
+    "tags": ["ad", "gpp", "decrypt"],
+    "url": "https://github.com/t0thkr1s/gpp-decrypt"
+  },
+  "powersharppack": {
+    "name": "PowerSharpPack",
+    "nameZh": "PowerSharpPack C#工具集",
+    "description": "Collection of offensive C# tools wrapped in PowerShell",
+    "descriptionZh": "封装在PowerShell中的攻击性C#工具集合",
+    "category": "pentest-post",
+    "tags": ["powershell", "csharp", "post-exploitation"],
+    "url": "https://github.com/S3cur3Th1sSh1t/PowerSharpPack"
+  },
+  "playwright-mcp": {
+    "name": "Playwright MCP",
+    "nameZh": "Playwright MCP浏览器自动化",
+    "description": "Browser automation tool using Playwright with MCP integration",
+    "descriptionZh": "基于Playwright的浏览器自动化工具，集成MCP协议",
+    "category": "misc",
+    "tags": ["browser", "automation", "mcp"],
+    "url": "https://github.com/anthropics/anthropic-quickstarts"
+  },
+  "claude-code": {
+    "name": "Claude Code",
+    "nameZh": "Claude Code AI编程助手",
+    "description": "AI-powered coding assistant by Anthropic for terminal workflows",
+    "descriptionZh": "Anthropic推出的AI编程助手，面向终端工作流",
+    "category": "misc",
+    "tags": ["ai", "coding", "assistant"],
+    "url": "https://github.com/anthropics/claude-code"
+  },
+  "nps": {
+    "name": "nps",
+    "nameZh": "nps 内网代理",
+    "description": "Lightweight intranet proxy server with web management panel",
+    "descriptionZh": "轻量级内网代理服务器，支持Web管理面板",
+    "category": "red-infra",
+    "tags": ["proxy", "tunnel", "management"],
+    "url": "https://github.com/ehang-io/nps"
+  },
+  "redguard": {
+    "name": "RedGuard",
+    "nameZh": "RedGuard C2前置",
+    "description": "C2 front flow control tool for red team infrastructure",
+    "descriptionZh": "红队C2前置流量控制工具",
+    "category": "red-infra",
+    "tags": ["c2", "traffic", "redirector"],
+    "url": "https://github.com/wikiZ/RedGuard"
+  },
+  "interactsh": {
+    "name": "interactsh",
+    "nameZh": "interactsh OOB交互",
+    "description": "OOB interaction gathering tool for vulnerability detection",
+    "descriptionZh": "带外交互收集工具，用于漏洞检测",
+    "category": "red-infra",
+    "tags": ["oob", "callback", "detection"],
+    "url": "https://github.com/projectdiscovery/interactsh"
+  },
+  "merlin": {
+    "name": "Merlin",
+    "nameZh": "Merlin C2框架",
+    "description": "Cross-platform post-exploitation C2 framework over HTTP/2",
+    "descriptionZh": "基于HTTP/2的跨平台后渗透C2框架",
+    "category": "red-infra",
+    "tags": ["c2", "post-exploitation", "http2"],
+    "url": "https://github.com/Ne0nd0g/merlin"
+  },
+  "wpscan": {
+    "name": "WPScan",
+    "nameZh": "WPScan WordPress扫描",
+    "description": "WordPress security scanner for vulnerability detection",
+    "descriptionZh": "WordPress安全扫描器，用于漏洞检测",
+    "category": "pentest-exploit",
+    "tags": ["wordpress", "scanner", "web"],
+    "url": "https://github.com/wpscanteam/wpscan"
+  },
+  "yakit": {
+    "name": "Yakit",
+    "nameZh": "Yakit 安全测试平台",
+    "description": "Interactive security testing platform with integrated tools",
+    "descriptionZh": "交互式安全测试平台，集成多种工具",
+    "category": "misc",
+    "tags": ["platform", "security", "testing"],
+    "url": "https://github.com/yaklang/yakit"
+  },
+  "bypass": {
+    "name": "bypass",
+    "nameZh": "bypass 安全绕过",
+    "description": "Collection of security bypass techniques and tools",
+    "descriptionZh": "安全绕过技术与工具合集",
+    "category": "red-infra",
+    "tags": ["bypass", "evasion", "defense"],
+    "url": "https://github.com/ffffffff0x/bypass"
+  },
+  "aircrack": {
+    "name": "aircrack-ng",
+    "nameZh": "aircrack-ng 无线审计",
+    "description": "Complete suite for WiFi network security auditing",
+    "descriptionZh": "完整的WiFi网络安全审计套件",
+    "category": "blue-team",
+    "tags": ["wifi", "wireless", "audit"],
+    "url": "https://github.com/aircrack-ng/aircrack-ng"
+  },
+  "binwalk": {
+    "name": "binwalk",
+    "nameZh": "binwalk 固件分析",
+    "description": "Firmware analysis and extraction tool for embedded systems",
+    "descriptionZh": "嵌入式系统固件分析与提取工具",
+    "category": "blue-team",
+    "tags": ["firmware", "analysis", "forensics"],
+    "url": "https://github.com/ReFirmLabs/binwalk"
+  },
+  "clamav": {
+    "name": "ClamAV",
+    "nameZh": "ClamAV 反病毒引擎",
+    "description": "Open-source antivirus engine for detecting trojans and malware",
+    "descriptionZh": "开源反病毒引擎，用于检测木马和恶意软件",
+    "category": "blue-team",
+    "tags": ["antivirus", "malware", "detection"],
+    "url": "https://github.com/Cisco-Talos/clamav"
+  },
+  "volatility": {
+    "name": "Volatility",
+    "nameZh": "Volatility 内存取证",
+    "description": "Advanced memory forensics framework for incident response",
+    "descriptionZh": "高级内存取证框架，用于事件响应",
+    "category": "blue-team",
+    "tags": ["memory", "forensics", "incident-response"],
+    "url": "https://github.com/volatilityfoundation/volatility3"
+  },
+  "suricata": {
+    "name": "Suricata",
+    "nameZh": "Suricata 入侵检测",
+    "description": "High-performance network IDS, IPS, and security monitoring engine",
+    "descriptionZh": "高性能网络入侵检测/防御与安全监控引擎",
+    "category": "blue-team",
+    "tags": ["ids", "ips", "monitoring"],
+    "url": "https://github.com/OISF/suricata"
+  },
+  "docker": {
+    "name": "Docker",
+    "nameZh": "Docker 容器引擎",
+    "description": "Container platform for building and running applications",
+    "descriptionZh": "容器平台，用于构建和运行应用程序",
+    "category": "development",
+    "tags": ["container", "devops", "platform"],
+    "url": "https://www.docker.com"
+  },
+  "golang": {
+    "name": "Go",
+    "nameZh": "Go 编程语言",
+    "description": "Open-source programming language for building reliable software",
+    "descriptionZh": "开源编程语言，用于构建可靠软件",
+    "category": "development",
+    "tags": ["language", "runtime", "compiler"],
+    "url": "https://go.dev"
+  },
+  "nodejs": {
+    "name": "Node.js",
+    "nameZh": "Node.js 运行时",
+    "description": "JavaScript runtime built on Chrome's V8 engine",
+    "descriptionZh": "基于Chrome V8引擎的JavaScript运行时",
+    "category": "development",
+    "tags": ["javascript", "runtime", "web"],
+    "url": "https://nodejs.org"
+  },
+  "ruby": {
+    "name": "Ruby",
+    "nameZh": "Ruby 编程语言",
+    "description": "Dynamic programming language focused on simplicity and productivity",
+    "descriptionZh": "注重简洁和生产力的动态编程语言",
+    "category": "development",
+    "tags": ["language", "runtime", "scripting"],
+    "url": "https://www.ruby-lang.org"
+  },
+  "rust": {
+    "name": "Rust",
+    "nameZh": "Rust 编程语言",
+    "description": "Systems programming language focused on safety and performance",
+    "descriptionZh": "注重安全和性能的系统编程语言",
+    "category": "development",
+    "tags": ["language", "systems", "compiler"],
+    "url": "https://www.rust-lang.org"
+  },
+  "nginx": {
+    "name": "Nginx",
+    "nameZh": "Nginx Web服务器",
+    "description": "High-performance HTTP server and reverse proxy",
+    "descriptionZh": "高性能HTTP服务器与反向代理",
+    "category": "development",
+    "tags": ["web-server", "proxy", "http"],
+    "url": "https://nginx.org"
+  },
+  "jq": {
+    "name": "jq",
+    "nameZh": "jq JSON处理器",
+    "description": "Lightweight command-line JSON processor",
+    "descriptionZh": "轻量级命令行JSON处理器",
+    "category": "development",
+    "tags": ["json", "cli", "utility"],
+    "url": "https://github.com/jqlang/jq"
+  },
+  "arl": {
+    "name": "ARL",
+    "nameZh": "ARL 资产侦察灯塔",
+    "description": "Asset Reconnaissance Lighthouse for asset management",
+    "descriptionZh": "资产侦察灯塔系统，用于资产管理",
+    "category": "vuln-env",
+    "tags": ["asset", "management", "platform"],
+    "url": "https://github.com/TophantTechnology/ARL"
+  },
+  "mobsf": {
+    "name": "MobSF",
+    "nameZh": "MobSF 移动安全框架",
+    "description": "Automated mobile application security testing framework",
+    "descriptionZh": "自动化移动应用安全测试框架",
+    "category": "vuln-env",
+    "tags": ["mobile", "security", "framework"],
+    "url": "https://github.com/MobSF/Mobile-Security-Framework-MobSF"
+  },
+  "mythic": {
+    "name": "Mythic",
+    "nameZh": "Mythic C2框架",
+    "description": "Collaborative, multi-platform C2 framework for red teams",
+    "descriptionZh": "协作式多平台红队C2框架",
+    "category": "red-infra",
+    "tags": ["c2", "framework", "red-team"],
+    "url": "https://github.com/its-a-feature/Mythic"
+  },
+  "viper": {
+    "name": "Viper",
+    "nameZh": "Viper 渗透框架",
+    "description": "Graphical penetration testing framework with modular design",
+    "descriptionZh": "图形化模块化渗透测试框架",
+    "category": "red-infra",
+    "tags": ["framework", "pentest", "gui"],
+    "url": "https://github.com/FunnyWolf/Viper"
+  },
+  "vulhub": {
+    "name": "Vulhub",
+    "nameZh": "Vulhub 漏洞靶场",
+    "description": "Pre-built vulnerable Docker environments for security training",
+    "descriptionZh": "预构建的Docker漏洞环境，用于安全训练",
+    "category": "vuln-env",
+    "tags": ["vulnerable", "docker", "training"],
+    "url": "https://github.com/vulhub/vulhub"
+  },
+  "vulfocus": {
+    "name": "Vulfocus",
+    "nameZh": "Vulfocus 漏洞靶场",
+    "description": "Vulnerability environment platform for practicing exploitation",
+    "descriptionZh": "漏洞环境平台，用于漏洞利用实践",
+    "category": "vuln-env",
+    "tags": ["vulnerable", "platform", "training"],
+    "url": "https://github.com/fofapro/vulfocus"
+  }
+}
