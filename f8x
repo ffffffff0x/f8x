@@ -11181,6 +11181,7 @@ F8x_Install_Tool(){
     fi
 
     $func
+    F8x_Record_Install "$tool_name" "install"
     echo -e "\033[1;32m\n>> $1 installation completed\033[0m"
 }
 
@@ -11233,6 +11234,39 @@ F8x_Search_Tool(){
         echo "  No tools found matching '$keyword'"
     else
         echo -e "\n  Found $count tool(s). Use \033[1;34m./f8x -install <tool>\033[0m to install."
+    fi
+}
+
+# Record a successful tool installation to /opt/.f8x/installed.json
+F8x_Record_Install(){
+    local tool_name="$1"
+    local method="$2"  # "install" or "flag:<flag>"
+    local install_file="/opt/.f8x/installed.json"
+    local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+    mkdir -p /opt/.f8x
+
+    if command -v jq &>/dev/null && [ -f "$install_file" ]; then
+        # Use jq to update existing file
+        local tmp=$(mktemp)
+        jq --arg name "$tool_name" --arg at "$timestamp" --arg m "$method" --arg ver "$F8x_Version" \
+            '.tools[$name] = {"installed_at": $at, "method": $m} | .f8x_version = $ver | .last_updated = $at' \
+            "$install_file" > "$tmp" && mv "$tmp" "$install_file"
+    else
+        # Bootstrap or no jq: simple printf approach
+        if [ ! -f "$install_file" ]; then
+            printf '{"tools":{"%s":{"installed_at":"%s","method":"%s"}},"f8x_version":"%s","last_updated":"%s"}\n' \
+                "$tool_name" "$timestamp" "$method" "$F8x_Version" "$timestamp" > "$install_file"
+        elif command -v jq &>/dev/null; then
+            local tmp=$(mktemp)
+            jq --arg name "$tool_name" --arg at "$timestamp" --arg m "$method" --arg ver "$F8x_Version" \
+                '.tools[$name] = {"installed_at": $at, "method": $m} | .f8x_version = $ver | .last_updated = $at' \
+                "$install_file" > "$tmp" && mv "$tmp" "$install_file"
+        else
+            # Fallback: use sed to insert before the closing brace of "tools"
+            local entry="\"$tool_name\":{\"installed_at\":\"$timestamp\",\"method\":\"$method\"}"
+            sed -i "s/\"tools\":{/\"tools\":{$entry,/" "$install_file" 2>/dev/null || true
+        fi
     fi
 }
 
@@ -12103,6 +12137,15 @@ for _arg in "$@"; do
                 F8x_Search_Tool "$_next_arg"
             else
                 echo -e "\033[1;31mUsage: ./f8x --search <keyword>\033[0m"
+            fi
+            exit 0
+            ;;
+        --list-installed)
+            install_file="/opt/.f8x/installed.json"
+            if [ -f "$install_file" ]; then
+                cat "$install_file"
+            else
+                echo '{"tools":{}}'
             fi
             exit 0
             ;;
