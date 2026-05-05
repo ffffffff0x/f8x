@@ -405,10 +405,10 @@
               <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
                 <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
               </div>
-              <h2 class="text-xl sm:text-2xl font-bold" data-i18n="redcTitle">redc × f8x 融合</h2>
+              <h2 class="text-xl sm:text-2xl font-bold" data-i18n="redcTitle">WgpSec Infra 生态</h2>
             </div>
-            <p class="text-dim text-sm leading-relaxed mb-6" data-i18n="redcDesc">redc 是一个桌面级多云管理平台，内置 f8x 软件商店。通过 GUI 一键部署 f8x 的全部工具到任意远程主机。</p>
-            <a href="https://github.com/ffffffff0x/redc" target="_blank" rel="noreferrer"
+            <p class="text-dim text-sm leading-relaxed mb-6" data-i18n="redcDesc">f8x 不只是一个独立安装脚本，它也是 WgpSec Infra 体系中的软件装配层。redc 负责多云调度与可视化控制，redc-template 提供场景与模板资产，f8x 负责把工具、运行环境和服务装进目标主机。</p>
+            <a href="https://github.com/wgpsec/redc" target="_blank" rel="noreferrer"
                class="inline-flex items-center gap-2 text-sm text-primary hover:text-primary-dim transition-colors cursor-pointer">
               <span data-i18n="redcLink">了解 redc</span>
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
@@ -419,25 +419,25 @@
               <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
                 <svg class="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
               </div>
-              <span class="text-xs font-medium text-white" data-i18n="redcFeat1">GUI 管理面板</span>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat1">redc 控制面</span>
             </div>
             <div class="bg-bg rounded-xl p-4 border border-white/5">
               <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mb-2">
                 <svg class="w-4 h-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9"/></svg>
               </div>
-              <span class="text-xs font-medium text-white" data-i18n="redcFeat2">多云远程部署</span>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat2">redc-template 资产层</span>
             </div>
             <div class="bg-bg rounded-xl p-4 border border-white/5">
               <div class="w-8 h-8 rounded-lg bg-cyber/10 flex items-center justify-center mb-2">
                 <svg class="w-4 h-4 text-cyber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
               </div>
-              <span class="text-xs font-medium text-white" data-i18n="redcFeat3">AI 智能运维</span>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat3">f8x 装配层</span>
             </div>
             <div class="bg-bg rounded-xl p-4 border border-white/5">
               <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center mb-2">
                 <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
               </div>
-              <span class="text-xs font-medium text-white" data-i18n="redcFeat4">f8x 软件商店</span>
+              <span class="text-xs font-medium text-white" data-i18n="redcFeat4">端到端一体化</span>
             </div>
           </div>
         </div>
@@ -787,6 +787,7 @@
     });
 
     // ── Init ──
+    applyLang(currentLang);
     fetchCatalog();
   })();
   </script>
