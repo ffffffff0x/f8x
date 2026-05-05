@@ -26,6 +26,10 @@ English | [简体中文](README.zh-cn.md)
 
 ---
 
+## WgpSec Infra Ecosystem
+
+Within the WgpSec Infra stack, f8x is the host-side software provisioning layer. It can be used independently, or delivered remotely by [RedC](https://github.com/wgpsec/redc) to cloud hosts as the execution engine behind the software store, batch tool installation, and node bootstrap workflows. In the same stack, [redc-template](https://github.com/wgpsec/redc-template) provides scenario and template assets, while RedC handles multi-cloud orchestration, lifecycle management, SSH access, plugins, and AI-driven operations.
+
 ## Start
 
 **Download**

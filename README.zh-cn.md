@@ -28,6 +28,10 @@
 
 大多数场景下，在不同的云购买一些 vps 服务器用于部署红 / 蓝队设施，不能做到开箱即用，使用 f8x 可以快速部署所需要的各类服务。同时兼顾到本地 VM 虚拟机的需求，可以选择走 socket 代理进行安装部署，Proxychains-ng 也会自动安装，只需做好 Proxychains-ng 配置即可。
 
+## WgpSec Infra 生态关系
+
+如果把 WgpSec Infra 看成一套完整的攻防基础设施体系，f8x 负责的是目标主机上的软件装配层。它既可以独立使用，也可以由 [RedC](https://github.com/wgpsec/redc) 远程投递到云主机中，作为软件商店、批量工具安装和节点初始化能力的底座。[redc-template](https://github.com/wgpsec/redc-template) 负责场景与模板资产，而 RedC 负责多云调度、场景生命周期、SSH、插件和 AI 自动化。
+
 ## 开始
 
 **下载**
