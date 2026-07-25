@@ -92,6 +92,7 @@ f8x 基本上不需要任何依赖,或者说它就是为了帮助你安装各种
   - -kc 后渗透、C2
   - -kd 其他
   - -ke 功能重叠或长期不维护
+- 使用 -worker 选项以非交互方式安装安全 Worker 环境，并生成 `/tmp/f8x-worker-report.json` 验收报告；失败项会关联 `/tmp/f8x-worker-logs/` 下的独立日志，包管理器仅列出待重启服务而不会自动重启
 - 使用 -s 选项安装蓝队环境 (Fail2Ban、chkrootkit、rkhunter、河马webshell查杀工具)
 - 使用 -f 选项安装其他工具 (Bash_Insulter、vlmcsd、AdguardTeam、trash-cli 等辅助工具)
 - 使用 -cloud 选项安装云应用 (Terraform、Serverless Framework、wrangler)

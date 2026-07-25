@@ -85,6 +85,7 @@ The following options are currently supported by f8x
 - `-p`            : install Proxy Environment (Warning : Use only when needed)
 - `-d`            : install Development Environment (python3、pip3、Go、Docker、Docker-Compose、SDKMAN)
 - `-k` (`a`/`b`/`c`/`d`/`e`): install Pentest environment (hashcat、ffuf、OneForAll、ksubdomain、impacket and other Pentest tools)
+- `-worker`       : install a non-interactive security Worker environment and write `/tmp/f8x-worker-report.json`; failed installs reference per-capability logs under `/tmp/f8x-worker-logs/`
 - `-s`            : install Blue Team Environment (Fail2Ban、chkrootkit、rkhunter、shellpub)
 - `-f`            : install Other Tools (AdguardTeam、trash-cli、fzf)
 - `-cloud`        : install Cloud Applications (Terraform、Serverless Framework、wrangler)

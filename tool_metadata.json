@@ -225,6 +225,15 @@
     "tags": ["password", "spray", "credential"],
     "url": "https://github.com/chainreactors/spray"
   },
+  "hydra": {
+    "name": "Hydra",
+    "nameZh": "Hydra 网络登录测试",
+    "description": "Parallel network login testing tool for multiple protocols",
+    "descriptionZh": "支持多种协议的并行网络登录测试工具",
+    "category": "pentest-post",
+    "tags": ["password", "login", "credential"],
+    "url": "https://github.com/vanhauser-thc/thc-hydra"
+  },
   "zombie": {
     "name": "zombie",
     "nameZh": "zombie 密码爆破",

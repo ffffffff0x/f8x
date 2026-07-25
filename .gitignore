@@ -5,3 +5,7 @@
 /releases
 Temp.md
 diff.txt
+
+# Python bytecode and interpreter caches
+__pycache__/
+*.py[cod]

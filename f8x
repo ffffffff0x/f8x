@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.9.1 (2026/04/21)"
+F8x_Version="1.9.2 (2026/07/26)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
@@ -65,11 +65,11 @@ ttyd_Ver="1.7.7"
 ttyd_bin_amd64="ttyd.x86_64"
 ttyd_bin_arm64="ttyd.arm"
 # https://github.com/coder/code-server
-code_server_Ver="v4.115.0"
-code_server_bin1_amd64="code-server-4.115.0-amd64.rpm"
-code_server_bin2_amd64="code-server_4.115.0_amd64.deb"
-code_server_bin1_arm64="code-server-4.115.0-arm64.rpm"
-code_server_bin2_arm64="code-server_4.115.0_arm64.deb"
+code_server_Ver="v4.130.0"
+code_server_bin1_amd64="code-server-4.130.0-amd64.rpm"
+code_server_bin2_amd64="code-server_4.130.0_amd64.deb"
+code_server_bin1_arm64="code-server-4.130.0-arm64.rpm"
+code_server_bin2_arm64="code-server_4.130.0_arm64.deb"
 # https://www.python.org/downloads/
 py37_ver="3.7.12"
 py37_bin="Python-3.7.12.tar.xz"
@@ -92,15 +92,17 @@ phantomjs_dir="phantomjs-2.1.1-linux-x86_64"
 
 # ===================== Software version variable setting (pentest) =====================
 # https://github.com/fatedier/frp/releases
-frp_Ver="v0.68.1"
-frp_File_amd64="frp_0.68.1_linux_amd64.tar.gz"
-frp_File_arm64="frp_0.68.1_linux_arm64.tar.gz"
-frp_Dir_amd64="frp_0.68.1_linux_amd64"
-frp_Dir_arm64="frp_0.68.1_linux_arm64"
+frp_Ver="v0.70.1"
+frp_File_amd64="frp_0.70.1_linux_amd64.tar.gz"
+frp_File_arm64="frp_0.70.1_linux_arm64.tar.gz"
+frp_Dir_amd64="frp_0.70.1_linux_amd64"
+frp_Dir_arm64="frp_0.70.1_linux_arm64"
 # https://github.com/ehang-io/nps/releases
 nps_Ver="v0.26.10"
 nps_File_amd64="linux_amd64_server.tar.gz"
 nps_File_arm64="linux_arm64_server.tar.gz"
+npc_File_amd64="linux_amd64_client.tar.gz"
+npc_File_arm64="linux_arm64_client.tar.gz"
 # https://github.com/wikiZ/RedGuard/releases
 RedGuard_Ver="24.06.18"
 RedGuard_File_amd64="RedGuard_64"
@@ -118,17 +120,17 @@ xray_bin_amd64="xray_linux_amd64"
 xray_File_arm64="xray_linux_arm64.zip"
 xray_bin_arm64="xray_linux_arm64"
 # https://github.com/shadow1ng/fscan/releases
-fscan_Ver="1.8.4"
-fscan_Install_amd64="fscan"
-fscan_Install_arm64="fscan_arm64"
+fscan_Ver="v2.2.0"
+fscan_Install_amd64="fscan_2.2.0_linux_x64"
+fscan_Install_arm64="fscan_2.2.0_linux_arm64"
 # https://github.com/ffuf/ffuf/releases
-ffuf_Ver="v2.1.0"
-ffuf_Install_amd64="ffuf_2.1.0_linux_amd64.tar.gz"
-ffuf_Install_arm64="ffuf_2.1.0_linux_arm64.tar.gz"
+ffuf_Ver="v2.2.1"
+ffuf_Install_amd64="ffuf_2.2.1_linux_amd64.tar.gz"
+ffuf_Install_arm64="ffuf_2.2.1_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/nuclei/releases
-Nuclei_Ver="v3.7.1"
-Nuclei_Install_amd64="nuclei_3.7.1_linux_amd64.zip"
-Nuclei_Install_arm64="nuclei_3.7.1_linux_arm64.zip"
+Nuclei_Ver="v3.11.0"
+Nuclei_Install_amd64="nuclei_3.11.0_linux_amd64.zip"
+Nuclei_Install_arm64="nuclei_3.11.0_linux_arm64.zip"
 # https://github.com/Ne0nd0g/merlin/releases
 merlin_Ver="v2.1.4"
 merlin_Install_amd64="merlinServer-Linux-x64.7z"
@@ -145,22 +147,22 @@ crawlergo_File_arm64="crawlergo_linux_arm64"
 # https://github.com/gloxec/CrossC2/releases
 CrossC2_Ver="v3.3"
 # https://github.com/mitmproxy/mitmproxy/releases
-mitmproxy_Ver="12.2.2"
-mitmproxy_bin="mitmproxy-12.2.2-linux-x86_64.tar.gz"
+mitmproxy_Ver="12.2.3"
+mitmproxy_bin="mitmproxy-12.2.3-linux-x86_64.tar.gz"
 # https://github.com/projectdiscovery/naabu/releases
-naabu_Ver="v2.5.0"
-naabu_bin="naabu_2.5.0_linux_amd64.zip"
+naabu_Ver="v2.6.1"
+naabu_bin="naabu_2.6.1_linux_amd64.zip"
 # https://github.com/hashcat/hashcat/releases
 hashcat_Version="v7.1.2"
 hashcat_File="hashcat-7.1.2.7z"
 # https://github.com/projectdiscovery/subfinder/releases
-subfinder_Ver="v2.13.0"
-subfinder_bin_amd64="subfinder_2.13.0_linux_amd64.zip"
-subfinder_bin_arm64="subfinder_2.13.0_linux_arm64.zip"
+subfinder_Ver="v2.14.0"
+subfinder_bin_amd64="subfinder_2.14.0_linux_amd64.zip"
+subfinder_bin_arm64="subfinder_2.14.0_linux_arm64.zip"
 # https://github.com/zan8in/afrog
-afrog_Ver="v3.5.2"
-afrog_File_amd64="afrog_3.5.2_linux_amd64.zip"
-afrog_File_arm64="afrog_3.5.2_linux_arm64.zip"
+afrog_Ver="v3.5.6"
+afrog_File_amd64="afrog_3.5.6_linux_amd64.zip"
+afrog_File_arm64="afrog_3.5.6_linux_arm64.zip"
 afrog_bin_amd64="afrog"
 afrog_bin_arm64="afrog"
 # https://github.com/SleepingBag945/dddd
@@ -168,9 +170,9 @@ dddd_Ver="v2.0.1"
 dddd_bin_amd64="dddd_linux64"
 dddd_bin_arm64="dddd_linux_arm64"
 # https://github.com/projectdiscovery/httpx/releases
-httpx_Ver="v1.9.0"
-httpx_bin_amd64="httpx_1.9.0_linux_amd64.zip"
-httpx_bin_arm64="httpx_1.9.0_linux_arm64.zip"
+httpx_Ver="v1.10.0"
+httpx_bin_amd64="httpx_1.10.0_linux_amd64.zip"
+httpx_bin_arm64="httpx_1.10.0_linux_arm64.zip"
 # https://github.com/projectdiscovery/mapcidr/releases
 mapcidr_Ver="v1.1.97"
 mapcidr_bin_amd64="mapcidr_1.1.97_linux_amd64.zip"
@@ -180,18 +182,18 @@ iprange_Ver="v1.0.2"
 iprange_bin_amd64="iprange_1.0.2_linux_amd64.tar.gz"
 iprange_bin_arm64="iprange_1.0.2_linux_arm64.tar.gz"
 # https://github.com/projectdiscovery/dnsx/releases
-dnsx_Ver="v1.2.3"
-dnsx_bin_amd64="dnsx_1.2.3_linux_amd64.zip"
-dnsx_bin_arm64="dnsx_1.2.3_linux_arm64.zip"
+dnsx_Ver="v1.3.0"
+dnsx_bin_amd64="dnsx_1.3.0_linux_amd64.zip"
+dnsx_bin_arm64="dnsx_1.3.0_linux_arm64.zip"
 # https://github.com/iBotPeaches/Apktool/releases
-apktool_Ver="v3.0.1"
-apktool_bin="apktool_3.0.1.jar"
+apktool_Ver="v3.0.3"
+apktool_bin="apktool_3.0.3.jar"
 # https://github.com/lc/gau/releases
 gau_Ver="v2.2.4"
 gau_bin="gau_2.2.4_linux_amd64.tar.gz"
 # https://github.com/skylot/jadx/releases
-jadx_Ver="v1.5.5"
-jadx_bin="jadx-1.5.5.zip"
+jadx_Ver="v1.5.6"
+jadx_bin="jadx-1.5.6.zip"
 # https://github.com/qtc-de/remote-method-guesser/releases
 rmg_Ver="v5.1.0"
 rmg_bin="rmg-5.1.0-jar-with-dependencies.jar"
@@ -204,9 +206,9 @@ nali_Ver="v0.8.1"
 nali_bin_amd64="nali-linux-amd64-v0.8.1.gz"
 nali_bin_arm64="nali-linux-armv8-v0.8.1.gz"
 # https://github.com/hahwul/dalfox/releases
-dalfox_Ver="v2.12.0"
-dalfox_bin_amd64="dalfox-linux-amd64.tar.gz"
-dalfox_bin_arm64="dalfox-linux-arm64.tar.gz"
+dalfox_Ver="v3.1.2"
+dalfox_bin_amd64="dalfox-v3.1.2-linux-x86_64.tar.gz"
+dalfox_bin_arm64="dalfox-v3.1.2-linux-aarch64.tar.gz"
 # https://github.com/WangYihang/Platypus/releases
 Platypus_Ver="v1.5.1"
 Platypus_bin_amd64="Platypus_linux_amd64"
@@ -265,17 +267,19 @@ kubeletctl_Ver="v1.13"
 # https://github.com/inguardians/peirates/releases
 peirates_Ver="v1.29a"
 # https://github.com/etcd-io/etcd/releases
-etcdctl_Ver="v3.6.10"
+etcdctl_Ver="v3.7.1"
 # https://github.com/nicocha30/ligolo-ng/releases
-ligolo_ng_Ver="v0.8.3"
+ligolo_ng_Ver="v0.9"
+# https://github.com/MetaCubeX/mihomo/releases
+mihomo_Ver="v1.19.29"
 # https://github.com/peass-ng/PEASS-ng/releases
-peass_ng_Ver="20260412-090b08ae"
+peass_ng_Ver="20260715-81d3c7f8"
 # https://github.com/BeichenDream/GodPotato/releases
 GodPotato_Ver="V1.20"
 # https://github.com/gentilkiwi/mimikatz/releases
 mimikatz_Ver="2.2.0-20220919"
 # https://github.com/BloodHoundAD/SharpHound/releases
-SharpHound_Ver="v2.12.0"
+SharpHound_Ver="v2.14.0"
 # https://github.com/itm4n/PrintSpoofer/releases
 PrintSpoofer_Ver="v1.0"
 # https://github.com/QAX-A-Team/sharpwmi/releases
@@ -312,13 +316,13 @@ cf_Install_arm64="cf_v0.5.0_linux_arm64.tar.gz"
 ysuserial_Ver="v1.5"
 ysuserial_bin="ysuserial-1.5-su18-all.jar"
 # https://github.com/projectdiscovery/katana
-katana_Ver="v1.5.0"
-katana_bin_amd64="katana_1.5.0_linux_amd64.zip"
-katana_bin_arm64="katana_1.5.0_linux_arm64.zip"
+katana_Ver="v1.6.1"
+katana_bin_amd64="katana_1.6.1_linux_amd64.zip"
+katana_bin_arm64="katana_1.6.1_linux_arm64.zip"
 # https://github.com/projectdiscovery/uncover
-uncover_Ver="v1.2.0"
-uncover_bin_amd64="uncover_1.2.0_linux_amd64.zip"
-uncover_bin_arm64="uncover_1.2.0_linux_arm64.zip"
+uncover_Ver="v1.2.1"
+uncover_bin_amd64="uncover_1.2.1_linux_amd64.zip"
+uncover_bin_arm64="uncover_1.2.1_linux_arm64.zip"
 # https://github.com/pmiaowu/HostCollision
 HostCollision_Ver="HostCollision-2.2.9"
 HostCollision_Bin="HostCollision-2.2.9.zip"
@@ -332,7 +336,7 @@ tlsx_Ver="v1.2.2"
 tlsx_bin_amd64="tlsx_1.2.2_linux_amd64.zip"
 tlsx_bin_arm64="tlsx_1.2.2_linux_arm64.zip"
 # https://github.com/chainreactors/gogo
-gogo_Ver="v2.14.1"
+gogo_Ver="v2.15.0"
 gogo_File_amd64="gogo_linux_amd64"
 gogo_File_arm64="gogo_linux_arm64"
 # https://github.com/chainreactors/spray
@@ -340,7 +344,7 @@ spray_Ver="v1.2.6"
 spray_File_amd64="spray_linux_amd64"
 spray_File_arm64="spray_linux_arm64"
 # https://github.com/chainreactors/zombie
-zombie_Ver="v1.2.2"
+zombie_Ver="v1.3.0"
 zombie_File_amd64="zombie_linux_amd64"
 zombie_File_arm64="zombie_linux_arm64"
 # https://github.com/EddieIvan01/iox/releases
@@ -348,9 +352,9 @@ iox_Ver="v0.4"
 iox_File_amd64="iox_v0.4-next_Linux_x86_64.tar.gz"
 iox_File_arm64="iox_v0.4-next_Linux_i386.tar.gz"
 # https://github.com/jpillora/chisel/releases
-chisel_Ver="v1.11.5"
-chisel_File_amd64="chisel_1.11.5_linux_amd64.gz"
-chisel_File_arm64="chisel_1.11.5_linux_arm64.gz"
+chisel_Ver="v1.11.8"
+chisel_File_amd64="chisel_1.11.8_linux_amd64.gz"
+chisel_File_arm64="chisel_1.11.8_linux_arm64.gz"
 # https://github.com/projectdiscovery/simplehttpserver
 simplehttpserver_Ver="v0.0.6"
 simplehttpserver_bin_amd64="simplehttpserver_0.0.6_linux_amd64.zip"
@@ -362,7 +366,7 @@ kerbrute_Ver="v1.0.3"
 Adinfo_bin="Adinfo_linux"
 Adinfo_Ver="v0.3"
 # https://github.com/zema1/suo5
-suo5_Ver="v2.1.0"
+suo5_Ver="v2.2.0"
 suo5_bin_amd64="suo5-linux-amd64"
 suo5_bin_arm64="suo5-linux-arm64"
 # https://github.com/projectdiscovery/alterx
@@ -376,13 +380,13 @@ rogue_mysql_server_bin_arm64="rogue_mysql_server-v1.0.1-linux-arm64.zip"
 
 # ===================== Software version variable setting (other) =====================
 # https://github.com/AdguardTeam/AdGuardHome/releases
-AdGuardHome_Version="v0.107.73"
+AdGuardHome_Version="v0.107.78"
 AdGuardHome_File_amd64="AdGuardHome_linux_amd64.tar.gz"
 AdGuardHome_File_arm64="AdGuardHome_linux_arm64.tar.gz"
 # https://github.com/junegunn/fzf/releases
-fzf_Ver="v0.71.0"
-fzf_bin_amd64="fzf-0.71.0-linux_amd64.tar.gz"
-fzf_bin_arm64="fzf-0.71.0-linux_arm64.tar.gz"
+fzf_Ver="v0.74.1"
+fzf_bin_amd64="fzf-0.74.1-linux_amd64.tar.gz"
+fzf_bin_arm64="fzf-0.74.1-linux_arm64.tar.gz"
 # https://github.com/iawia002/lux/releases
 lux_Ver="v0.24.1"
 lux_bin_amd64="lux_0.24.1_Linux_x86_64.tar.gz"
@@ -406,30 +410,30 @@ duf_bin2_amd64="duf_0.9.1_linux_amd64.deb"
 duf_bin1_arm64="duf_0.9.1_linux_arm64.rpm"
 duf_bin2_arm64="duf_0.9.1_linux_arm64.deb"
 # https://github.com/dalance/procs/releases
-procs_Ver="v0.14.11"
-procs_bin="procs-v0.14.11-x86_64-linux.zip"
+procs_Ver="v0.14.12"
+procs_bin="procs-v0.14.12-x86_64-linux.zip"
 # https://github.com/sharkdp/fd/releases
 fd_Ver="v10.4.2"
 fd_bin_amd64="fd_10.4.2_amd64.deb"
 fd_bin_arm64="fd_10.4.2_arm64.deb"
 # https://github.com/hashicorp/terraform/releases
-Terraform_Ver="1.14.8"
-Terraform_bin_amd64="terraform_1.14.8_linux_amd64.zip"
-Terraform_bin_arm64="terraform_1.14.8_linux_arm64.zip"
+Terraform_Ver="1.15.8"
+Terraform_bin_amd64="terraform_1.15.8_linux_amd64.zip"
+Terraform_bin_arm64="terraform_1.15.8_linux_arm64.zip"
 # https://github.com/aliyun/aliyun-cli/releases
-aliyun_cli_Ver="v3.3.6"
-aliyun_cli_bin_amd64="aliyun-cli-linux-3.3.6-amd64.tgz"
-aliyun_cli_bin_arm64="aliyun-cli-linux-3.3.6-arm64.tgz"
+aliyun_cli_Ver="v3.4.10"
+aliyun_cli_bin_amd64="aliyun-cli-linux-3.4.10-amd64.tgz"
+aliyun_cli_bin_arm64="aliyun-cli-linux-3.4.10-arm64.tgz"
 # https://github.com/wgpsec/redc/releases
-redc_Ver="v3.1.9"
-redc_bin_amd64="redc_v3.1.9_linux_amd64.tar.gz"
-redc_bin_arm64="redc_v3.1.9_linux_arm64.tar.gz"
+redc_Ver="v3.3.7"
+redc_bin_amd64="redc_v3.3.7_linux_amd64.tar.gz"
+redc_bin_arm64="redc_v3.3.7_linux_arm64.tar.gz"
 # https://github.com/bcicen/ctop/releases/
 ctop_Ver="v0.7.7"
 ctop_bin_amd64="ctop-0.7.7-linux-amd64"
 ctop_bin_arm64="ctop-0.7.7-linux-arm64"
 # https://github.com/mikefarah/yq
-yq_Ver="v4.52.5"
+yq_Ver="v4.53.3"
 yq_bin_amd64="yq_linux_amd64"
 yq_bin_arm64="yq_linux_arm64"
 yq_File_amd64="yq_linux_amd64.tar.gz"
@@ -783,12 +787,14 @@ Echo_ERROR4(){
 
 Install_Switch(){
 
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
     case $Linux_Version in
         *"CentOS"*|*"RedHat"*|*"Fedora"*|*"AlmaLinux"*|*"VzLinux"*|*"Rocky"*)
-            yum install -y $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 " && return 0 || { Echo_ERROR "$1 installation failed"; return 1; }
+            yum install -y $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 " && return 0 || { Echo_ERROR "$1 installation failed"; return 1; }
             ;;
         *"Kali"*|*"Ubuntu"*|*"Debian"*)
-            apt-get install -y $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 " && return 0 || { Echo_ERROR "$1 installation failed"; return 1; }
+            apt-get install -y $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 " && return 0 || { Echo_ERROR "$1 installation failed"; return 1; }
             ;;
         *) ;;
     esac
@@ -797,7 +803,9 @@ Install_Switch(){
 
 Install_Switch2(){
 
-    apt-get install -yq --no-install-recommends $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 " || Echo_ERROR "$1 installation failed"
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    apt-get install -yq --no-install-recommends $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 " || Echo_ERROR "$1 installation failed"
 
 }
 
@@ -809,12 +817,14 @@ Install_Switch3(){
 
 Install_Switch4(){
 
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
     case $Linux_Version in
         *"Debian"*)
-            python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
+            python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
             ;;
         *)
-            pip3 install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
+            pip3 install $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install $1 --break-system-packages 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
         ;;
     esac
 
@@ -822,21 +832,27 @@ Install_Switch4(){
 
 Install_Switch5(){
 
-    python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { python3 -m pip install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    python3 -m pip install $1 --break-system-packages 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { python3 -m pip install $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
 
 }
 
 Install_Switch6(){
 
-    python3 -m pip install -r $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { python3 -m pip install -r $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    python3 -m pip install -r $1 --break-system-packages 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { python3 -m pip install -r $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
 
 }
 
 Install_Switch7(){
 
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
     case $Linux_Version in
         *"Debian"*)
-            python3 -m pip install -r $1 --break-system-packages 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install -r $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
+            python3 -m pip install -r $1 --break-system-packages 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || { pip3 install -r $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3)" && return 0 || Echo_ERROR "$1 module installation failed"; return 1; }
             ;;
         *)
             pip3 install -r $1 > /dev/null 2>&1
@@ -847,14 +863,26 @@ Install_Switch7(){
 
 Install_Switch8(){
 
-    pipx install $1 1> /dev/null 2>> /tmp/f8x_error.log && Echo_INFOR "Successfully installed $1 (python3 pipx)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    pipx install $1 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $1 (python3 pipx)" && return 0 || { Echo_ERROR "$1 module installation failed"; return 1; }
+
+}
+
+F8x_Worker_Pipx_Install(){
+
+    local package=$1
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    command -v pipx > /dev/null 2>&1 || Install_Switch "pipx" || return 1
+    pipx install "$package" 1> /dev/null 2>> "$error_log" && Echo_INFOR "Successfully installed $package (python3 pipx)" && return 0 || { Echo_ERROR "$package module installation failed"; return 1; }
 
 }
 
 # ===================== Proxy Switch =====================
 Proxy_Switch(){
 
-    if test -e /tmp/IS_CI
+    if test -e /tmp/IS_CI || [ "${F8X_NONINTERACTIVE:-0}" = "1" ]
     then
         Echo_INFOR "IS_CI"
     else
@@ -5635,9 +5663,11 @@ Pentest_NetExec_Install(){
     then
         Echo_ALERT "$name installed"
     else
-        Install_Switch5 "pipx"
-        pipx ensurepath
+        command -v pipx > /dev/null 2>&1 || Install_Switch "pipx"
+        Rust_Check
+        export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
         pipx install git+https://github.com/Pennyw0rth/NetExec
+        which nxc > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
     fi
 
 }
@@ -5889,16 +5919,12 @@ Pentest_enum4linux_ng_Install(){
     else
         case $Linux_Version in
             *"Kali"*|*"Ubuntu"*|*"Debian"*)
-                $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/cddmp/enum4linux-ng $dir > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || Echo_ERROR "Failed to download $name from github"
-                cd $dir
-                Install_Switch5 "wheel"
-                Install_Switch7 "requirements.txt"
-                python3 setup.py install
-
-                python3 -m pip install cryptography --break-system-packages --ignore-installed
-                python3 -m pip install impacket --break-system-packages
-
-                Install_Switch "smbclient"
+                if ! test -d "$dir"
+                then
+                    $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/cddmp/enum4linux-ng "$dir" > /dev/null 2>&1 && Echo_INFOR "Downloaded $name in the $dir" || { Echo_ERROR "Failed to download $name from github"; return 1; }
+                fi
+                Install_Switch "smbclient" || return 1
+                F8x_Worker_Pipx_Install "$dir"
                 which enum4linux-ng > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name" || Echo_ERROR3
                 ;;
             *) ;;
@@ -8100,7 +8126,8 @@ Rust_Install(){
     name="rust"
 
     echo -e "\033[1;33m\n>> Installing rust\n\033[0m"
-    $Proxy_OK curl https://sh.rustup.rs -sSf | $Proxy_OK sh
+    $Proxy_OK curl https://sh.rustup.rs -sSf | sh -s -- -y
+    export PATH="$HOME/.cargo/bin:$PATH"
 
 }
 
@@ -9403,6 +9430,12 @@ frp_Install(){
         rm -rf $T_Dir/frp/$frp_File > /dev/null 2>&1
     fi
 
+    if test -x "$T_Dir/frp/$frp_Dir/frpc"
+    then
+        install -m 0755 "$T_Dir/frp/$frp_Dir/frpc" /usr/local/bin/frpc
+    fi
+    command -v frpc > /dev/null 2>&1 && Echo_INFOR "frpc is available in /usr/local/bin/frpc" || Echo_ERROR3
+
 }
 
 # -nps
@@ -9553,6 +9586,11 @@ sliver-client_Install(){
     then
         Echo_ALERT "$name installed"
     else
+        case $Linux_architecture_Name in
+            *"linux-x86_64"*) sliver_bin_Client=$sliver_Client_bin_amd64 ;;
+            *"linux-arm64"*) sliver_bin_Client=$sliver_Client_bin_arm64 ;;
+            *) Echo_ERROR "sliver client is unsupported on $Linux_architecture_Name"; return 1 ;;
+        esac
         mkdir -p /tmp/sliver-client && cd /tmp/sliver-client && $Proxy_OK wget ${GitProxy}https://github.com/BishopFox/sliver/releases/download/$sliver_Ver/$sliver_bin_Client ${wget_option} || Echo_ERROR2
         mv --force $sliver_bin_Client /usr/local/bin/sliver && chmod 755 /usr/local/bin/sliver
         which sliver > /dev/null 2>&1 && Echo_INFOR "Successfully installed $name in the /usr/local/bin/sliver" || Echo_ERROR3
@@ -10572,22 +10610,22 @@ kali_Tools_TypeA(){
     Pentest_nmap_Install
     echo -e "\033[1;33m\n>> Installing ffuf\n\033[0m"
     Pentest_ffuf_Install
-    echo -e "\033[1;33m\n>> Installing JSFinder\n\033[0m"
-    Pentest_JSFinder_Install
-    echo -e "\033[1;33m\n>> Installing SecretFinder\n\033[0m"
-    Pentest_SecretFinder_Install
+    # echo -e "\033[1;33m\n>> Installing JSFinder\n\033[0m"
+    # Pentest_JSFinder_Install
+    # echo -e "\033[1;33m\n>> Installing SecretFinder\n\033[0m"
+    # Pentest_SecretFinder_Install
     echo -e "\033[1;33m\n>> Installing OneForAll\n\033[0m"
     Pentest_OneForAll_Install
     echo -e "\033[1;33m\n>> Installing masscan\n\033[0m"
     Pentest_masscan_Install
-    echo -e "\033[1;33m\n>> Installing rad\n\033[0m"
-    Pentest_rad_Install
+    # echo -e "\033[1;33m\n>> Installing rad\n\033[0m"
+    # Pentest_rad_Install
     echo -e "\033[1;33m\n>> Installing crawlergo\n\033[0m"
     Pentest_crawlergo_Install
     echo -e "\033[1;33m\n>> Installing katana\n\033[0m"
     Pentest_katana_Install
-    echo -e "\033[1;33m\n>> Installing Arjun\n\033[0m"
-    Pentest_Arjun_Install
+    # echo -e "\033[1;33m\n>> Installing Arjun\n\033[0m"
+    # Pentest_Arjun_Install
     echo -e "\033[1;33m\n>> Installing httpx\n\033[0m"
     Pentest_httpx_Install
     echo -e "\033[1;33m\n>> Installing subfinder\n\033[0m"
@@ -10598,8 +10636,8 @@ kali_Tools_TypeA(){
     Pentest_dddd_Install
     echo -e "\033[1;33m\n>> Installing apktool\n\033[0m"
     Pentest_apktool_Install
-    echo -e "\033[1;33m\n>> Installing ApkAnalyser\n\033[0m"
-    Pentest_ApkAnalyser_Install
+    # echo -e "\033[1;33m\n>> Installing ApkAnalyser\n\033[0m"
+    # Pentest_ApkAnalyser_Install
     echo -e "\033[1;33m\n>> Installing apkleaks\n\033[0m"
     Pentest_apkleaks_Install
     #echo -e "\033[1;33m\n>> Installing Diggy\n\033[0m"
@@ -10622,8 +10660,8 @@ kali_Tools_TypeA(){
     Pentest_gobuster_Install
     echo -e "\033[1;33m\n>> Installing fscan\n\033[0m"
     Pentest_fscan_Install
-    echo -e "\033[1;33m\n>> Installing fingerprintx\n\033[0m"
-    Pentest_fingerprintx_Install
+    # echo -e "\033[1;33m\n>> Installing fingerprintx\n\033[0m"
+    # Pentest_fingerprintx_Install
     echo -e "\033[1;33m\n>> Installing HostCollision\n\033[0m"
     Pentest_HostCollision_Install
     echo -e "\033[1;33m\n>> Installing asnmap\n\033[0m"
@@ -10679,8 +10717,8 @@ kali_Tools_TypeB(){
     Pentest_ysomap_Install
     # echo -e "\033[1;33m\n>> Installing SSRFmap\n\033[0m"
     # Pentest_SSRFmap_Install
-    echo -e "\033[1;33m\n>> Installing Gopherus\n\033[0m"
-    Pentest_Gopherus_Install
+    # echo -e "\033[1;33m\n>> Installing Gopherus\n\033[0m"
+    # Pentest_Gopherus_Install
     echo -e "\033[1;33m\n>> Installing CDK\n\033[0m"
     Pentest_CDK_Install
     echo -e "\033[1;33m\n>> Installing rogue_mysql_server\n\033[0m"
@@ -10983,6 +11021,388 @@ SSH(){
 
 }
 
+# ===================== Worker capability profile =====================
+# Development source of truth: PoJun common/capability_catalog.json.
+# Runtime is intentionally self-contained and never reads the PoJun catalog.
+# Each line: capability|candidate_bins|Install_Function|dependencies|policy|skip_reason
+F8X_WORKER_CAPABILITIES="
+nmap|nmap|Pentest_nmap_Install|none|install|
+masscan|masscan|Pentest_masscan_Install|none|install|
+naabu|naabu|Pentest_naabu_Install|go|install|
+fscan|fscan|Pentest_fscan_Install|none|install|
+gogo|gogo|Pentest_gogo_Install|none|install|
+xray|xray|Pentest_xray_Install|none|install|
+httpx|httpx|Pentest_httpx_Install|none|install|
+katana|katana|Pentest_katana_Install|none|install|
+subfinder|subfinder|Pentest_subfinder_Install|none|install|
+curl|curl|Worker_curl_Install|none|install|
+nuclei|nuclei|Pentest_Nuclei_Install|none|install|
+ffuf|ffuf|Pentest_ffuf_Install|none|install|
+sqlmap|sqlmap|Pentest_Sqlmap_Install|python|install|
+spray|spray|Pentest_spray_Install|none|install|
+hydra|hydra|Worker_hydra_Install|none|install|
+john|john|Pentest_john_Install|none|install|
+hashcat|hashcat|Pentest_hashcat_Install|none|install|
+kerbrute|kerbrute|Pentest_kerbrute_Install|go|install|
+ccupp|ccupp|Pentest_ccupp_Install|python|install|
+msfconsole|msfconsole|Pentest_Metasploit_Install|none|install|
+netexec|nxc,netexec|Pentest_NetExec_Install|python,rust|install|
+crackmapexec|crackmapexec,cme|-|none|skip|archived upstream; superseded by NetExec
+impacket|impacket-secretsdump,secretsdump.py,impacket-smbclient|Pentest_Impacket_Install|python|install|
+certipy|certipy,certipy-ad|Pentest_Certipy_Install|python|install|
+bloodhound-python|bloodhound-python,bloodhound|Pentest_bloodhound_python_Install|python|install|
+ldeep|ldeep|Pentest_ldeep_Install|python|install|
+bloodyAD|bloodyAD,bloodyadpy|Pentest_bloodyAD_Install|python|install|
+coercer|coercer|Pentest_Coercer_Install|python|install|
+enum4linux-ng|enum4linux-ng|Pentest_enum4linux_ng_Install|python|install|
+ldapsearch|ldapsearch|Pentest_ldapsearch_Install|none|install|
+evil-winrm|evil-winrm|Pentest_evil_winrm_Install|ruby|install|
+responder|responder,Responder.py,responder.py|Pentest_Responder_Install|python|install|
+mitm6|mitm6|Pentest_mitm6_Install|python|install|
+pypykatz|pypykatz|Pentest_pypykatz_Install|python|install|
+gpp-decrypt|gpp-decrypt|Pentest_gpp_decrypt_Install|python|install|
+lsassy|lsassy|Pentest_lsassy_Install|python|install|
+donpapi|donpapi|Pentest_DonPAPI_Install|python|install|
+xfreerdp|xfreerdp,xfreerdp3|Pentest_xfreerdp_Install|none|install|
+kubectl|kubectl|Pentest_kubectl_Install|none|install|
+kubeletctl|kubeletctl|Pentest_kubeletctl_Install|none|install|
+k8spider|k8spider|Pentest_k8spider_Install|none|install|
+peirates|peirates|Pentest_peirates_Install|none|install|
+etcdctl|etcdctl|Pentest_etcdctl_Install|none|install|
+cdk|cdk|Pentest_CDK_Install|none|install|
+ingressnightmare|ingressnightmare|Pentest_ingressnightmare_Install|none|install|
+tccli|tccli|Pentest_tccli_Install|python|install|
+ligolo-proxy|ligolo-proxy|Pentest_ligolo_ng_Install|none|install|
+iox|iox|Pentest_iox_Install|none|install|
+frpc|frpc|frp_Install|none|install|
+chisel|chisel|Pentest_chisel_Install|none|install|
+proxychains|proxychains4,proxychains|Pentest_proxychains4_Install|none|install|
+nps|npc,nps|Worker_npc_Install|none|install|
+mihomo|mihomo|Worker_mihomo_Install|none|install|
+linpeas|linpeas|Pentest_linpeas_Install|none|install|
+githacker|githacker|Pentest_GitHacker_Install|python|install|
+nc|ncat,nc,netcat|Pentest_ncat_Install|none|install|
+"
+
+# Each line: resource|candidate_paths|Install_Function|policy|skip_reason
+F8X_WORKER_RESOURCES="
+seclists|/usr/share/seclists,/opt/seclists|Worker_SecLists_Install|install|
+rockyou|/usr/share/wordlists/rockyou.txt,/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt|Worker_rockyou_Install|install|
+nuclei-templates|~/nuclei-templates,/root/nuclei-templates,/pentest/nuclei-templates|Pentest_nuclei-templates_Install|install|
+AboutSecurity|/pentest/AboutSecurity/Dic,/pentest/AboutSecurity|Pentest_Dic_Install|install|
+fuzzdb|/usr/share/fuzzdb,/opt/fuzzdb|Worker_fuzzdb_Install|install|
+"
+
+Worker_curl_Install(){
+    command -v curl > /dev/null 2>&1 || Install_Switch "curl"
+}
+
+Worker_hydra_Install(){
+    command -v hydra > /dev/null 2>&1 || Install_Switch "hydra"
+}
+
+Worker_mihomo_Install(){
+    local archive error_log
+    local work_dir=/tmp/f8x-mihomo
+
+    command -v mihomo > /dev/null 2>&1 && return 0
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*) archive="mihomo-linux-amd64-${mihomo_Ver}.gz" ;;
+        *"linux-arm64"*) archive="mihomo-linux-arm64-${mihomo_Ver}.gz" ;;
+        *) Echo_ERROR "mihomo is unsupported on $Linux_architecture_Name"; return 1 ;;
+    esac
+
+    error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+    mkdir -p "$work_dir" || return 1
+    $Proxy_OK wget \
+        "${GitProxy}https://github.com/MetaCubeX/mihomo/releases/download/${mihomo_Ver}/${archive}" \
+        -O "$work_dir/$archive" ${wget_option} 1> /dev/null 2>> "$error_log" || return 1
+    gzip -dc "$work_dir/$archive" > "$work_dir/mihomo" 2>> "$error_log" || return 1
+    install -m 0755 "$work_dir/mihomo" /usr/local/bin/mihomo 2>> "$error_log" || return 1
+    command -v mihomo > /dev/null 2>&1
+}
+
+Worker_SecLists_Install(){
+    Pentest_SecLists_Install
+    if test -d "$P_Dir/SecLists" && ! test -e /usr/share/seclists
+    then
+        mkdir -p /usr/share
+        ln -s "$P_Dir/SecLists" /usr/share/seclists
+    fi
+    test -e /usr/share/seclists || test -e /opt/seclists
+}
+
+Worker_rockyou_Install(){
+    local archive="$P_Dir/SecLists/Passwords/Leaked-Databases/rockyou.txt.tar.gz"
+    local downloaded_archive=/tmp/f8x-rockyou.txt.tar.gz
+    test -f /usr/share/wordlists/rockyou.txt && return 0
+    mkdir -p /usr/share/wordlists
+    if ! test -f "$archive"
+    then
+        $Proxy_OK wget -O "$downloaded_archive" ${GitProxy}https://github.com/danielmiessler/SecLists/raw/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz ${wget_option} || return 1
+        archive=$downloaded_archive
+    fi
+    tar -zxf "$archive" -C /usr/share/wordlists > /dev/null 2>&1 || return 1
+    test -f /usr/share/wordlists/rockyou.txt
+}
+
+Worker_fuzzdb_Install(){
+    test -e /usr/share/fuzzdb && return 0
+    test -d /opt/fuzzdb && return 0
+    $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/fuzzdb-project/fuzzdb.git /opt/fuzzdb > /dev/null 2>&1
+    test -d /opt/fuzzdb
+}
+
+Worker_npc_Install(){
+    local npc_file
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*) npc_file=$npc_File_amd64 ;;
+        *"linux-arm64"*) npc_file=$npc_File_arm64 ;;
+        *) Echo_ERROR "nps client is unsupported on $Linux_architecture_Name"; return 1 ;;
+    esac
+
+    command -v npc > /dev/null 2>&1 && return 0
+    mkdir -p /tmp/f8x-npc
+    cd /tmp/f8x-npc || return 1
+    $Proxy_OK wget ${GitProxy}https://github.com/ehang-io/nps/releases/download/$nps_Ver/$npc_file ${wget_option} || return 1
+    tar -zxf "$npc_file" > /dev/null 2>&1 || return 1
+    install -m 0755 npc /usr/local/bin/npc || return 1
+    command -v npc > /dev/null 2>&1
+}
+
+F8x_Worker_Find_Binary(){
+    local bins=$1
+    local binary
+    local old_ifs=$IFS
+    IFS=','
+    for binary in $bins; do
+        if command -v "$binary" > /dev/null 2>&1; then
+            command -v "$binary"
+            IFS=$old_ifs
+            return 0
+        fi
+    done
+    IFS=$old_ifs
+    return 1
+}
+
+F8x_Worker_Find_Resource(){
+    local paths=$1
+    local candidate
+    local old_ifs=$IFS
+    IFS=','
+    for candidate in $paths; do
+        case $candidate in
+            "~/"*) candidate="$HOME/${candidate#\~/}" ;;
+        esac
+        if test -e "$candidate"; then
+            printf '%s\n' "$candidate"
+            IFS=$old_ifs
+            return 0
+        fi
+    done
+    IFS=$old_ifs
+    return 1
+}
+
+F8x_Worker_Ensure_Dependency(){
+    local dependencies=$1
+    local dependency
+    local dependency_list=()
+    IFS=',' read -r -a dependency_list <<< "$dependencies"
+    for dependency in "${dependency_list[@]}"; do
+        case $dependency in
+            none|"") ;;
+            python)
+                if [ "${_f8x_worker_python_ready:-0}" != "1" ]; then
+                    pip3_Check
+                    command -v pipx > /dev/null 2>&1 || Install_Switch "pipx"
+                    export PATH="$HOME/.local/bin:$PATH"
+                    _f8x_worker_python_ready=1
+                fi
+                ;;
+            go)
+                if [ "${_f8x_worker_go_ready:-0}" != "1" ]; then
+                    GO_Check
+                    export PATH="/usr/local/go/bin:$HOME/go/bin:$PATH"
+                    _f8x_worker_go_ready=1
+                fi
+                ;;
+            ruby)
+                if [ "${_f8x_worker_ruby_ready:-0}" != "1" ]; then
+                    Ruby_Check
+                    _f8x_worker_ruby_ready=1
+                fi
+                ;;
+            rust)
+                if [ "${_f8x_worker_rust_ready:-0}" != "1" ]; then
+                    Rust_Check
+                    export PATH="$HOME/.cargo/bin:$PATH"
+                    _f8x_worker_rust_ready=1
+                fi
+                ;;
+            *) Echo_ERROR "Unknown Worker dependency: $dependency"; return 1 ;;
+        esac
+    done
+}
+
+F8x_Worker_Record_Result(){
+    printf '%s\t%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "${4:-}" "${5:-}" >> "$_f8x_worker_result_file"
+}
+
+F8x_Worker_Error_Summary(){
+    local error_log=$1
+    local summary
+
+    test -s "$error_log" || return 1
+    summary=$(LC_ALL=C grep -aEi 'fatal|error|failed|failure|traceback|not found|no matching distribution|could not' "$error_log" | tail -n 1 || true)
+    if [ -z "$summary" ]; then
+        summary=$(tail -n 1 "$error_log" 2>/dev/null || true)
+    fi
+    printf '%s' "$summary" | tr '\t\r\n' '   '
+}
+
+F8x_Worker_Write_Report(){
+    local report=/tmp/f8x-worker-report.json
+    python3 - "$_f8x_worker_result_file" "$report" "$F8x_Version" <<'PY'
+import json
+import sys
+from datetime import datetime, timezone
+
+source, destination, version = sys.argv[1:]
+results = []
+with open(source, encoding="utf-8") as handle:
+    for line in handle:
+        fields = line.rstrip("\n").split("\t", 4)
+        fields.extend([""] * (5 - len(fields)))
+        name, status, detail, error_log, error_summary = fields
+        result = {"name": name, "status": status, "detail": detail}
+        if error_log:
+            result["error_log"] = error_log
+        if error_summary:
+            result["error_summary"] = error_summary
+        results.append(result)
+payload = {
+    "f8x_version": version,
+    "generated_at": datetime.now(timezone.utc).isoformat(),
+    "results": results,
+}
+with open(destination, "w", encoding="utf-8") as handle:
+    json.dump(payload, handle, ensure_ascii=False, indent=2)
+    handle.write("\n")
+PY
+    Echo_INFOR "Worker capability report: $report"
+}
+
+Worker_Tools(){
+    local capability bins function dependencies policy reason path original_dir
+    local error_log error_summary failure_detail install_status log_name
+    local worker_log_dir=/tmp/f8x-worker-logs
+    local installed=0 already_present=0 failed=0 skipped=0
+    export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:$PATH"
+    _f8x_worker_result_file=$(mktemp /tmp/f8x-worker-results.XXXXXX)
+    mkdir -p "$worker_log_dir"
+    original_dir=$PWD
+
+    while IFS='|' read -r capability bins function dependencies policy reason; do
+        [ -n "$capability" ] || continue
+        if [ "$policy" = "skip" ]; then
+            Echo_ALERT "Skipping $capability: $reason"
+            F8x_Worker_Record_Result "$capability" "skipped" "$reason"
+            skipped=$((skipped + 1))
+            continue
+        fi
+
+        path=$(F8x_Worker_Find_Binary "$bins" || true)
+        if [ -n "$path" ]; then
+            Echo_INFOR "$capability already available at $path"
+            F8x_Worker_Record_Result "$capability" "already_present" "$path"
+            already_present=$((already_present + 1))
+            continue
+        fi
+
+        echo -e "\033[1;33m\n>> Installing Worker capability: $capability\n\033[0m"
+        log_name=$(printf '%s' "$capability" | tr -c 'A-Za-z0-9._-' '_')
+        error_log="$worker_log_dir/$log_name.log"
+        : > "$error_log"
+        export F8X_WORKER_CURRENT_LOG="$error_log"
+        install_status=0
+        if F8x_Worker_Ensure_Dependency "$dependencies"; then
+            "$function" || install_status=$?
+        else
+            install_status=$?
+        fi
+        unset F8X_WORKER_CURRENT_LOG
+        cd "$original_dir" 2>/dev/null || true
+        export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:$PATH"
+        path=$(F8x_Worker_Find_Binary "$bins" || true)
+        if [ -n "$path" ]; then
+            Echo_INFOR "$capability installed at $path"
+            F8x_Worker_Record_Result "$capability" "installed" "$path"
+            installed=$((installed + 1))
+        else
+            Echo_ERROR "$capability installation did not provide any expected binary: $bins"
+            failure_detail="expected one of: $bins"
+            if [ "$install_status" -ne 0 ]; then
+                failure_detail="installer exited with status $install_status; $failure_detail"
+            fi
+            error_summary=$(F8x_Worker_Error_Summary "$error_log" || true)
+            [ -n "$error_summary" ] || error_summary="$failure_detail"
+            F8x_Worker_Record_Result "$capability" "failed" "$failure_detail" "$error_log" "$error_summary"
+            failed=$((failed + 1))
+        fi
+    done <<< "$F8X_WORKER_CAPABILITIES"
+
+    while IFS='|' read -r capability bins function policy reason; do
+        [ -n "$capability" ] || continue
+        if [ "$policy" = "skip" ]; then
+            Echo_ALERT "Skipping resource $capability: $reason"
+            F8x_Worker_Record_Result "$capability" "skipped" "$reason"
+            skipped=$((skipped + 1))
+            continue
+        fi
+
+        path=$(F8x_Worker_Find_Resource "$bins" || true)
+        if [ -n "$path" ]; then
+            Echo_INFOR "$capability resource already available at $path"
+            F8x_Worker_Record_Result "$capability" "already_present" "$path"
+            already_present=$((already_present + 1))
+            continue
+        fi
+
+        echo -e "\033[1;33m\n>> Installing Worker resource: $capability\n\033[0m"
+        log_name=$(printf '%s' "$capability" | tr -c 'A-Za-z0-9._-' '_')
+        error_log="$worker_log_dir/$log_name.log"
+        : > "$error_log"
+        export F8X_WORKER_CURRENT_LOG="$error_log"
+        install_status=0
+        "$function" || install_status=$?
+        unset F8X_WORKER_CURRENT_LOG
+        cd "$original_dir" 2>/dev/null || true
+        path=$(F8x_Worker_Find_Resource "$bins" || true)
+        if [ -n "$path" ]; then
+            Echo_INFOR "$capability resource installed at $path"
+            F8x_Worker_Record_Result "$capability" "installed" "$path"
+            installed=$((installed + 1))
+        else
+            Echo_ERROR "$capability installation did not provide any expected resource: $bins"
+            failure_detail="expected one of: $bins"
+            if [ "$install_status" -ne 0 ]; then
+                failure_detail="installer exited with status $install_status; $failure_detail"
+            fi
+            error_summary=$(F8x_Worker_Error_Summary "$error_log" || true)
+            [ -n "$error_summary" ] || error_summary="$failure_detail"
+            F8x_Worker_Record_Result "$capability" "failed" "$failure_detail" "$error_log" "$error_summary"
+            failed=$((failed + 1))
+        fi
+    done <<< "$F8X_WORKER_RESOURCES"
+
+    F8x_Worker_Write_Report
+    rm -f "$_f8x_worker_result_file"
+    Echo_INFOR "Worker profile complete: installed=$installed already_present=$already_present skipped=$skipped failed=$failed"
+    return 0
+}
+
 # ===================== Tool Map for -install / --list-tools / --search =====================
 # Each line: tool_name|Install_Function|dep_level
 # dep_level: 0=basic only, 1=needs python, 2=needs go, 3=needs python+go
@@ -11012,6 +11432,7 @@ asnmap|Pentest_asnmap_Install|0
 tlsx|Pentest_tlsx_Install|0
 gogo|Pentest_gogo_Install|0
 spray|Pentest_spray_Install|0
+hydra|Worker_hydra_Install|0
 zombie|Pentest_zombie_Install|0
 ccupp|Pentest_ccupp_Install|0
 githacker|Pentest_GitHacker_Install|0
@@ -11278,6 +11699,7 @@ Help(){
     echo -e "  \033[1;34m-p\033[0m \033[0;34m               : install Proxy Environment\033[0m          \033[1;31m(Warning : Use only when needed)\033[0m"
     echo -e "  \033[1;34m-d\033[0m \033[0;34m               : install Development Environment\033[0m    \033[1;32m(python3、pip3、Go、Docker、Docker-Compose、SDKMAN)\033[0m"
     echo -e "  \033[1;34m-k(a/b/c/d/e)\033[0m\033[0;34m     : install Pentest environment\033[0m        \033[1;32m(hashcat、ffuf、OneForAll、ksubdomain、impacket ...)\033[0m"
+    echo -e "  \033[1;34m-worker\033[0m          \033[0;34m: install a non-interactive security Worker environment\033[0m"
     echo -e "  \033[1;34m-s\033[0m \033[0;34m               : install Blue Team Environment\033[0m      \033[1;32m(Fail2Ban、chkrootkit、rkhunter、shellpub)\033[0m"
     echo -e "  \033[1;34m-f\033[0m \033[0;34m               : install Other Tools\033[0m                \033[1;32m(AdguardTeam、trash-cli、fzf)\033[0m"
     echo -e "  \033[1;34m-cloud\033[0m \033[0;34m           : install Cloud Applications\033[0m         \033[1;32m(Terraform、Serverless Framework、wrangler)\033[0m"
@@ -11477,11 +11899,12 @@ StandIn|FuzzySecurity/StandIn|${StandIn_Ver}|StandIn
 
             case "${tool_name}" in
                 fscan)
-                    # fscan uses non-standard naming: fscan (amd64), fscan_arm64, fscan64.exe
+                    # fscan uses x64 instead of amd64 in release asset names.
+                    local fscan_ver_num=$(echo "$ver" | sed 's/^v//')
                     case "$platform" in
-                        linux_amd64)  file_name="fscan" ;;
-                        linux_arm64)  file_name="fscan_arm64" ;;
-                        windows_amd64) file_name="fscan.exe" ;;
+                        linux_amd64)  file_name="fscan_${fscan_ver_num}_linux_x64" ;;
+                        linux_arm64)  file_name="fscan_${fscan_ver_num}_linux_arm64" ;;
+                        windows_amd64) file_name="fscan_${fscan_ver_num}_windows_x64.exe" ;;
                     esac
                     dl_url="https://github.com/${repo}/releases/download/${ver}/${file_name}"
                     out_file="fscan_${platform}"
@@ -11544,7 +11967,7 @@ StandIn|FuzzySecurity/StandIn|${StandIn_Ver}|StandIn
                     cd /tmp
                     ;;
                 chisel)
-                    # chisel releases: chisel_1.11.5_linux_amd64.gz, chisel_1.11.5_windows_amd64.zip
+                    # chisel releases: chisel_1.11.8_linux_amd64.gz, chisel_1.11.8_windows_amd64.zip
                     local chisel_ver_num=$(echo "$ver" | sed 's/^v//')
                     if [ "$platform" = "windows_amd64" ]; then
                         local chisel_archive="chisel_${chisel_ver_num}_${platform}.zip"
@@ -11692,7 +12115,7 @@ StandIn|FuzzySecurity/StandIn|${StandIn_Ver}|StandIn
                     cd /tmp
                     ;;
                 etcdctl)
-                    # etcd releases: etcd-v3.6.10-linux-amd64.tar.gz, contains etcdctl binary
+                    # etcd releases: etcd-v3.7.1-linux-amd64.tar.gz, contains etcdctl binary
                     case "$platform" in
                         linux_amd64)   local etcd_archive="etcd-${ver}-linux-amd64.tar.gz" ;;
                         linux_arm64)   local etcd_archive="etcd-${ver}-linux-arm64.tar.gz" ;;
@@ -12233,6 +12656,17 @@ do
             pip2_Check
             GO_Check
             kali_Tools
+            ;;
+        -worker | worker)
+            mac_Check || exit 1
+            export F8X_NONINTERACTIVE=1
+            export DEBIAN_FRONTEND=noninteractive
+            export APT_LISTCHANGES_FRONTEND=none
+            export NEEDRESTART_MODE=l
+            Proxy_Switch
+            Base_Check
+            Pentest_Base_Install
+            Worker_Tools
             ;;
         -ka | ka)
             mac_Check || exit 1

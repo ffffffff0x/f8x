@@ -23,6 +23,7 @@ CATEGORY_MAP = {
     "-p":     {"category": "basic",          "name": "Proxy Environment",   "nameZh": "代理环境",        "desc": "Install proxy environment (proxychains)", "descZh": "安装代理环境", "tags": ["proxy"]},
     "-d":     {"category": "development",    "name": "Dev Environment",     "nameZh": "开发环境全套",    "desc": "Python3, pip3, Go, Docker, Docker-Compose, SDKMAN", "descZh": "一键安装开发环境", "tags": ["batch"]},
     "-k":     {"category": "pentest-recon",  "name": "Pentest Suite",       "nameZh": "渗透工具全套",    "desc": "All pentest tools (recon + exploit + post)", "descZh": "全部渗透工具套件", "tags": ["batch"]},
+    "-worker": {"category": "pentest-recon",  "name": "Security Worker",     "nameZh": "安全 Worker 环境", "desc": "Non-interactive security Worker tool and resource profile", "descZh": "非交互式安全 Worker 工具与资源环境", "tags": ["batch", "worker"]},
     "-ka":    {"category": "pentest-recon",  "name": "Recon Suite",         "nameZh": "侦查工具全套",    "desc": "nmap, masscan, ffuf, httpx, subfinder ...", "descZh": "一键安装侦查工具", "tags": ["batch"]},
     "-kb":    {"category": "pentest-exploit","name": "Exploit Suite",       "nameZh": "利用工具全套",    "desc": "Metasploit, Nuclei, xray, Sqlmap ...", "descZh": "一键安装利用工具", "tags": ["batch"]},
     "-kc":    {"category": "pentest-post",   "name": "Post Suite C",        "nameZh": "后渗透工具 C",    "desc": "impacket, hashcat, Responder ...", "descZh": "后渗透/AD 攻击工具集", "tags": ["batch"]},

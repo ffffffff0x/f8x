@@ -21,6 +21,10 @@ import requests
 # Regex for GitHub release comment and version assignment
 REPO_COMMENT = re.compile(r"^#\s+https://github.com/([^/\s]+)/([^/\s]+)")
 ASSIGNMENT = re.compile(r"^\s*([A-Za-z0-9_]+)\s*=\s*\"([^\"]+)\"")
+EXCLUDED_REPOSITORIES = {
+    ("chaitin", "xray"),
+    ("praetorian-inc", "fingerprintx"),
+}
 
 
 @dataclass
@@ -73,7 +77,8 @@ def parse_entries(lines: Iterable[str]) -> List[Entry]:
     for line in lines:
         comment_match = REPO_COMMENT.match(line)
         if comment_match:
-            pending_repo = (comment_match.group(1), comment_match.group(2))
+            repository = (comment_match.group(1), comment_match.group(2))
+            pending_repo = None if repository in EXCLUDED_REPOSITORIES else repository
             continue
 
         if pending_repo is None:
