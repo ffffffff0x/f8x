@@ -1,7 +1,7 @@
 {
-  "version": "1.9.1 (2026/04/21)",
+  "version": "1.9.2 (2026/07/26)",
   "catalog_version": 4,
-  "updated_at": "2026-05-05T15:27:18Z",
+  "updated_at": "2026-07-25T21:19:16Z",
   "modules": [
     {
       "id": "1panel",
@@ -295,14 +295,6 @@
           "url": "https://github.com/ffuf/ffuf"
         },
         {
-          "name": "JSFinder",
-          "url": "https://github.com/Threezh1/JSFinder"
-        },
-        {
-          "name": "SecretFinder",
-          "url": "https://github.com/m4ll0k/SecretFinder"
-        },
-        {
           "name": "OneForAll",
           "url": "https://github.com/shmilylty/OneForAll"
         },
@@ -311,20 +303,12 @@
           "url": "https://github.com/robertdavidgraham/masscan"
         },
         {
-          "name": "rad",
-          "url": "https://github.com/chaitin/rad"
-        },
-        {
           "name": "crawlergo",
           "url": "https://github.com/Qianlitp/crawlergo"
         },
         {
           "name": "katana",
           "url": "https://github.com/projectdiscovery/katana"
-        },
-        {
-          "name": "Arjun",
-          "url": "https://github.com/s0md3v/Arjun"
         },
         {
           "name": "httpx",
@@ -345,10 +329,6 @@
         {
           "name": "apktool",
           "url": "https://github.com/iBotPeaches/Apktool"
-        },
-        {
-          "name": "ApkAnalyser",
-          "url": "https://github.com/aspect-labs/ApkAnalyser"
         },
         {
           "name": "apkleaks",
@@ -385,10 +365,6 @@
         {
           "name": "fscan",
           "url": "https://github.com/shadow1ng/fscan"
-        },
-        {
-          "name": "fingerprintx",
-          "url": "https://github.com/praetorian-inc/fingerprintx"
         },
         {
           "name": "HostCollision",
@@ -465,10 +441,6 @@
         {
           "name": "ysomap",
           "url": "https://github.com/wh1t3p1g/ysomap"
-        },
-        {
-          "name": "Gopherus",
-          "url": "https://github.com/tarunkant/Gopherus"
         },
         {
           "name": "CDK",
@@ -1177,14 +1149,6 @@
           "url": "https://github.com/ffuf/ffuf"
         },
         {
-          "name": "JSFinder",
-          "url": "https://github.com/Threezh1/JSFinder"
-        },
-        {
-          "name": "SecretFinder",
-          "url": "https://github.com/m4ll0k/SecretFinder"
-        },
-        {
           "name": "OneForAll",
           "url": "https://github.com/shmilylty/OneForAll"
         },
@@ -1193,20 +1157,12 @@
           "url": "https://github.com/robertdavidgraham/masscan"
         },
         {
-          "name": "rad",
-          "url": "https://github.com/chaitin/rad"
-        },
-        {
           "name": "crawlergo",
           "url": "https://github.com/Qianlitp/crawlergo"
         },
         {
           "name": "katana",
           "url": "https://github.com/projectdiscovery/katana"
-        },
-        {
-          "name": "Arjun",
-          "url": "https://github.com/s0md3v/Arjun"
         },
         {
           "name": "httpx",
@@ -1227,10 +1183,6 @@
         {
           "name": "apktool",
           "url": "https://github.com/iBotPeaches/Apktool"
-        },
-        {
-          "name": "ApkAnalyser",
-          "url": "https://github.com/aspect-labs/ApkAnalyser"
         },
         {
           "name": "apkleaks",
@@ -1267,10 +1219,6 @@
         {
           "name": "fscan",
           "url": "https://github.com/shadow1ng/fscan"
-        },
-        {
-          "name": "fingerprintx",
-          "url": "https://github.com/praetorian-inc/fingerprintx"
         },
         {
           "name": "HostCollision",
@@ -1347,10 +1295,6 @@
         {
           "name": "ysomap",
           "url": "https://github.com/wh1t3p1g/ysomap"
-        },
-        {
-          "name": "Gopherus",
-          "url": "https://github.com/tarunkant/Gopherus"
         },
         {
           "name": "CDK",
@@ -1540,14 +1484,6 @@
           "url": "https://github.com/ffuf/ffuf"
         },
         {
-          "name": "JSFinder",
-          "url": "https://github.com/Threezh1/JSFinder"
-        },
-        {
-          "name": "SecretFinder",
-          "url": "https://github.com/m4ll0k/SecretFinder"
-        },
-        {
           "name": "OneForAll",
           "url": "https://github.com/shmilylty/OneForAll"
         },
@@ -1556,20 +1492,12 @@
           "url": "https://github.com/robertdavidgraham/masscan"
         },
         {
-          "name": "rad",
-          "url": "https://github.com/chaitin/rad"
-        },
-        {
           "name": "crawlergo",
           "url": "https://github.com/Qianlitp/crawlergo"
         },
         {
           "name": "katana",
           "url": "https://github.com/projectdiscovery/katana"
-        },
-        {
-          "name": "Arjun",
-          "url": "https://github.com/s0md3v/Arjun"
         },
         {
           "name": "httpx",
@@ -1590,10 +1518,6 @@
         {
           "name": "apktool",
           "url": "https://github.com/iBotPeaches/Apktool"
-        },
-        {
-          "name": "ApkAnalyser",
-          "url": "https://github.com/aspect-labs/ApkAnalyser"
         },
         {
           "name": "apkleaks",
@@ -1630,10 +1554,6 @@
         {
           "name": "fscan",
           "url": "https://github.com/shadow1ng/fscan"
-        },
-        {
-          "name": "fingerprintx",
-          "url": "https://github.com/praetorian-inc/fingerprintx"
         },
         {
           "name": "HostCollision",
@@ -1724,10 +1644,6 @@
         {
           "name": "ysomap",
           "url": "https://github.com/wh1t3p1g/ysomap"
-        },
-        {
-          "name": "Gopherus",
-          "url": "https://github.com/tarunkant/Gopherus"
         },
         {
           "name": "CDK",
@@ -2611,6 +2527,19 @@
       ]
     },
     {
+      "id": "worker",
+      "name": "Security Worker",
+      "nameZh": "安全 Worker 环境",
+      "flag": "-worker",
+      "category": "pentest-recon",
+      "description": "Non-interactive security Worker tool and resource profile",
+      "descriptionZh": "非交互式安全 Worker 工具与资源环境",
+      "tags": [
+        "batch",
+        "worker"
+      ]
+    },
+    {
       "id": "wpscan",
       "name": "WPScan",
       "nameZh": "WPScan WordPress",
@@ -3034,6 +2963,21 @@
       ],
       "deps": 0,
       "url": "https://github.com/chainreactors/spray"
+    },
+    {
+      "id": "hydra",
+      "name": "Hydra",
+      "nameZh": "Hydra 网络登录测试",
+      "description": "Parallel network login testing tool for multiple protocols",
+      "descriptionZh": "支持多种协议的并行网络登录测试工具",
+      "category": "pentest-post",
+      "tags": [
+        "password",
+        "login",
+        "credential"
+      ],
+      "deps": 0,
+      "url": "https://github.com/vanhauser-thc/thc-hydra"
     },
     {
       "id": "zombie",
@@ -5078,7 +5022,7 @@
       "id": "pentest-recon",
       "name": "Pentest - Recon",
       "nameZh": "渗透 - 侦查",
-      "count": 3
+      "count": 4
     },
     {
       "id": "pentest-exploit",
