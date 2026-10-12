@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "contract_version": "3.4.0",
+  "profiles": {
+    "local-standard": {
+      "description": "Worker Service local runtime baseline",
+      "expected": {
+        "tools": [
+          "nmap",
+          "masscan",
+          "naabu",
+          "httpx",
+          "katana",
+          "subfinder",
+          "curl",
+          "nuclei",
+          "ffuf",
+          "sqlmap",
+          "netexec",
+          "impacket",
+          "certipy",
+          "proxychains",
+          "nc"
+        ],
+        "wordlists": [
+          "rockyou"
+        ],
+        "resources": [
+          "nuclei-templates",
+          "AboutSecurity"
+        ]
+      }
+    },
+    "docker-standard": {
+      "description": "Official Pojun worker container baseline",
+      "expected": {
+        "tools": [
+          "naabu",
+          "katana",
+          "nuclei",
+          "netexec",
+          "tccli"
+        ],
+        "wordlists": [
+          "rockyou"
+        ],
+        "resources": [
+          "nuclei-templates",
+          "AboutSecurity",
+          "fuzzdb"
+        ]
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "nmap",
+      "short": "端口/服务扫描",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "masscan",
+      "short": "高速端口扫描",
+      "verify": {"argv": ["--version"], "success_codes": [0, 1]}
+    },
+    {
+      "name": "naabu",
+      "short": "快速端口扫描 (ProjectDiscovery)",
+      "verify": {"argv": ["-version"]}
+    },
+    {
+      "name": "fscan",
+      "short": "内网综合扫描"
+    },
+    {
+      "name": "gogo",
+      "short": "自动化红队扫描 (chainreactors)"
+    },
+    {
+      "name": "xray",
+      "short": "被动/主动漏洞扫描 (长亭)"
+    },
+    {
+      "name": "httpx",
+      "short": "HTTP 探活/指纹 (ProjectDiscovery)",
+      "verify": {"argv": ["-version"], "required": true}
+    },
+    {
+      "name": "katana",
+      "short": "Web 爬虫 (ProjectDiscovery)",
+      "verify": {"argv": ["-version"]}
+    },
+    {
+      "name": "subfinder",
+      "short": "子域名枚举 (ProjectDiscovery)",
+      "verify": {"argv": ["-version"]}
+    },
+    {
+      "name": "dnsx",
+      "short": "DNS 探测 (ProjectDiscovery)",
+      "verify": {"argv": ["-version"]}
+    },
+    {
+      "name": "interactsh-client",
+      "short": "OOB 交互回调 (ProjectDiscovery)",
+      "verify": {"argv": ["-version"]}
+    },
+    {
+      "name": "curl",
+      "short": "HTTP 请求",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "nuclei",
+      "short": "模板化漏洞扫描",
+      "verify": {"argv": ["-version"]}
+    },
+    {
+      "name": "ffuf",
+      "short": "Web fuzzing/目录爆破",
+      "verify": {"argv": ["-V"]}
+    },
+    {
+      "name": "feroxbuster",
+      "short": "递归内容发现",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "gau",
+      "short": "从公开源收集 URL"
+    },
+    {
+      "name": "waybackurls",
+      "short": "Wayback URL 收集"
+    },
+    {
+      "name": "unfurl",
+      "short": "URL 解析"
+    },
+    {
+      "name": "sqlmap",
+      "short": "SQL 注入自动化",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "spray",
+      "short": "智能口令喷洒 (chainreactors)"
+    },
+    {
+      "name": "hydra",
+      "short": "网络登录爆破"
+    },
+    {
+      "name": "john",
+      "short": "密码哈希破解"
+    },
+    {
+      "name": "hashcat",
+      "short": "GPU 密码破解"
+    },
+    {
+      "name": "kerbrute",
+      "short": "Kerberos 用户枚举/喷洒"
+    },
+    {
+      "name": "ccupp",
+      "short": "定制口令字典生成"
+    },
+    {
+      "name": "msfconsole",
+      "short": "Metasploit 框架"
+    },
+    {
+      "name": "netexec",
+      "short": "AD/SMB 横向 (NetExec)",
+      "bins": [
+        "nxc",
+        "netexec"
+      ],
+      "verify": {"argv": ["--version"], "success_codes": [0, 1]}
+    },
+    {
+      "name": "crackmapexec",
+      "short": "AD/SMB 横向 (CME)",
+      "bins": [
+        "crackmapexec",
+        "cme"
+      ]
+    },
+    {
+      "name": "impacket",
+      "short": "Impacket 套件",
+      "bins": [
+        "impacket-secretsdump",
+        "secretsdump.py",
+        "impacket-smbclient"
+      ],
+      "verify": {"argv": ["-h"]}
+    },
+    {
+      "name": "certipy",
+      "short": "ADCS 攻击",
+      "bins": [
+        "certipy",
+        "certipy-ad"
+      ],
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "bloodhound-python",
+      "short": "AD 关系采集",
+      "bins": [
+        "bloodhound-python",
+        "bloodhound"
+      ]
+    },
+    {
+      "name": "ldeep",
+      "short": "LDAP 深度枚举"
+    },
+    {
+      "name": "bloodyAD",
+      "short": "AD 权限滥用",
+      "bins": [
+        "bloodyAD",
+        "bloodyadpy"
+      ]
+    },
+    {
+      "name": "coercer",
+      "short": "强制认证 (Coercer)"
+    },
+    {
+      "name": "enum4linux-ng",
+      "short": "SMB/LDAP 枚举"
+    },
+    {
+      "name": "ldapsearch",
+      "short": "LDAP 查询"
+    },
+    {
+      "name": "evil-winrm",
+      "short": "WinRM 交互 shell"
+    },
+    {
+      "name": "responder",
+      "short": "LLMNR/NBT-NS 投毒",
+      "bins": [
+        "responder",
+        "Responder.py",
+        "responder.py"
+      ]
+    },
+    {
+      "name": "mitm6",
+      "short": "IPv6 中间人"
+    },
+    {
+      "name": "pypykatz",
+      "short": "凭据解析 (mimikatz py)"
+    },
+    {
+      "name": "gpp-decrypt",
+      "short": "GPP 密码解密"
+    },
+    {
+      "name": "lsassy",
+      "short": "远程 LSASS 转储"
+    },
+    {
+      "name": "donpapi",
+      "short": "批量凭据采集"
+    },
+    {
+      "name": "xfreerdp",
+      "short": "RDP 客户端",
+      "bins": [
+        "xfreerdp",
+        "xfreerdp3"
+      ]
+    },
+    {
+      "name": "kubectl",
+      "short": "Kubernetes CLI"
+    },
+    {
+      "name": "kubeletctl",
+      "short": "Kubelet 攻击"
+    },
+    {
+      "name": "k8spider",
+      "short": "K8s 服务发现"
+    },
+    {
+      "name": "peirates",
+      "short": "K8s 攻击框架"
+    },
+    {
+      "name": "etcdctl",
+      "short": "etcd 客户端"
+    },
+    {
+      "name": "cdk",
+      "short": "容器逃逸工具包"
+    },
+    {
+      "name": "ingressnightmare",
+      "short": "Ingress-NGINX CVE-2025-1974 利用"
+    },
+    {
+      "name": "tccli",
+      "short": "腾讯云 CLI",
+      "verify": {"argv": ["help"]}
+    },
+    {
+      "name": "ligolo-proxy",
+      "short": "Ligolo-ng 反向隧道"
+    },
+    {
+      "name": "ligolo-agent",
+      "short": "Ligolo-ng agent"
+    },
+    {
+      "name": "suo5",
+      "short": "HTTP 隧道"
+    },
+    {
+      "name": "iox",
+      "short": "端口转发/代理"
+    },
+    {
+      "name": "frpc",
+      "short": "frp 内网穿透客户端"
+    },
+    {
+      "name": "chisel",
+      "short": "TCP/UDP 隧道"
+    },
+    {
+      "name": "mihomo",
+      "short": "规则代理与流量转发核心",
+      "bins": [
+        "mihomo"
+      ],
+      "verify": {"argv": ["-v"]}
+    },
+    {
+      "name": "proxychains",
+      "short": "代理链",
+      "bins": [
+        "proxychains4",
+        "proxychains"
+      ],
+      "verify": {"argv": ["-h"]}
+    },
+    {
+      "name": "nps",
+      "short": "nps 内网穿透",
+      "bins": [
+        "npc",
+        "nps"
+      ]
+    },
+    {
+      "name": "linpeas",
+      "short": "Linux 提权枚举"
+    },
+    {
+      "name": "githacker",
+      "short": "Git 泄露利用"
+    },
+    {
+      "name": "phpggc",
+      "short": "PHP unserialize gadget"
+    },
+    {
+      "name": "ysoserial",
+      "short": "Java 反序列化 gadget"
+    },
+    {
+      "name": "jadx",
+      "short": "Android 反编译",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "apktool",
+      "short": "APK 反编译",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "droidasc",
+      "short": "APK 按需反编译与交叉引用检索 (ASC)",
+      "verify": {"argv": ["--help"]}
+    },
+    {
+      "name": "smali",
+      "short": "smali/baksmali 汇编与反汇编",
+      "bins": [
+        "smali",
+        "baksmali"
+      ],
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "dex2jar",
+      "short": "DEX 转 JAR (d2j 工具集)",
+      "bins": [
+        "d2j-dex2jar",
+        "d2j-dex2smali",
+        "d2j-baksmali",
+        "dex-tools"
+      ],
+      "verify": {"argv": ["-h"]}
+    },
+    {
+      "name": "apksigner",
+      "short": "APK 签名与验签",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "zipalign",
+      "short": "APK 对齐 (签名前置)"
+    },
+    {
+      "name": "aapt",
+      "short": "Android 资源打包",
+      "bins": [
+        "aapt",
+        "aapt2"
+      ],
+      "verify": {"argv": ["version"]}
+    },
+    {
+      "name": "frida",
+      "short": "动态插桩 (Frida)",
+      "bins": [
+        "frida",
+        "frida-ls-devices"
+      ]
+    },
+    {
+      "name": "frida-tools",
+      "short": "Frida CLI 工具集",
+      "bins": [
+        "frida-ps",
+        "frida-trace",
+        "frida-kill",
+        "frida-discover",
+        "frida-apk"
+      ]
+    },
+    {
+      "name": "objection",
+      "short": "Frida 运行时移动端利用框架"
+    },
+    {
+      "name": "one_gadget",
+      "short": "libc one-gadget"
+    },
+    {
+      "name": "ropper",
+      "short": "ROP gadget"
+    },
+    {
+      "name": "checksec",
+      "short": "二进制保护检查"
+    },
+    {
+      "name": "patchelf",
+      "short": "ELF 补丁",
+      "verify": {"argv": ["--version"]}
+    },
+    {
+      "name": "pwndbg",
+      "short": "GDB 插件 (pwndbg)"
+    },
+    {
+      "name": "gef",
+      "short": "GDB 插件 (GEF)"
+    },
+    {
+      "name": "nc",
+      "short": "网络瑞士军刀",
+      "bins": [
+        "ncat",
+        "nc",
+        "netcat"
+      ],
+      "verify": {"argv": ["-h"], "success_codes": [0, 1]}
+    }
+  ],
+  "wordlists": [
+    {
+      "name": "rockyou",
+      "short": "通用密码字典",
+      "candidates": [
+        "/usr/share/wordlists/rockyou.txt",
+        "/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt",
+        "/Users/f0x/pte-tool/BigDic/rockyou.txt"
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "name": "nuclei-templates",
+      "short": "nuclei 漏洞模板库",
+      "candidates": [
+        "~/nuclei-templates",
+        "/root/nuclei-templates",
+        "/pentest/nuclei-templates"
+      ]
+    },
+    {
+      "name": "AboutSecurity",
+      "short": "AboutSecurity 综合字典库",
+      "candidates": [
+        "/pentest/AboutSecurity/Dic",
+        "/pentest/AboutSecurity",
+        "/Users/f0x/pte-project/weaponize/Agentic/AboutSecurity"
+      ]
+    },
+    {
+      "name": "seclists",
+      "short": "综合 payload/字典集合",
+      "candidates": [
+        "/usr/share/seclists",
+        "/opt/seclists"
+      ]
+    },
+    {
+      "name": "fuzzdb",
+      "short": "fuzzing payload 集合",
+      "candidates": [
+        "/usr/share/fuzzdb",
+        "/opt/fuzzdb"
+      ]
+    }
+  ]
+}

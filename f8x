@@ -369,6 +369,12 @@ Adinfo_Ver="v0.3"
 suo5_Ver="v2.2.0"
 suo5_bin_amd64="suo5-linux-amd64"
 suo5_bin_arm64="suo5-linux-arm64"
+# https://github.com/pxb1988/dex2jar/releases
+dex2jar_Ver="v2.4"
+# https://github.com/epi052/feroxbuster/releases
+feroxbuster_Ver="v2.13.1"
+# https://github.com/tomnomnom/waybackurls/releases
+waybackurls_Ver="v0.1.0"
 # https://github.com/projectdiscovery/alterx
 alterx_Ver="v0.1.0"
 alterx_bin_amd64="alterx_0.1.0_linux_amd64.zip"
@@ -11082,6 +11088,33 @@ mihomo|mihomo|Worker_mihomo_Install|none|install|
 linpeas|linpeas|Pentest_linpeas_Install|none|install|
 githacker|githacker|Pentest_GitHacker_Install|python|install|
 nc|ncat,nc,netcat|Pentest_ncat_Install|none|install|
+ligolo-agent|ligolo-agent|Worker_ligolo_agent_Install|none|install|
+suo5|suo5|Pentest_suo5_Install|none|install|
+dnsx|dnsx|Pentest_dnsx_Install|go|install|
+gau|gau|Pentest_gau_Install|go|install|
+unfurl|unfurl|Pentest_unfurl_Install|go|install|
+waybackurls|waybackurls|Worker_waybackurls_Install|go|install|
+feroxbuster|feroxbuster|Worker_feroxbuster_Install|none|install|
+interactsh-client|interactsh-client|interactsh_client_Install|go|install|
+ysoserial|ysoserial|Pentest_ysoserial_Install|none|install|
+phpggc|phpggc|Worker_phpggc_Install|none|install|
+patchelf|patchelf|Worker_patchelf_Install|none|install|
+checksec|checksec|Worker_checksec_Install|none|install|
+pwndbg|pwndbg|Worker_pwndbg_Install|none|install|
+gef|gef|Worker_gef_Install|none|install|
+ropper|ropper|Worker_ropper_Install|python|install|
+one_gadget|one_gadget|Worker_one_gadget_Install|ruby|install|
+jadx|jadx|Pentest_jadx_Install|none|install|
+apktool|apktool|Pentest_apktool_Install|none|install|
+dex2jar|d2j-dex2jar,d2j-dex2smali,d2j-baksmali,dex-tools|Worker_dex2jar_Install|none|install|
+smali|smali,baksmali|Worker_smali_Install|none|install|
+apksigner|apksigner|Worker_apksigner_Install|none|install|
+zipalign|zipalign|Worker_zipalign_Install|none|install|
+aapt|aapt,aapt2|Worker_aapt_Install|none|install|
+frida|frida,frida-ls-devices|Worker_frida_tools_Install|python|install|
+frida-tools|frida-ps,frida-trace,frida-kill,frida-discover,frida-apk|Worker_frida_tools_Install|python|install|
+objection|objection|Worker_objection_Install|python|install|
+droidasc|droidasc|Worker_droidasc_Install|python|install|
 "
 
 # Each line: resource|candidate_paths|Install_Function|policy|skip_reason
@@ -11168,6 +11201,206 @@ Worker_npc_Install(){
     tar -zxf "$npc_file" > /dev/null 2>&1 || return 1
     install -m 0755 npc /usr/local/bin/npc || return 1
     command -v npc > /dev/null 2>&1
+}
+
+# --- Android analysis toolchain ---
+# One `aapt` package ships both `aapt` and `aapt2`; one `libsmali-java` ships
+# both `smali` and `baksmali`. Every function below ends with a `command -v`
+# check, which is what actually decides success: Install_Switch no-ops and
+# returns 0 on a distribution it does not recognise.
+Worker_aapt_Install(){
+    command -v aapt > /dev/null 2>&1 && command -v aapt2 > /dev/null 2>&1 && return 0
+    Install_Switch "aapt" || return 1
+    command -v aapt > /dev/null 2>&1 && command -v aapt2 > /dev/null 2>&1
+}
+
+Worker_apksigner_Install(){
+    command -v apksigner > /dev/null 2>&1 && return 0
+    Install_Switch "apksigner" || return 1
+    command -v apksigner > /dev/null 2>&1
+}
+
+Worker_zipalign_Install(){
+    command -v zipalign > /dev/null 2>&1 && return 0
+    Install_Switch "zipalign" || return 1
+    command -v zipalign > /dev/null 2>&1
+}
+
+Worker_smali_Install(){
+    command -v smali > /dev/null 2>&1 && command -v baksmali > /dev/null 2>&1 && return 0
+    Install_Switch "libsmali-java" || return 1
+    command -v smali > /dev/null 2>&1 && command -v baksmali > /dev/null 2>&1
+}
+
+# dex2jar is not packaged by Debian or Ubuntu, so it comes from the upstream
+# release. That archive only carries `d2j-*.sh` wrappers, while the catalog
+# detects the extension-less names, so each wrapper is linked without its
+# suffix. The wrappers resolve their own JAVA_HOME.
+Worker_dex2jar_Install(){
+    local archive="dex-tools-${dex2jar_Ver}.zip"
+    local work_dir=/opt/dex-tools-${dex2jar_Ver}
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    command -v d2j-dex2jar > /dev/null 2>&1 && return 0
+    command -v java > /dev/null 2>&1 || JDK_Check
+    command -v java > /dev/null 2>&1 || return 1
+
+    mkdir -p "$work_dir" || return 1
+    $Proxy_OK wget ${GitProxy}https://github.com/pxb1988/dex2jar/releases/download/${dex2jar_Ver}/${archive} \
+        -O "/tmp/${archive}" ${wget_option} 1> /dev/null 2>> "$error_log" || return 1
+    unzip -o -q "/tmp/${archive}" -d "$work_dir" 1>> "$error_log" 2>&1 || return 1
+    rm -f "/tmp/${archive}"
+
+    local wrapper name
+    for wrapper in "$work_dir"/*.sh; do
+        [ -e "$wrapper" ] || continue
+        name=$(basename "$wrapper" .sh)
+        chmod 0755 "$wrapper" 2>> "$error_log"
+        ln -sfn "$wrapper" "/usr/local/bin/$name" || return 1
+    done
+    command -v d2j-dex2jar > /dev/null 2>&1
+}
+
+Worker_ligolo_agent_Install(){
+    local archive error_log
+    local work_dir=/tmp/f8x-ligolo-agent
+
+    command -v ligolo-agent > /dev/null 2>&1 && return 0
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*) archive="ligolo-ng_agent_${ligolo_ng_Ver#v}_linux_amd64.tar.gz" ;;
+        *"linux-arm64"*) archive="ligolo-ng_agent_${ligolo_ng_Ver#v}_linux_arm64.tar.gz" ;;
+        *) Echo_ERROR "ligolo-agent is unsupported on $Linux_architecture_Name"; return 1 ;;
+    esac
+
+    error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+    mkdir -p "$work_dir" || return 1
+    $Proxy_OK wget ${GitProxy}https://github.com/nicocha30/ligolo-ng/releases/download/${ligolo_ng_Ver}/${archive} \
+        -O "$work_dir/$archive" ${wget_option} 1> /dev/null 2>> "$error_log" || return 1
+    tar -xzf "$work_dir/$archive" -C "$work_dir" agent 2>> "$error_log" || return 1
+    install -m 0755 "$work_dir/agent" /usr/local/bin/ligolo-agent 2>> "$error_log" || return 1
+    rm -rf "$work_dir"
+    command -v ligolo-agent > /dev/null 2>&1
+}
+
+Worker_feroxbuster_Install(){
+    local archive=feroxbuster.zip
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    command -v feroxbuster > /dev/null 2>&1 && return 0
+    case $Linux_architecture_Name in
+        *"linux-x86_64"*) archive=x86_64-linux-feroxbuster.zip ;;
+        *"linux-arm64"*) archive=aarch64-linux-feroxbuster.zip ;;
+        *) Echo_ERROR "feroxbuster is unsupported on $Linux_architecture_Name"; return 1 ;;
+    esac
+
+    mkdir -p /tmp/f8x-feroxbuster || return 1
+    $Proxy_OK wget ${GitProxy}https://github.com/epi052/feroxbuster/releases/download/${feroxbuster_Ver}/${archive} \
+        -O "/tmp/f8x-feroxbuster/$archive" ${wget_option} 1> /dev/null 2>> "$error_log" || return 1
+    unzip -o -q "/tmp/f8x-feroxbuster/$archive" -d /tmp/f8x-feroxbuster 1>> "$error_log" 2>&1 || return 1
+    install -m 0755 /tmp/f8x-feroxbuster/feroxbuster /usr/local/bin/feroxbuster 2>> "$error_log" || return 1
+    rm -rf /tmp/f8x-feroxbuster
+    command -v feroxbuster > /dev/null 2>&1
+}
+
+Worker_waybackurls_Install(){
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    command -v waybackurls > /dev/null 2>&1 && return 0
+    command -v go > /dev/null 2>&1 || Install_Switch "golang-go" || return 1
+    GOFLAGS=-mod=mod GOPROXY=${GOPROXY:-https://goproxy.cn,direct} \
+        go install "github.com/tomnomnom/waybackurls@${waybackurls_Ver}" 1> /dev/null 2>> "$error_log" || return 1
+    local built=${GOPATH:-$HOME/go}/bin/waybackurls
+    [ -x "$built" ] || built=/root/go/bin/waybackurls
+    [ -x "$built" ] || return 1
+    install -m 0755 "$built" /usr/local/bin/waybackurls 2>> "$error_log" || return 1
+    command -v waybackurls > /dev/null 2>&1
+}
+
+# phpggc has no tagged releases, so it is cloned at HEAD like fuzzdb.
+Worker_phpggc_Install(){
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    command -v phpggc > /dev/null 2>&1 && return 0
+    command -v php > /dev/null 2>&1 || Install_Switch "php-cli" || return 1
+    test -d /opt/phpggc || $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/ambionics/phpggc.git /opt/phpggc 1> /dev/null 2>> "$error_log" || return 1
+    [ -f /opt/phpggc/phpggc ] || return 1
+    chmod 0755 /opt/phpggc/phpggc 2>> "$error_log"
+    ln -sfn /opt/phpggc/phpggc /usr/local/bin/phpggc || return 1
+    command -v phpggc > /dev/null 2>&1
+}
+
+# --- Debugger and binary tooling ---
+Worker_patchelf_Install(){
+    command -v patchelf > /dev/null 2>&1 && return 0
+    Install_Switch "patchelf" || return 1
+    command -v patchelf > /dev/null 2>&1
+}
+
+Worker_checksec_Install(){
+    command -v checksec > /dev/null 2>&1 && return 0
+    Install_Switch "checksec" || return 1
+    command -v checksec > /dev/null 2>&1
+}
+
+# pwndbg and gef both hook into gdb, so gdb is the shared dependency. pwndbg
+# keeps its own venv under /opt/pwndbg and must not be installed into the
+# system python.
+Worker_pwndbg_Install(){
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    test -f /opt/pwndbg/gdbinit.py && return 0
+    command -v gdb > /dev/null 2>&1 || Install_Switch "gdb" || return 1
+    test -d /opt/pwndbg || $Proxy_OK git clone --depth 1 ${GitProxy}https://github.com/pwndbg/pwndbg.git /opt/pwndbg 1> /dev/null 2>> "$error_log" || return 1
+    test -f /opt/pwndbg/gdbinit.py || return 1
+    printf '%s\n' '#!/bin/sh' 'exec gdb -q -x /opt/pwndbg/gdbinit.py "$@"' | install -m 0755 /dev/stdin /usr/local/bin/pwndbg 2>> "$error_log" || return 1
+    test -x /usr/local/bin/pwndbg
+}
+
+Worker_gef_Install(){
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    command -v gef > /dev/null 2>&1 && return 0
+    command -v gdb > /dev/null 2>&1 || Install_Switch "gdb" || return 1
+    test -f /opt/gef.py || $Proxy_OK wget ${GitProxy}https://raw.githubusercontent.com/hugsy/gef/main/gef.py \
+        -O /opt/gef.py ${wget_option} 1> /dev/null 2>> "$error_log" || return 1
+    test -f /opt/gef.py || return 1
+    printf '%s\n' '#!/bin/sh' 'exec gdb -q -ex "source /opt/gef.py" "$@"' | install -m 0755 /dev/stdin /usr/local/bin/gef 2>> "$error_log" || return 1
+    test -x /usr/local/bin/gef
+}
+
+# --- Python tooling via pipx ---
+# Each of these must land its console script on PATH; pipx keeps per-package
+# venvs so they cannot break the distro python.
+Worker_ropper_Install(){
+    F8x_Worker_Pipx_Install "ropper"
+    command -v ropper > /dev/null 2>&1
+}
+
+Worker_one_gadget_Install(){
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+
+    command -v one_gadget > /dev/null 2>&1 && return 0
+    command -v gem > /dev/null 2>&1 || Install_Switch "ruby" || return 1
+    gem install one_gadget --no-document 1> /dev/null 2>> "$error_log" || return 1
+    command -v one_gadget > /dev/null 2>&1
+}
+
+Worker_objection_Install(){
+    F8x_Worker_Pipx_Install "objection"
+    command -v objection > /dev/null 2>&1
+}
+
+Worker_droidasc_Install(){
+    F8x_Worker_Pipx_Install "droidasc"
+    command -v droidasc > /dev/null 2>&1
+}
+
+# The `frida` package exposes no console scripts, so pipx rejects it outright;
+# `frida-tools` is the distribution that provides every binary the catalog
+# expects, including `frida` and `frida-ls-devices`.
+Worker_frida_tools_Install(){
+    F8x_Worker_Pipx_Install "frida-tools"
+    command -v frida > /dev/null 2>&1 && command -v frida-ls-devices > /dev/null 2>&1
 }
 
 F8x_Worker_Find_Binary(){

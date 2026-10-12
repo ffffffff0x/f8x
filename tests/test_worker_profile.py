@@ -1,3 +1,4 @@
+import hashlib
 import importlib.util
 import json
 import os
@@ -171,12 +172,22 @@ Alpha_Install(){ :; }
 
     def test_current_worker_profile_matches_pojun_catalog(self):
         checker = _load_checker()
+        # The committed snapshot is the CI baseline, so this gate runs without
+        # access to the private PoJun repository. A developer checkout still
+        # reconciles against the live catalog when one is present.
         default_catalog = (
             REPO_ROOT.parent.parent / "Agentic" / "pojun" / "common" / "capability_catalog.json"
         )
-        catalog_path = Path(os.environ.get("POJUN_CAPABILITY_CATALOG", default_catalog))
+        catalog_path = Path(
+            os.environ.get("POJUN_CAPABILITY_CATALOG", default_catalog)
+        )
         if not catalog_path.is_file():
-            self.skipTest("PoJun capability catalog is not available in this checkout")
+            catalog_path = REPO_ROOT / "worker_catalog.snapshot.json"
+        if not catalog_path.is_file():
+            self.fail(
+                "no capability catalog to reconcile against: neither the PoJun "
+                "checkout nor worker_catalog.snapshot.json is present"
+            )
 
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
         script = (REPO_ROOT / "f8x").read_text(encoding="utf-8")
@@ -187,7 +198,19 @@ Alpha_Install(){ :; }
         self.assertEqual(report["bin_mismatches"], {})
         self.assertEqual(report["missing_functions"], [])
         self.assertEqual(report["invalid_entries"], [])
-        self.assertEqual(report["installed_count"], 55)
+        # Every catalog tool must be accounted for: either installed or
+        # explicitly skipped with a reason. Asserting the relationship instead
+        # of a frozen count keeps new capabilities from silently going
+        # unregistered while still catching a dropped install entry.
+        catalog_tools = {entry["name"] for entry in catalog["tools"]}
+        self.assertEqual(
+            report["installed_count"] + len(report["skipped"]),
+            len(catalog_tools),
+        )
+        for name, reason in report["skipped"].items():
+            with self.subTest(skipped=name):
+                self.assertIn(name, catalog_tools)
+                self.assertTrue(reason.strip(), "skip entries need a reason")
         self.assertEqual(report["resource_count"], 5)
         self.assertEqual(report["installed_resource_count"], 5)
         self.assertEqual(report["missing_resources"], [])
@@ -208,6 +231,23 @@ Alpha_Install(){ :; }
         self.assertIn("/tmp/f8x-worker-report.json", worker_implementation)
         self.assertNotIn("/opt/", worker_implementation)
         self.assertNotIn("F8x_Record_Install", worker_implementation)
+
+    def test_worker_catalog_snapshot_is_not_stale(self):
+        snapshot = REPO_ROOT / "worker_catalog.snapshot.json"
+        lock_path = REPO_ROOT / "worker_catalog.lock.json"
+        self.assertTrue(snapshot.is_file(), "worker_catalog.snapshot.json is missing")
+        self.assertTrue(lock_path.is_file(), "worker_catalog.lock.json is missing")
+
+        lock = json.loads(lock_path.read_text(encoding="utf-8"))
+        snapshot_bytes = snapshot.read_bytes()
+        self.assertEqual(
+            hashlib.sha256(snapshot_bytes).hexdigest(),
+            lock["sha256"],
+            "snapshot does not match its lock; re-run tools/sync_worker_catalog.py",
+        )
+        self.assertEqual(
+            json.loads(snapshot_bytes)["contract_version"], lock["contract_version"]
+        )
 
 
 if __name__ == "__main__":

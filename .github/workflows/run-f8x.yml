@@ -3,8 +3,27 @@ on:
   push:
     paths:
     - 'f8x'
+    - 'tests/**'
+    - 'tools/**'
+    - 'worker_catalog.snapshot.json'
+    - 'worker_catalog.lock.json'
+    - '.github/workflows/run-f8x.yml'
 
 jobs:
+  worker-catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Check the catalog snapshot is not stale
+        run:
+          python3 tools/sync_worker_catalog.py --check
+
+      - name: Reconcile the Worker profile against the catalog
+        run:
+          python3 -m unittest tests.test_worker_profile -v
+
   ubuntu-latest-build:
     runs-on: ubuntu-latest
     steps:
