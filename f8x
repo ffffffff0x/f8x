@@ -32,7 +32,7 @@ Proxy_OK=
 Docker_OK=
 error=0
 Linux_architecture_Name=
-F8x_Version="1.9.2 (2026/07/26)"
+F8x_Version="1.9.3 (2026/10/12)"
 wget_option="-q --show-progress"
 
 # ===================== Software version variable setting (dev) =====================
