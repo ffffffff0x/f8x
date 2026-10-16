@@ -500,8 +500,7 @@
       "short": "通用密码字典",
       "candidates": [
         "/usr/share/wordlists/rockyou.txt",
-        "/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt",
-        "/Users/f0x/pte-tool/BigDic/rockyou.txt"
+        "/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt"
       ]
     }
   ],
@@ -520,8 +519,7 @@
       "short": "AboutSecurity 综合字典库",
       "candidates": [
         "/pentest/AboutSecurity/Dic",
-        "/pentest/AboutSecurity",
-        "/Users/f0x/pte-project/weaponize/Agentic/AboutSecurity"
+        "/pentest/AboutSecurity"
       ]
     },
     {
