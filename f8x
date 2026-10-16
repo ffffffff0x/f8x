@@ -11115,6 +11115,7 @@ frida|frida,frida-ls-devices|Worker_frida_tools_Install|python|install|
 frida-tools|frida-ps,frida-trace,frida-kill,frida-discover,frida-apk|Worker_frida_tools_Install|python|install|
 objection|objection|Worker_objection_Install|python|install|
 droidasc|droidasc|Worker_droidasc_Install|python|install|
+wxapkg|wxapkg|Worker_wxapkg_Install|node|install|
 "
 
 # Each line: resource|candidate_paths|Install_Function|policy|skip_reason
@@ -11388,6 +11389,35 @@ Worker_one_gadget_Install(){
 Worker_objection_Install(){
     F8x_Worker_Pipx_Install "objection"
     command -v objection > /dev/null 2>&1
+}
+
+# wxappUnpacker is the only maintained .wxapkg unpacker that runs headless on
+# linux; the alternatives ship darwin/windows binaries only. It needs node>=22
+# and installs its deps locally (never -g), so the wrapper is what reaches PATH.
+Worker_wxapkg_Install(){
+    local error_log=${F8X_WORKER_CURRENT_LOG:-/tmp/f8x_error.log}
+    local work_dir=/opt/wxapp-unpacker
+
+    command -v wxapkg > /dev/null 2>&1 && return 0
+    if ! node_major=$(node -p 'process.versions.node.split(".")[0]' 2> /dev/null); then
+        node_major=0
+    fi
+    if [ "${node_major:-0}" -lt 22 ] 2> /dev/null; then
+        nn_Install
+        node_major=$(node -p 'process.versions.node.split(".")[0]' 2> /dev/null) || node_major=0
+    fi
+    if [ "${node_major:-0}" -lt 22 ] 2> /dev/null; then
+        Echo_ERROR "wxappUnpacker needs node>=22, found $(node --version 2> /dev/null || echo none)"
+        return 1
+    fi
+    command -v npm > /dev/null 2>&1 || return 1
+
+    test -f "$work_dir/wuWxapkg.js" || $Proxy_OK git clone ${GitProxy}https://github.com/threecha/wxappUnpacker.git "$work_dir" 1> /dev/null 2>> "$error_log" || return 1
+    cd "$work_dir" || return 1
+    npm ci --omit=dev --ignore-scripts --no-audit --no-fund 1> /dev/null 2>> "$error_log" || return 1
+    printf '%s\n' '#!/bin/sh' "exec node $work_dir/wuWxapkg.js \"\$@\"" | install -m 0755 /dev/stdin /usr/local/bin/wxapkg 2>> "$error_log" || return 1
+    cd - > /dev/null 2>&1
+    command -v wxapkg > /dev/null 2>&1
 }
 
 Worker_droidasc_Install(){

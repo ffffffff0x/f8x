@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "contract_version": "3.4.0",
+  "contract_version": "3.5.0",
   "profiles": {
     "local-standard": {
       "description": "Worker Service local runtime baseline",
@@ -391,6 +391,11 @@
       "name": "droidasc",
       "short": "APK 按需反编译与交叉引用检索 (ASC)",
       "verify": {"argv": ["--help"]}
+    },
+    {
+      "name": "wxapkg",
+      "short": "微信小程序 .wxapkg 解包",
+      "verify": {"argv": ["--version"]}
     },
     {
       "name": "smali",

@@ -1,6 +1,6 @@
 {
-  "contract_version": "3.4.0",
-  "sha256": "d8aa77062c72175d6038bf3f345b47735e236d0addd70e420854d28aea9ae807",
+  "contract_version": "3.5.0",
+  "sha256": "3bf82bcfa093c1419877af4e27b35a1c14c28c354384c505429af1fd73d90328",
   "source_repository": "https://github.com/wgpsex/pojun",
   "source_path": "common/capability_catalog.json"
 }
